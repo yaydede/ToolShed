@@ -1,0 +1,15 @@
+h1:r-lab-4---simulation-in-r R Lab 4 - Simulation in R
+h2:sampling-in-r-sample Sampling in R: 
+h2:random-number-generating-with-probablity-distributions Random number generating with probablity distributions
+h2:simulation-for-statistical-inference Simulation for statistical inference
+h2:creataing-data-with-a-data-generating-model-dgm Creataing data with a Data Generating Model (DGM)
+h2:bootstrapping Bootstrapping
+h2:monty-hall---fun-example Monty Hall - Fun example
+h4:here-is-the-simple-bayes-rule-prab-prbapraprb. Here is the simple Bayes rule: .
+h4:simulation-to-prove-it Simulation to prove it
+h4:step-1-decide-the-number-of-plays Step 1: Decide the number of plays
+h4:step-2-define-all-possible-door-combinations Step 2: Define all possible door combinations
+h4:step-3-create-empty-containers-where-you-store-the-outcomes-from-each-game Step 3: Create empty containers where you store the outcomes from each game
+h4:step-4-loop Step 4: Loop
+h4:step-5-chart Step 5: Chart
+

@@ -1,0 +1,12 @@
+h1:ensemble-applications Ensemble Applications
+h2:classification Classification
+h2:regression Regression
+h2:dataset-level-explainers Dataset-level explainers
+h2:boosting-applications Boosting Applications
+h3:regression-1 Regression
+h3:random-search-with-parallel-processing Random search with parallel processing
+h3:boosting-vs.-others Boosting vs. Others
+h3:classification-1 Classification
+h3:adaboost.m1 AdaBoost.M1
+h3:classification-with-xgboost Classification with XGBoost
+

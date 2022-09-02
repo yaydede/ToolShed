@@ -1,0 +1,8 @@
+h1:ensemble-learning Ensemble learning
+h2:bagging Bagging
+h2:random-forest Random Forest
+h2:boosting Boosting
+h3:sequential-ensemble-with-gbm Sequential ensemble with 
+h3:adaboost AdaBoost
+h3:extreme-gradient-boosting-xgboost Extreme Gradient Boosting (XGBoost)
+

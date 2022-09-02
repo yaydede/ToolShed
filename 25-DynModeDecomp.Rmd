@@ -1,0 +1,67 @@
+# Dynamic Mode Decomposition
+
+Dynamic Mode Decomposition (DMD) is a matrix decomposition technique that is highly versatile and builds upon the power of singular value decomposition (SVD) stemming from the seminal work of Bernard Koopman in 1931 on nonlinear dynamical systems. The most comprehensive explanation (implementation and algorithm development) can be found in [Dynamic Mode Decomposition Data-Driven Modeling of Complex Systems](http://orlandi.ing.univaq.it/pub/Kutz%20J.%20Dynamic%20Mode%20Decomposition.%20Data-Driven%20Modeling%20of%20Complex%20Systems%202016.pdf) [@Decomp_2016]. At its core, the method can be thought of as an ideal combination of spatial dimensionality-reduction techniques, such as the proper orthogonal decomposition (POD) with Fourier transforms in time. Thus, correlated spatial modes (eigen vectors) are also now associated with a given temporal frequency, possibly with a growth or decay rate. DMD can be applied in a variety of discipline-specific settings and can be used successfully for prediction, state estimation, and control of complex systems. 
+
+Here are the some basics (for more, please see the book!):
+
+$$
+\begin{aligned}
+&\mathbf{X}=\left[\begin{array}{cccc}
+\mid & \mid & & \mid \\
+\mathbf{x}_{1} & \mathbf{x}_{2} & \cdots & \mathbf{x}_{m-1} \\
+\mid & \mid & & \mid
+\end{array}\right], \\
+&\mathbf{X}^{\prime}=\left[\begin{array}{cccc}
+\mid & \mid & & \mid \\
+\mathbf{x}_{2} & \mathbf{x}_{3} & \cdots & \mathbf{x}_{m} \\
+\mid & \mid & & \mid
+\end{array}\right] .
+\end{aligned}
+$$
+where $\mathbf{x}(t) \in \mathbb{R}^{n}$ is a vector representing the state of our dynamical system at time $t$.  The state (spatial distribution of) $\mathbf{x}$ is typically quite large, having dimension $n \gg 1$ and are collected at times $t_{k}$ from $k=1,2, \ldots, m$ for a total of $m$ measurement times.
+
+The locally linear approximation of $\mathbf{x}_{k+1}=\mathbf{A} \mathbf{x}_{k}$ may be written in terms of these data matrices as:
+
+\begin{equation}
+\mathbf{X}^{\prime} \approx \mathbf{A X}
+  (\#eq:26-1)
+\end{equation} 
+
+The best-fit $\mathbf{A}$ matrix is given by 26.2:
+
+\begin{equation}
+\mathbf{A}=\mathbf{X}^{\prime} \mathbf{X}^{\dagger}
+  (\#eq:26-2)
+\end{equation} 
+
+
+where ${ }^{\dagger}$ is the Moore-Penrose pseudoinverse. This solution minimizes the error
+  
+$$
+\left\|\mathbf{X}^{\prime}-\mathbf{A X}\right\|_{F}
+$$
+where $\|\cdot\|_{F}$ is the Frobenius norm, given by
+
+$$
+\|\mathbf{X}\|_{F}=\sqrt{\sum_{j=1}^{n} \sum_{k=1}^{m} X_{j k}{ }^{2} .}
+$$
+  
+It is important to note that the solution may be thought of as a linear regression of data onto the dynamics given by $\mathbf{A}$. However, there is a key difference between DMD and alternative regression-based system identification and model reduction techniques. Importantly, we are assuming that the snapshots $\mathbf{x}_{k}$ in our data matrix $\mathbf{X}$ are high dimensional so that the matrix is tall and skinny, meaning that the size $n$ of a snapshot is larger than the number $m-1$ of snapshots. The matrix $\mathbf{A}$ may be high dimensional; if $n=10^{6}$, then A has $10^{12}$ elements, so that it may be difficult to represent or decompose. However, the rank of $\mathbf{A}$ is at most $m-1$, since it is constructed as a linear combination of the $m-1$ columns of $\mathbf{X}^{\prime}$. Instead of solving for $\mathbf{A}$ directly, we first project our data onto a low-rank subspace defined by at most $m-1$ POD modes and then solve for a low-dimensional evolution $\mathbf{\tilde{A}}$ that evolves on these POD mode coefficients. The DMD algorithm then uses this low-dimensional operator $\mathbf{\tilde{A}}$ to reconstruct the leading nonzero eigenvalues and eigenvectors of the fulldimensional operator $\mathbf{A}$ without ever explicitly computing $\mathbf{A}$. (See Page 5)
+
+The DMD modes, also called dynamic modes, are the eigenvectors of $\mathbf{A}$, and each DMD mode corresponds to a particular eigen value of $\mathbf{A}$.
+The DMD method can be viewed as the decomposition that gives the growth rates and frequencies associated with each mode. 
+
+In practice, when the state dimension $n$ is large, the matrix $\mathbf{A}$ may be intractable to analyze directly. Instead, DMD circumvents the eigendecomposition of $\mathbf{A}$ by considering a rank-reduced representation in terms of a POD-projected matrix $\mathbf{\tilde{A}}$. 
+
+**Algorithm**
+  
+There is no R package for DMD as of now.  
+
+1. First, take the singular value decomposition (SVD) of $\mathbf{X}$: $\mathbf{X} \approx \mathbf{U \Sigma V}^{*}$
+
+where $*$ denotes the conjugate transpose, $\mathbf{U} \in \mathbb{C}^{n \times r}, \Sigma \in \mathbb{C}^{r \times r}$, and $\mathbf{V} \in \mathbb{C}^{m \times r}$. Here $r$ is the rank of the reduced SVD approximation to X. The left singular vectors $\mathbf{U}$ are $\mathrm{POD}$ modes. The columns of $\mathbf{U}$ are orthonormal, so $\mathbf{U}^{*} \mathbf{U}=\mathbf{I}$; similarly, $\mathbf{V}^{*} \mathbf{V}=\mathbf{I}$.  The SVD reduction is exploited at this stage in the algorithm to perform a low-rank truncation of the data. Specifically, if low-dimensional structure is present in the data, the singular values of $\Sigma$ will decrease sharply to zero with perhaps only a limited number of dominant modes. A principled way to truncate noisy data is given by the recent hard-thresholding algorithm of Gavish and Donoho (see the book).
+
+2. TBC
+
+TBC ...
+

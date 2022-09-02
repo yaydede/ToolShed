@@ -1,0 +1,15 @@
+h1:preliminaries Preliminaries
+h2:data-and-dataset-types Data and dataset types
+h2:plots Plots
+h2:probability-distributions-with-r Probability Distributions with R
+h2:regressions Regressions
+h3:ordinary-least-squares-ols Ordinary Least Squares (OLS)
+h3:maximum-likelihood-estimators Maximum Likelihood Estimators
+h3:estimating-mle-with-r Estimating MLE with R
+h2:blue BLUE
+h2:modeling-the-data Modeling the data
+h2:causal-vs.-predictive-models Causal vs. Predictive Models
+h3:causal-models Causal Models
+h3:prediction-models Prediction Models
+h2:simulation Simulation
+

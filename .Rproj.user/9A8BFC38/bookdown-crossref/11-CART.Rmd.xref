@@ -1,0 +1,8 @@
+h1:part-tree-based-models (PART) Tree-based Models
+h1:cart CART
+h2:cart---classification-tree CART - Classification Tree
+h2:rpart---recursive-partitioning  - Recursive Partitioning
+h2:pruning Pruning
+h2:classification-with-titanic Classification with Titanic
+h2:regression-tree Regression Tree
+

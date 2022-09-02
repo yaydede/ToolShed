@@ -1,0 +1,410 @@
+# (PART) Appendix {-}
+
+# Algorithmic Optimization 
+
+Here is a definition of algorithmic optimization from [Wikipedia](https://en.wikipedia.org/wiki/Mathematical_optimization#Optimization_algorithms):
+
+>An optimization algorithm is a procedure which is executed iteratively by comparing various solutions until an optimum or a satisfactory solution is found. Optimization algorithms help us to minimize or maximize an objective function $F(x)$ with respect to the internal parameters of a model mapping a set of predictors ($X$) to target values($Y$). There are three types of optimization algorithms which are widely used; ***Zero-Order Algorithms, First-Order Optimization Algorithms, and Second-Order Optimization Algorithms***.  Zero-order (or derivative-free) algorithms use only the criterion value at some positions. ***It is popular when the gradient and Hessian information are difficult to obtain, e.g., no explicit function forms are given***.  First Order Optimization Algorithms minimize or maximize a Loss function $F(x)$ using its Gradient values with respect to the parameters.  Most widely used First order optimization algorithm is Gradient Descent. The First order derivative displays whether the function is decreasing or increasing at a particular point.
+>
+
+In this appendix, we will review some important concepts in algorithmic optimization.
+
+## Brute-force optimization
+
+Let's look at a simplified example about optimal retirement-plan and solve it with a zero-order algorithm.
+
+Suppose that there are 2 groups of workers who are planning for their retirement at the age of 65.  Both consider spending 40,000 dollars each year for the rest of their lives after retirement.  On average, people in both groups expect to live 20 more years after retirement with some uncertainty.  The people in the first group (A) have the following risk profile: 85% chance to live 20 years and 15% chance to live 30 years.  The same risk profile for the people in the second group (B) is: 99% for 20 years and 1% for 30 years.  Suppose that in each group, their utility (objective) function is $U=C^{0.5}$.  
+
+What's the maximum premium (lump-sum payment) that a person in each group would be willing to pay for a life-time annuity of 40K?  
+
+Without a pension plan, people in each group have the following utilities:   
+
+```{r, message=FALSE, warning=FALSE}
+#For people in group A
+U_A = 0.85*sqrt(40000*20) + 0.15*sqrt(10*0)
+U_A
+#For people in group B
+U_B = 0.99*sqrt(40000*20) + 0.01*sqrt(10*0)
+U_B
+```
+  
+For example, they would not pay 200,000 dollars to cover their retirement because that would make them worse than their current situation (without a pension plan).  
+
+```{r, message=FALSE, warning=FALSE}
+#For people in group A
+U_A = 0.85*sqrt(40000*20 - 200000) + 0.15*sqrt(40000*10 - 200000) 
+U_A
+#For people in group B
+U_B = 0.99*sqrt(40000*20 - 200000) + 0.01*sqrt(40000*10 - 200000)
+U_B
+```
+  
+Hence, the payment they would be willing to make for reduction in uncertainty during their retirement should not make them worse off. Or more technically, their utility should not be lower than their current utility levels. Therefore *Pmax*, the maximum premium that a person would be willing to pay, can be found by minimizing the following **cost function** for people, for example, in Group A:  
+
+$$
+\begin{aligned} F(Pmax) = p r * \sqrt{\$ 40000 * 20 y e a r s-\operatorname{Pmax}}+(1-p r) * & \sqrt{\$ 40000 * 10 y e a r s-\operatorname{Pmax}} \\ &-p r * \sqrt{\$ 40000 * 20 y e a r s} \end{aligned}
+$$
+  
+Here is the iteration to solve for Pmax for people in Group A. We created a cost function, *costf*, that we try to minimize. Change the parameters to play with it.  The same algorithm can be used to find **Pmax** for people in Group B.  
+
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+pr <- 0.85
+w1 <- 800000
+w2 <- 400000
+
+converged = F
+iterations = 0
+maxiter <- 600000
+learnrate <- 0.5
+Pmax <- 10000
+
+while(converged == FALSE){
+  costf <- pr*sqrt(w1 - Pmax) + (1-pr)*sqrt(w2 - Pmax) - pr*sqrt(w1)
+  if(costf > 0){
+    Pmax <- Pmax + learnrate
+    iterations = iterations + 1
+    #cat("Iterations: ", iterations, "\r")
+    if(iterations > maxiter) { 
+      print("It cannot converge before finding the optimal Pmax")
+      break
+      }  
+   converged = FALSE
+  }else{
+    converged = TRUE
+  print(paste("Maximum Premium:", Pmax, "achieved with", iterations, "iterations"))
+  }
+}
+
+#let's verify it by uniroot() which finds the roots for f(x)=0
+library(stats)
+costf <- function(x){0.85*sqrt(800000 - x) + (1-0.85)*sqrt(400000 - x) - pr*sqrt(800000)}
+paste("Unitroot, i.e. f(x) = 0, is ", uniroot(costf, c(10000, 200000))$root)
+```
+
+There are better functions we could use for this purpose, but this example works well for our experiment. There is a couple of important parameters in our algorithm.  The first one is the starting `Pmax`, which can be set up manually. If the starting value is too low, iteration could not converge.  If it's too high, it can give us an error. Another issue is that our iteration does not know if the learning rate should increase or decrease when the starting value is too high or too low.  This can be done with additional lines of code, but we will not address it here.  This situation leads us to the learning rate: the incremental change in the value of the parameter. This parameter should be conditioned on the value of cost function.  If the cost function for a given `Pmax` is negative, for example, the learning rate should be negative. Secondly, the number of maximum iterations ,ust be set properly, otherwise the algorithm may not converge or take too long to converge.  In the next section, we will address these issues with a smarter algorithm:
+
+There are other types of approaches. In one of these, the algorithm creates a grid of `Pmax` and then try all the possible values to see which one approximately makes the cost function minimum.
+
+## Derivative-based methods
+ 
+This method is also called as the **Newton-Raphson** method. If we assume that the function is differentiable and has only one minimum (maximum), we can develop an optimization algorithm that looks for the point in parameter space where the derivative of the function is zero.  
+
+First let's see the Newton-Raphson method.  This is a well-known extension of your calculus class about derivatives in High School.  The method is very simple and used to find the roots of $f(x)=0$ by iterations.  In first-year computer science courses, this method is used to teach loop algorithms that calculate the value of, for example, $e^{0.71}$ or $\sqrt{12}$.  It is a simple iteration that converges in a few steps.
+
+$$
+x_{n+1}=x_{n}-\frac{f\left(x_{n}\right)}{f^{\prime}\left(x_{n}\right)}
+$$
+  
+Here is the example:  
+
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+newton <- function(f, x0, tol = 1e-5, n = 1000) {
+  require(numDeriv) # Package for computing f'(x)
+  
+for (i in 1:n) {
+    dx <- genD(func = f, x = x0)$D[1] # First-order derivative f'(x0)
+    x1 <- x0 - (f(x0) / dx) # Calculate next value x1
+    if (abs(x1 - x0) < tol) {
+      res <- paste("Root approximation is ", x1, " in ", i, " iterations")
+      return(res)
+    }
+    # If Newton-Raphson has not yet reached convergence set x1 as x0 and continue
+    x0 <- x1
+  }
+  print('Too many iterations in method')
+}
+
+func2 <- function(x) {
+  x^15 - 2
+}
+newton(func2, 1)
+
+#Check it
+paste("Calculator result: ", 2^(1/15))
+```
+  
+Newton's method is often used to solve two different, but related, problems:  
+  
+1. Finding $x$ such that $f(x)=0$ (**Try to solve our insurance problem with this method**) 
+2. Finding $x$ that $g'(x)=0$, or find $x$ that minimizes/maximizes $g(x)$. 
+
+The relation between these two problems is obvious when we define $f(x) = g'(x)$.  Hence, for the second problem, the Newton-Raphson method becomes:    
+
+$$
+x_{n+1}=x_{n}-\frac{g^{\prime}\left(x_{n}\right)}{g^{\prime \prime}\left(x_{n}\right)}
+$$
+  
+Connection between these two problems are defined in this [post](https://stats.stackexchange.com/questions/376191/why-is-the-second-derivative-required-for-newtons-method-for-back-propagation) [@Gulzar_2018] very nicely.  
+
+Let’s pretend that we are interested in determining the parameters of a random variable $X \sim N(\mu, \sigma^{2})$.  Here is the log-likelihood function for $X$:  
+
+$$
+\log (\mathcal{L}(\mu, \sigma))=-\frac{n}{2} \log \left(2 \pi \sigma^{2}\right)-\frac{1}{2 \sigma^{2}} \sum_{i=1}^{n}\left(x_{i}-\mu\right)^{2}
+$$
+  
+We have seen it in Chapter 2 before. But this time we will use `dnorm()` which calculates the pdf of a normal variable.  First let's have the data and the log-likelihood:  
+
+```{r, message=FALSE, warning=FALSE}
+# Let's create a sample of normal variables
+set.seed(2019)
+X <- rnorm(100, 0, 1)
+
+# And the log-likelihood of this function.
+# Remember likelihood function would be prod(dnorm()) with log=F
+normalLL <- function(prmt){
+  sum(dnorm(X, mean = prmt[1], sd = prmt[2], log = TRUE))
+}
+
+# Let's try several parameters
+normalLL(prmt = c(1,1.5))
+normalLL(prmt = c(2,1))
+normalLL(prmt = c(mean(X),sd(X)))
+```
+  
+As you can see, the last one is the best.  And we can verify it because we had created $X$ with 0 mean and 1 sd, approximately.  Now we will use the Newton-Raphson method to calculate those parameters that minimize the negative log-likelihood.  
+
+First, let’s build a function that estimates the slope of the function (first-derivative) numerically at any arbitrary point in parameter space for mean and sd, separately.  Don't forget, **the log-likelihood is a function of parameters (mean and sd) not X**.  
+
+```{r, message=FALSE, warning=FALSE}
+# First partial (numerical) derivative w.r.t. mean  
+firstM <- function(p1, p2, change = 0.0001){      
+  prmt <- c(p1, p2)
+  high <- normalLL(prmt + c(change,0))
+  low <- normalLL(prmt - c(change,0))
+  slope <- (high-low)/(change*2)
+  return(slope)
+}
+firstM(mean(X), sd(X))
+
+# First partial (numerical) derivative w.r.t. sd  
+firstSD <- function(p1, p2, change = 0.0001){      
+  prmt <- c(p1, p2)
+  high <- normalLL(prmt + c(0, change))
+  low <- normalLL(prmt - c(0, change))
+  slope <- (high-low)/(change*2)
+  return(slope)
+}
+
+firstSD(mean(X), sd(X))
+
+#Verify them with the grad()
+library(numDeriv)
+f <- function(x) {
+    a <- x[1]; b <- x[2]  
+    sum(dnorm(X, mean = a, sd = b, log = TRUE))
+    }
+grad(f,c(mean(X),sd(X)))[1]
+grad(f,c(mean(X),sd(X)))[2]
+
+# Or better
+round(jacobian(f,c(mean(X),sd(X))), 4) #First derivatives
+round(hessian(f,c(mean(X),sd(X))), 4) #Second derivatives
+```
+   
+Let's try them now in the Newton-Raphson method.  
+
+$$
+x_{n+1}=x_{n}-\frac{g^{\prime}\left(x_{n}\right)}{g^{\prime \prime}\left(x_{n}\right)}
+$$
+  
+Similar to the first one, we can also develop a function that calculates the second derivatives. However, instead of using our own functions, let's use `grad()` and `hessian()` from the `numDeriv` package. 
+
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+set.seed(2019)
+X <- rnorm(100, 2, 2)
+
+NR <- function(f, x0, y0, tol = 1e-5, n = 1000) {
+  for (i in 1:n) {
+    dx <- grad(f,c(x0, y0))[1] # First-order derivative f'(x0)
+    ddx <- hessian(f,c(x0, y0))[1,1] # Second-order derivative f''(x0)
+    x1 <- x0 - (dx / ddx) # Calculate next value x1
+      if (abs(x1 - x0) < tol) {
+        res <- paste("The mean approximation is ", x1, " in ", i, " iterations")
+        return(res)
+      }
+    # If Newton-Raphson has not yet reached convergence set x1 as x0 and continue
+    x0 <- x1
+  }
+  print('Too many iterations in method')
+}
+
+func <- function(x) {
+    a <- x[1]; b <- x[2]  
+    sum(dnorm(X, mean = a, sd = b, log = TRUE))
+    }
+
+NR(func, -3, 1.5)
+
+#Let;s verify it
+mean(X)
+```
+
+Finding sd is left to the practice questions.  But the way to do it should be obvious.  Use our approximation of the mean (1.853332) as a fixed parameter in the function and run the same algorithm for finding sd.  **When the power of computers and the genius of mathematics intercepts, beautiful magics happen**.  
+
+## Gradient Descent
+
+Now we will find the parameters of a regression function and verify it with `lm()`.  Below, we first use a simple linear regression function on simulated data and estimate its parameters with `lm()`.  
+
+Let's simulate a sample with our DGM.  
+
+```{r, message=FALSE, warning=FALSE}
+set.seed(1001)
+N <- 100
+int <- rep(1, N)
+x1 <- rnorm(N, mean = 10, sd = 2)
+Y <- rnorm(N, 2*x1 + int, 1)
+model <- lm(Y ~ x1)
+b <- coef(model)
+b
+
+plot(x1, Y, col = "blue", pch = 20)
+abline(b)
+```
+
+### One-variable
+Below, we create a function, `gradientDesc,` to show how sensitive gradient descent algorithms would be to different calibrations:
+
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+gradientDesc <- function(x, y, learnrate, conthresh, maxiter) {
+  #starting points
+  set.seed(234)
+  b <- runif(1, 0, 1)
+  c <- runif(1, 0, 1)
+  n <- length(x)
+  #function
+  yhat <- b * x + c
+  #gradient
+  MSE <- sum((y - yhat) ^ 2) / n
+  converged = F
+  iterations = 0
+  #while loop
+   while(converged == F) {
+    b_new <- b + learnrate * (1 / n) * (sum((y - yhat) * x))
+    c_new <- c + learnrate * (1 / n) * (sum(y - yhat))
+    b <- b_new
+    c <- c_new
+    yhat <- b * x + c
+    MSE_new <- sum((y - yhat) ^ 2) / n
+    if(abs(MSE - MSE_new) <= conthresh) {
+      converged = T
+      return(paste("Intercept:", c, "Slope:", b))
+    }
+    iterations = iterations + 1
+    if(iterations > maxiter) { 
+      converged = T
+      return(paste("Max. iter. reached, ", "Intercept:",
+                   c, "Slope:", b))
+    }
+  }
+}
+```
+
+Note that the key part in this algorithm is $b_new <- b + learnrate * (1 / n) * (sum((y - yhat) * x))$.
+The first $b$ that is picked randomly by  $b <- runif(1, 0, 1)$ is adjusted by $learnrate * (1 / n) * (sum((y - yhat) * x))$.  
+
+Note that $sum((y - yhat) * x)$ is one of the f.o.c of the cost function (RSS - Residual Sum of Squares) or the "normal" equation for the slope coefficient. The cost function (RSS) is a convex function where the minimum can be achieved by the optimal $b$.  It a linear Taylor approximation of RSS at $b$ that provides the **steepest** descent, that is just a simple adjustment for identifying the direction of the adjustment of $b$ until the minimum RSS is reached.  
+
+Now we will see if this function will give us the same intercept and slope coefficients already calculated with `lm()` above.
+
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+gradientDesc(x1, Y, 0.000293, 0.001, 2500000) # Perfect
+gradientDesc(x1, Y, 0.0000293, 0.001, 2500000) # Ehhhh
+gradientDesc(x1, Y, 0.00000293, 0.001, 2500000) # Too little
+gradientDesc(x1, Y, 0.000293, 0.001, 2500000) # Perfect
+gradientDesc(x1, Y, 0.00293, 0.001, 2500000) # perfect
+```
+
+Yes, the main question is how do we find out what the learning rate should be?  We'll see later some better methods to initiate it.
+  
+### Multivariable
+
+We will expand the gradient descent algorithms with an multivariable example using matrix algebra.  First, the data and model simulation:
+
+```{r, message=FALSE, warning=FALSE}
+set.seed(1001)
+N <- 100
+int <- rep(1, N)
+x1 <- rnorm(N, mean = 10, sd = 2)
+x2 <- rnorm(N, mean = 5, sd = 1)
+x3 <- rbinom(N, 1, 0.5)
+x4 <- rbinom(N, 1, 0.5)
+x5 <- rbinom(N, 1, 0.5)
+x6 <- rnorm(N, 1, 0.25)
+x7 <- rnorm(N, 1, 0.2)
+x2x3 <- x2*x3
+x4x5 <- x4*x5
+x4x6 <- x5*x6
+x3x7 <- x3*x7
+
+Y <- rnorm(N, 2*x1 + -0.5*x2 - 1.75*x2x3 + 2*x4x5 - 3*x4x6 + 1.2*x3x7 + int, 1)
+X <- cbind(int, x1, x2, x2x3, x4x5, x4x6, x3x7)
+```
+
+We can solve it with linear algebra manually:  
+
+```{r, message=FALSE, warning=FALSE}
+betaOLS <- solve(t(X)%*%X)%*%t(X)%*%Y
+print(betaOLS)
+```
+  
+We can also solve it with `lm()`  
+
+```{r, message=FALSE, warning=FALSE}
+model1.lm <- lm(Y ~ X -1)
+summary(model1.lm)
+```
+  
+Now the function for gradient descent:  
+
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+gradientDescALL <- function(x, y, learnrate, conthresh, maxiter) {
+  set.seed(123)
+  b <- runif(ncol(x), 0, 1)
+  yhat <- x%*%b
+  e <- y - yhat
+  RSS <- t(e)%*%e
+  converged = F
+  iterations = 0
+  n <- length(y)
+  while(converged == F) {
+    b_new <- b - (learnrate*(1/n))*t(x)%*%(x%*%b-y)
+    b <- b_new
+    yhat <- x%*%b
+    e <- y - yhat
+    RSS_new <- t(e)%*%e
+    if(RSS - RSS_new <= conthresh) {
+      converged = T
+      return(b)
+    }
+    iterations = iterations + 1
+    if(iterations > maxiter) { 
+      converged = T
+      return(b)
+   }
+  }
+}
+```
+
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+gradientDescALL(X, Y, 0.0000293, 0.001, 2500000) # Ehhhh
+gradientDescALL(X, Y, 0.00000293, 0.001, 2500000) # Too little
+gradientDescALL(X, Y, 0.000293, 0.001, 2500000) # Close
+gradientDescALL(X, Y, 0.00293, 0.001, 2500000) # Perfect
+gradientDescALL(X, Y, 0.0293, 0.001, 2500000) # Too big
+```
+  
+As before, the issue here is the magnitude of learning rate.  
+
+## Optimization with R
+
+A good summary of tools for optimization in R given in this guide: [Optimization and Mathematical Programming](https://cran.r-project.org/web/views/Optimization.html). There are many optimization methods, each of which would only be appropriate for specific cases.  In choosing a numerical optimization method, we need to consider following points:  
+
+1. We need to know if it's a constrained or unconstrained problem.  For example, the MLE method is an unconstrained problem. Most regularization problems, like Lasso or Ridge, are constraint optimization problems.   
+2. Do we know how the objective function is shaped a priori?  MLE and OLS methods have well-known objective functions (Residual Sum of Squares and Log-Likelihood).  Maximization and minimization problems can be used in both cases by flipping the sign of the objective function.  
+3. Multivariate optimization problems are much harder than single-variable optimization problems.  There is, however, a large set of available optimization methods for multivariate problems.  
+4. In multivariate cases, the critical point is whether the objective function has available gradients.  If only the objective function is available without gradient or Hessian, the Nelder-Mead algorithm is the most common method for numerical optimization.  If gradients are available, the best and most used method is the gradient descent algorithm.  We have seen its application for OLS.  This method can be applied to MLE as well. It is also called a Steepest Descent Algorithm.  In general, the gradient descent method has three types: Batch Gradient Descent, Stochastic Gradient Descent, and Mini-Batch Gradient Descent.    
+5. If the gradient and Hessian are available, we can also use the Newton-Raphson Method. This is only possible if the dataset is not high-dimensional, as calculating the Hessian would otherwise be very expensive.  
+6. Usually the Nelder-Mead method is slower than the Gradient Descent method. `Optim()` uses the Nelder-Mead method, but the optimization method can be chosen in its arguments.  
+
+More details can be found in this educational [slides](http://bigdatasummerinst.sph.umich.edu/wiki/images/a/ad/Bdsi_optimization_2019.pdf).  The most detailed and advance source is [Numerical Recipes](https://en.wikipedia.org/wiki/Numerical_Recipes), which uses `C++` and `R`. 
+

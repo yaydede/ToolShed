@@ -1,0 +1,12 @@
+h1:r-lab-3---preparing-the-data R Lab 3 - Preparing the data
+h2:preparing-the-data-for-a-regression-analysis-with-lm Preparing the data for a regression analysis with 
+h3:factor-variables Factor variables
+h3:dummy-coding Dummy Coding
+h3:column-variable-names Column (Variable) names
+h3:data-subsetting-and-missing-values Data subsetting and missing values
+h2:dummy-variable-models  variable models
+h3:mtcars-example  example
+h3:model.matrix 
+h3:example-with-a-bigger-data-set-autompg Example with a bigger data set: 
+h3:some-more-data-management-tools-for-subsetting-complete.cases-is.na-and-within Some more data management tools for subsetting: , , and 
+

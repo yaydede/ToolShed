@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 14 Ensemble Applications | Tool Shed for Applied Data Analytics with R</title>
+  <meta name="description" content="Chapter 14 Ensemble Applications | Tool Shed for Applied Data Analytics with R" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 14 Ensemble Applications | Tool Shed for Applied Data Analytics with R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/png/cover2.png" />
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 14 Ensemble Applications | Tool Shed for Applied Data Analytics with R" />
+  
+  
+  <meta name="twitter:image" content="/png/cover2.png" />
+
+<meta name="author" content="Yigit Aydede" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ensemble-learning.html"/>
+<link rel="next" href="support-vector-machines.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.24/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Tool Shed</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="who.html"><a href="who.html"><i class="fa fa-check"></i>Who</a></li>
+<li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> How we define Machine Learning</a></li>
+<li class="chapter" data-level="2" data-path="preliminaries.html"><a href="preliminaries.html"><i class="fa fa-check"></i><b>2</b> Preliminaries</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="preliminaries.html"><a href="preliminaries.html#data-and-dataset-types"><i class="fa fa-check"></i><b>2.1</b> Data and dataset types</a></li>
+<li class="chapter" data-level="2.2" data-path="preliminaries.html"><a href="preliminaries.html#plots"><i class="fa fa-check"></i><b>2.2</b> Plots</a></li>
+<li class="chapter" data-level="2.3" data-path="preliminaries.html"><a href="preliminaries.html#probability-distributions-with-r"><i class="fa fa-check"></i><b>2.3</b> Probability Distributions with R</a></li>
+<li class="chapter" data-level="2.4" data-path="preliminaries.html"><a href="preliminaries.html#regressions"><i class="fa fa-check"></i><b>2.4</b> Regressions</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="preliminaries.html"><a href="preliminaries.html#ordinary-least-squares-ols"><i class="fa fa-check"></i><b>2.4.1</b> Ordinary Least Squares (OLS)</a></li>
+<li class="chapter" data-level="2.4.2" data-path="preliminaries.html"><a href="preliminaries.html#maximum-likelihood-estimators"><i class="fa fa-check"></i><b>2.4.2</b> Maximum Likelihood Estimators</a></li>
+<li class="chapter" data-level="2.4.3" data-path="preliminaries.html"><a href="preliminaries.html#estimating-mle-with-r"><i class="fa fa-check"></i><b>2.4.3</b> Estimating MLE with R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="preliminaries.html"><a href="preliminaries.html#blue"><i class="fa fa-check"></i><b>2.5</b> BLUE</a></li>
+<li class="chapter" data-level="2.6" data-path="preliminaries.html"><a href="preliminaries.html#modeling-the-data"><i class="fa fa-check"></i><b>2.6</b> Modeling the data</a></li>
+<li class="chapter" data-level="2.7" data-path="preliminaries.html"><a href="preliminaries.html#causal-vs.-predictive-models"><i class="fa fa-check"></i><b>2.7</b> Causal vs. Predictive Models</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="preliminaries.html"><a href="preliminaries.html#causal-models"><i class="fa fa-check"></i><b>2.7.1</b> Causal Models</a></li>
+<li class="chapter" data-level="2.7.2" data-path="preliminaries.html"><a href="preliminaries.html#prediction-models"><i class="fa fa-check"></i><b>2.7.2</b> Prediction Models</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="preliminaries.html"><a href="preliminaries.html#simulation"><i class="fa fa-check"></i><b>2.8</b> Simulation</a></li>
+</ul></li>
+<li class="part"><span><b>I Formal Look at Prediction</b></span></li>
+<li class="chapter" data-level="" data-path="learning-systems.html"><a href="learning-systems.html"><i class="fa fa-check"></i>Learning Systems</a></li>
+<li class="chapter" data-level="3" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>3</b> Bias-Variance Tradeoff</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#estimator-and-mse"><i class="fa fa-check"></i><b>3.1</b> Estimator and MSE</a></li>
+<li class="chapter" data-level="3.2" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#prediction---mspe"><i class="fa fa-check"></i><b>3.2</b> Prediction - MSPE</a></li>
+<li class="chapter" data-level="3.3" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#biased-estimator-as-a-predictor"><i class="fa fa-check"></i><b>3.3</b> Biased estimator as a predictor</a></li>
+<li class="chapter" data-level="3.4" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#dropping-a-variable-in-a-regression"><i class="fa fa-check"></i><b>3.4</b> Dropping a variable in a regression</a></li>
+<li class="chapter" data-level="3.5" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#uncertainty-in-estimations-and-predictions"><i class="fa fa-check"></i><b>3.5</b> Uncertainty in estimations and predictions</a></li>
+<li class="chapter" data-level="3.6" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#prediction-interval-for-unbiased-ols-predictor"><i class="fa fa-check"></i><b>3.6</b> Prediction interval for unbiased OLS predictor</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="overfitting.html"><a href="overfitting.html"><i class="fa fa-check"></i><b>4</b> Overfitting</a></li>
+<li class="part"><span><b>II Nonparametric Estimations</b></span></li>
+<li class="chapter" data-level="" data-path="parametric-vs.html"><a href="parametric-vs.html"><i class="fa fa-check"></i>Parametric vs. Nonparametric methods</a></li>
+<li class="chapter" data-level="5" data-path="parametric-estimations.html"><a href="parametric-estimations.html"><i class="fa fa-check"></i><b>5</b> Parametric Estimations</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="parametric-estimations.html"><a href="parametric-estimations.html#linear-probability-models-lpm"><i class="fa fa-check"></i><b>5.1</b> Linear Probability Models (LPM)</a></li>
+<li class="chapter" data-level="5.2" data-path="parametric-estimations.html"><a href="parametric-estimations.html#logistic-regression"><i class="fa fa-check"></i><b>5.2</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="parametric-estimations.html"><a href="parametric-estimations.html#estimating-logistic-regression"><i class="fa fa-check"></i><b>5.2.1</b> Estimating Logistic Regression</a></li>
+<li class="chapter" data-level="5.2.2" data-path="parametric-estimations.html"><a href="parametric-estimations.html#cost-functions"><i class="fa fa-check"></i><b>5.2.2</b> Cost functions</a></li>
+<li class="chapter" data-level="5.2.3" data-path="parametric-estimations.html"><a href="parametric-estimations.html#deviance"><i class="fa fa-check"></i><b>5.2.3</b> Deviance</a></li>
+<li class="chapter" data-level="5.2.4" data-path="parametric-estimations.html"><a href="parametric-estimations.html#predictive-accuracy"><i class="fa fa-check"></i><b>5.2.4</b> Predictive accuracy</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html"><i class="fa fa-check"></i><b>6</b> Nonparametric Estimations - Basics</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html#density-estimations"><i class="fa fa-check"></i><b>6.1</b> Density Estimations</a></li>
+<li class="chapter" data-level="6.2" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html#kernel-regressions"><i class="fa fa-check"></i><b>6.2</b> Kernel regressions</a></li>
+<li class="chapter" data-level="6.3" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html#regression-splines"><i class="fa fa-check"></i><b>6.3</b> Regression Splines</a></li>
+<li class="chapter" data-level="6.4" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html#mars---multivariate-adaptive-regression-splines"><i class="fa fa-check"></i><b>6.4</b> MARS - Multivariate Adaptive Regression Splines</a></li>
+<li class="chapter" data-level="6.5" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html#gam---generalized-additive-model"><i class="fa fa-check"></i><b>6.5</b> GAM - Generalized Additive Model</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="smoothing.html"><a href="smoothing.html"><i class="fa fa-check"></i><b>7</b> Smoothing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="smoothing.html"><a href="smoothing.html#using-bins"><i class="fa fa-check"></i><b>7.1</b> Using bins</a></li>
+<li class="chapter" data-level="7.2" data-path="smoothing.html"><a href="smoothing.html#kernel-smoothing"><i class="fa fa-check"></i><b>7.2</b> Kernel smoothing</a></li>
+<li class="chapter" data-level="7.3" data-path="smoothing.html"><a href="smoothing.html#locally-weighted-regression-loess"><i class="fa fa-check"></i><b>7.3</b> Locally weighted regression <code>loess()</code></a></li>
+<li class="chapter" data-level="7.4" data-path="smoothing.html"><a href="smoothing.html#smooth-spline-regression"><i class="fa fa-check"></i><b>7.4</b> Smooth Spline Regression</a></li>
+<li class="chapter" data-level="7.5" data-path="smoothing.html"><a href="smoothing.html#multivariate-loess"><i class="fa fa-check"></i><b>7.5</b> Multivariate Loess</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html"><i class="fa fa-check"></i><b>8</b> Nonparametric Classifier - kNN</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#mnist-dataset"><i class="fa fa-check"></i><b>8.1</b> <code>mnist</code> Dataset</a></li>
+<li class="chapter" data-level="8.2" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#linear-classifiers-again"><i class="fa fa-check"></i><b>8.2</b> Linear classifiers (again)</a></li>
+<li class="chapter" data-level="8.3" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#k-nearest-neighbors"><i class="fa fa-check"></i><b>8.3</b> k-Nearest Neighbors</a></li>
+<li class="chapter" data-level="8.4" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#knn-with-caret"><i class="fa fa-check"></i><b>8.4</b> kNN with caret</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#mnist_27"><i class="fa fa-check"></i><b>8.4.1</b> <code>mnist_27</code></a></li>
+<li class="chapter" data-level="8.4.2" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#adult-dataset"><i class="fa fa-check"></i><b>8.4.2</b> Adult dataset</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>III Self-Learning</b></span></li>
+<li class="chapter" data-level="9" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html"><i class="fa fa-check"></i><b>9</b> Hyperparameter Tuning</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#training-validation-and-test-datasets"><i class="fa fa-check"></i><b>9.1</b> Training, validation, and test datasets</a></li>
+<li class="chapter" data-level="9.2" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#splitting-the-data-randomly"><i class="fa fa-check"></i><b>9.2</b> Splitting the data randomly</a></li>
+<li class="chapter" data-level="9.3" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#k-fold-cross-validation"><i class="fa fa-check"></i><b>9.3</b> k-fold cross validation</a></li>
+<li class="chapter" data-level="9.4" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#grid-search"><i class="fa fa-check"></i><b>9.4</b> Grid search</a></li>
+<li class="chapter" data-level="9.5" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#cross-validated-grid-search"><i class="fa fa-check"></i><b>9.5</b> Cross-validated grid search</a></li>
+<li class="chapter" data-level="9.6" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#when-the-data-is-time-series"><i class="fa fa-check"></i><b>9.6</b> When the data is time-series</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="tuning-in-classification.html"><a href="tuning-in-classification.html"><i class="fa fa-check"></i><b>10</b> Tuning in Classification</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="tuning-in-classification.html"><a href="tuning-in-classification.html#confusion-matrix"><i class="fa fa-check"></i><b>10.1</b> Confusion matrix</a></li>
+<li class="chapter" data-level="10.2" data-path="tuning-in-classification.html"><a href="tuning-in-classification.html#performance-measures"><i class="fa fa-check"></i><b>10.2</b> Performance measures</a></li>
+<li class="chapter" data-level="10.3" data-path="tuning-in-classification.html"><a href="tuning-in-classification.html#roc---reciever-operating-curve"><i class="fa fa-check"></i><b>10.3</b> ROC - Reciever Operating Curve</a></li>
+<li class="chapter" data-level="10.4" data-path="tuning-in-classification.html"><a href="tuning-in-classification.html#auc---area-under-the-curve"><i class="fa fa-check"></i><b>10.4</b> AUC - Area Under the Curve</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="classification-example.html"><a href="classification-example.html"><i class="fa fa-check"></i><b>11</b> Classification Example</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="classification-example.html"><a href="classification-example.html#lpm"><i class="fa fa-check"></i><b>11.1</b> LPM</a></li>
+<li class="chapter" data-level="11.2" data-path="classification-example.html"><a href="classification-example.html#logistic-regression-1"><i class="fa fa-check"></i><b>11.2</b> Logistic Regression</a></li>
+<li class="chapter" data-level="11.3" data-path="classification-example.html"><a href="classification-example.html#knn"><i class="fa fa-check"></i><b>11.3</b> kNN</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="classification-example.html"><a href="classification-example.html#knn-10-fold-cv"><i class="fa fa-check"></i><b>11.3.1</b> kNN 10-fold CV</a></li>
+<li class="chapter" data-level="11.3.2" data-path="classification-example.html"><a href="classification-example.html#knn-with-caret-1"><i class="fa fa-check"></i><b>11.3.2</b> kNN with <code>caret</code></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Tree-based Models</b></span></li>
+<li class="chapter" data-level="12" data-path="cart.html"><a href="cart.html"><i class="fa fa-check"></i><b>12</b> CART</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="cart.html"><a href="cart.html#cart---classification-tree"><i class="fa fa-check"></i><b>12.1</b> CART - Classification Tree</a></li>
+<li class="chapter" data-level="12.2" data-path="cart.html"><a href="cart.html#rpart---recursive-partitioning"><i class="fa fa-check"></i><b>12.2</b> <code>rpart()</code> - Recursive Partitioning</a></li>
+<li class="chapter" data-level="12.3" data-path="cart.html"><a href="cart.html#pruning"><i class="fa fa-check"></i><b>12.3</b> Pruning</a></li>
+<li class="chapter" data-level="12.4" data-path="cart.html"><a href="cart.html#classification-with-titanic"><i class="fa fa-check"></i><b>12.4</b> Classification with Titanic</a></li>
+<li class="chapter" data-level="12.5" data-path="cart.html"><a href="cart.html#regression-tree"><i class="fa fa-check"></i><b>12.5</b> Regression Tree</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="ensemble-learning.html"><a href="ensemble-learning.html"><i class="fa fa-check"></i><b>13</b> Ensemble learning</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ensemble-learning.html"><a href="ensemble-learning.html#bagging"><i class="fa fa-check"></i><b>13.1</b> Bagging</a></li>
+<li class="chapter" data-level="13.2" data-path="ensemble-learning.html"><a href="ensemble-learning.html#random-forest"><i class="fa fa-check"></i><b>13.2</b> Random Forest</a></li>
+<li class="chapter" data-level="13.3" data-path="ensemble-learning.html"><a href="ensemble-learning.html#boosting"><i class="fa fa-check"></i><b>13.3</b> Boosting</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="ensemble-learning.html"><a href="ensemble-learning.html#sequential-ensemble-with-gbm"><i class="fa fa-check"></i><b>13.3.1</b> Sequential ensemble with <code>gbm</code></a></li>
+<li class="chapter" data-level="13.3.2" data-path="ensemble-learning.html"><a href="ensemble-learning.html#adaboost"><i class="fa fa-check"></i><b>13.3.2</b> AdaBoost</a></li>
+<li class="chapter" data-level="13.3.3" data-path="ensemble-learning.html"><a href="ensemble-learning.html#extreme-gradient-boosting-xgboost"><i class="fa fa-check"></i><b>13.3.3</b> Extreme Gradient Boosting (XGBoost)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="ensemble-applications.html"><a href="ensemble-applications.html"><i class="fa fa-check"></i><b>14</b> Ensemble Applications</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="ensemble-applications.html"><a href="ensemble-applications.html#classification"><i class="fa fa-check"></i><b>14.1</b> Classification</a></li>
+<li class="chapter" data-level="14.2" data-path="ensemble-applications.html"><a href="ensemble-applications.html#regression"><i class="fa fa-check"></i><b>14.2</b> Regression</a></li>
+<li class="chapter" data-level="14.3" data-path="ensemble-applications.html"><a href="ensemble-applications.html#dataset-level-explainers"><i class="fa fa-check"></i><b>14.3</b> Dataset-level explainers</a></li>
+<li class="chapter" data-level="14.4" data-path="ensemble-applications.html"><a href="ensemble-applications.html#boosting-applications"><i class="fa fa-check"></i><b>14.4</b> Boosting Applications</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="ensemble-applications.html"><a href="ensemble-applications.html#regression-1"><i class="fa fa-check"></i><b>14.4.1</b> Regression</a></li>
+<li class="chapter" data-level="14.4.2" data-path="ensemble-applications.html"><a href="ensemble-applications.html#random-search-with-parallel-processing"><i class="fa fa-check"></i><b>14.4.2</b> Random search with parallel processing</a></li>
+<li class="chapter" data-level="14.4.3" data-path="ensemble-applications.html"><a href="ensemble-applications.html#boosting-vs.-others"><i class="fa fa-check"></i><b>14.4.3</b> Boosting vs. Others</a></li>
+<li class="chapter" data-level="14.4.4" data-path="ensemble-applications.html"><a href="ensemble-applications.html#classification-1"><i class="fa fa-check"></i><b>14.4.4</b> Classification</a></li>
+<li class="chapter" data-level="14.4.5" data-path="ensemble-applications.html"><a href="ensemble-applications.html#adaboost.m1"><i class="fa fa-check"></i><b>14.4.5</b> AdaBoost.M1</a></li>
+<li class="chapter" data-level="14.4.6" data-path="ensemble-applications.html"><a href="ensemble-applications.html#classification-with-xgboost"><i class="fa fa-check"></i><b>14.4.6</b> Classification with XGBoost</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>V SVM &amp; Neural Networks</b></span></li>
+<li class="chapter" data-level="15" data-path="support-vector-machines.html"><a href="support-vector-machines.html"><i class="fa fa-check"></i><b>15</b> Support Vector Machines</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="support-vector-machines.html"><a href="support-vector-machines.html#optimal-separating-classifier"><i class="fa fa-check"></i><b>15.1</b> Optimal Separating Classifier</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="support-vector-machines.html"><a href="support-vector-machines.html#the-margin"><i class="fa fa-check"></i><b>15.1.1</b> The Margin</a></li>
+<li class="chapter" data-level="15.1.2" data-path="support-vector-machines.html"><a href="support-vector-machines.html#the-non-separable-case"><i class="fa fa-check"></i><b>15.1.2</b> The Non-Separable Case</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="support-vector-machines.html"><a href="support-vector-machines.html#nonlinear-boundary-with-kernels"><i class="fa fa-check"></i><b>15.2</b> Nonlinear Boundary with Kernels</a></li>
+<li class="chapter" data-level="15.3" data-path="support-vector-machines.html"><a href="support-vector-machines.html#application-with-svm"><i class="fa fa-check"></i><b>15.3</b> Application with SVM</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>16</b> Neural Networks</a></li>
+<li class="part"><span><b>VI Penalized Regressions</b></span></li>
+<li class="chapter" data-level="" data-path="parametric-models-in-prediction.html"><a href="parametric-models-in-prediction.html"><i class="fa fa-check"></i>Parametric models in prediction</a></li>
+<li class="chapter" data-level="17" data-path="ridge.html"><a href="ridge.html"><i class="fa fa-check"></i><b>17</b> Ridge</a></li>
+<li class="chapter" data-level="18" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>18</b> Lasso</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="lasso.html"><a href="lasso.html#regression-2"><i class="fa fa-check"></i><b>18.1</b> Regression</a></li>
+<li class="chapter" data-level="18.2" data-path="lasso.html"><a href="lasso.html#lpmlogistic"><i class="fa fa-check"></i><b>18.2</b> LPM/Logistic</a></li>
+<li class="chapter" data-level="18.3" data-path="lasso.html"><a href="lasso.html#adaptive-lasso"><i class="fa fa-check"></i><b>18.3</b> Adaptive Lasso</a></li>
+<li class="chapter" data-level="18.4" data-path="lasso.html"><a href="lasso.html#elasticnet"><i class="fa fa-check"></i><b>18.4</b> ElasticNet</a></li>
+</ul></li>
+<li class="part"><span><b>VII Causality and Machine Learning</b></span></li>
+<li class="chapter" data-level="19" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>19</b> Model Selection</a></li>
+<li class="chapter" data-level="20" data-path="sparsity.html"><a href="sparsity.html"><i class="fa fa-check"></i><b>20</b> Sparsity</a></li>
+<li class="chapter" data-level="21" data-path="use-of-machine-learning-in-causality.html"><a href="use-of-machine-learning-in-causality.html"><i class="fa fa-check"></i><b>21</b> Use of Machine Learning in Causality</a></li>
+<li class="part"><span><b>VIII Dimension Reduction Methods</b></span></li>
+<li class="chapter" data-level="" data-path="matrix-decompositions.html"><a href="matrix-decompositions.html"><i class="fa fa-check"></i>Matrix Decompositions</a></li>
+<li class="chapter" data-level="22" data-path="eigenvectors-and-eigenvalues.html"><a href="eigenvectors-and-eigenvalues.html"><i class="fa fa-check"></i><b>22</b> Eigenvectors and eigenvalues</a></li>
+<li class="chapter" data-level="23" data-path="singular-value-decomposition.html"><a href="singular-value-decomposition.html"><i class="fa fa-check"></i><b>23</b> Singular Value Decomposition</a></li>
+<li class="chapter" data-level="24" data-path="rankr-approximations.html"><a href="rankr-approximations.html"><i class="fa fa-check"></i><b>24</b> Rank(r) Approximations</a></li>
+<li class="chapter" data-level="25" data-path="moore-penrose-inverse.html"><a href="moore-penrose-inverse.html"><i class="fa fa-check"></i><b>25</b> Moore-Penrose inverse</a></li>
+<li class="chapter" data-level="26" data-path="principle-component-analysis.html"><a href="principle-component-analysis.html"><i class="fa fa-check"></i><b>26</b> Principle Component Analysis</a></li>
+<li class="chapter" data-level="27" data-path="factor-analysis.html"><a href="factor-analysis.html"><i class="fa fa-check"></i><b>27</b> Factor Analysis</a></li>
+<li class="chapter" data-level="28" data-path="dynamic-mode-decomposition.html"><a href="dynamic-mode-decomposition.html"><i class="fa fa-check"></i><b>28</b> Dynamic Mode Decomposition</a></li>
+<li class="part"><span><b>IX Time Series</b></span></li>
+<li class="chapter" data-level="29" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>29</b> ARIMA models</a></li>
+<li class="chapter" data-level="30" data-path="grid-search-for-arima.html"><a href="grid-search-for-arima.html"><i class="fa fa-check"></i><b>30</b> Grid search for ARIMA</a></li>
+<li class="chapter" data-level="31" data-path="embedding.html"><a href="embedding.html"><i class="fa fa-check"></i><b>31</b> Embedding</a></li>
+<li class="chapter" data-level="32" data-path="random-forest-1.html"><a href="random-forest-1.html"><i class="fa fa-check"></i><b>32</b> Random Forest</a></li>
+<li class="chapter" data-level="33" data-path="neural-networks-1.html"><a href="neural-networks-1.html"><i class="fa fa-check"></i><b>33</b> Neural Networks</a></li>
+<li class="part"><span><b>X Network Analysis</b></span></li>
+<li class="chapter" data-level="" data-path="graphical-network-analysis.html"><a href="graphical-network-analysis.html"><i class="fa fa-check"></i>Graphical Network Analysis</a></li>
+<li class="chapter" data-level="34" data-path="fundementals.html"><a href="fundementals.html"><i class="fa fa-check"></i><b>34</b> Fundementals</a>
+<ul>
+<li class="chapter" data-level="34.1" data-path="fundementals.html"><a href="fundementals.html#covariance"><i class="fa fa-check"></i><b>34.1</b> Covariance</a></li>
+<li class="chapter" data-level="34.2" data-path="fundementals.html"><a href="fundementals.html#correlation"><i class="fa fa-check"></i><b>34.2</b> Correlation</a></li>
+<li class="chapter" data-level="34.3" data-path="fundementals.html"><a href="fundementals.html#precision-matrix"><i class="fa fa-check"></i><b>34.3</b> Precision matrix</a></li>
+<li class="chapter" data-level="34.4" data-path="fundementals.html"><a href="fundementals.html#semi-partial-correlation"><i class="fa fa-check"></i><b>34.4</b> Semi-partial correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="35" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html"><i class="fa fa-check"></i><b>35</b> Regularized covariance matrix</a>
+<ul>
+<li class="chapter" data-level="35.1" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#mle"><i class="fa fa-check"></i><b>35.1</b> MLE</a></li>
+<li class="chapter" data-level="35.2" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#high-dimensional-data"><i class="fa fa-check"></i><b>35.2</b> High-dimensional data</a></li>
+<li class="chapter" data-level="35.3" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#ridge-ell_2-and-glasso-ell_1"><i class="fa fa-check"></i><b>35.3</b> Ridge (<span class="math inline">\(\ell_{2}\)</span>) and glasso (<span class="math inline">\(\ell_{1}\)</span>)</a></li>
+<li class="chapter" data-level="35.4" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#whats-graphical---graphical-ridge-or-glasso"><i class="fa fa-check"></i><b>35.4</b> What’s graphical - graphical ridge or glasso?</a></li>
+</ul></li>
+<li class="part"><span><b>XI Labs</b></span></li>
+<li class="chapter" data-level="36" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html"><i class="fa fa-check"></i><b>36</b> R Lab 1 - Basics I</a>
+<ul>
+<li class="chapter" data-level="36.1" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#r-rstudio-and-r-packages"><i class="fa fa-check"></i><b>36.1</b> R, RStudio, and R Packages</a></li>
+<li class="chapter" data-level="36.2" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#rstudio"><i class="fa fa-check"></i><b>36.2</b> RStudio</a></li>
+<li class="chapter" data-level="36.3" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#working-directory"><i class="fa fa-check"></i><b>36.3</b> Working directory</a></li>
+<li class="chapter" data-level="36.4" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#data-types-and-stuctures"><i class="fa fa-check"></i><b>36.4</b> Data Types and Stuctures</a></li>
+<li class="chapter" data-level="36.5" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#vectors"><i class="fa fa-check"></i><b>36.5</b> Vectors</a></li>
+<li class="chapter" data-level="36.6" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#subsetting-vectors"><i class="fa fa-check"></i><b>36.6</b> Subsetting Vectors</a></li>
+<li class="chapter" data-level="36.7" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#vectorization-or-vector-operations"><i class="fa fa-check"></i><b>36.7</b> Vectorization or vector operations</a></li>
+<li class="chapter" data-level="36.8" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#matrices"><i class="fa fa-check"></i><b>36.8</b> Matrices</a></li>
+<li class="chapter" data-level="36.9" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#matrix-operations"><i class="fa fa-check"></i><b>36.9</b> Matrix Operations</a></li>
+<li class="chapter" data-level="36.10" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#subsetting-matrix"><i class="fa fa-check"></i><b>36.10</b> Subsetting Matrix</a></li>
+<li class="chapter" data-level="36.11" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#r-style-guide"><i class="fa fa-check"></i><b>36.11</b> R-Style Guide</a></li>
+</ul></li>
+<li class="chapter" data-level="37" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html"><i class="fa fa-check"></i><b>37</b> R Lab 2 - Basics II</a>
+<ul>
+<li class="chapter" data-level="37.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#data-frames-and-lists"><i class="fa fa-check"></i><b>37.1</b> Data frames and lists</a>
+<ul>
+<li class="chapter" data-level="37.1.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#lists"><i class="fa fa-check"></i><b>37.1.1</b> Lists</a></li>
+<li class="chapter" data-level="37.1.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#data-frames"><i class="fa fa-check"></i><b>37.1.2</b> Data Frames</a></li>
+<li class="chapter" data-level="37.1.3" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#reading-importing-and-writting-exporting-data-files"><i class="fa fa-check"></i><b>37.1.3</b> Reading (importing) and writting (exporting) data files</a></li>
+<li class="chapter" data-level="37.1.4" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#subsetting-data-frames"><i class="fa fa-check"></i><b>37.1.4</b> Subsetting Data Frames</a></li>
+<li class="chapter" data-level="37.1.5" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#plotting-from-data-frame"><i class="fa fa-check"></i><b>37.1.5</b> Plotting from data frame</a></li>
+<li class="chapter" data-level="37.1.6" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#some-useful-functions"><i class="fa fa-check"></i><b>37.1.6</b> Some useful functions</a></li>
+<li class="chapter" data-level="37.1.7" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#categorical-variables-in-data-frames"><i class="fa fa-check"></i><b>37.1.7</b> Categorical Variables in Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="37.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#programming-basics"><i class="fa fa-check"></i><b>37.2</b> Programming Basics</a>
+<ul>
+<li class="chapter" data-level="37.2.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#ifelse"><i class="fa fa-check"></i><b>37.2.1</b> if/Else</a></li>
+<li class="chapter" data-level="37.2.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#loops"><i class="fa fa-check"></i><b>37.2.2</b> Loops</a></li>
+<li class="chapter" data-level="37.2.3" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#the-apply-family"><i class="fa fa-check"></i><b>37.2.3</b> The <code>apply()</code> family</a></li>
+<li class="chapter" data-level="37.2.4" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#functions"><i class="fa fa-check"></i><b>37.2.4</b> Functions</a></li>
+<li class="chapter" data-level="37.2.5" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#dplyr"><i class="fa fa-check"></i><b>37.2.5</b> <code>dplyr()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="38" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html"><i class="fa fa-check"></i><b>38</b> R Lab 3 - Preparing the data</a>
+<ul>
+<li class="chapter" data-level="38.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#preparing-the-data-for-a-regression-analysis-with-lm"><i class="fa fa-check"></i><b>38.1</b> Preparing the data for a regression analysis with <code>lm()</code></a>
+<ul>
+<li class="chapter" data-level="38.1.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#factor-variables"><i class="fa fa-check"></i><b>38.1.1</b> Factor variables</a></li>
+<li class="chapter" data-level="38.1.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#dummy-coding"><i class="fa fa-check"></i><b>38.1.2</b> Dummy Coding</a></li>
+<li class="chapter" data-level="38.1.3" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#column-variable-names"><i class="fa fa-check"></i><b>38.1.3</b> Column (Variable) names</a></li>
+<li class="chapter" data-level="38.1.4" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#data-subsetting-and-missing-values"><i class="fa fa-check"></i><b>38.1.4</b> Data subsetting and missing values</a></li>
+</ul></li>
+<li class="chapter" data-level="38.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#dummy-variable-models"><i class="fa fa-check"></i><b>38.2</b> “DUMMY” variable models</a>
+<ul>
+<li class="chapter" data-level="38.2.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#mtcars-example"><i class="fa fa-check"></i><b>38.2.1</b> <code>mtcars</code> example</a></li>
+<li class="chapter" data-level="38.2.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#model.matrix"><i class="fa fa-check"></i><b>38.2.2</b> <code>model.matrix()</code></a></li>
+<li class="chapter" data-level="38.2.3" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#example-with-a-bigger-data-set-autompg"><i class="fa fa-check"></i><b>38.2.3</b> Example with a bigger data set: <code>Autompg</code></a></li>
+<li class="chapter" data-level="38.2.4" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#some-more-data-management-tools-for-subsetting-complete.cases-is.na-and-within"><i class="fa fa-check"></i><b>38.2.4</b> Some more data management tools for subsetting: <code>complete.cases()</code>, <code>is.na()</code>, and <code>within()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="39" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html"><i class="fa fa-check"></i><b>39</b> R Lab 4 - Simulation in R</a>
+<ul>
+<li class="chapter" data-level="39.1" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#sampling-in-r-sample"><i class="fa fa-check"></i><b>39.1</b> Sampling in R: <code>sample()</code></a></li>
+<li class="chapter" data-level="39.2" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#random-number-generating-with-probablity-distributions"><i class="fa fa-check"></i><b>39.2</b> Random number generating with probablity distributions</a></li>
+<li class="chapter" data-level="39.3" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#simulation-for-statistical-inference"><i class="fa fa-check"></i><b>39.3</b> Simulation for statistical inference</a></li>
+<li class="chapter" data-level="39.4" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#creataing-data-with-a-data-generating-model-dgm"><i class="fa fa-check"></i><b>39.4</b> Creataing data with a Data Generating Model (DGM)</a></li>
+<li class="chapter" data-level="39.5" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#bootstrapping"><i class="fa fa-check"></i><b>39.5</b> Bootstrapping</a></li>
+<li class="chapter" data-level="39.6" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#monty-hall---fun-example"><i class="fa fa-check"></i><b>39.6</b> Monty Hall - Fun example</a></li>
+</ul></li>
+<li class="part"><span><b>XII Appendix</b></span></li>
+<li class="chapter" data-level="40" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html"><i class="fa fa-check"></i><b>40</b> Algorithmic Optimization</a>
+<ul>
+<li class="chapter" data-level="40.1" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#brute-force-optimization"><i class="fa fa-check"></i><b>40.1</b> Brute-force optimization</a></li>
+<li class="chapter" data-level="40.2" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#derivative-based-methods"><i class="fa fa-check"></i><b>40.2</b> Derivative-based methods</a></li>
+<li class="chapter" data-level="40.3" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#gradient-descent"><i class="fa fa-check"></i><b>40.3</b> Gradient Descent</a>
+<ul>
+<li class="chapter" data-level="40.3.1" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#one-variable"><i class="fa fa-check"></i><b>40.3.1</b> One-variable</a></li>
+<li class="chapter" data-level="40.3.2" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#multivariable"><i class="fa fa-check"></i><b>40.3.2</b> Multivariable</a></li>
+</ul></li>
+<li class="chapter" data-level="40.4" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#optimization-with-r"><i class="fa fa-check"></i><b>40.4</b> Optimization with R</a></li>
+</ul></li>
+<li class="chapter" data-level="41" data-path="imbalanced-data.html"><a href="imbalanced-data.html"><i class="fa fa-check"></i><b>41</b> Imbalanced Data</a>
+<ul>
+<li class="chapter" data-level="41.1" data-path="imbalanced-data.html"><a href="imbalanced-data.html#smote"><i class="fa fa-check"></i><b>41.1</b> <code>SMOTE</code></a></li>
+<li class="chapter" data-level="41.2" data-path="imbalanced-data.html"><a href="imbalanced-data.html#fraud-detection"><i class="fa fa-check"></i><b>41.2</b> Fraud detection</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tool Shed for Applied Data Analytics with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ensemble-applications" class="section level1 hasAnchor" number="14">
+<h1><span class="header-section-number">Chapter 14</span> Ensemble Applications<a href="ensemble-applications.html#ensemble-applications" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>To conclude this section we will cover classification and regression applications using bagging, random forest, boosting and SVM. First we will start with a classification problem. In comparing different ensemble methods, we must look not only at their accuracy, but evaluate their stability as well.</p>
+<div id="classification" class="section level2 hasAnchor" number="14.1">
+<h2><span class="header-section-number">14.1</span> Classification<a href="ensemble-applications.html#classification" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will again predict survival on the Titanic, using CART, bagging and random forest. We will use the following variables:</p>
+<p><code>survived</code> - 1 if true, 0 otherwise;<br />
+<code>sex</code> - the gender of the passenger;<br />
+<code>age</code> - age of the passenger in years;<br />
+<code>pclass</code> - the passengers class of passage;<br />
+<code>sibsp</code> - the number of siblings/spouses aboard;<br />
+<code>parch</code> - the number of parents/children aboard.</p>
+<div class="sourceCode" id="cb666"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb666-1"><a href="ensemble-applications.html#cb666-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PASWR)</span>
+<span id="cb666-2"><a href="ensemble-applications.html#cb666-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ROCR)</span>
+<span id="cb666-3"><a href="ensemble-applications.html#cb666-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb666-4"><a href="ensemble-applications.html#cb666-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb666-5"><a href="ensemble-applications.html#cb666-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb666-6"><a href="ensemble-applications.html#cb666-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb666-7"><a href="ensemble-applications.html#cb666-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic3)</span>
+<span id="cb666-8"><a href="ensemble-applications.html#cb666-8" aria-hidden="true" tabindex="-1"></a>nam <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;survived&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;pclass&quot;</span>, <span class="st">&quot;sibsp&quot;</span>, <span class="st">&quot;parch&quot;</span>)</span>
+<span id="cb666-9"><a href="ensemble-applications.html#cb666-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> titanic3[, nam]</span>
+<span id="cb666-10"><a href="ensemble-applications.html#cb666-10" aria-hidden="true" tabindex="-1"></a>dfc <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]</span>
+<span id="cb666-11"><a href="ensemble-applications.html#cb666-11" aria-hidden="true" tabindex="-1"></a>dfc<span class="sc">$</span>survived <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dfc<span class="sc">$</span>survived)</span>
+<span id="cb666-12"><a href="ensemble-applications.html#cb666-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb666-13"><a href="ensemble-applications.html#cb666-13" aria-hidden="true" tabindex="-1"></a>AUC1 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb666-14"><a href="ensemble-applications.html#cb666-14" aria-hidden="true" tabindex="-1"></a>AUC2 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb666-15"><a href="ensemble-applications.html#cb666-15" aria-hidden="true" tabindex="-1"></a>AUC3 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb666-16"><a href="ensemble-applications.html#cb666-16" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb666-17"><a href="ensemble-applications.html#cb666-17" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb666-18"><a href="ensemble-applications.html#cb666-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb666-19"><a href="ensemble-applications.html#cb666-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb666-20"><a href="ensemble-applications.html#cb666-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i<span class="sc">+</span>i<span class="sc">*</span><span class="dv">100</span>)</span>
+<span id="cb666-21"><a href="ensemble-applications.html#cb666-21" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(dfc), <span class="fu">nrow</span>(dfc), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb666-22"><a href="ensemble-applications.html#cb666-22" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> dfc[ind, ]</span>
+<span id="cb666-23"><a href="ensemble-applications.html#cb666-23" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> dfc[<span class="sc">-</span>ind, ]</span>
+<span id="cb666-24"><a href="ensemble-applications.html#cb666-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb666-25"><a href="ensemble-applications.html#cb666-25" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">=</span> <span class="fu">ncol</span>(train)<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb666-26"><a href="ensemble-applications.html#cb666-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb666-27"><a href="ensemble-applications.html#cb666-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">#3 Methods</span></span>
+<span id="cb666-28"><a href="ensemble-applications.html#cb666-28" aria-hidden="true" tabindex="-1"></a>  model1 <span class="ot">&lt;-</span> <span class="fu">rpart</span>(survived<span class="sc">~</span>sex<span class="sc">+</span>age<span class="sc">+</span>pclass<span class="sc">+</span>sibsp<span class="sc">+</span>parch,</span>
+<span id="cb666-29"><a href="ensemble-applications.html#cb666-29" aria-hidden="true" tabindex="-1"></a>                <span class="at">data=</span>train, <span class="at">method=</span><span class="st">&quot;class&quot;</span>) <span class="co">#Single tree, pruned</span></span>
+<span id="cb666-30"><a href="ensemble-applications.html#cb666-30" aria-hidden="true" tabindex="-1"></a>  model2 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(survived<span class="sc">~</span>sex<span class="sc">+</span>age<span class="sc">+</span>pclass<span class="sc">+</span>sibsp<span class="sc">+</span>parch,</span>
+<span id="cb666-31"><a href="ensemble-applications.html#cb666-31" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ntree =</span> B, <span class="at">mtry =</span> p, <span class="at">data =</span> train) <span class="co">#Bagged</span></span>
+<span id="cb666-32"><a href="ensemble-applications.html#cb666-32" aria-hidden="true" tabindex="-1"></a>  model3 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(survived<span class="sc">~</span>sex<span class="sc">+</span>age<span class="sc">+</span>pclass<span class="sc">+</span>sibsp<span class="sc">+</span>parch,</span>
+<span id="cb666-33"><a href="ensemble-applications.html#cb666-33" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ntree =</span> B, <span class="at">data =</span> train) <span class="co"># RF    </span></span>
+<span id="cb666-34"><a href="ensemble-applications.html#cb666-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb666-35"><a href="ensemble-applications.html#cb666-35" aria-hidden="true" tabindex="-1"></a>  phat1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model1, test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
+<span id="cb666-36"><a href="ensemble-applications.html#cb666-36" aria-hidden="true" tabindex="-1"></a>  phat2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model2, test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
+<span id="cb666-37"><a href="ensemble-applications.html#cb666-37" aria-hidden="true" tabindex="-1"></a>  phat3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model3, test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
+<span id="cb666-38"><a href="ensemble-applications.html#cb666-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb666-39"><a href="ensemble-applications.html#cb666-39" aria-hidden="true" tabindex="-1"></a>  <span class="co">#AUC1</span></span>
+<span id="cb666-40"><a href="ensemble-applications.html#cb666-40" aria-hidden="true" tabindex="-1"></a>  pred_rocr1 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat1[,<span class="dv">2</span>], test<span class="sc">$</span>survived)</span>
+<span id="cb666-41"><a href="ensemble-applications.html#cb666-41" aria-hidden="true" tabindex="-1"></a>  auc_ROCR1 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr1, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb666-42"><a href="ensemble-applications.html#cb666-42" aria-hidden="true" tabindex="-1"></a>  AUC1[i] <span class="ot">&lt;-</span> auc_ROCR1<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb666-43"><a href="ensemble-applications.html#cb666-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb666-44"><a href="ensemble-applications.html#cb666-44" aria-hidden="true" tabindex="-1"></a>  <span class="co">#AUC2</span></span>
+<span id="cb666-45"><a href="ensemble-applications.html#cb666-45" aria-hidden="true" tabindex="-1"></a>  pred_rocr2 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat2[,<span class="dv">2</span>], test<span class="sc">$</span>survived)</span>
+<span id="cb666-46"><a href="ensemble-applications.html#cb666-46" aria-hidden="true" tabindex="-1"></a>  auc_ROCR2 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr2, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb666-47"><a href="ensemble-applications.html#cb666-47" aria-hidden="true" tabindex="-1"></a>  AUC2[i] <span class="ot">&lt;-</span> auc_ROCR2<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb666-48"><a href="ensemble-applications.html#cb666-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb666-49"><a href="ensemble-applications.html#cb666-49" aria-hidden="true" tabindex="-1"></a>  <span class="co">#AUC3</span></span>
+<span id="cb666-50"><a href="ensemble-applications.html#cb666-50" aria-hidden="true" tabindex="-1"></a>  pred_rocr3 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat3[,<span class="dv">2</span>], test<span class="sc">$</span>survived)</span>
+<span id="cb666-51"><a href="ensemble-applications.html#cb666-51" aria-hidden="true" tabindex="-1"></a>  auc_ROCR3 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr3, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb666-52"><a href="ensemble-applications.html#cb666-52" aria-hidden="true" tabindex="-1"></a>  AUC3[i] <span class="ot">&lt;-</span> auc_ROCR3<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb666-53"><a href="ensemble-applications.html#cb666-53" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb666-54"><a href="ensemble-applications.html#cb666-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb666-55"><a href="ensemble-applications.html#cb666-55" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Single-Tree&quot;</span>, <span class="st">&quot;Bagging&quot;</span>, <span class="st">&quot;RF&quot;</span>)</span>
+<span id="cb666-56"><a href="ensemble-applications.html#cb666-56" aria-hidden="true" tabindex="-1"></a>AUCs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(AUC1), <span class="fu">mean</span>(AUC2), <span class="fu">mean</span>(AUC3))</span>
+<span id="cb666-57"><a href="ensemble-applications.html#cb666-57" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">var</span>(AUC1)), <span class="fu">sqrt</span>(<span class="fu">var</span>(AUC2)), <span class="fu">sqrt</span>(<span class="fu">var</span>(AUC3)))</span>
+<span id="cb666-58"><a href="ensemble-applications.html#cb666-58" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(model, AUCs, sd) </span></code></pre></div>
+<pre><code>##         model      AUCs         sd
+## 1 Single-Tree 0.8129740 0.02585391
+## 2     Bagging 0.8128962 0.01709652
+## 3          RF 0.8409750 0.01659263</code></pre>
+<p>There is a consensus that we can determine a bagged model’s test error without using cross-validation. The reason for this is usually stated that each bootstrapped sample contains about two-thirds of the original dataset’s observations. Out-of-Bag (OOB) observations are the remaining 1/3 of the observations that were not used to fit the bagged tree.</p>
+<p>We did the bagging by using <code>randomForest</code> in the previous application. Let’s see if we can obtain a similar result with our manual bagging using <code>rpart()</code> pruned and unpruned:</p>
+<div class="sourceCode" id="cb668"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb668-1"><a href="ensemble-applications.html#cb668-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb668-2"><a href="ensemble-applications.html#cb668-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb668-3"><a href="ensemble-applications.html#cb668-3" aria-hidden="true" tabindex="-1"></a>AUCp <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb668-4"><a href="ensemble-applications.html#cb668-4" aria-hidden="true" tabindex="-1"></a>AUCup <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb668-5"><a href="ensemble-applications.html#cb668-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb668-6"><a href="ensemble-applications.html#cb668-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb668-7"><a href="ensemble-applications.html#cb668-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb668-8"><a href="ensemble-applications.html#cb668-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i<span class="sc">+</span>i<span class="sc">*</span><span class="dv">100</span>)</span>
+<span id="cb668-9"><a href="ensemble-applications.html#cb668-9" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(dfc), <span class="fu">nrow</span>(dfc), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb668-10"><a href="ensemble-applications.html#cb668-10" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> dfc[ind, ]</span>
+<span id="cb668-11"><a href="ensemble-applications.html#cb668-11" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> dfc[<span class="sc">-</span>ind, ]</span>
+<span id="cb668-12"><a href="ensemble-applications.html#cb668-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb668-13"><a href="ensemble-applications.html#cb668-13" aria-hidden="true" tabindex="-1"></a>  phatp <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, B, <span class="fu">nrow</span>(test))</span>
+<span id="cb668-14"><a href="ensemble-applications.html#cb668-14" aria-hidden="true" tabindex="-1"></a>  phatup <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, B, <span class="fu">nrow</span>(test))</span>
+<span id="cb668-15"><a href="ensemble-applications.html#cb668-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb668-16"><a href="ensemble-applications.html#cb668-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B) {</span>
+<span id="cb668-17"><a href="ensemble-applications.html#cb668-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(j<span class="sc">+</span>j<span class="sc">*</span><span class="dv">2</span>)</span>
+<span id="cb668-18"><a href="ensemble-applications.html#cb668-18" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(train), <span class="fu">nrow</span>(train), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb668-19"><a href="ensemble-applications.html#cb668-19" aria-hidden="true" tabindex="-1"></a>    tr <span class="ot">&lt;-</span> train[ind, ]</span>
+<span id="cb668-20"><a href="ensemble-applications.html#cb668-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb668-21"><a href="ensemble-applications.html#cb668-21" aria-hidden="true" tabindex="-1"></a>    modelp <span class="ot">&lt;-</span> <span class="fu">rpart</span>(survived <span class="sc">~</span> sex <span class="sc">+</span> age <span class="sc">+</span> pclass <span class="sc">+</span> sibsp <span class="sc">+</span> parch,</span>
+<span id="cb668-22"><a href="ensemble-applications.html#cb668-22" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> tr, <span class="at">method =</span> <span class="st">&quot;class&quot;</span>) <span class="co"># Pruned</span></span>
+<span id="cb668-23"><a href="ensemble-applications.html#cb668-23" aria-hidden="true" tabindex="-1"></a>    modelup <span class="ot">&lt;-</span> <span class="fu">rpart</span>(survived <span class="sc">~</span> sex <span class="sc">+</span> age <span class="sc">+</span> pclass <span class="sc">+</span> sibsp <span class="sc">+</span> parch,</span>
+<span id="cb668-24"><a href="ensemble-applications.html#cb668-24" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> tr,</span>
+<span id="cb668-25"><a href="ensemble-applications.html#cb668-25" aria-hidden="true" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">minsplit =</span> <span class="dv">2</span>, <span class="at">minbucket =</span> <span class="dv">1</span></span>
+<span id="cb668-26"><a href="ensemble-applications.html#cb668-26" aria-hidden="true" tabindex="-1"></a>                                          , <span class="at">cp =</span> <span class="dv">0</span>),</span>
+<span id="cb668-27"><a href="ensemble-applications.html#cb668-27" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;class&quot;</span>) <span class="co"># unpruned</span></span>
+<span id="cb668-28"><a href="ensemble-applications.html#cb668-28" aria-hidden="true" tabindex="-1"></a>    phatp[j, ] <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelp, test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)[, <span class="dv">2</span>]</span>
+<span id="cb668-29"><a href="ensemble-applications.html#cb668-29" aria-hidden="true" tabindex="-1"></a>    phatup[j, ] <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelup, test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)[, <span class="dv">2</span>]</span>
+<span id="cb668-30"><a href="ensemble-applications.html#cb668-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb668-31"><a href="ensemble-applications.html#cb668-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Averaging for B Trees</span></span>
+<span id="cb668-32"><a href="ensemble-applications.html#cb668-32" aria-hidden="true" tabindex="-1"></a>  phatpr <span class="ot">&lt;-</span> <span class="fu">apply</span>(phatp, <span class="dv">2</span>, mean)</span>
+<span id="cb668-33"><a href="ensemble-applications.html#cb668-33" aria-hidden="true" tabindex="-1"></a>  phatupr <span class="ot">&lt;-</span> <span class="fu">apply</span>(phatup, <span class="dv">2</span>, mean)</span>
+<span id="cb668-34"><a href="ensemble-applications.html#cb668-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb668-35"><a href="ensemble-applications.html#cb668-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># AUC pruned</span></span>
+<span id="cb668-36"><a href="ensemble-applications.html#cb668-36" aria-hidden="true" tabindex="-1"></a>  pred_rocr <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phatpr, test<span class="sc">$</span>survived)</span>
+<span id="cb668-37"><a href="ensemble-applications.html#cb668-37" aria-hidden="true" tabindex="-1"></a>  auc_ROCR <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb668-38"><a href="ensemble-applications.html#cb668-38" aria-hidden="true" tabindex="-1"></a>  AUCp[i] <span class="ot">&lt;-</span> auc_ROCR<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb668-39"><a href="ensemble-applications.html#cb668-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb668-40"><a href="ensemble-applications.html#cb668-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># AUC unpruned</span></span>
+<span id="cb668-41"><a href="ensemble-applications.html#cb668-41" aria-hidden="true" tabindex="-1"></a>  pred_rocr <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phatupr, test<span class="sc">$</span>survived)</span>
+<span id="cb668-42"><a href="ensemble-applications.html#cb668-42" aria-hidden="true" tabindex="-1"></a>  auc_ROCR <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb668-43"><a href="ensemble-applications.html#cb668-43" aria-hidden="true" tabindex="-1"></a>  AUCup[i] <span class="ot">&lt;-</span> auc_ROCR<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb668-44"><a href="ensemble-applications.html#cb668-44" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb668-45"><a href="ensemble-applications.html#cb668-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb668-46"><a href="ensemble-applications.html#cb668-46" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(AUCp)</span></code></pre></div>
+<pre><code>## [1] 0.8523158</code></pre>
+<div class="sourceCode" id="cb670"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb670-1"><a href="ensemble-applications.html#cb670-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(AUCp))</span></code></pre></div>
+<pre><code>## [1] 0.01626892</code></pre>
+<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb672-1"><a href="ensemble-applications.html#cb672-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(AUCup)</span></code></pre></div>
+<pre><code>## [1] 0.8180802</code></pre>
+<div class="sourceCode" id="cb674"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb674-1"><a href="ensemble-applications.html#cb674-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(AUCup))</span></code></pre></div>
+<pre><code>## [1] 0.01693003</code></pre>
+<p>We can see a significant reduction in uncertainty and improvement in accuracy relative to a single tree. Moreover, our manual bagging with the cross-validated (pruned) single tree using <code>rpart()</code> doing a better job than the bagging using <code>randomForest()</code>. When we use “unpruned” single-tree using <code>rpart()</code> for bagging, the result becomes very similar to one that we obtain with random forest. Further, the number of bootstrapped trees (B) would be a hyperparameter to tune in bagging. You can try the same script multiple times with different B vales such as 50, 100, 150. In our experiment (not shown here), it seems that results are not sensitive to B as long as B is large enough like 50 and more.</p>
+<p>This would also be the case in regression trees, where we would be averaging <code>yhat</code>’s and calculating RMSPE and its standard deviations instead of AUC.</p>
+</div>
+<div id="regression" class="section level2 hasAnchor" number="14.2">
+<h2><span class="header-section-number">14.2</span> Regression<a href="ensemble-applications.html#regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Consider the same data set we used earlier chapters to predict baseball player’s salary:</p>
+<div class="sourceCode" id="cb676"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb676-1"><a href="ensemble-applications.html#cb676-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
+<span id="cb676-2"><a href="ensemble-applications.html#cb676-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb676-3"><a href="ensemble-applications.html#cb676-3" aria-hidden="true" tabindex="-1"></a><span class="fu">remove</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb676-4"><a href="ensemble-applications.html#cb676-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb676-5"><a href="ensemble-applications.html#cb676-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Hitters)</span>
+<span id="cb676-6"><a href="ensemble-applications.html#cb676-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> Hitters[<span class="fu">complete.cases</span>(Hitters<span class="sc">$</span>Salary), ]</span></code></pre></div>
+<p>Let’s use only a single tree with bagging:</p>
+<div class="sourceCode" id="cb677"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb677-1"><a href="ensemble-applications.html#cb677-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb677-2"><a href="ensemble-applications.html#cb677-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb677-3"><a href="ensemble-applications.html#cb677-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb677-4"><a href="ensemble-applications.html#cb677-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>logsal <span class="ot">&lt;-</span> <span class="fu">log</span>(df<span class="sc">$</span>Salary)</span>
+<span id="cb677-5"><a href="ensemble-applications.html#cb677-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[, <span class="sc">-</span><span class="dv">19</span>]</span>
+<span id="cb677-6"><a href="ensemble-applications.html#cb677-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb677-7"><a href="ensemble-applications.html#cb677-7" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb677-8"><a href="ensemble-applications.html#cb677-8" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> <span class="dv">500</span></span>
+<span id="cb677-9"><a href="ensemble-applications.html#cb677-9" aria-hidden="true" tabindex="-1"></a>RMSPEp <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb677-10"><a href="ensemble-applications.html#cb677-10" aria-hidden="true" tabindex="-1"></a>RMSPEup <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb677-11"><a href="ensemble-applications.html#cb677-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb677-12"><a href="ensemble-applications.html#cb677-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb677-13"><a href="ensemble-applications.html#cb677-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i<span class="sc">+</span>i<span class="sc">*</span><span class="dv">8</span>)</span>
+<span id="cb677-14"><a href="ensemble-applications.html#cb677-14" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb677-15"><a href="ensemble-applications.html#cb677-15" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb677-16"><a href="ensemble-applications.html#cb677-16" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb677-17"><a href="ensemble-applications.html#cb677-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb677-18"><a href="ensemble-applications.html#cb677-18" aria-hidden="true" tabindex="-1"></a>  yhatp <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, B, <span class="fu">nrow</span>(test))</span>
+<span id="cb677-19"><a href="ensemble-applications.html#cb677-19" aria-hidden="true" tabindex="-1"></a>  yhatup <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, B, <span class="fu">nrow</span>(test))</span>
+<span id="cb677-20"><a href="ensemble-applications.html#cb677-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb677-21"><a href="ensemble-applications.html#cb677-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B) {</span>
+<span id="cb677-22"><a href="ensemble-applications.html#cb677-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(j<span class="sc">+</span>j<span class="sc">*</span><span class="dv">2</span>)</span>
+<span id="cb677-23"><a href="ensemble-applications.html#cb677-23" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(train), <span class="fu">nrow</span>(train), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb677-24"><a href="ensemble-applications.html#cb677-24" aria-hidden="true" tabindex="-1"></a>    tr <span class="ot">&lt;-</span> train[ind, ]</span>
+<span id="cb677-25"><a href="ensemble-applications.html#cb677-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb677-26"><a href="ensemble-applications.html#cb677-26" aria-hidden="true" tabindex="-1"></a>    modelp <span class="ot">&lt;-</span> <span class="fu">rpart</span>(logsal <span class="sc">~</span> ., <span class="at">data =</span> tr, <span class="at">method =</span> <span class="st">&quot;anova&quot;</span>) <span class="co"># Pruned</span></span>
+<span id="cb677-27"><a href="ensemble-applications.html#cb677-27" aria-hidden="true" tabindex="-1"></a>    modelup <span class="ot">&lt;-</span> <span class="fu">rpart</span>(logsal <span class="sc">~</span> ., <span class="at">data =</span> tr,</span>
+<span id="cb677-28"><a href="ensemble-applications.html#cb677-28" aria-hidden="true" tabindex="-1"></a>                    <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">minsplit =</span> <span class="dv">2</span>, <span class="at">minbucket =</span> <span class="dv">1</span></span>
+<span id="cb677-29"><a href="ensemble-applications.html#cb677-29" aria-hidden="true" tabindex="-1"></a>                                            ,<span class="at">cp =</span> <span class="dv">0</span>),</span>
+<span id="cb677-30"><a href="ensemble-applications.html#cb677-30" aria-hidden="true" tabindex="-1"></a>                    <span class="at">method =</span> <span class="st">&quot;anova&quot;</span>) <span class="co"># unpruned</span></span>
+<span id="cb677-31"><a href="ensemble-applications.html#cb677-31" aria-hidden="true" tabindex="-1"></a>    yhatp[j,] <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelp, test)</span>
+<span id="cb677-32"><a href="ensemble-applications.html#cb677-32" aria-hidden="true" tabindex="-1"></a>    yhatup[j,] <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelup, test)</span>
+<span id="cb677-33"><a href="ensemble-applications.html#cb677-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb677-34"><a href="ensemble-applications.html#cb677-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Averaging for B Trees</span></span>
+<span id="cb677-35"><a href="ensemble-applications.html#cb677-35" aria-hidden="true" tabindex="-1"></a>  yhatpr <span class="ot">&lt;-</span> <span class="fu">apply</span>(yhatp, <span class="dv">2</span>, mean)</span>
+<span id="cb677-36"><a href="ensemble-applications.html#cb677-36" aria-hidden="true" tabindex="-1"></a>  yhatupr <span class="ot">&lt;-</span> <span class="fu">apply</span>(yhatup, <span class="dv">2</span>, mean)</span>
+<span id="cb677-37"><a href="ensemble-applications.html#cb677-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb677-38"><a href="ensemble-applications.html#cb677-38" aria-hidden="true" tabindex="-1"></a>  RMSPEp[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((test<span class="sc">$</span>logsal <span class="sc">-</span> yhatpr)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb677-39"><a href="ensemble-applications.html#cb677-39" aria-hidden="true" tabindex="-1"></a>  RMSPEup[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((test<span class="sc">$</span>logsal <span class="sc">-</span> yhatupr)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb677-40"><a href="ensemble-applications.html#cb677-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb677-41"><a href="ensemble-applications.html#cb677-41" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb677-42"><a href="ensemble-applications.html#cb677-42" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(RMSPEp)</span></code></pre></div>
+<pre><code>## [1] 0.501984</code></pre>
+<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb679-1"><a href="ensemble-applications.html#cb679-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(RMSPEp))</span></code></pre></div>
+<pre><code>## [1] 0.05817388</code></pre>
+<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb681-1"><a href="ensemble-applications.html#cb681-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(RMSPEup)</span></code></pre></div>
+<pre><code>## [1] 0.4808079</code></pre>
+<div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb683-1"><a href="ensemble-applications.html#cb683-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(RMSPEup))</span></code></pre></div>
+<pre><code>## [1] 0.06223845</code></pre>
+<p>With and without pruning, the results are very similar. Let’s put all these together and do it with Random Forest:</p>
+<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb685-1"><a href="ensemble-applications.html#cb685-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb685-2"><a href="ensemble-applications.html#cb685-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb685-3"><a href="ensemble-applications.html#cb685-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb685-4"><a href="ensemble-applications.html#cb685-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb685-5"><a href="ensemble-applications.html#cb685-5" aria-hidden="true" tabindex="-1"></a><span class="fu">remove</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb685-6"><a href="ensemble-applications.html#cb685-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Hitters)</span>
+<span id="cb685-7"><a href="ensemble-applications.html#cb685-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> Hitters[<span class="fu">complete.cases</span>(Hitters<span class="sc">$</span>Salary), ]</span>
+<span id="cb685-8"><a href="ensemble-applications.html#cb685-8" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>logsal <span class="ot">&lt;-</span> <span class="fu">log</span>(df<span class="sc">$</span>Salary)</span>
+<span id="cb685-9"><a href="ensemble-applications.html#cb685-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[, <span class="sc">-</span><span class="dv">19</span>]</span>
+<span id="cb685-10"><a href="ensemble-applications.html#cb685-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb685-11"><a href="ensemble-applications.html#cb685-11" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb685-12"><a href="ensemble-applications.html#cb685-12" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb685-13"><a href="ensemble-applications.html#cb685-13" aria-hidden="true" tabindex="-1"></a>RMSPE1 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb685-14"><a href="ensemble-applications.html#cb685-14" aria-hidden="true" tabindex="-1"></a>RMSPE2 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb685-15"><a href="ensemble-applications.html#cb685-15" aria-hidden="true" tabindex="-1"></a>RMSPE3 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb685-16"><a href="ensemble-applications.html#cb685-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb685-17"><a href="ensemble-applications.html#cb685-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb685-18"><a href="ensemble-applications.html#cb685-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i<span class="sc">+</span>i<span class="sc">*</span><span class="dv">8</span>)</span>
+<span id="cb685-19"><a href="ensemble-applications.html#cb685-19" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb685-20"><a href="ensemble-applications.html#cb685-20" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb685-21"><a href="ensemble-applications.html#cb685-21" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb685-22"><a href="ensemble-applications.html#cb685-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb685-23"><a href="ensemble-applications.html#cb685-23" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">=</span> <span class="fu">ncol</span>(train)<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb685-24"><a href="ensemble-applications.html#cb685-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb685-25"><a href="ensemble-applications.html#cb685-25" aria-hidden="true" tabindex="-1"></a>  model1 <span class="ot">&lt;-</span> <span class="fu">rpart</span>(logsal<span class="sc">~</span>., <span class="at">data =</span>train) <span class="co"># Single Tree</span></span>
+<span id="cb685-26"><a href="ensemble-applications.html#cb685-26" aria-hidden="true" tabindex="-1"></a>  model2 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(logsal<span class="sc">~</span>., <span class="at">ntree =</span> B, <span class="at">mtry =</span> p, <span class="at">data =</span> train) <span class="co">#Bagged</span></span>
+<span id="cb685-27"><a href="ensemble-applications.html#cb685-27" aria-hidden="true" tabindex="-1"></a>  model3 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(logsal<span class="sc">~</span>., <span class="at">ntree =</span> B, <span class="at">localImp =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> train) <span class="co"># RF</span></span>
+<span id="cb685-28"><a href="ensemble-applications.html#cb685-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb685-29"><a href="ensemble-applications.html#cb685-29" aria-hidden="true" tabindex="-1"></a>  yhat1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model1, test)</span>
+<span id="cb685-30"><a href="ensemble-applications.html#cb685-30" aria-hidden="true" tabindex="-1"></a>  yhat2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model2, test)</span>
+<span id="cb685-31"><a href="ensemble-applications.html#cb685-31" aria-hidden="true" tabindex="-1"></a>  yhat3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model3, test)</span>
+<span id="cb685-32"><a href="ensemble-applications.html#cb685-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb685-33"><a href="ensemble-applications.html#cb685-33" aria-hidden="true" tabindex="-1"></a>  RMSPE1[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((test<span class="sc">$</span>logsal <span class="sc">-</span> yhat1)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb685-34"><a href="ensemble-applications.html#cb685-34" aria-hidden="true" tabindex="-1"></a>  RMSPE2[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((test<span class="sc">$</span>logsal <span class="sc">-</span> yhat2)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb685-35"><a href="ensemble-applications.html#cb685-35" aria-hidden="true" tabindex="-1"></a>  RMSPE3[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((test<span class="sc">$</span>logsal <span class="sc">-</span> yhat3)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb685-36"><a href="ensemble-applications.html#cb685-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb685-37"><a href="ensemble-applications.html#cb685-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb685-38"><a href="ensemble-applications.html#cb685-38" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Single-Tree&quot;</span>, <span class="st">&quot;Bagging&quot;</span>, <span class="st">&quot;RF&quot;</span>)</span>
+<span id="cb685-39"><a href="ensemble-applications.html#cb685-39" aria-hidden="true" tabindex="-1"></a>RMSPEs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(RMSPE1), <span class="fu">mean</span>(RMSPE2), <span class="fu">mean</span>(RMSPE3))</span>
+<span id="cb685-40"><a href="ensemble-applications.html#cb685-40" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">var</span>(RMSPE1)), <span class="fu">sqrt</span>(<span class="fu">var</span>(RMSPE2)), <span class="fu">sqrt</span>(<span class="fu">var</span>(RMSPE3)))</span>
+<span id="cb685-41"><a href="ensemble-applications.html#cb685-41" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(model, RMSPEs, sd) </span></code></pre></div>
+<pre><code>##         model    RMSPEs         sd
+## 1 Single-Tree 0.5739631 0.05360920
+## 2     Bagging 0.4807763 0.06119187
+## 3          RF 0.4631194 0.06045187</code></pre>
+<p>As you can see, random forest has the lowest RMSPE and thus performs the best, whereas the CART model has the highest RMSPE.</p>
+</div>
+<div id="dataset-level-explainers" class="section level2 hasAnchor" number="14.3">
+<h2><span class="header-section-number">14.3</span> Dataset-level explainers<a href="ensemble-applications.html#dataset-level-explainers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb687"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb687-1"><a href="ensemble-applications.html#cb687-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(model3)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-235-1.png" width="672" /></p>
+<p>We will now dig deeper with <code>randomForestExplainer</code> (see its <a href="https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html">vignette</a>) <span class="citation">(<a href="#ref-Palu_2012" role="doc-biblioref">Paluszyńska 2017</a>)</span> and <code>DALEX</code> packages. Assuming that the observations form a representative sample from a general population, dataset-level explainers can provide information about the quality of predictions for the population.</p>
+<div class="sourceCode" id="cb688"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb688-1"><a href="ensemble-applications.html#cb688-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForestExplainer)</span>
+<span id="cb688-2"><a href="ensemble-applications.html#cb688-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb688-3"><a href="ensemble-applications.html#cb688-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb688-4"><a href="ensemble-applications.html#cb688-4" aria-hidden="true" tabindex="-1"></a><span class="co"># randomForestExplainer()</span></span>
+<span id="cb688-5"><a href="ensemble-applications.html#cb688-5" aria-hidden="true" tabindex="-1"></a>min_depth_frame <span class="ot">&lt;-</span> <span class="fu">min_depth_distribution</span>(model3)</span>
+<span id="cb688-6"><a href="ensemble-applications.html#cb688-6" aria-hidden="true" tabindex="-1"></a>importance_frame <span class="ot">&lt;-</span> <span class="fu">measure_importance</span>(model3)</span>
+<span id="cb688-7"><a href="ensemble-applications.html#cb688-7" aria-hidden="true" tabindex="-1"></a>tabl <span class="ot">&lt;-</span> <span class="fu">cbind</span>(importance_frame[,<span class="dv">1</span>], <span class="fu">round</span>(importance_frame[,<span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>],<span class="dv">4</span>))</span>
+<span id="cb688-8"><a href="ensemble-applications.html#cb688-8" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(tabl, <span class="at">rownames =</span> <span class="cn">FALSE</span>, <span class="at">filter=</span><span class="st">&quot;top&quot;</span>, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">10</span>, <span class="at">scrollX=</span>T) )</span></code></pre></div>
+<div id="htmlwidget-da20c4f9345e4dcd3dad" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-da20c4f9345e4dcd3dad">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Assists&quot;,&quot;AtBat&quot;,&quot;CAtBat&quot;,&quot;CHits&quot;,&quot;CHmRun&quot;,&quot;CRBI&quot;,&quot;CRuns&quot;,&quot;CWalks&quot;,&quot;Division&quot;,&quot;Errors&quot;,&quot;Hits&quot;,&quot;HmRun&quot;,&quot;League&quot;,&quot;NewLeague&quot;,&quot;PutOuts&quot;,&quot;RBI&quot;,&quot;Runs&quot;,&quot;Walks&quot;,&quot;Years&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"2.0762\" data-max=\"7.7239\" data-scale=\"4\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"442\" data-max=\"2752\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"7e-04\" data-max=\"0.2415\" data-scale=\"4\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.1574\" data-max=\"38.3175\" data-scale=\"4\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"285\" data-max=\"500\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"133\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Assists","AtBat","CAtBat","CHits","CHmRun","CRBI","CRuns","CWalks","Division","Errors","Hits","HmRun","League","NewLeague","PutOuts","RBI","Runs","Walks","Years"],[4.3853,2.8806,2.3783,2.2543,3.4449,2.826,2.0763,3.0903,7.0259,4.6268,3.0863,4.0196,7.7239,7.0973,3.6546,3.4869,3.5189,3.5323,4.5977],[2351,2691,2598,2711,2556,2752,2731,2579,691,2080,2582,2229,442,627,2593,2620,2543,2576,1716],[0.0112,0.0823,0.2181,0.222,0.0465,0.1037,0.2415,0.0843,0.0009,0.0092,0.0891,0.0229,0.0007,0.0012,0.0174,0.0407,0.0516,0.0398,0.0247],[2.0354,9.8977,38.3175,34.6914,6.5335,19.5414,35.0894,18.0455,0.261,1.275,9.389,3.5544,0.1574,0.243,3.9026,6.9162,5.8962,5.9405,5.5647],[496,498,499,499,497,500,499,499,380,491,499,495,285,363,498,497,497,499,482],[0,5,133,110,7,55,101,52,0,0,7,0,0,0,0,7,1,0,22]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>importance_frame[, 1]<\/th>\n      <th>mean_min_depth<\/th>\n      <th>no_of_nodes<\/th>\n      <th>mse_increase<\/th>\n      <th>node_purity_increase<\/th>\n      <th>no_of_trees<\/th>\n      <th>times_a_root<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb689"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb689-1"><a href="ensemble-applications.html#cb689-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_multi_way_importance</span>(importance_frame, <span class="at">x_measure =</span> <span class="st">&quot;mean_min_depth&quot;</span>,</span>
+<span id="cb689-2"><a href="ensemble-applications.html#cb689-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y_measure =</span> <span class="st">&quot;mse_increase&quot;</span>,</span>
+<span id="cb689-3"><a href="ensemble-applications.html#cb689-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">size_measure =</span> <span class="st">&quot;p_value&quot;</span>, <span class="at">no_of_labels =</span> <span class="dv">6</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-237-1.png" width="672" /></p>
+<div class="sourceCode" id="cb690"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb690-1"><a href="ensemble-applications.html#cb690-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_min_depth_distribution</span>(min_depth_frame, <span class="at">mean_sample =</span> <span class="st">&quot;all_trees&quot;</span>, <span class="at">k =</span><span class="dv">20</span>,</span>
+<span id="cb690-2"><a href="ensemble-applications.html#cb690-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">main =</span> <span class="st">&quot;Distribution of minimal depth and its mean&quot;</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-238-1.png" width="672" /></p>
+<div class="sourceCode" id="cb691"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb691-1"><a href="ensemble-applications.html#cb691-1" aria-hidden="true" tabindex="-1"></a><span class="fu">partialPlot</span>(model3, test, CRuns, <span class="at">xlab=</span><span class="st">&quot;CRuns&quot;</span>,</span>
+<span id="cb691-2"><a href="ensemble-applications.html#cb691-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">main=</span><span class="st">&quot;Effects of CRuns&quot;</span>,</span>
+<span id="cb691-3"><a href="ensemble-applications.html#cb691-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-239-1.png" width="672" /></p>
+</div>
+<div id="boosting-applications" class="section level2 hasAnchor" number="14.4">
+<h2><span class="header-section-number">14.4</span> Boosting Applications<a href="ensemble-applications.html#boosting-applications" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We need to tune the boosting applications with <code>gbm()</code>. There are three tuning parameters: <code>h</code>, <code>B</code>, and <code>D</code>. We will do the tuning with grid search and apply parallel processing. We will have both regression and classification problems. Finally we will compare OLS, CART, Bagging, RF and boosting.</p>
+<div id="regression-1" class="section level3 hasAnchor" number="14.4.1">
+<h3><span class="header-section-number">14.4.1</span> Regression<a href="ensemble-applications.html#regression-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb692"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb692-1"><a href="ensemble-applications.html#cb692-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
+<span id="cb692-2"><a href="ensemble-applications.html#cb692-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Hitters)</span>
+<span id="cb692-3"><a href="ensemble-applications.html#cb692-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> Hitters[<span class="fu">complete.cases</span>(Hitters<span class="sc">$</span>Salary), ]</span>
+<span id="cb692-4"><a href="ensemble-applications.html#cb692-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Salary <span class="ot">&lt;-</span> <span class="fu">log</span>(df<span class="sc">$</span>Salary)</span>
+<span id="cb692-5"><a href="ensemble-applications.html#cb692-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb692-6"><a href="ensemble-applications.html#cb692-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Test/Train Split</span></span>
+<span id="cb692-7"><a href="ensemble-applications.html#cb692-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb692-8"><a href="ensemble-applications.html#cb692-8" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb692-9"><a href="ensemble-applications.html#cb692-9" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb692-10"><a href="ensemble-applications.html#cb692-10" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span></code></pre></div>
+<p>This will give you an idea how tuning the boosting by using <code>h</code> would be done:</p>
+<div class="sourceCode" id="cb693"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb693-1"><a href="ensemble-applications.html#cb693-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbm)</span>
+<span id="cb693-2"><a href="ensemble-applications.html#cb693-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb693-3"><a href="ensemble-applications.html#cb693-3" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="fl">1.8</span>, <span class="fl">0.01</span>)</span>
+<span id="cb693-4"><a href="ensemble-applications.html#cb693-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb693-5"><a href="ensemble-applications.html#cb693-5" aria-hidden="true" tabindex="-1"></a>test_mse <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb693-6"><a href="ensemble-applications.html#cb693-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb693-7"><a href="ensemble-applications.html#cb693-7" aria-hidden="true" tabindex="-1"></a><span class="co"># D = 1 and B = 1000</span></span>
+<span id="cb693-8"><a href="ensemble-applications.html#cb693-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(h)){</span>
+<span id="cb693-9"><a href="ensemble-applications.html#cb693-9" aria-hidden="true" tabindex="-1"></a>    boos <span class="ot">&lt;-</span> <span class="fu">gbm</span>(Salary<span class="sc">~</span>., <span class="at">distribution =</span><span class="st">&quot;gaussian&quot;</span>, <span class="at">n.trees=</span><span class="dv">1000</span>,</span>
+<span id="cb693-10"><a href="ensemble-applications.html#cb693-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">interaction.depth =</span> <span class="dv">1</span>, <span class="at">shrinkage =</span> h[i], <span class="at">data =</span> train)</span>
+<span id="cb693-11"><a href="ensemble-applications.html#cb693-11" aria-hidden="true" tabindex="-1"></a>    prboos <span class="ot">&lt;-</span> <span class="fu">predict</span>(boos, test, <span class="at">n.trees =</span> <span class="dv">100</span>)</span>
+<span id="cb693-12"><a href="ensemble-applications.html#cb693-12" aria-hidden="true" tabindex="-1"></a>    test_mse[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>((test<span class="sc">$</span>Salary <span class="sc">-</span> prboos)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb693-13"><a href="ensemble-applications.html#cb693-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb693-14"><a href="ensemble-applications.html#cb693-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h, test_mse, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;MSE - Prediction&quot;</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-241-1.png" width="672" /></p>
+<div class="sourceCode" id="cb694"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb694-1"><a href="ensemble-applications.html#cb694-1" aria-hidden="true" tabindex="-1"></a>h[<span class="fu">which.min</span>(test_mse)]</span></code></pre></div>
+<pre><code>## [1] 0.08</code></pre>
+<div class="sourceCode" id="cb696"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb696-1"><a href="ensemble-applications.html#cb696-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(test_mse)</span></code></pre></div>
+<pre><code>## [1] 0.181286</code></pre>
+<div class="sourceCode" id="cb698"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb698-1"><a href="ensemble-applications.html#cb698-1" aria-hidden="true" tabindex="-1"></a>test_mse[<span class="dv">10</span>]</span></code></pre></div>
+<pre><code>## [1] 0.1895487</code></pre>
+<p>A complete but limited grid search is here:</p>
+<div class="sourceCode" id="cb700"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb700-1"><a href="ensemble-applications.html#cb700-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbm)</span>
+<span id="cb700-2"><a href="ensemble-applications.html#cb700-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb700-3"><a href="ensemble-applications.html#cb700-3" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="fl">0.3</span>, <span class="fl">0.01</span>)</span>
+<span id="cb700-4"><a href="ensemble-applications.html#cb700-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">300</span>, <span class="dv">500</span>, <span class="dv">750</span>, <span class="dv">900</span>)</span>
+<span id="cb700-5"><a href="ensemble-applications.html#cb700-5" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb700-6"><a href="ensemble-applications.html#cb700-6" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">expand.grid</span>(D, B, h))</span>
+<span id="cb700-7"><a href="ensemble-applications.html#cb700-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb700-8"><a href="ensemble-applications.html#cb700-8" aria-hidden="true" tabindex="-1"></a>mse <span class="ot">&lt;-</span><span class="fu">c</span>()</span>
+<span id="cb700-9"><a href="ensemble-applications.html#cb700-9" aria-hidden="true" tabindex="-1"></a>sdmse <span class="ot">&lt;-</span><span class="fu">c</span>()</span>
+<span id="cb700-10"><a href="ensemble-applications.html#cb700-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb700-11"><a href="ensemble-applications.html#cb700-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(grid)){</span>
+<span id="cb700-12"><a href="ensemble-applications.html#cb700-12" aria-hidden="true" tabindex="-1"></a>  test_mse <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb700-13"><a href="ensemble-applications.html#cb700-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>) {</span>
+<span id="cb700-14"><a href="ensemble-applications.html#cb700-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span>({</span>
+<span id="cb700-15"><a href="ensemble-applications.html#cb700-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set.seed</span>(j)</span>
+<span id="cb700-16"><a href="ensemble-applications.html#cb700-16" aria-hidden="true" tabindex="-1"></a>      ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb700-17"><a href="ensemble-applications.html#cb700-17" aria-hidden="true" tabindex="-1"></a>      train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb700-18"><a href="ensemble-applications.html#cb700-18" aria-hidden="true" tabindex="-1"></a>      test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb700-19"><a href="ensemble-applications.html#cb700-19" aria-hidden="true" tabindex="-1"></a>      boos <span class="ot">&lt;-</span> <span class="fu">gbm</span>(Salary<span class="sc">~</span>., <span class="at">distribution =</span><span class="st">&quot;gaussian&quot;</span>, <span class="at">n.trees=</span><span class="dv">1000</span>,</span>
+<span id="cb700-20"><a href="ensemble-applications.html#cb700-20" aria-hidden="true" tabindex="-1"></a>              <span class="at">interaction.depth =</span> grid[i,<span class="dv">1</span>], <span class="at">shrinkage =</span> grid[i,<span class="dv">3</span>], <span class="at">data =</span> train)</span>
+<span id="cb700-21"><a href="ensemble-applications.html#cb700-21" aria-hidden="true" tabindex="-1"></a>      prboos <span class="ot">&lt;-</span> <span class="fu">predict</span>(boos, test, <span class="at">n.trees =</span> grid[i,<span class="dv">2</span>])</span>
+<span id="cb700-22"><a href="ensemble-applications.html#cb700-22" aria-hidden="true" tabindex="-1"></a>      test_mse[j] <span class="ot">&lt;-</span> <span class="fu">mean</span>((test<span class="sc">$</span>Salary <span class="sc">-</span> prboos)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb700-23"><a href="ensemble-applications.html#cb700-23" aria-hidden="true" tabindex="-1"></a>      },</span>
+<span id="cb700-24"><a href="ensemble-applications.html#cb700-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb700-25"><a href="ensemble-applications.html#cb700-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb700-26"><a href="ensemble-applications.html#cb700-26" aria-hidden="true" tabindex="-1"></a>mse[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(test_mse)</span>
+<span id="cb700-27"><a href="ensemble-applications.html#cb700-27" aria-hidden="true" tabindex="-1"></a>sdmse[i] <span class="ot">&lt;-</span> <span class="fu">sd</span>(test_mse)</span>
+<span id="cb700-28"><a href="ensemble-applications.html#cb700-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb700-29"><a href="ensemble-applications.html#cb700-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb700-30"><a href="ensemble-applications.html#cb700-30" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(mse)</span></code></pre></div>
+<pre><code>## [1] 0.2108654</code></pre>
+<div class="sourceCode" id="cb702"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb702-1"><a href="ensemble-applications.html#cb702-1" aria-hidden="true" tabindex="-1"></a>grid[<span class="fu">as.numeric</span>(<span class="fu">which.min</span>(mse)), ]</span></code></pre></div>
+<pre><code>##  Var1  Var2  Var3 
+## 2e+00 9e+02 1e-02</code></pre>
+</div>
+<div id="random-search-with-parallel-processing" class="section level3 hasAnchor" number="14.4.2">
+<h3><span class="header-section-number">14.4.2</span> Random search with parallel processing<a href="ensemble-applications.html#random-search-with-parallel-processing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Now, we will apply a random grid search (see <a href="https://jmlr.csail.mit.edu/papers/volume13/bergstra12a/bergstra12a.pdf">Random Search for Hyper-Parameter Optimization</a>) <span class="citation">(<a href="#ref-Bergs_2012" role="doc-biblioref">Bergstra and Bengio 2012</a>)</span>. We also apply a parallel multicore processing using <code>doParallel</code> and <code>foreach()</code> to accelerate the grid search.</p>
+<div class="sourceCode" id="cb704"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb704-1"><a href="ensemble-applications.html#cb704-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbm)</span>
+<span id="cb704-2"><a href="ensemble-applications.html#cb704-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb704-3"><a href="ensemble-applications.html#cb704-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
+<span id="cb704-4"><a href="ensemble-applications.html#cb704-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb704-5"><a href="ensemble-applications.html#cb704-5" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="fl">0.25</span>, <span class="fl">0.001</span>)</span>
+<span id="cb704-6"><a href="ensemble-applications.html#cb704-6" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">100</span>, <span class="dv">800</span>, <span class="dv">20</span>)</span>
+<span id="cb704-7"><a href="ensemble-applications.html#cb704-7" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb704-8"><a href="ensemble-applications.html#cb704-8" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">expand.grid</span>(D, B, h))</span>
+<span id="cb704-9"><a href="ensemble-applications.html#cb704-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb704-10"><a href="ensemble-applications.html#cb704-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Random grid-search</span></span>
+<span id="cb704-11"><a href="ensemble-applications.html#cb704-11" aria-hidden="true" tabindex="-1"></a>conf_lev <span class="ot">&lt;-</span> <span class="fl">0.95</span></span>
+<span id="cb704-12"><a href="ensemble-applications.html#cb704-12" aria-hidden="true" tabindex="-1"></a>num_max <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb704-13"><a href="ensemble-applications.html#cb704-13" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>conf_lev)<span class="sc">/</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>num_max<span class="sc">/</span><span class="fu">nrow</span>(grid))</span>
+<span id="cb704-14"><a href="ensemble-applications.html#cb704-14" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb704-15"><a href="ensemble-applications.html#cb704-15" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(grid), <span class="fu">nrow</span>(grid)<span class="sc">*</span>(n<span class="sc">/</span><span class="fu">nrow</span>(grid)), <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb704-16"><a href="ensemble-applications.html#cb704-16" aria-hidden="true" tabindex="-1"></a>comb <span class="ot">&lt;-</span> grid[ind, ]</span>
+<span id="cb704-17"><a href="ensemble-applications.html#cb704-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb704-18"><a href="ensemble-applications.html#cb704-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Set-up for multicore loops</span></span>
+<span id="cb704-19"><a href="ensemble-applications.html#cb704-19" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(comb)</span>
+<span id="cb704-20"><a href="ensemble-applications.html#cb704-20" aria-hidden="true" tabindex="-1"></a>numCores <span class="ot">&lt;-</span> <span class="fu">detectCores</span>()</span>
+<span id="cb704-21"><a href="ensemble-applications.html#cb704-21" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(numCores)</span>
+<span id="cb704-22"><a href="ensemble-applications.html#cb704-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb704-23"><a href="ensemble-applications.html#cb704-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrapping with parallel process </span></span>
+<span id="cb704-24"><a href="ensemble-applications.html#cb704-24" aria-hidden="true" tabindex="-1"></a>lst <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">k=</span>trials, <span class="at">.combine=</span>c, <span class="at">.errorhandling =</span> <span class="st">&#39;remove&#39;</span>) <span class="sc">%dopar%</span> {</span>
+<span id="cb704-25"><a href="ensemble-applications.html#cb704-25" aria-hidden="true" tabindex="-1"></a>  test_mse <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb704-26"><a href="ensemble-applications.html#cb704-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb704-27"><a href="ensemble-applications.html#cb704-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span>({</span>
+<span id="cb704-28"><a href="ensemble-applications.html#cb704-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set.seed</span>(j)</span>
+<span id="cb704-29"><a href="ensemble-applications.html#cb704-29" aria-hidden="true" tabindex="-1"></a>      ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb704-30"><a href="ensemble-applications.html#cb704-30" aria-hidden="true" tabindex="-1"></a>      train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb704-31"><a href="ensemble-applications.html#cb704-31" aria-hidden="true" tabindex="-1"></a>      test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb704-32"><a href="ensemble-applications.html#cb704-32" aria-hidden="true" tabindex="-1"></a>      boos <span class="ot">&lt;-</span> <span class="fu">gbm</span>(Salary<span class="sc">~</span>., <span class="at">distribution =</span><span class="st">&quot;gaussian&quot;</span>, <span class="at">n.trees=</span><span class="dv">1000</span>,</span>
+<span id="cb704-33"><a href="ensemble-applications.html#cb704-33" aria-hidden="true" tabindex="-1"></a>             <span class="at">interaction.depth =</span>comb[k,<span class="dv">1</span>], <span class="at">shrinkage =</span> comb[k,<span class="dv">3</span>], <span class="at">data =</span> train)</span>
+<span id="cb704-34"><a href="ensemble-applications.html#cb704-34" aria-hidden="true" tabindex="-1"></a>      prboos <span class="ot">&lt;-</span> <span class="fu">predict</span>(boos, test, <span class="at">n.trees =</span> comb[k,<span class="dv">2</span>])</span>
+<span id="cb704-35"><a href="ensemble-applications.html#cb704-35" aria-hidden="true" tabindex="-1"></a>      test_mse[j] <span class="ot">&lt;-</span> <span class="fu">mean</span>((test<span class="sc">$</span>Salary <span class="sc">-</span> prboos)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb704-36"><a href="ensemble-applications.html#cb704-36" aria-hidden="true" tabindex="-1"></a>      },</span>
+<span id="cb704-37"><a href="ensemble-applications.html#cb704-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb704-38"><a href="ensemble-applications.html#cb704-38" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb704-39"><a href="ensemble-applications.html#cb704-39" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="fu">c</span>(k, <span class="fu">mean</span>(test_mse), <span class="fu">sd</span>(test_mse)))</span>
+<span id="cb704-40"><a href="ensemble-applications.html#cb704-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb704-41"><a href="ensemble-applications.html#cb704-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb704-42"><a href="ensemble-applications.html#cb704-42" aria-hidden="true" tabindex="-1"></a><span class="fu">stopImplicitCluster</span>()</span>
+<span id="cb704-43"><a href="ensemble-applications.html#cb704-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb704-44"><a href="ensemble-applications.html#cb704-44" aria-hidden="true" tabindex="-1"></a>unlst  <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, lst)</span>
+<span id="cb704-45"><a href="ensemble-applications.html#cb704-45" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">cbind</span>(comb[unlst[,<span class="dv">1</span>],], unlst)</span>
+<span id="cb704-46"><a href="ensemble-applications.html#cb704-46" aria-hidden="true" tabindex="-1"></a>sorted  <span class="ot">&lt;-</span> result[<span class="fu">order</span>(result[,<span class="dv">5</span>]), <span class="sc">-</span><span class="dv">4</span>]</span>
+<span id="cb704-47"><a href="ensemble-applications.html#cb704-47" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(sorted) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;D&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;h&quot;</span>, <span class="st">&quot;MSPE&quot;</span>, <span class="st">&quot;sd&quot;</span>)</span>
+<span id="cb704-48"><a href="ensemble-applications.html#cb704-48" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sorted)</span></code></pre></div>
+<pre><code>##      D   B     h      MSPE         sd
+## [1,] 2 360 0.024 0.2057671 0.05657079
+## [2,] 2 300 0.024 0.2060013 0.05807494
+## [3,] 2 340 0.022 0.2061847 0.05827857
+## [4,] 2 340 0.023 0.2061895 0.05823719
+## [5,] 2 320 0.023 0.2062056 0.05874694
+## [6,] 2 360 0.021 0.2062124 0.05785775</code></pre>
+<p>You can increase <code>for (j in 1:10)</code> to <code>for (j in 1:50)</code> depending on your computer’s capacity.</p>
+</div>
+<div id="boosting-vs.-others" class="section level3 hasAnchor" number="14.4.3">
+<h3><span class="header-section-number">14.4.3</span> Boosting vs. Others<a href="ensemble-applications.html#boosting-vs.-others" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s add OLS to this competition just for curiosity. Here is a one possible script:</p>
+<div class="sourceCode" id="cb706"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb706-1"><a href="ensemble-applications.html#cb706-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
+<span id="cb706-2"><a href="ensemble-applications.html#cb706-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb706-3"><a href="ensemble-applications.html#cb706-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb706-4"><a href="ensemble-applications.html#cb706-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb706-5"><a href="ensemble-applications.html#cb706-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> Hitters[<span class="fu">complete.cases</span>(Hitters<span class="sc">$</span>Salary), ]</span>
+<span id="cb706-6"><a href="ensemble-applications.html#cb706-6" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Salary <span class="ot">&lt;-</span> <span class="fu">log</span>(df<span class="sc">$</span>Salary)</span>
+<span id="cb706-7"><a href="ensemble-applications.html#cb706-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb706-8"><a href="ensemble-applications.html#cb706-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Containers</span></span>
+<span id="cb706-9"><a href="ensemble-applications.html#cb706-9" aria-hidden="true" tabindex="-1"></a>mse_cart <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>)</span>
+<span id="cb706-10"><a href="ensemble-applications.html#cb706-10" aria-hidden="true" tabindex="-1"></a>mse_bag <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>)</span>
+<span id="cb706-11"><a href="ensemble-applications.html#cb706-11" aria-hidden="true" tabindex="-1"></a>mse_rf <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>)</span>
+<span id="cb706-12"><a href="ensemble-applications.html#cb706-12" aria-hidden="true" tabindex="-1"></a>mse_boost <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>)</span>
+<span id="cb706-13"><a href="ensemble-applications.html#cb706-13" aria-hidden="true" tabindex="-1"></a>mse_ols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>)</span>
+<span id="cb706-14"><a href="ensemble-applications.html#cb706-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb706-15"><a href="ensemble-applications.html#cb706-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>){</span>
+<span id="cb706-16"><a href="ensemble-applications.html#cb706-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
+<span id="cb706-17"><a href="ensemble-applications.html#cb706-17" aria-hidden="true" tabindex="-1"></a>      ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb706-18"><a href="ensemble-applications.html#cb706-18" aria-hidden="true" tabindex="-1"></a>      train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb706-19"><a href="ensemble-applications.html#cb706-19" aria-hidden="true" tabindex="-1"></a>      test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb706-20"><a href="ensemble-applications.html#cb706-20" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb706-21"><a href="ensemble-applications.html#cb706-21" aria-hidden="true" tabindex="-1"></a>      OLS <span class="ot">&lt;-</span> <span class="fu">lm</span>(Salary<span class="sc">~</span>., <span class="at">data =</span> train)</span>
+<span id="cb706-22"><a href="ensemble-applications.html#cb706-22" aria-hidden="true" tabindex="-1"></a>      pols <span class="ot">&lt;-</span> <span class="fu">predict</span>(OLS, test)</span>
+<span id="cb706-23"><a href="ensemble-applications.html#cb706-23" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb706-24"><a href="ensemble-applications.html#cb706-24" aria-hidden="true" tabindex="-1"></a>      cart <span class="ot">&lt;-</span> <span class="fu">rpart</span>(Salary<span class="sc">~</span>., <span class="at">data =</span> train)</span>
+<span id="cb706-25"><a href="ensemble-applications.html#cb706-25" aria-hidden="true" tabindex="-1"></a>      pcart <span class="ot">&lt;-</span> <span class="fu">predict</span>(cart, test)</span>
+<span id="cb706-26"><a href="ensemble-applications.html#cb706-26" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb706-27"><a href="ensemble-applications.html#cb706-27" aria-hidden="true" tabindex="-1"></a>      bags <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Salary <span class="sc">~</span>., <span class="at">mtry =</span> <span class="dv">19</span>, <span class="at">data =</span> train)</span>
+<span id="cb706-28"><a href="ensemble-applications.html#cb706-28" aria-hidden="true" tabindex="-1"></a>      pbag <span class="ot">&lt;-</span> <span class="fu">predict</span>(bags, test)</span>
+<span id="cb706-29"><a href="ensemble-applications.html#cb706-29" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb706-30"><a href="ensemble-applications.html#cb706-30" aria-hidden="true" tabindex="-1"></a>      rf <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Salary <span class="sc">~</span>., <span class="at">data =</span> train)</span>
+<span id="cb706-31"><a href="ensemble-applications.html#cb706-31" aria-hidden="true" tabindex="-1"></a>      prf <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf, test)</span>
+<span id="cb706-32"><a href="ensemble-applications.html#cb706-32" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb706-33"><a href="ensemble-applications.html#cb706-33" aria-hidden="true" tabindex="-1"></a>      boost <span class="ot">&lt;-</span> <span class="fu">gbm</span>(Salary<span class="sc">~</span>., <span class="at">distribution =</span><span class="st">&quot;gaussian&quot;</span>, <span class="at">n.trees =</span> <span class="dv">1000</span>,</span>
+<span id="cb706-34"><a href="ensemble-applications.html#cb706-34" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> train) <span class="co"># without a grid search</span></span>
+<span id="cb706-35"><a href="ensemble-applications.html#cb706-35" aria-hidden="true" tabindex="-1"></a>      pboost <span class="ot">&lt;-</span> <span class="fu">predict</span>(boost, test, <span class="at">n.trees =</span> <span class="dv">100</span>)</span>
+<span id="cb706-36"><a href="ensemble-applications.html#cb706-36" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb706-37"><a href="ensemble-applications.html#cb706-37" aria-hidden="true" tabindex="-1"></a>      mse_ols[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>((test<span class="sc">$</span>Salary <span class="sc">-</span> pols)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb706-38"><a href="ensemble-applications.html#cb706-38" aria-hidden="true" tabindex="-1"></a>      mse_cart[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>((test<span class="sc">$</span>Salary <span class="sc">-</span> pcart)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb706-39"><a href="ensemble-applications.html#cb706-39" aria-hidden="true" tabindex="-1"></a>      mse_bag[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>((test<span class="sc">$</span>Salary <span class="sc">-</span> pbag)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb706-40"><a href="ensemble-applications.html#cb706-40" aria-hidden="true" tabindex="-1"></a>      mse_rf[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>((test<span class="sc">$</span>Salary <span class="sc">-</span> prf)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb706-41"><a href="ensemble-applications.html#cb706-41" aria-hidden="true" tabindex="-1"></a>      mse_boost[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>((test<span class="sc">$</span>Salary <span class="sc">-</span> pboost)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb706-42"><a href="ensemble-applications.html#cb706-42" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb706-43"><a href="ensemble-applications.html#cb706-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb706-44"><a href="ensemble-applications.html#cb706-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrapping Results</span></span>
+<span id="cb706-45"><a href="ensemble-applications.html#cb706-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb706-46"><a href="ensemble-applications.html#cb706-46" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fu">mean</span>(mse_cart), <span class="fu">mean</span>(mse_bag), <span class="fu">mean</span>(mse_rf), <span class="fu">mean</span>(mse_boost), <span class="fu">mean</span>(mse_ols)), <span class="dv">5</span>, <span class="dv">1</span>)</span>
+<span id="cb706-47"><a href="ensemble-applications.html#cb706-47" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(a) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;mse_cart&quot;</span>, <span class="st">&quot;mse_bag&quot;</span>, <span class="st">&quot;mse_rf&quot;</span>, <span class="st">&quot;mse_boost&quot;</span>, <span class="st">&quot;mse_ols&quot;</span>)</span>
+<span id="cb706-48"><a href="ensemble-applications.html#cb706-48" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>##                [,1]
+## mse_cart  0.3172687
+## mse_bag   0.2205504
+## mse_rf    0.2057802
+## mse_boost 0.2454886
+## mse_ols   0.4584240</code></pre>
+<div class="sourceCode" id="cb708"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb708-1"><a href="ensemble-applications.html#cb708-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">var</span>(mse_cart)), <span class="fu">sqrt</span>(<span class="fu">var</span>(mse_bag)), <span class="fu">sqrt</span>(<span class="fu">var</span>(mse_rf)), <span class="fu">sqrt</span>(<span class="fu">var</span>(mse_boost)), <span class="fu">sqrt</span>(<span class="fu">var</span>(mse_ols))), <span class="dv">5</span>, <span class="dv">1</span>)</span>
+<span id="cb708-2"><a href="ensemble-applications.html#cb708-2" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(b) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;mse_cart&quot;</span>, <span class="st">&quot;mse_bag&quot;</span>, <span class="st">&quot;mse_rf&quot;</span>, <span class="st">&quot;mse_boost&quot;</span>, <span class="st">&quot;mse_ols&quot;</span>)</span>
+<span id="cb708-3"><a href="ensemble-applications.html#cb708-3" aria-hidden="true" tabindex="-1"></a>b</span></code></pre></div>
+<pre><code>##                 [,1]
+## mse_cart  0.07308726
+## mse_bag   0.06272648
+## mse_rf    0.05976196
+## mse_boost 0.05923404
+## mse_ols   0.06907506</code></pre>
+<p>Interesting! The random forest is the winner. However, boosting is not tuned in the algorithm. With the full grid search in the previous algorithm, boosting and RF are close contenders.</p>
+<p>Let’s have a classification example.</p>
+</div>
+<div id="classification-1" class="section level3 hasAnchor" number="14.4.4">
+<h3><span class="header-section-number">14.4.4</span> Classification<a href="ensemble-applications.html#classification-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A simulated data set containing sales of child car seats at 400 different stores from. We will predict the sale, a binary variable that will be 1 if the sale is higher than 8. See <a href="https://rdrr.io/cran/ISLR/man/Carseats.html">ISLR</a> <span class="citation">(<a href="#ref-ISLR_Car" role="doc-biblioref">ISLR 2021a</a>)</span> for the details.</p>
+<div class="sourceCode" id="cb710"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb710-1"><a href="ensemble-applications.html#cb710-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
+<span id="cb710-2"><a href="ensemble-applications.html#cb710-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> Carseats</span>
+<span id="cb710-3"><a href="ensemble-applications.html#cb710-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    400 obs. of  11 variables:
+##  $ Sales      : num  9.5 11.22 10.06 7.4 4.15 ...
+##  $ CompPrice  : num  138 111 113 117 141 124 115 136 132 132 ...
+##  $ Income     : num  73 48 35 100 64 113 105 81 110 113 ...
+##  $ Advertising: num  11 16 10 4 3 13 0 15 0 0 ...
+##  $ Population : num  276 260 269 466 340 501 45 425 108 131 ...
+##  $ Price      : num  120 83 80 97 128 72 108 120 124 124 ...
+##  $ ShelveLoc  : Factor w/ 3 levels &quot;Bad&quot;,&quot;Good&quot;,&quot;Medium&quot;: 1 2 3 3 1 1 3 2 3 3 ...
+##  $ Age        : num  42 65 59 55 38 78 71 67 76 76 ...
+##  $ Education  : num  17 10 12 14 13 16 15 10 10 17 ...
+##  $ Urban      : Factor w/ 2 levels &quot;No&quot;,&quot;Yes&quot;: 2 2 2 2 2 1 2 2 1 1 ...
+##  $ US         : Factor w/ 2 levels &quot;No&quot;,&quot;Yes&quot;: 2 2 2 2 1 2 1 2 1 2 ...</code></pre>
+<div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb712-1"><a href="ensemble-applications.html#cb712-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Change SALES to a factor variable</span></span>
+<span id="cb712-2"><a href="ensemble-applications.html#cb712-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Sales <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(Carseats<span class="sc">$</span>Sales<span class="sc">&lt;=</span><span class="dv">8</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb712-3"><a href="ensemble-applications.html#cb712-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df<span class="sc">$</span>Sales)</span></code></pre></div>
+<pre><code>##  num [1:400] 1 1 1 0 0 1 0 1 0 0 ...</code></pre>
+<div class="sourceCode" id="cb714"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb714-1"><a href="ensemble-applications.html#cb714-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PASWR)</span>
+<span id="cb714-2"><a href="ensemble-applications.html#cb714-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ROCR)</span>
+<span id="cb714-3"><a href="ensemble-applications.html#cb714-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb714-4"><a href="ensemble-applications.html#cb714-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb714-5"><a href="ensemble-applications.html#cb714-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb714-6"><a href="ensemble-applications.html#cb714-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df),]</span>
+<span id="cb714-7"><a href="ensemble-applications.html#cb714-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>d <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>Sales)</span>
+<span id="cb714-8"><a href="ensemble-applications.html#cb714-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb714-9"><a href="ensemble-applications.html#cb714-9" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb714-10"><a href="ensemble-applications.html#cb714-10" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb714-11"><a href="ensemble-applications.html#cb714-11" aria-hidden="true" tabindex="-1"></a>AUC1 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb714-12"><a href="ensemble-applications.html#cb714-12" aria-hidden="true" tabindex="-1"></a>AUC2 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb714-13"><a href="ensemble-applications.html#cb714-13" aria-hidden="true" tabindex="-1"></a>AUC3 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb714-14"><a href="ensemble-applications.html#cb714-14" aria-hidden="true" tabindex="-1"></a>AUC4 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb714-15"><a href="ensemble-applications.html#cb714-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb714-16"><a href="ensemble-applications.html#cb714-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb714-17"><a href="ensemble-applications.html#cb714-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
+<span id="cb714-18"><a href="ensemble-applications.html#cb714-18" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb714-19"><a href="ensemble-applications.html#cb714-19" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb714-20"><a href="ensemble-applications.html#cb714-20" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb714-21"><a href="ensemble-applications.html#cb714-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb714-22"><a href="ensemble-applications.html#cb714-22" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">=</span> <span class="fu">ncol</span>(train)<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb714-23"><a href="ensemble-applications.html#cb714-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb714-24"><a href="ensemble-applications.html#cb714-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># We used two different outcome structure: &quot;Sales&quot; and &quot;d&quot;</span></span>
+<span id="cb714-25"><a href="ensemble-applications.html#cb714-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># &quot;d&quot; is a factor and &quot;Sales&quot; is numeric</span></span>
+<span id="cb714-26"><a href="ensemble-applications.html#cb714-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Factor variable is necessary for RF but GBM needs a numeric variable</span></span>
+<span id="cb714-27"><a href="ensemble-applications.html#cb714-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># That&#39;s sometimes annoying but wee need to be careful about the data</span></span>
+<span id="cb714-28"><a href="ensemble-applications.html#cb714-28" aria-hidden="true" tabindex="-1"></a>  model1 <span class="ot">&lt;-</span> <span class="fu">rpart</span>(Sales<span class="sc">~</span>., <span class="at">data=</span>train[,<span class="sc">-</span><span class="dv">12</span>], <span class="at">method =</span> <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb714-29"><a href="ensemble-applications.html#cb714-29" aria-hidden="true" tabindex="-1"></a>  model2 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(d<span class="sc">~</span>., <span class="at">ntree =</span> B, <span class="at">mtry =</span> p, <span class="at">data =</span> train[, <span class="sc">-</span><span class="dv">1</span>]) <span class="co">#Bagged</span></span>
+<span id="cb714-30"><a href="ensemble-applications.html#cb714-30" aria-hidden="true" tabindex="-1"></a>  model3 <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(d<span class="sc">~</span>., <span class="at">ntree =</span> B, <span class="at">data =</span> train[, <span class="sc">-</span><span class="dv">1</span>]) <span class="co"># RF    </span></span>
+<span id="cb714-31"><a href="ensemble-applications.html#cb714-31" aria-hidden="true" tabindex="-1"></a>  model4 <span class="ot">&lt;-</span> <span class="fu">gbm</span>(Sales<span class="sc">~</span>., <span class="at">data=</span>train[,<span class="sc">-</span><span class="dv">12</span>], <span class="at">n.trees =</span> B,</span>
+<span id="cb714-32"><a href="ensemble-applications.html#cb714-32" aria-hidden="true" tabindex="-1"></a>                <span class="at">distribution =</span> <span class="st">&quot;bernoulli&quot;</span>) <span class="co"># Boosting without grid search    </span></span>
+<span id="cb714-33"><a href="ensemble-applications.html#cb714-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb714-34"><a href="ensemble-applications.html#cb714-34" aria-hidden="true" tabindex="-1"></a>  phat1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model1, test[,<span class="sc">-</span><span class="dv">12</span>], <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
+<span id="cb714-35"><a href="ensemble-applications.html#cb714-35" aria-hidden="true" tabindex="-1"></a>  phat2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model2, test[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
+<span id="cb714-36"><a href="ensemble-applications.html#cb714-36" aria-hidden="true" tabindex="-1"></a>  phat3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model3, test[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
+<span id="cb714-37"><a href="ensemble-applications.html#cb714-37" aria-hidden="true" tabindex="-1"></a>  phat4 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model4, <span class="at">n.trees =</span> B, test[,<span class="sc">-</span><span class="dv">12</span>], <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb714-38"><a href="ensemble-applications.html#cb714-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb714-39"><a href="ensemble-applications.html#cb714-39" aria-hidden="true" tabindex="-1"></a>  <span class="co">#AUC1</span></span>
+<span id="cb714-40"><a href="ensemble-applications.html#cb714-40" aria-hidden="true" tabindex="-1"></a>  pred_rocr1 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat1[,<span class="dv">2</span>], test<span class="sc">$</span>Sales)</span>
+<span id="cb714-41"><a href="ensemble-applications.html#cb714-41" aria-hidden="true" tabindex="-1"></a>  auc_ROCR1 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr1, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb714-42"><a href="ensemble-applications.html#cb714-42" aria-hidden="true" tabindex="-1"></a>  AUC1[i] <span class="ot">&lt;-</span> auc_ROCR1<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb714-43"><a href="ensemble-applications.html#cb714-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb714-44"><a href="ensemble-applications.html#cb714-44" aria-hidden="true" tabindex="-1"></a>  <span class="co">#AUC2</span></span>
+<span id="cb714-45"><a href="ensemble-applications.html#cb714-45" aria-hidden="true" tabindex="-1"></a>  pred_rocr2 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat2[,<span class="dv">2</span>], test<span class="sc">$</span>d)</span>
+<span id="cb714-46"><a href="ensemble-applications.html#cb714-46" aria-hidden="true" tabindex="-1"></a>  auc_ROCR2 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr2, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb714-47"><a href="ensemble-applications.html#cb714-47" aria-hidden="true" tabindex="-1"></a>  AUC2[i] <span class="ot">&lt;-</span> auc_ROCR2<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb714-48"><a href="ensemble-applications.html#cb714-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb714-49"><a href="ensemble-applications.html#cb714-49" aria-hidden="true" tabindex="-1"></a>  <span class="co">#AUC3</span></span>
+<span id="cb714-50"><a href="ensemble-applications.html#cb714-50" aria-hidden="true" tabindex="-1"></a>  pred_rocr3 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat3[,<span class="dv">2</span>], test<span class="sc">$</span>d)</span>
+<span id="cb714-51"><a href="ensemble-applications.html#cb714-51" aria-hidden="true" tabindex="-1"></a>  auc_ROCR3 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr3, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb714-52"><a href="ensemble-applications.html#cb714-52" aria-hidden="true" tabindex="-1"></a>  AUC3[i] <span class="ot">&lt;-</span> auc_ROCR3<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb714-53"><a href="ensemble-applications.html#cb714-53" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb714-54"><a href="ensemble-applications.html#cb714-54" aria-hidden="true" tabindex="-1"></a>  <span class="co">#AUC4</span></span>
+<span id="cb714-55"><a href="ensemble-applications.html#cb714-55" aria-hidden="true" tabindex="-1"></a>  pred_rocr4 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat4, test<span class="sc">$</span>Sales)</span>
+<span id="cb714-56"><a href="ensemble-applications.html#cb714-56" aria-hidden="true" tabindex="-1"></a>  auc_ROCR4 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr4, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb714-57"><a href="ensemble-applications.html#cb714-57" aria-hidden="true" tabindex="-1"></a>  AUC4[i] <span class="ot">&lt;-</span> auc_ROCR4<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb714-58"><a href="ensemble-applications.html#cb714-58" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb714-59"><a href="ensemble-applications.html#cb714-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb714-60"><a href="ensemble-applications.html#cb714-60" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Single-Tree&quot;</span>, <span class="st">&quot;Bagging&quot;</span>, <span class="st">&quot;RF&quot;</span>, <span class="st">&quot;Boosting&quot;</span>)</span>
+<span id="cb714-61"><a href="ensemble-applications.html#cb714-61" aria-hidden="true" tabindex="-1"></a>AUCs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(AUC1), <span class="fu">mean</span>(AUC2), <span class="fu">mean</span>(AUC3), <span class="fu">mean</span>(AUC4))</span>
+<span id="cb714-62"><a href="ensemble-applications.html#cb714-62" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">var</span>(AUC1)), <span class="fu">sqrt</span>(<span class="fu">var</span>(AUC2)), <span class="fu">sqrt</span>(<span class="fu">var</span>(AUC3)), <span class="fu">sqrt</span>(<span class="fu">var</span>(AUC4)))</span>
+<span id="cb714-63"><a href="ensemble-applications.html#cb714-63" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(model, AUCs, sd) </span></code></pre></div>
+<pre><code>##         model      AUCs         sd
+## 1 Single-Tree 0.7607756 0.03203628
+## 2     Bagging 0.8642944 0.02670766
+## 3          RF 0.8778809 0.02356684
+## 4    Boosting 0.9176274 0.01791244</code></pre>
+<p>The results are very telling: booster is a clear winner for prediction accuracy and stability. When we have these machine learning applications, one should always show the “baseline” prediction that we can judge the winner performance: A simple LPM would be a good baseline model:</p>
+<div class="sourceCode" id="cb716"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb716-1"><a href="ensemble-applications.html#cb716-1" aria-hidden="true" tabindex="-1"></a>AUC5 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb716-2"><a href="ensemble-applications.html#cb716-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb716-3"><a href="ensemble-applications.html#cb716-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
+<span id="cb716-4"><a href="ensemble-applications.html#cb716-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
+<span id="cb716-5"><a href="ensemble-applications.html#cb716-5" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb716-6"><a href="ensemble-applications.html#cb716-6" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb716-7"><a href="ensemble-applications.html#cb716-7" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb716-8"><a href="ensemble-applications.html#cb716-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb716-9"><a href="ensemble-applications.html#cb716-9" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sales <span class="sc">~</span> ., <span class="at">data=</span> train[,<span class="sc">-</span><span class="dv">12</span>])</span>
+<span id="cb716-10"><a href="ensemble-applications.html#cb716-10" aria-hidden="true" tabindex="-1"></a>  phat5 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, test[, <span class="sc">-</span><span class="dv">12</span>])</span>
+<span id="cb716-11"><a href="ensemble-applications.html#cb716-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb716-12"><a href="ensemble-applications.html#cb716-12" aria-hidden="true" tabindex="-1"></a>  pred_rocr5 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat5, test<span class="sc">$</span>Sales)</span>
+<span id="cb716-13"><a href="ensemble-applications.html#cb716-13" aria-hidden="true" tabindex="-1"></a>  auc_ROCR5 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr5, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb716-14"><a href="ensemble-applications.html#cb716-14" aria-hidden="true" tabindex="-1"></a>  AUC5[i] <span class="ot">&lt;-</span> auc_ROCR5<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb716-15"><a href="ensemble-applications.html#cb716-15" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb716-16"><a href="ensemble-applications.html#cb716-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb716-17"><a href="ensemble-applications.html#cb716-17" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(AUC5)</span></code></pre></div>
+<pre><code>## [1] 0.9546986</code></pre>
+<div class="sourceCode" id="cb718"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb718-1"><a href="ensemble-applications.html#cb718-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(AUC5)) </span></code></pre></div>
+<pre><code>## [1] 0.0117673</code></pre>
+<p>I choose this example, not because I want to give you a pessimistic impressions about machine learning applications. But, when we do predictions, we cannot assume that our complex algorithms will always be better than a simple OLS. We judge the success of prediction not only its own AUC and stability, but also how much it improves over a benchmark.</p>
+</div>
+<div id="adaboost.m1" class="section level3 hasAnchor" number="14.4.5">
+<h3><span class="header-section-number">14.4.5</span> AdaBoost.M1<a href="ensemble-applications.html#adaboost.m1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s apply AdaBoost to our example to see if we can have any improvements</p>
+<div class="sourceCode" id="cb720"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb720-1"><a href="ensemble-applications.html#cb720-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(JOUSBoost)</span>
+<span id="cb720-2"><a href="ensemble-applications.html#cb720-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
+<span id="cb720-3"><a href="ensemble-applications.html#cb720-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> Carseats</span>
+<span id="cb720-4"><a href="ensemble-applications.html#cb720-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb720-5"><a href="ensemble-applications.html#cb720-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Change SALES to a factor variable</span></span>
+<span id="cb720-6"><a href="ensemble-applications.html#cb720-6" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Sales <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(Carseats<span class="sc">$</span>Sales<span class="sc">&lt;=</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="co">#JOUSBoost requires -1,1 coding</span></span>
+<span id="cb720-7"><a href="ensemble-applications.html#cb720-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df<span class="sc">$</span>Sales)</span></code></pre></div>
+<pre><code>##  num [1:400] 1 1 1 -1 -1 1 -1 1 -1 -1 ...</code></pre>
+<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb722-1"><a href="ensemble-applications.html#cb722-1" aria-hidden="true" tabindex="-1"></a><span class="co"># JOUSBoost requires X as a matrix</span></span>
+<span id="cb722-2"><a href="ensemble-applications.html#cb722-2" aria-hidden="true" tabindex="-1"></a><span class="co"># so factor variables must be coded as numerical</span></span>
+<span id="cb722-3"><a href="ensemble-applications.html#cb722-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb722-4"><a href="ensemble-applications.html#cb722-4" aria-hidden="true" tabindex="-1"></a><span class="co"># With `one-hot()`</span></span>
+<span id="cb722-5"><a href="ensemble-applications.html#cb722-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mltools)</span>
+<span id="cb722-6"><a href="ensemble-applications.html#cb722-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb722-7"><a href="ensemble-applications.html#cb722-7" aria-hidden="true" tabindex="-1"></a>df_new <span class="ot">&lt;-</span> <span class="fu">one_hot</span>(<span class="fu">as.data.table</span>(df))</span></code></pre></div>
+<p>Now, we are ready:</p>
+<div class="sourceCode" id="cb723"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb723-1"><a href="ensemble-applications.html#cb723-1" aria-hidden="true" tabindex="-1"></a>rnd <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb723-2"><a href="ensemble-applications.html#cb723-2" aria-hidden="true" tabindex="-1"></a>AUC <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb723-3"><a href="ensemble-applications.html#cb723-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb723-4"><a href="ensemble-applications.html#cb723-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
+<span id="cb723-5"><a href="ensemble-applications.html#cb723-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
+<span id="cb723-6"><a href="ensemble-applications.html#cb723-6" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df_new), <span class="fu">nrow</span>(df_new), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb723-7"><a href="ensemble-applications.html#cb723-7" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> df_new[ind, ]</span>
+<span id="cb723-8"><a href="ensemble-applications.html#cb723-8" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> df_new[<span class="sc">-</span>ind, ]</span>
+<span id="cb723-9"><a href="ensemble-applications.html#cb723-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb723-10"><a href="ensemble-applications.html#cb723-10" aria-hidden="true" tabindex="-1"></a>  ada <span class="ot">&lt;-</span> <span class="fu">adaboost</span>(<span class="fu">as.matrix</span>(train[,<span class="sc">-</span><span class="st">&quot;Sales&quot;</span>]),</span>
+<span id="cb723-11"><a href="ensemble-applications.html#cb723-11" aria-hidden="true" tabindex="-1"></a>                  train<span class="sc">$</span>Sales, <span class="at">tree_depth =</span> <span class="dv">1</span>, <span class="at">n_rounds =</span> rnd)</span>
+<span id="cb723-12"><a href="ensemble-applications.html#cb723-12" aria-hidden="true" tabindex="-1"></a>  phat <span class="ot">&lt;-</span> <span class="fu">predict</span>(ada, test, <span class="at">type=</span><span class="st">&quot;prob&quot;</span>)</span>
+<span id="cb723-13"><a href="ensemble-applications.html#cb723-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb723-14"><a href="ensemble-applications.html#cb723-14" aria-hidden="true" tabindex="-1"></a>  pred_rocr <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, test<span class="sc">$</span>Sales)</span>
+<span id="cb723-15"><a href="ensemble-applications.html#cb723-15" aria-hidden="true" tabindex="-1"></a>  auc_ROCR <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb723-16"><a href="ensemble-applications.html#cb723-16" aria-hidden="true" tabindex="-1"></a>  AUC[i] <span class="ot">&lt;-</span> auc_ROCR<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb723-17"><a href="ensemble-applications.html#cb723-17" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb723-18"><a href="ensemble-applications.html#cb723-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb723-19"><a href="ensemble-applications.html#cb723-19" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(AUC)</span></code></pre></div>
+<pre><code>## [1] 0.9258234</code></pre>
+<div class="sourceCode" id="cb725"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb725-1"><a href="ensemble-applications.html#cb725-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(AUC)) </span></code></pre></div>
+<pre><code>## [1] 0.0183194</code></pre>
+<p>It’s slightly better than the gradient boosting (<code>gbm</code>) but not much from LPM.</p>
+</div>
+<div id="classification-with-xgboost" class="section level3 hasAnchor" number="14.4.6">
+<h3><span class="header-section-number">14.4.6</span> Classification with XGBoost<a href="ensemble-applications.html#classification-with-xgboost" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before jumping into an example, let’s first understand about the most frequently used hyperparameters in <code>xgboost</code>. You can refer to its <a href="https://xgboost.readthedocs.io/en/latest/parameter.html">official documentation</a> for more details.</p>
+<p>We will classify them in three groups:</p>
+<ol style="list-style-type: decimal">
+<li>Booster type: <code>Booster = gbtree</code> is the default. It could be set to <code>gblinear</code> or <code>dart</code>. The first one uses a linear model and the second one refers to <em>Dropout Additive Regression Trees</em>. When constructing a gradient boosting machine, the first few trees at the beginning dominate the model performance relative to trees added later. Thus, the idea of “dropout” is to build an ensemble by randomly dropping trees in the boosting sequence.</li>
+<li>Tuning parameters (note that when <code>gblinear</code> is used, only <code>nround</code>, <code>lambda</code>, and <code>alpha</code> are used):<br />
+</li>
+</ol>
+<ul>
+<li><code>nrounds</code> = 100 (default). It controls the maximum number of iterations (or trees for classification).<br />
+</li>
+<li><code>eta</code> = 0.3. It controls the learning rate. Typically, it lies between 0.01 - 0.3.<br />
+</li>
+<li><code>gamma</code> = 0. It controls regularization (or prevents overfitting - a higher difference between the train and test prediction performance). It can be used as it the brings improvements when shallow (low <code>max_depth</code>) trees are employed.</li>
+<li><code>max_depth</code> = 6. It controls the depth of the tree.</li>
+<li><code>min_child_weight</code> = 1. It blocks the potential feature interactions to prevent overfitting. (The minimum number of instances required in a child node.)</li>
+<li><code>subsample</code> = 1. It controls the number of observations supplied to a tree. Generally, it lies between 0.01 - 0.3. (remember bagging).</li>
+<li><code>subsample</code> = 1. It control the number of features (variables) supplied to a tree. Both <code>subsample</code> and <code>subsample</code> can be use to build a “random forest” type learner.</li>
+<li><code>lambda</code> = 0, equivalent to Ridge regression</li>
+<li><code>alpha</code> = 1, equivalent to Lasso regression (more useful on high dimensional data sets). When both are set different than zero, it becomes an “Elastic Net”, which we will see later.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Evaluation parameters:<br />
+</li>
+</ol>
+<ul>
+<li><code>objective</code> = “reg:squarederror” for linear regression, “binary:logistic” binary classification (it returns class probabilities). See the official guide for more options.</li>
+<li><code>eval_metric</code> = no default. Depending on objective selected, it could be one of those: <code>mae</code>, <code>Logloss</code>, <code>AUC</code>, <code>RMSE</code>, <code>error</code> - (#wrong cases/#all cases), <code>mlogloss</code> - multiclass.</li>
+</ul>
+<p>Before executing a full-scale grid search, see what default parameters provide you. That’s your “base” model’s prediction accuracy, which can improve from. If the result is not giving you a desired accuracy, as we did in Chapter 12, set <code>eta</code> = 0.1 and the other parameters at their default values. Using <code>xgb.cv</code> function get best <code>n_rounds</code> and build a model with these parameters. See how much improvement you will get in its accuracy. Then apply the full-scale grid search.</p>
+<p>We will use the same data (“Adult”) as we used in Chapter 11.</p>
+<div class="sourceCode" id="cb727"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb727-1"><a href="ensemble-applications.html#cb727-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xgboost)</span>
+<span id="cb727-2"><a href="ensemble-applications.html#cb727-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mltools)</span>
+<span id="cb727-3"><a href="ensemble-applications.html#cb727-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb727-4"><a href="ensemble-applications.html#cb727-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb727-5"><a href="ensemble-applications.html#cb727-5" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;adult_train.csv&quot;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb727-6"><a href="ensemble-applications.html#cb727-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb727-7"><a href="ensemble-applications.html#cb727-7" aria-hidden="true" tabindex="-1"></a>varNames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Age&quot;</span>, </span>
+<span id="cb727-8"><a href="ensemble-applications.html#cb727-8" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;WorkClass&quot;</span>,</span>
+<span id="cb727-9"><a href="ensemble-applications.html#cb727-9" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;fnlwgt&quot;</span>,</span>
+<span id="cb727-10"><a href="ensemble-applications.html#cb727-10" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Education&quot;</span>,</span>
+<span id="cb727-11"><a href="ensemble-applications.html#cb727-11" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;EducationNum&quot;</span>,</span>
+<span id="cb727-12"><a href="ensemble-applications.html#cb727-12" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;MaritalStatus&quot;</span>,</span>
+<span id="cb727-13"><a href="ensemble-applications.html#cb727-13" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Occupation&quot;</span>,</span>
+<span id="cb727-14"><a href="ensemble-applications.html#cb727-14" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Relationship&quot;</span>,</span>
+<span id="cb727-15"><a href="ensemble-applications.html#cb727-15" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Race&quot;</span>,</span>
+<span id="cb727-16"><a href="ensemble-applications.html#cb727-16" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Sex&quot;</span>,</span>
+<span id="cb727-17"><a href="ensemble-applications.html#cb727-17" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;CapitalGain&quot;</span>,</span>
+<span id="cb727-18"><a href="ensemble-applications.html#cb727-18" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;CapitalLoss&quot;</span>,</span>
+<span id="cb727-19"><a href="ensemble-applications.html#cb727-19" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;HoursPerWeek&quot;</span>,</span>
+<span id="cb727-20"><a href="ensemble-applications.html#cb727-20" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;NativeCountry&quot;</span>,</span>
+<span id="cb727-21"><a href="ensemble-applications.html#cb727-21" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;IncomeLevel&quot;</span>)</span>
+<span id="cb727-22"><a href="ensemble-applications.html#cb727-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb727-23"><a href="ensemble-applications.html#cb727-23" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(train) <span class="ot">&lt;-</span> varNames</span>
+<span id="cb727-24"><a href="ensemble-applications.html#cb727-24" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> train</span>
+<span id="cb727-25"><a href="ensemble-applications.html#cb727-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb727-26"><a href="ensemble-applications.html#cb727-26" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> <span class="fu">table</span>(data<span class="sc">$</span>IncomeLevel)</span>
+<span id="cb727-27"><a href="ensemble-applications.html#cb727-27" aria-hidden="true" tabindex="-1"></a>tbl</span></code></pre></div>
+<pre><code>## 
+##  &lt;=50K   &gt;50K 
+##  24720   7841</code></pre>
+<div class="sourceCode" id="cb729"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb729-1"><a href="ensemble-applications.html#cb729-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we remove some outliers - See Ch.11</span></span>
+<span id="cb729-2"><a href="ensemble-applications.html#cb729-2" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">which</span>(data<span class="sc">$</span>NativeCountry<span class="sc">==</span><span class="st">&quot; Holand-Netherlands&quot;</span>)</span>
+<span id="cb729-3"><a href="ensemble-applications.html#cb729-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[<span class="sc">-</span>ind, ]</span>
+<span id="cb729-4"><a href="ensemble-applications.html#cb729-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb729-5"><a href="ensemble-applications.html#cb729-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Converting chr to factor with `apply()` family</span></span>
+<span id="cb729-6"><a href="ensemble-applications.html#cb729-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> data</span>
+<span id="cb729-7"><a href="ensemble-applications.html#cb729-7" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">sapply</span>(df, is.character)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(df[<span class="fu">sapply</span>(df, is.character)],</span>
+<span id="cb729-8"><a href="ensemble-applications.html#cb729-8" aria-hidden="true" tabindex="-1"></a>                                       as.factor)</span>
+<span id="cb729-9"><a href="ensemble-applications.html#cb729-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb729-10"><a href="ensemble-applications.html#cb729-10" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    32560 obs. of  15 variables:
+##  $ Age          : int  39 50 38 53 28 37 49 52 31 42 ...
+##  $ WorkClass    : Factor w/ 9 levels &quot; ?&quot;,&quot; Federal-gov&quot;,..: 8 7 5 5 5 5 5 7 5 5 ...
+##  $ fnlwgt       : int  77516 83311 215646 234721 338409 284582 160187 209642 45781 159449 ...
+##  $ Education    : Factor w/ 16 levels &quot; 10th&quot;,&quot; 11th&quot;,..: 10 10 12 2 10 13 7 12 13 10 ...
+##  $ EducationNum : int  13 13 9 7 13 14 5 9 14 13 ...
+##  $ MaritalStatus: Factor w/ 7 levels &quot; Divorced&quot;,&quot; Married-AF-spouse&quot;,..: 5 3 1 3 3 3 4 3 5 3 ...
+##  $ Occupation   : Factor w/ 15 levels &quot; ?&quot;,&quot; Adm-clerical&quot;,..: 2 5 7 7 11 5 9 5 11 5 ...
+##  $ Relationship : Factor w/ 6 levels &quot; Husband&quot;,&quot; Not-in-family&quot;,..: 2 1 2 1 6 6 2 1 2 1 ...
+##  $ Race         : Factor w/ 5 levels &quot; Amer-Indian-Eskimo&quot;,..: 5 5 5 3 3 5 3 5 5 5 ...
+##  $ Sex          : Factor w/ 2 levels &quot; Female&quot;,&quot; Male&quot;: 2 2 2 2 1 1 1 2 1 2 ...
+##  $ CapitalGain  : int  2174 0 0 0 0 0 0 0 14084 5178 ...
+##  $ CapitalLoss  : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ HoursPerWeek : int  40 13 40 40 40 40 16 45 50 40 ...
+##  $ NativeCountry: Factor w/ 41 levels &quot; ?&quot;,&quot; Cambodia&quot;,..: 39 39 39 39 6 39 23 39 39 39 ...
+##  $ IncomeLevel  : Factor w/ 2 levels &quot; &lt;=50K&quot;,&quot; &gt;50K&quot;: 1 1 1 1 1 1 1 2 2 2 ...</code></pre>
+<p>As required by the <code>xgboost</code> package, we need a numeric <span class="math inline">\(Y\)</span> and all the factor variables have to be one-hot coded</p>
+<div class="sourceCode" id="cb731"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb731-1"><a href="ensemble-applications.html#cb731-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Y <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span>IncomeLevel<span class="sc">==</span><span class="st">&quot; &lt;=50K&quot;</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb731-2"><a href="ensemble-applications.html#cb731-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb731-3"><a href="ensemble-applications.html#cb731-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Remove `IncomeLevel`</span></span>
+<span id="cb731-4"><a href="ensemble-applications.html#cb731-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[, <span class="sc">-</span><span class="dv">15</span>]</span>
+<span id="cb731-5"><a href="ensemble-applications.html#cb731-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb731-6"><a href="ensemble-applications.html#cb731-6" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(df) <span class="co"># no NA&#39;s</span></span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode" id="cb733"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb733-1"><a href="ensemble-applications.html#cb733-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial Split 90-10% split</span></span>
+<span id="cb733-2"><a href="ensemble-applications.html#cb733-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">321</span>)</span>
+<span id="cb733-3"><a href="ensemble-applications.html#cb733-3" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df)<span class="sc">*</span><span class="fl">0.90</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb733-4"><a href="ensemble-applications.html#cb733-4" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb733-5"><a href="ensemble-applications.html#cb733-5" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb733-6"><a href="ensemble-applications.html#cb733-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb733-7"><a href="ensemble-applications.html#cb733-7" aria-hidden="true" tabindex="-1"></a><span class="co"># One-hot coding using R&#39;s `model.matrix`</span></span>
+<span id="cb733-8"><a href="ensemble-applications.html#cb733-8" aria-hidden="true" tabindex="-1"></a>ty <span class="ot">&lt;-</span> train<span class="sc">$</span>Y</span>
+<span id="cb733-9"><a href="ensemble-applications.html#cb733-9" aria-hidden="true" tabindex="-1"></a>tsy <span class="ot">&lt;-</span> test<span class="sc">$</span>Y</span>
+<span id="cb733-10"><a href="ensemble-applications.html#cb733-10" aria-hidden="true" tabindex="-1"></a>hot_tr <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>.<span class="sc">+</span><span class="dv">0</span>, <span class="at">data =</span> train[,<span class="sc">-</span><span class="fu">which</span>(<span class="fu">names</span>(train) <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>)]) </span>
+<span id="cb733-11"><a href="ensemble-applications.html#cb733-11" aria-hidden="true" tabindex="-1"></a>hot_ts <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>.<span class="sc">+</span><span class="dv">0</span>, <span class="at">data =</span> test[,<span class="sc">-</span><span class="fu">which</span>(<span class="fu">names</span>(train) <span class="sc">==</span> <span class="st">&quot;Y&quot;</span>)])</span>
+<span id="cb733-12"><a href="ensemble-applications.html#cb733-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb733-13"><a href="ensemble-applications.html#cb733-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Preparing efficient matrix</span></span>
+<span id="cb733-14"><a href="ensemble-applications.html#cb733-14" aria-hidden="true" tabindex="-1"></a>ttrain <span class="ot">&lt;-</span> <span class="fu">xgb.DMatrix</span>(<span class="at">data =</span> hot_tr, <span class="at">label =</span> ty) </span>
+<span id="cb733-15"><a href="ensemble-applications.html#cb733-15" aria-hidden="true" tabindex="-1"></a>ttest <span class="ot">&lt;-</span> <span class="fu">xgb.DMatrix</span>(<span class="at">data =</span> hot_ts, <span class="at">label =</span> tsy)</span></code></pre></div>
+<p>Now we are ready to set our first <code>xgb.sv</code> with default parameters</p>
+<div class="sourceCode" id="cb734"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb734-1"><a href="ensemble-applications.html#cb734-1" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">booster =</span> <span class="st">&quot;gbtree&quot;</span>,</span>
+<span id="cb734-2"><a href="ensemble-applications.html#cb734-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">objective =</span> <span class="st">&quot;binary:logistic&quot;</span></span>
+<span id="cb734-3"><a href="ensemble-applications.html#cb734-3" aria-hidden="true" tabindex="-1"></a>               )</span>
+<span id="cb734-4"><a href="ensemble-applications.html#cb734-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb734-5"><a href="ensemble-applications.html#cb734-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">112</span>)</span>
+<span id="cb734-6"><a href="ensemble-applications.html#cb734-6" aria-hidden="true" tabindex="-1"></a>cvb <span class="ot">&lt;-</span> <span class="fu">xgb.cv</span>( <span class="at">params =</span> params,</span>
+<span id="cb734-7"><a href="ensemble-applications.html#cb734-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">nrounds =</span> <span class="dv">100</span>,</span>
+<span id="cb734-8"><a href="ensemble-applications.html#cb734-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> ttrain,</span>
+<span id="cb734-9"><a href="ensemble-applications.html#cb734-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">nfold =</span> <span class="dv">5</span>,</span>
+<span id="cb734-10"><a href="ensemble-applications.html#cb734-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">showsd =</span> T,</span>
+<span id="cb734-11"><a href="ensemble-applications.html#cb734-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">stratified =</span> T,</span>
+<span id="cb734-12"><a href="ensemble-applications.html#cb734-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">print.every.n =</span> <span class="dv">10</span>,</span>
+<span id="cb734-13"><a href="ensemble-applications.html#cb734-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">early.stop.round =</span> <span class="dv">20</span>,</span>
+<span id="cb734-14"><a href="ensemble-applications.html#cb734-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">maximize =</span> F</span>
+<span id="cb734-15"><a href="ensemble-applications.html#cb734-15" aria-hidden="true" tabindex="-1"></a>               )</span></code></pre></div>
+<pre><code>## [1]  train-logloss:0.541285+0.000640 test-logloss:0.542411+0.001768 
+## Multiple eval metrics are present. Will use test_logloss for early stopping.
+## Will train until test_logloss hasn&#39;t improved in 20 rounds.
+## 
+## [11] train-logloss:0.290701+0.000486 test-logloss:0.302696+0.003658 
+## [21] train-logloss:0.264326+0.000814 test-logloss:0.285655+0.004132 
+## [31] train-logloss:0.251203+0.001082 test-logloss:0.280880+0.004269 
+## [41] train-logloss:0.243382+0.001291 test-logloss:0.279297+0.004772 
+## [51] train-logloss:0.237065+0.001390 test-logloss:0.278460+0.004780 
+## [61] train-logloss:0.230541+0.001288 test-logloss:0.278528+0.004913 
+## [71] train-logloss:0.225721+0.001117 test-logloss:0.279118+0.005197 
+## Stopping. Best iteration:
+## [59] train-logloss:0.231852+0.000732 test-logloss:0.278273+0.004699</code></pre>
+<p>We have the best iteration at 55.</p>
+<div class="sourceCode" id="cb736"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb736-1"><a href="ensemble-applications.html#cb736-1" aria-hidden="true" tabindex="-1"></a>cvb<span class="sc">$</span>best_iteration</span></code></pre></div>
+<pre><code>## [1] 59</code></pre>
+<div class="sourceCode" id="cb738"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb738-1"><a href="ensemble-applications.html#cb738-1" aria-hidden="true" tabindex="-1"></a>model_default <span class="ot">&lt;-</span> <span class="fu">xgb.train</span> (<span class="at">params =</span> params,</span>
+<span id="cb738-2"><a href="ensemble-applications.html#cb738-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">data =</span> ttrain,</span>
+<span id="cb738-3"><a href="ensemble-applications.html#cb738-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">nrounds =</span> <span class="dv">79</span>,</span>
+<span id="cb738-4"><a href="ensemble-applications.html#cb738-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">watchlist =</span> <span class="fu">list</span>(<span class="at">val=</span>ttest,<span class="at">train=</span>ttrain),</span>
+<span id="cb738-5"><a href="ensemble-applications.html#cb738-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">print_every_n =</span> <span class="dv">10</span>,</span>
+<span id="cb738-6"><a href="ensemble-applications.html#cb738-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">maximize =</span> F ,</span>
+<span id="cb738-7"><a href="ensemble-applications.html#cb738-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">eval_metric =</span> <span class="st">&quot;auc&quot;</span>)</span></code></pre></div>
+<pre><code>## [1]  val-auc:0.898067    train-auc:0.895080 
+## [11] val-auc:0.922919    train-auc:0.925884 
+## [21] val-auc:0.927905    train-auc:0.936823 
+## [31] val-auc:0.928464    train-auc:0.942277 
+## [41] val-auc:0.929252    train-auc:0.946379 
+## [51] val-auc:0.928459    train-auc:0.949633 
+## [61] val-auc:0.928208    train-auc:0.952297 
+## [71] val-auc:0.927833    train-auc:0.954337 
+## [79] val-auc:0.927487    train-auc:0.956330</code></pre>
+<p>Which is the same, if we had used <code>xgboost()</code> instead of <code>xgb.train()</code>:</p>
+<div class="sourceCode" id="cb740"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb740-1"><a href="ensemble-applications.html#cb740-1" aria-hidden="true" tabindex="-1"></a>phat <span class="ot">&lt;-</span> <span class="fu">predict</span> (model_default, ttest)</span>
+<span id="cb740-2"><a href="ensemble-applications.html#cb740-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb740-3"><a href="ensemble-applications.html#cb740-3" aria-hidden="true" tabindex="-1"></a><span class="co"># AUC</span></span>
+<span id="cb740-4"><a href="ensemble-applications.html#cb740-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ROCR)</span>
+<span id="cb740-5"><a href="ensemble-applications.html#cb740-5" aria-hidden="true" tabindex="-1"></a>pred_rocr <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, tsy)</span>
+<span id="cb740-6"><a href="ensemble-applications.html#cb740-6" aria-hidden="true" tabindex="-1"></a>auc_ROCR <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb740-7"><a href="ensemble-applications.html#cb740-7" aria-hidden="true" tabindex="-1"></a>auc_ROCR<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span></code></pre></div>
+<pre><code>## [1] 0.9274875</code></pre>
+<div class="sourceCode" id="cb742"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb742-1"><a href="ensemble-applications.html#cb742-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ROCR</span></span>
+<span id="cb742-2"><a href="ensemble-applications.html#cb742-2" aria-hidden="true" tabindex="-1"></a>perf <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr,<span class="st">&quot;tpr&quot;</span>,<span class="st">&quot;fpr&quot;</span>)</span>
+<span id="cb742-3"><a href="ensemble-applications.html#cb742-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(perf, <span class="at">colorize=</span><span class="cn">TRUE</span>)</span>
+<span id="cb742-4"><a href="ensemble-applications.html#cb742-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-255-1.png" width="672" /></p>
+<p>You can go back to 11.3.2 and see that XGBoost is better than kNN in this example without even a proper grid search. To get the confusion matrix, we need to find the optimal discriminating threshold, where the J-index at the ROC curve (with the maximum AUC is achived) is maximized (See Chapter 10).</p>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Both machine learning algorithms embed non-linearity. This is done, in the case of SVMs, through the usage of a kernel method. Neural networks, instead, embed non-linearity by using non-linear activation functions. Both classes of algorithms can, therefore, approximate non-linear decision functions, though with different approaches.</p>
+<p>Both SVMs and NNs can tackle the same problem of classification against the same dataset. This means that there’s no reason that derives from the characteristics of the problem for preferring one over the other.</p>
+<p>What’s more important, though, is that they both perform with comparable accuracy against the same dataset, if given comparable training. If given as much training and computational power as possible, however, NNs tend to outperform SVMs.</p>
+<p>As we’ll see in the next section, though, the time required to train the two algorithms is vastly different for the same dataset.</p>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Bergs_2012" class="csl-entry">
+———. 2012. <span>“Random Search for Hyper-Parameter Optimization.”</span> <em>Journal of Machine Learning Research</em> 13: 281–305. <a href="https://jmlr.csail.mit.edu/papers/volume13/bergstra12a/bergstra12a.pdf ">https://jmlr.csail.mit.edu/papers/volume13/bergstra12a/bergstra12a.pdf </a>.
+</div>
+<div id="ref-ISLR_Car" class="csl-entry">
+ISLR. 2021a. <span>“Carseats: Sales of Child Car Seats.”</span> ISLR. <a href="https://rdrr.io/cran/ISLR/man/Carseats.html ">https://rdrr.io/cran/ISLR/man/Carseats.html </a>.
+</div>
+<div id="ref-Palu_2012" class="csl-entry">
+Paluszyńska, Aleksandra. 2017. <span>“Understanding Random Forests with randomForestExplainer.”</span> <a href="https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html">https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ensemble-learning.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="support-vector-machines.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/13-EnsembleApplication.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["YA_TextBook.pdf", "YA_TextBook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

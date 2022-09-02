@@ -1,0 +1,219 @@
+h1:preface Preface
+h1:who Who
+h1:acknowledgements Acknowledgements
+h1:intro How we define Machine Learning
+h1:preliminaries Preliminaries
+h2:data-and-dataset-types Data and dataset types
+h2:plots Plots
+h2:probability-distributions-with-r Probability Distributions with R
+h2:regressions Regressions
+h3:ordinary-least-squares-ols Ordinary Least Squares (OLS)
+h3:maximum-likelihood-estimators Maximum Likelihood Estimators
+h3:estimating-mle-with-r Estimating MLE with R
+h2:blue BLUE
+h2:modeling-the-data Modeling the data
+h2:causal-vs.-predictive-models Causal vs. Predictive Models
+h3:causal-models Causal Models
+h3:prediction-models Prediction Models
+h2:simulation Simulation
+h1:part-formal-look-at-prediction (PART) Formal Look at Prediction
+h1:learning-systems Learning Systems
+h1:bias-variance-tradeoff Bias-Variance Tradeoff
+h2:estimator-and-mse Estimator and MSE
+h2:prediction---mspe Prediction - MSPE
+h4:trade-off Trade-off
+h2:biased-estimator-as-a-predictor Biased estimator as a predictor
+h2:dropping-a-variable-in-a-regression Dropping a variable in a regression
+h2:uncertainty-in-estimations-and-predictions Uncertainty in estimations and predictions
+h2:prediction-interval-for-unbiased-ols-predictor Prediction interval for unbiased OLS predictor
+h1:overfitting Overfitting
+h1:part-nonparametric-estimations (PART) Nonparametric Estimations
+h1:parametric-vs.-nonparametric-methods Parametric vs. Nonparametric methods
+h1:parametric-estimations Parametric Estimations
+h2:linear-probability-models-lpm Linear Probability Models (LPM)
+h2:logistic-regression Logistic Regression
+h3:estimating-logistic-regression Estimating Logistic Regression
+h3:cost-functions Cost functions
+h3:deviance Deviance
+h3:predictive-accuracy Predictive accuracy
+h1:nonparametric-estimations---basics Nonparametric Estimations - Basics
+h2:density-estimations Density Estimations
+h2:kernel-regressions Kernel regressions
+h2:regression-splines Regression Splines
+h2:mars---multivariate-adaptive-regression-splines MARS - Multivariate Adaptive Regression Splines
+h2:gam---generalized-additive-model GAM - Generalized Additive Model
+h1:smoothing Smoothing
+h2:using-bins Using bins
+h2:kernel-smoothing Kernel smoothing
+h2:locally-weighted-regression-loess Locally weighted regression 
+h2:smooth-spline-regression Smooth Spline Regression
+h2:multivariate-loess Multivariate Loess
+h1:nonparametric-classifier---knn Nonparametric Classifier - kNN
+h2:mnist-dataset  Dataset
+h2:linear-classifiers-again Linear classifiers (again)
+h2:k-nearest-neighbors k-Nearest Neighbors
+h2:knn-with-caret kNN with caret
+h3:mnist_27 
+h3:adult-dataset Adult dataset
+h1:part-self-learning (PART) Self-Learning
+h1:hyperparameter-tuning Hyperparameter Tuning
+h2:training-validation-and-test-datasets Training, validation, and test datasets
+h2:splitting-the-data-randomly Splitting the data randomly
+h2:k-fold-cross-validation k-fold cross validation
+h2:grid-search Grid search
+h2:cross-validated-grid-search Cross-validated grid search
+h2:when-the-data-is-time-series When the data is time-series
+h1:tuning-in-classification Tuning in Classification
+h2:confusion-matrix Confusion matrix
+h2:performance-measures Performance measures
+h2:roc---reciever-operating-curve ROC - Reciever Operating Curve
+h2:auc---area-under-the-curve AUC - Area Under the Curve
+h1:classification-example Classification Example
+h2:lpm LPM
+h2:logistic-regression-1 Logistic Regression
+h2:knn kNN
+h3:knn-10-fold-cv kNN 10-fold CV
+h3:knn-with-caret-1 kNN with 
+h1:part-tree-based-models (PART) Tree-based Models
+h1:cart CART
+h2:cart---classification-tree CART - Classification Tree
+h2:rpart---recursive-partitioning  - Recursive Partitioning
+h2:pruning Pruning
+h2:classification-with-titanic Classification with Titanic
+h2:regression-tree Regression Tree
+h1:ensemble-learning Ensemble learning
+h2:bagging Bagging
+h2:random-forest Random Forest
+h2:boosting Boosting
+h3:sequential-ensemble-with-gbm Sequential ensemble with 
+h3:adaboost AdaBoost
+h3:extreme-gradient-boosting-xgboost Extreme Gradient Boosting (XGBoost)
+h1:ensemble-applications Ensemble Applications
+h2:classification Classification
+h2:regression Regression
+h2:dataset-level-explainers Dataset-level explainers
+h2:boosting-applications Boosting Applications
+h3:regression-1 Regression
+h3:random-search-with-parallel-processing Random search with parallel processing
+h3:boosting-vs.-others Boosting vs. Others
+h3:classification-1 Classification
+h3:adaboost.m1 AdaBoost.M1
+h3:classification-with-xgboost Classification with XGBoost
+h1:part-svm-neural-networks (PART) SVM & Neural Networks
+h1:support-vector-machines Support Vector Machines
+h2:optimal-separating-classifier Optimal Separating Classifier
+h3:the-margin The Margin
+h3:the-non-separable-case The Non-Separable Case
+h2:nonlinear-boundary-with-kernels Nonlinear Boundary with Kernels
+h2:application-with-svm Application with SVM
+h1:neural-networks Neural Networks
+h1:part-penalized-regressions (PART) Penalized Regressions
+h1:parametric-models-in-prediction Parametric models in prediction
+h1:ridge Ridge
+h1:lasso Lasso
+h2:regression-2 Regression
+h2:lpmlogistic LPM/Logistic
+h2:adaptive-lasso Adaptive Lasso
+h2:elasticnet ElasticNet
+h1:part-causality-and-machine-learning (PART) Causality and Machine Learning
+h1:model-selection Model Selection
+h1:sparsity Sparsity
+h1:use-of-machine-learning-in-causality Use of Machine Learning in Causality
+h1:part-dimension-reduction-methods (PART) Dimension Reduction Methods
+h1:matrix-decompositions Matrix Decompositions
+h1:eigenvectors-and-eigenvalues Eigenvectors and eigenvalues
+h1:singular-value-decomposition Singular Value Decomposition
+h1:rankr-approximations Rank(r) Approximations
+h1:moore-penrose-inverse Moore-Penrose inverse
+h1:principle-component-analysis Principle Component Analysis
+h1:factor-analysis Factor Analysis
+h1:dynamic-mode-decomposition Dynamic Mode Decomposition
+h1:part-time-series (PART) Time Series
+h1:arima-models ARIMA models
+h1:grid-search-for-arima Grid search for ARIMA
+h1:embedding Embedding
+h1:random-forest-1 Random Forest
+h1:neural-networks-1 Neural Networks
+h1:part-network-analysis (PART) Network Analysis
+h1:graphical-network-analysis Graphical Network Analysis
+h1:fundementals Fundementals
+h2:covariance Covariance
+h2:correlation Correlation
+h2:precision-matrix Precision matrix
+h2:semi-partial-correlation Semi-partial correlation
+h1:regularized-covariance-matrix Regularized covariance matrix
+h2:mle MLE
+h2:high-dimensional-data High-dimensional data
+h2:ridge-ell_2-and-glasso-ell_1 Ridge () and glasso ()
+h2:whats-graphical---graphical-ridge-or-glasso What’s graphical - graphical ridge or glasso?
+h1:part-labs (PART) Labs
+h1:r-lab-1---basics-i R Lab 1 - Basics I
+h2:r-rstudio-and-r-packages R, RStudio, and R Packages
+h2:rstudio RStudio
+h2:working-directory Working directory
+h2:data-types-and-stuctures Data Types and Stuctures
+h2:vectors Vectors
+h2:subsetting-vectors Subsetting Vectors
+h2:vectorization-or-vector-operations Vectorization or vector operations
+h2:matrices Matrices
+h2:matrix-operations Matrix Operations
+h2:subsetting-matrix Subsetting Matrix
+h2:r-style-guide R-Style Guide
+h1:r-lab-2---basics-ii R Lab 2 - Basics II
+h2:data-frames-and-lists Data frames and lists
+h3:lists Lists
+h3:data-frames Data Frames
+h3:reading-importing-and-writting-exporting-data-files Reading (importing) and writting (exporting) data files
+h3:subsetting-data-frames Subsetting Data Frames
+h3:plotting-from-data-frame Plotting from data frame
+h3:some-useful-functions Some useful functions
+h3:categorical-variables-in-data-frames Categorical Variables in Data Frames
+h2:programming-basics Programming Basics
+h3:ifelse if/Else
+h3:loops Loops
+h3:the-apply-family The  family
+h4:apply 
+h4:lapply 
+h4:sapply 
+h4:tapply 
+h4:mapply 
+h3:functions Functions
+h4:outer 
+h3:dplyr 
+h1:r-lab-3---preparing-the-data R Lab 3 - Preparing the data
+h2:preparing-the-data-for-a-regression-analysis-with-lm Preparing the data for a regression analysis with 
+h3:factor-variables Factor variables
+h3:dummy-coding Dummy Coding
+h3:column-variable-names Column (Variable) names
+h3:data-subsetting-and-missing-values Data subsetting and missing values
+h2:dummy-variable-models  variable models
+h3:mtcars-example  example
+h3:model.matrix 
+h3:example-with-a-bigger-data-set-autompg Example with a bigger data set: 
+h3:some-more-data-management-tools-for-subsetting-complete.cases-is.na-and-within Some more data management tools for subsetting: , , and 
+h1:r-lab-4---simulation-in-r R Lab 4 - Simulation in R
+h2:sampling-in-r-sample Sampling in R: 
+h2:random-number-generating-with-probablity-distributions Random number generating with probablity distributions
+h2:simulation-for-statistical-inference Simulation for statistical inference
+h2:creataing-data-with-a-data-generating-model-dgm Creataing data with a Data Generating Model (DGM)
+h2:bootstrapping Bootstrapping
+h2:monty-hall---fun-example Monty Hall - Fun example
+h4:here-is-the-simple-bayes-rule-prab-prbapraprb. Here is the simple Bayes rule: .
+h4:simulation-to-prove-it Simulation to prove it
+h4:step-1-decide-the-number-of-plays Step 1: Decide the number of plays
+h4:step-2-define-all-possible-door-combinations Step 2: Define all possible door combinations
+h4:step-3-create-empty-containers-where-you-store-the-outcomes-from-each-game Step 3: Create empty containers where you store the outcomes from each game
+h4:step-4-loop Step 4: Loop
+h4:step-5-chart Step 5: Chart
+h1:part-appendix (PART) Appendix
+h1:algorithmic-optimization Algorithmic Optimization
+h2:brute-force-optimization Brute-force optimization
+h2:derivative-based-methods Derivative-based methods
+h2:gradient-descent Gradient Descent
+h3:one-variable One-variable
+h3:multivariable Multivariable
+h2:optimization-with-r Optimization with R
+h1:imbalanced-data Imbalanced Data
+h2:smote 
+h2:fraud-detection Fraud detection
+

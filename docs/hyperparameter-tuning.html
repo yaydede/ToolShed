@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Hyperparameter Tuning | Tool Shed for Applied Data Analytics with R</title>
+  <meta name="description" content="Chapter 9 Hyperparameter Tuning | Tool Shed for Applied Data Analytics with R" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Hyperparameter Tuning | Tool Shed for Applied Data Analytics with R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/png/cover2.png" />
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Hyperparameter Tuning | Tool Shed for Applied Data Analytics with R" />
+  
+  
+  <meta name="twitter:image" content="/png/cover2.png" />
+
+<meta name="author" content="Yigit Aydede" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="nonparametric-classifier---knn.html"/>
+<link rel="next" href="tuning-in-classification.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.24/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Tool Shed</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="who.html"><a href="who.html"><i class="fa fa-check"></i>Who</a></li>
+<li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> How we define Machine Learning</a></li>
+<li class="chapter" data-level="2" data-path="preliminaries.html"><a href="preliminaries.html"><i class="fa fa-check"></i><b>2</b> Preliminaries</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="preliminaries.html"><a href="preliminaries.html#data-and-dataset-types"><i class="fa fa-check"></i><b>2.1</b> Data and dataset types</a></li>
+<li class="chapter" data-level="2.2" data-path="preliminaries.html"><a href="preliminaries.html#plots"><i class="fa fa-check"></i><b>2.2</b> Plots</a></li>
+<li class="chapter" data-level="2.3" data-path="preliminaries.html"><a href="preliminaries.html#probability-distributions-with-r"><i class="fa fa-check"></i><b>2.3</b> Probability Distributions with R</a></li>
+<li class="chapter" data-level="2.4" data-path="preliminaries.html"><a href="preliminaries.html#regressions"><i class="fa fa-check"></i><b>2.4</b> Regressions</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="preliminaries.html"><a href="preliminaries.html#ordinary-least-squares-ols"><i class="fa fa-check"></i><b>2.4.1</b> Ordinary Least Squares (OLS)</a></li>
+<li class="chapter" data-level="2.4.2" data-path="preliminaries.html"><a href="preliminaries.html#maximum-likelihood-estimators"><i class="fa fa-check"></i><b>2.4.2</b> Maximum Likelihood Estimators</a></li>
+<li class="chapter" data-level="2.4.3" data-path="preliminaries.html"><a href="preliminaries.html#estimating-mle-with-r"><i class="fa fa-check"></i><b>2.4.3</b> Estimating MLE with R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="preliminaries.html"><a href="preliminaries.html#blue"><i class="fa fa-check"></i><b>2.5</b> BLUE</a></li>
+<li class="chapter" data-level="2.6" data-path="preliminaries.html"><a href="preliminaries.html#modeling-the-data"><i class="fa fa-check"></i><b>2.6</b> Modeling the data</a></li>
+<li class="chapter" data-level="2.7" data-path="preliminaries.html"><a href="preliminaries.html#causal-vs.-predictive-models"><i class="fa fa-check"></i><b>2.7</b> Causal vs. Predictive Models</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="preliminaries.html"><a href="preliminaries.html#causal-models"><i class="fa fa-check"></i><b>2.7.1</b> Causal Models</a></li>
+<li class="chapter" data-level="2.7.2" data-path="preliminaries.html"><a href="preliminaries.html#prediction-models"><i class="fa fa-check"></i><b>2.7.2</b> Prediction Models</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="preliminaries.html"><a href="preliminaries.html#simulation"><i class="fa fa-check"></i><b>2.8</b> Simulation</a></li>
+</ul></li>
+<li class="part"><span><b>I Formal Look at Prediction</b></span></li>
+<li class="chapter" data-level="" data-path="learning-systems.html"><a href="learning-systems.html"><i class="fa fa-check"></i>Learning Systems</a></li>
+<li class="chapter" data-level="3" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>3</b> Bias-Variance Tradeoff</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#estimator-and-mse"><i class="fa fa-check"></i><b>3.1</b> Estimator and MSE</a></li>
+<li class="chapter" data-level="3.2" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#prediction---mspe"><i class="fa fa-check"></i><b>3.2</b> Prediction - MSPE</a></li>
+<li class="chapter" data-level="3.3" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#biased-estimator-as-a-predictor"><i class="fa fa-check"></i><b>3.3</b> Biased estimator as a predictor</a></li>
+<li class="chapter" data-level="3.4" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#dropping-a-variable-in-a-regression"><i class="fa fa-check"></i><b>3.4</b> Dropping a variable in a regression</a></li>
+<li class="chapter" data-level="3.5" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#uncertainty-in-estimations-and-predictions"><i class="fa fa-check"></i><b>3.5</b> Uncertainty in estimations and predictions</a></li>
+<li class="chapter" data-level="3.6" data-path="bias-variance-tradeoff.html"><a href="bias-variance-tradeoff.html#prediction-interval-for-unbiased-ols-predictor"><i class="fa fa-check"></i><b>3.6</b> Prediction interval for unbiased OLS predictor</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="overfitting.html"><a href="overfitting.html"><i class="fa fa-check"></i><b>4</b> Overfitting</a></li>
+<li class="part"><span><b>II Nonparametric Estimations</b></span></li>
+<li class="chapter" data-level="" data-path="parametric-vs.html"><a href="parametric-vs.html"><i class="fa fa-check"></i>Parametric vs. Nonparametric methods</a></li>
+<li class="chapter" data-level="5" data-path="parametric-estimations.html"><a href="parametric-estimations.html"><i class="fa fa-check"></i><b>5</b> Parametric Estimations</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="parametric-estimations.html"><a href="parametric-estimations.html#linear-probability-models-lpm"><i class="fa fa-check"></i><b>5.1</b> Linear Probability Models (LPM)</a></li>
+<li class="chapter" data-level="5.2" data-path="parametric-estimations.html"><a href="parametric-estimations.html#logistic-regression"><i class="fa fa-check"></i><b>5.2</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="parametric-estimations.html"><a href="parametric-estimations.html#estimating-logistic-regression"><i class="fa fa-check"></i><b>5.2.1</b> Estimating Logistic Regression</a></li>
+<li class="chapter" data-level="5.2.2" data-path="parametric-estimations.html"><a href="parametric-estimations.html#cost-functions"><i class="fa fa-check"></i><b>5.2.2</b> Cost functions</a></li>
+<li class="chapter" data-level="5.2.3" data-path="parametric-estimations.html"><a href="parametric-estimations.html#deviance"><i class="fa fa-check"></i><b>5.2.3</b> Deviance</a></li>
+<li class="chapter" data-level="5.2.4" data-path="parametric-estimations.html"><a href="parametric-estimations.html#predictive-accuracy"><i class="fa fa-check"></i><b>5.2.4</b> Predictive accuracy</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html"><i class="fa fa-check"></i><b>6</b> Nonparametric Estimations - Basics</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html#density-estimations"><i class="fa fa-check"></i><b>6.1</b> Density Estimations</a></li>
+<li class="chapter" data-level="6.2" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html#kernel-regressions"><i class="fa fa-check"></i><b>6.2</b> Kernel regressions</a></li>
+<li class="chapter" data-level="6.3" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html#regression-splines"><i class="fa fa-check"></i><b>6.3</b> Regression Splines</a></li>
+<li class="chapter" data-level="6.4" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html#mars---multivariate-adaptive-regression-splines"><i class="fa fa-check"></i><b>6.4</b> MARS - Multivariate Adaptive Regression Splines</a></li>
+<li class="chapter" data-level="6.5" data-path="nonparametric-estimations---basics.html"><a href="nonparametric-estimations---basics.html#gam---generalized-additive-model"><i class="fa fa-check"></i><b>6.5</b> GAM - Generalized Additive Model</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="smoothing.html"><a href="smoothing.html"><i class="fa fa-check"></i><b>7</b> Smoothing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="smoothing.html"><a href="smoothing.html#using-bins"><i class="fa fa-check"></i><b>7.1</b> Using bins</a></li>
+<li class="chapter" data-level="7.2" data-path="smoothing.html"><a href="smoothing.html#kernel-smoothing"><i class="fa fa-check"></i><b>7.2</b> Kernel smoothing</a></li>
+<li class="chapter" data-level="7.3" data-path="smoothing.html"><a href="smoothing.html#locally-weighted-regression-loess"><i class="fa fa-check"></i><b>7.3</b> Locally weighted regression <code>loess()</code></a></li>
+<li class="chapter" data-level="7.4" data-path="smoothing.html"><a href="smoothing.html#smooth-spline-regression"><i class="fa fa-check"></i><b>7.4</b> Smooth Spline Regression</a></li>
+<li class="chapter" data-level="7.5" data-path="smoothing.html"><a href="smoothing.html#multivariate-loess"><i class="fa fa-check"></i><b>7.5</b> Multivariate Loess</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html"><i class="fa fa-check"></i><b>8</b> Nonparametric Classifier - kNN</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#mnist-dataset"><i class="fa fa-check"></i><b>8.1</b> <code>mnist</code> Dataset</a></li>
+<li class="chapter" data-level="8.2" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#linear-classifiers-again"><i class="fa fa-check"></i><b>8.2</b> Linear classifiers (again)</a></li>
+<li class="chapter" data-level="8.3" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#k-nearest-neighbors"><i class="fa fa-check"></i><b>8.3</b> k-Nearest Neighbors</a></li>
+<li class="chapter" data-level="8.4" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#knn-with-caret"><i class="fa fa-check"></i><b>8.4</b> kNN with caret</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#mnist_27"><i class="fa fa-check"></i><b>8.4.1</b> <code>mnist_27</code></a></li>
+<li class="chapter" data-level="8.4.2" data-path="nonparametric-classifier---knn.html"><a href="nonparametric-classifier---knn.html#adult-dataset"><i class="fa fa-check"></i><b>8.4.2</b> Adult dataset</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>III Self-Learning</b></span></li>
+<li class="chapter" data-level="9" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html"><i class="fa fa-check"></i><b>9</b> Hyperparameter Tuning</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#training-validation-and-test-datasets"><i class="fa fa-check"></i><b>9.1</b> Training, validation, and test datasets</a></li>
+<li class="chapter" data-level="9.2" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#splitting-the-data-randomly"><i class="fa fa-check"></i><b>9.2</b> Splitting the data randomly</a></li>
+<li class="chapter" data-level="9.3" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#k-fold-cross-validation"><i class="fa fa-check"></i><b>9.3</b> k-fold cross validation</a></li>
+<li class="chapter" data-level="9.4" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#grid-search"><i class="fa fa-check"></i><b>9.4</b> Grid search</a></li>
+<li class="chapter" data-level="9.5" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#cross-validated-grid-search"><i class="fa fa-check"></i><b>9.5</b> Cross-validated grid search</a></li>
+<li class="chapter" data-level="9.6" data-path="hyperparameter-tuning.html"><a href="hyperparameter-tuning.html#when-the-data-is-time-series"><i class="fa fa-check"></i><b>9.6</b> When the data is time-series</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="tuning-in-classification.html"><a href="tuning-in-classification.html"><i class="fa fa-check"></i><b>10</b> Tuning in Classification</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="tuning-in-classification.html"><a href="tuning-in-classification.html#confusion-matrix"><i class="fa fa-check"></i><b>10.1</b> Confusion matrix</a></li>
+<li class="chapter" data-level="10.2" data-path="tuning-in-classification.html"><a href="tuning-in-classification.html#performance-measures"><i class="fa fa-check"></i><b>10.2</b> Performance measures</a></li>
+<li class="chapter" data-level="10.3" data-path="tuning-in-classification.html"><a href="tuning-in-classification.html#roc---reciever-operating-curve"><i class="fa fa-check"></i><b>10.3</b> ROC - Reciever Operating Curve</a></li>
+<li class="chapter" data-level="10.4" data-path="tuning-in-classification.html"><a href="tuning-in-classification.html#auc---area-under-the-curve"><i class="fa fa-check"></i><b>10.4</b> AUC - Area Under the Curve</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="classification-example.html"><a href="classification-example.html"><i class="fa fa-check"></i><b>11</b> Classification Example</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="classification-example.html"><a href="classification-example.html#lpm"><i class="fa fa-check"></i><b>11.1</b> LPM</a></li>
+<li class="chapter" data-level="11.2" data-path="classification-example.html"><a href="classification-example.html#logistic-regression-1"><i class="fa fa-check"></i><b>11.2</b> Logistic Regression</a></li>
+<li class="chapter" data-level="11.3" data-path="classification-example.html"><a href="classification-example.html#knn"><i class="fa fa-check"></i><b>11.3</b> kNN</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="classification-example.html"><a href="classification-example.html#knn-10-fold-cv"><i class="fa fa-check"></i><b>11.3.1</b> kNN 10-fold CV</a></li>
+<li class="chapter" data-level="11.3.2" data-path="classification-example.html"><a href="classification-example.html#knn-with-caret-1"><i class="fa fa-check"></i><b>11.3.2</b> kNN with <code>caret</code></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Tree-based Models</b></span></li>
+<li class="chapter" data-level="12" data-path="cart.html"><a href="cart.html"><i class="fa fa-check"></i><b>12</b> CART</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="cart.html"><a href="cart.html#cart---classification-tree"><i class="fa fa-check"></i><b>12.1</b> CART - Classification Tree</a></li>
+<li class="chapter" data-level="12.2" data-path="cart.html"><a href="cart.html#rpart---recursive-partitioning"><i class="fa fa-check"></i><b>12.2</b> <code>rpart()</code> - Recursive Partitioning</a></li>
+<li class="chapter" data-level="12.3" data-path="cart.html"><a href="cart.html#pruning"><i class="fa fa-check"></i><b>12.3</b> Pruning</a></li>
+<li class="chapter" data-level="12.4" data-path="cart.html"><a href="cart.html#classification-with-titanic"><i class="fa fa-check"></i><b>12.4</b> Classification with Titanic</a></li>
+<li class="chapter" data-level="12.5" data-path="cart.html"><a href="cart.html#regression-tree"><i class="fa fa-check"></i><b>12.5</b> Regression Tree</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="ensemble-learning.html"><a href="ensemble-learning.html"><i class="fa fa-check"></i><b>13</b> Ensemble learning</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ensemble-learning.html"><a href="ensemble-learning.html#bagging"><i class="fa fa-check"></i><b>13.1</b> Bagging</a></li>
+<li class="chapter" data-level="13.2" data-path="ensemble-learning.html"><a href="ensemble-learning.html#random-forest"><i class="fa fa-check"></i><b>13.2</b> Random Forest</a></li>
+<li class="chapter" data-level="13.3" data-path="ensemble-learning.html"><a href="ensemble-learning.html#boosting"><i class="fa fa-check"></i><b>13.3</b> Boosting</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="ensemble-learning.html"><a href="ensemble-learning.html#sequential-ensemble-with-gbm"><i class="fa fa-check"></i><b>13.3.1</b> Sequential ensemble with <code>gbm</code></a></li>
+<li class="chapter" data-level="13.3.2" data-path="ensemble-learning.html"><a href="ensemble-learning.html#adaboost"><i class="fa fa-check"></i><b>13.3.2</b> AdaBoost</a></li>
+<li class="chapter" data-level="13.3.3" data-path="ensemble-learning.html"><a href="ensemble-learning.html#extreme-gradient-boosting-xgboost"><i class="fa fa-check"></i><b>13.3.3</b> Extreme Gradient Boosting (XGBoost)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="ensemble-applications.html"><a href="ensemble-applications.html"><i class="fa fa-check"></i><b>14</b> Ensemble Applications</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="ensemble-applications.html"><a href="ensemble-applications.html#classification"><i class="fa fa-check"></i><b>14.1</b> Classification</a></li>
+<li class="chapter" data-level="14.2" data-path="ensemble-applications.html"><a href="ensemble-applications.html#regression"><i class="fa fa-check"></i><b>14.2</b> Regression</a></li>
+<li class="chapter" data-level="14.3" data-path="ensemble-applications.html"><a href="ensemble-applications.html#dataset-level-explainers"><i class="fa fa-check"></i><b>14.3</b> Dataset-level explainers</a></li>
+<li class="chapter" data-level="14.4" data-path="ensemble-applications.html"><a href="ensemble-applications.html#boosting-applications"><i class="fa fa-check"></i><b>14.4</b> Boosting Applications</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="ensemble-applications.html"><a href="ensemble-applications.html#regression-1"><i class="fa fa-check"></i><b>14.4.1</b> Regression</a></li>
+<li class="chapter" data-level="14.4.2" data-path="ensemble-applications.html"><a href="ensemble-applications.html#random-search-with-parallel-processing"><i class="fa fa-check"></i><b>14.4.2</b> Random search with parallel processing</a></li>
+<li class="chapter" data-level="14.4.3" data-path="ensemble-applications.html"><a href="ensemble-applications.html#boosting-vs.-others"><i class="fa fa-check"></i><b>14.4.3</b> Boosting vs. Others</a></li>
+<li class="chapter" data-level="14.4.4" data-path="ensemble-applications.html"><a href="ensemble-applications.html#classification-1"><i class="fa fa-check"></i><b>14.4.4</b> Classification</a></li>
+<li class="chapter" data-level="14.4.5" data-path="ensemble-applications.html"><a href="ensemble-applications.html#adaboost.m1"><i class="fa fa-check"></i><b>14.4.5</b> AdaBoost.M1</a></li>
+<li class="chapter" data-level="14.4.6" data-path="ensemble-applications.html"><a href="ensemble-applications.html#classification-with-xgboost"><i class="fa fa-check"></i><b>14.4.6</b> Classification with XGBoost</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>V SVM &amp; Neural Networks</b></span></li>
+<li class="chapter" data-level="15" data-path="support-vector-machines.html"><a href="support-vector-machines.html"><i class="fa fa-check"></i><b>15</b> Support Vector Machines</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="support-vector-machines.html"><a href="support-vector-machines.html#optimal-separating-classifier"><i class="fa fa-check"></i><b>15.1</b> Optimal Separating Classifier</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="support-vector-machines.html"><a href="support-vector-machines.html#the-margin"><i class="fa fa-check"></i><b>15.1.1</b> The Margin</a></li>
+<li class="chapter" data-level="15.1.2" data-path="support-vector-machines.html"><a href="support-vector-machines.html#the-non-separable-case"><i class="fa fa-check"></i><b>15.1.2</b> The Non-Separable Case</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="support-vector-machines.html"><a href="support-vector-machines.html#nonlinear-boundary-with-kernels"><i class="fa fa-check"></i><b>15.2</b> Nonlinear Boundary with Kernels</a></li>
+<li class="chapter" data-level="15.3" data-path="support-vector-machines.html"><a href="support-vector-machines.html#application-with-svm"><i class="fa fa-check"></i><b>15.3</b> Application with SVM</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>16</b> Neural Networks</a></li>
+<li class="part"><span><b>VI Penalized Regressions</b></span></li>
+<li class="chapter" data-level="" data-path="parametric-models-in-prediction.html"><a href="parametric-models-in-prediction.html"><i class="fa fa-check"></i>Parametric models in prediction</a></li>
+<li class="chapter" data-level="17" data-path="ridge.html"><a href="ridge.html"><i class="fa fa-check"></i><b>17</b> Ridge</a></li>
+<li class="chapter" data-level="18" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>18</b> Lasso</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="lasso.html"><a href="lasso.html#regression-2"><i class="fa fa-check"></i><b>18.1</b> Regression</a></li>
+<li class="chapter" data-level="18.2" data-path="lasso.html"><a href="lasso.html#lpmlogistic"><i class="fa fa-check"></i><b>18.2</b> LPM/Logistic</a></li>
+<li class="chapter" data-level="18.3" data-path="lasso.html"><a href="lasso.html#adaptive-lasso"><i class="fa fa-check"></i><b>18.3</b> Adaptive Lasso</a></li>
+<li class="chapter" data-level="18.4" data-path="lasso.html"><a href="lasso.html#elasticnet"><i class="fa fa-check"></i><b>18.4</b> ElasticNet</a></li>
+</ul></li>
+<li class="part"><span><b>VII Causality and Machine Learning</b></span></li>
+<li class="chapter" data-level="19" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>19</b> Model Selection</a></li>
+<li class="chapter" data-level="20" data-path="sparsity.html"><a href="sparsity.html"><i class="fa fa-check"></i><b>20</b> Sparsity</a></li>
+<li class="chapter" data-level="21" data-path="use-of-machine-learning-in-causality.html"><a href="use-of-machine-learning-in-causality.html"><i class="fa fa-check"></i><b>21</b> Use of Machine Learning in Causality</a></li>
+<li class="part"><span><b>VIII Dimension Reduction Methods</b></span></li>
+<li class="chapter" data-level="" data-path="matrix-decompositions.html"><a href="matrix-decompositions.html"><i class="fa fa-check"></i>Matrix Decompositions</a></li>
+<li class="chapter" data-level="22" data-path="eigenvectors-and-eigenvalues.html"><a href="eigenvectors-and-eigenvalues.html"><i class="fa fa-check"></i><b>22</b> Eigenvectors and eigenvalues</a></li>
+<li class="chapter" data-level="23" data-path="singular-value-decomposition.html"><a href="singular-value-decomposition.html"><i class="fa fa-check"></i><b>23</b> Singular Value Decomposition</a></li>
+<li class="chapter" data-level="24" data-path="rankr-approximations.html"><a href="rankr-approximations.html"><i class="fa fa-check"></i><b>24</b> Rank(r) Approximations</a></li>
+<li class="chapter" data-level="25" data-path="moore-penrose-inverse.html"><a href="moore-penrose-inverse.html"><i class="fa fa-check"></i><b>25</b> Moore-Penrose inverse</a></li>
+<li class="chapter" data-level="26" data-path="principle-component-analysis.html"><a href="principle-component-analysis.html"><i class="fa fa-check"></i><b>26</b> Principle Component Analysis</a></li>
+<li class="chapter" data-level="27" data-path="factor-analysis.html"><a href="factor-analysis.html"><i class="fa fa-check"></i><b>27</b> Factor Analysis</a></li>
+<li class="chapter" data-level="28" data-path="dynamic-mode-decomposition.html"><a href="dynamic-mode-decomposition.html"><i class="fa fa-check"></i><b>28</b> Dynamic Mode Decomposition</a></li>
+<li class="part"><span><b>IX Time Series</b></span></li>
+<li class="chapter" data-level="29" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>29</b> ARIMA models</a></li>
+<li class="chapter" data-level="30" data-path="grid-search-for-arima.html"><a href="grid-search-for-arima.html"><i class="fa fa-check"></i><b>30</b> Grid search for ARIMA</a></li>
+<li class="chapter" data-level="31" data-path="embedding.html"><a href="embedding.html"><i class="fa fa-check"></i><b>31</b> Embedding</a></li>
+<li class="chapter" data-level="32" data-path="random-forest-1.html"><a href="random-forest-1.html"><i class="fa fa-check"></i><b>32</b> Random Forest</a></li>
+<li class="chapter" data-level="33" data-path="neural-networks-1.html"><a href="neural-networks-1.html"><i class="fa fa-check"></i><b>33</b> Neural Networks</a></li>
+<li class="part"><span><b>X Network Analysis</b></span></li>
+<li class="chapter" data-level="" data-path="graphical-network-analysis.html"><a href="graphical-network-analysis.html"><i class="fa fa-check"></i>Graphical Network Analysis</a></li>
+<li class="chapter" data-level="34" data-path="fundementals.html"><a href="fundementals.html"><i class="fa fa-check"></i><b>34</b> Fundementals</a>
+<ul>
+<li class="chapter" data-level="34.1" data-path="fundementals.html"><a href="fundementals.html#covariance"><i class="fa fa-check"></i><b>34.1</b> Covariance</a></li>
+<li class="chapter" data-level="34.2" data-path="fundementals.html"><a href="fundementals.html#correlation"><i class="fa fa-check"></i><b>34.2</b> Correlation</a></li>
+<li class="chapter" data-level="34.3" data-path="fundementals.html"><a href="fundementals.html#precision-matrix"><i class="fa fa-check"></i><b>34.3</b> Precision matrix</a></li>
+<li class="chapter" data-level="34.4" data-path="fundementals.html"><a href="fundementals.html#semi-partial-correlation"><i class="fa fa-check"></i><b>34.4</b> Semi-partial correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="35" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html"><i class="fa fa-check"></i><b>35</b> Regularized covariance matrix</a>
+<ul>
+<li class="chapter" data-level="35.1" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#mle"><i class="fa fa-check"></i><b>35.1</b> MLE</a></li>
+<li class="chapter" data-level="35.2" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#high-dimensional-data"><i class="fa fa-check"></i><b>35.2</b> High-dimensional data</a></li>
+<li class="chapter" data-level="35.3" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#ridge-ell_2-and-glasso-ell_1"><i class="fa fa-check"></i><b>35.3</b> Ridge (<span class="math inline">\(\ell_{2}\)</span>) and glasso (<span class="math inline">\(\ell_{1}\)</span>)</a></li>
+<li class="chapter" data-level="35.4" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#whats-graphical---graphical-ridge-or-glasso"><i class="fa fa-check"></i><b>35.4</b> What’s graphical - graphical ridge or glasso?</a></li>
+</ul></li>
+<li class="part"><span><b>XI Labs</b></span></li>
+<li class="chapter" data-level="36" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html"><i class="fa fa-check"></i><b>36</b> R Lab 1 - Basics I</a>
+<ul>
+<li class="chapter" data-level="36.1" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#r-rstudio-and-r-packages"><i class="fa fa-check"></i><b>36.1</b> R, RStudio, and R Packages</a></li>
+<li class="chapter" data-level="36.2" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#rstudio"><i class="fa fa-check"></i><b>36.2</b> RStudio</a></li>
+<li class="chapter" data-level="36.3" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#working-directory"><i class="fa fa-check"></i><b>36.3</b> Working directory</a></li>
+<li class="chapter" data-level="36.4" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#data-types-and-stuctures"><i class="fa fa-check"></i><b>36.4</b> Data Types and Stuctures</a></li>
+<li class="chapter" data-level="36.5" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#vectors"><i class="fa fa-check"></i><b>36.5</b> Vectors</a></li>
+<li class="chapter" data-level="36.6" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#subsetting-vectors"><i class="fa fa-check"></i><b>36.6</b> Subsetting Vectors</a></li>
+<li class="chapter" data-level="36.7" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#vectorization-or-vector-operations"><i class="fa fa-check"></i><b>36.7</b> Vectorization or vector operations</a></li>
+<li class="chapter" data-level="36.8" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#matrices"><i class="fa fa-check"></i><b>36.8</b> Matrices</a></li>
+<li class="chapter" data-level="36.9" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#matrix-operations"><i class="fa fa-check"></i><b>36.9</b> Matrix Operations</a></li>
+<li class="chapter" data-level="36.10" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#subsetting-matrix"><i class="fa fa-check"></i><b>36.10</b> Subsetting Matrix</a></li>
+<li class="chapter" data-level="36.11" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#r-style-guide"><i class="fa fa-check"></i><b>36.11</b> R-Style Guide</a></li>
+</ul></li>
+<li class="chapter" data-level="37" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html"><i class="fa fa-check"></i><b>37</b> R Lab 2 - Basics II</a>
+<ul>
+<li class="chapter" data-level="37.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#data-frames-and-lists"><i class="fa fa-check"></i><b>37.1</b> Data frames and lists</a>
+<ul>
+<li class="chapter" data-level="37.1.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#lists"><i class="fa fa-check"></i><b>37.1.1</b> Lists</a></li>
+<li class="chapter" data-level="37.1.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#data-frames"><i class="fa fa-check"></i><b>37.1.2</b> Data Frames</a></li>
+<li class="chapter" data-level="37.1.3" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#reading-importing-and-writting-exporting-data-files"><i class="fa fa-check"></i><b>37.1.3</b> Reading (importing) and writting (exporting) data files</a></li>
+<li class="chapter" data-level="37.1.4" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#subsetting-data-frames"><i class="fa fa-check"></i><b>37.1.4</b> Subsetting Data Frames</a></li>
+<li class="chapter" data-level="37.1.5" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#plotting-from-data-frame"><i class="fa fa-check"></i><b>37.1.5</b> Plotting from data frame</a></li>
+<li class="chapter" data-level="37.1.6" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#some-useful-functions"><i class="fa fa-check"></i><b>37.1.6</b> Some useful functions</a></li>
+<li class="chapter" data-level="37.1.7" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#categorical-variables-in-data-frames"><i class="fa fa-check"></i><b>37.1.7</b> Categorical Variables in Data Frames</a></li>
+</ul></li>
+<li class="chapter" data-level="37.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#programming-basics"><i class="fa fa-check"></i><b>37.2</b> Programming Basics</a>
+<ul>
+<li class="chapter" data-level="37.2.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#ifelse"><i class="fa fa-check"></i><b>37.2.1</b> if/Else</a></li>
+<li class="chapter" data-level="37.2.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#loops"><i class="fa fa-check"></i><b>37.2.2</b> Loops</a></li>
+<li class="chapter" data-level="37.2.3" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#the-apply-family"><i class="fa fa-check"></i><b>37.2.3</b> The <code>apply()</code> family</a></li>
+<li class="chapter" data-level="37.2.4" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#functions"><i class="fa fa-check"></i><b>37.2.4</b> Functions</a></li>
+<li class="chapter" data-level="37.2.5" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#dplyr"><i class="fa fa-check"></i><b>37.2.5</b> <code>dplyr()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="38" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html"><i class="fa fa-check"></i><b>38</b> R Lab 3 - Preparing the data</a>
+<ul>
+<li class="chapter" data-level="38.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#preparing-the-data-for-a-regression-analysis-with-lm"><i class="fa fa-check"></i><b>38.1</b> Preparing the data for a regression analysis with <code>lm()</code></a>
+<ul>
+<li class="chapter" data-level="38.1.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#factor-variables"><i class="fa fa-check"></i><b>38.1.1</b> Factor variables</a></li>
+<li class="chapter" data-level="38.1.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#dummy-coding"><i class="fa fa-check"></i><b>38.1.2</b> Dummy Coding</a></li>
+<li class="chapter" data-level="38.1.3" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#column-variable-names"><i class="fa fa-check"></i><b>38.1.3</b> Column (Variable) names</a></li>
+<li class="chapter" data-level="38.1.4" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#data-subsetting-and-missing-values"><i class="fa fa-check"></i><b>38.1.4</b> Data subsetting and missing values</a></li>
+</ul></li>
+<li class="chapter" data-level="38.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#dummy-variable-models"><i class="fa fa-check"></i><b>38.2</b> “DUMMY” variable models</a>
+<ul>
+<li class="chapter" data-level="38.2.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#mtcars-example"><i class="fa fa-check"></i><b>38.2.1</b> <code>mtcars</code> example</a></li>
+<li class="chapter" data-level="38.2.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#model.matrix"><i class="fa fa-check"></i><b>38.2.2</b> <code>model.matrix()</code></a></li>
+<li class="chapter" data-level="38.2.3" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#example-with-a-bigger-data-set-autompg"><i class="fa fa-check"></i><b>38.2.3</b> Example with a bigger data set: <code>Autompg</code></a></li>
+<li class="chapter" data-level="38.2.4" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#some-more-data-management-tools-for-subsetting-complete.cases-is.na-and-within"><i class="fa fa-check"></i><b>38.2.4</b> Some more data management tools for subsetting: <code>complete.cases()</code>, <code>is.na()</code>, and <code>within()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="39" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html"><i class="fa fa-check"></i><b>39</b> R Lab 4 - Simulation in R</a>
+<ul>
+<li class="chapter" data-level="39.1" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#sampling-in-r-sample"><i class="fa fa-check"></i><b>39.1</b> Sampling in R: <code>sample()</code></a></li>
+<li class="chapter" data-level="39.2" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#random-number-generating-with-probablity-distributions"><i class="fa fa-check"></i><b>39.2</b> Random number generating with probablity distributions</a></li>
+<li class="chapter" data-level="39.3" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#simulation-for-statistical-inference"><i class="fa fa-check"></i><b>39.3</b> Simulation for statistical inference</a></li>
+<li class="chapter" data-level="39.4" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#creataing-data-with-a-data-generating-model-dgm"><i class="fa fa-check"></i><b>39.4</b> Creataing data with a Data Generating Model (DGM)</a></li>
+<li class="chapter" data-level="39.5" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#bootstrapping"><i class="fa fa-check"></i><b>39.5</b> Bootstrapping</a></li>
+<li class="chapter" data-level="39.6" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#monty-hall---fun-example"><i class="fa fa-check"></i><b>39.6</b> Monty Hall - Fun example</a></li>
+</ul></li>
+<li class="part"><span><b>XII Appendix</b></span></li>
+<li class="chapter" data-level="40" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html"><i class="fa fa-check"></i><b>40</b> Algorithmic Optimization</a>
+<ul>
+<li class="chapter" data-level="40.1" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#brute-force-optimization"><i class="fa fa-check"></i><b>40.1</b> Brute-force optimization</a></li>
+<li class="chapter" data-level="40.2" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#derivative-based-methods"><i class="fa fa-check"></i><b>40.2</b> Derivative-based methods</a></li>
+<li class="chapter" data-level="40.3" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#gradient-descent"><i class="fa fa-check"></i><b>40.3</b> Gradient Descent</a>
+<ul>
+<li class="chapter" data-level="40.3.1" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#one-variable"><i class="fa fa-check"></i><b>40.3.1</b> One-variable</a></li>
+<li class="chapter" data-level="40.3.2" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#multivariable"><i class="fa fa-check"></i><b>40.3.2</b> Multivariable</a></li>
+</ul></li>
+<li class="chapter" data-level="40.4" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#optimization-with-r"><i class="fa fa-check"></i><b>40.4</b> Optimization with R</a></li>
+</ul></li>
+<li class="chapter" data-level="41" data-path="imbalanced-data.html"><a href="imbalanced-data.html"><i class="fa fa-check"></i><b>41</b> Imbalanced Data</a>
+<ul>
+<li class="chapter" data-level="41.1" data-path="imbalanced-data.html"><a href="imbalanced-data.html#smote"><i class="fa fa-check"></i><b>41.1</b> <code>SMOTE</code></a></li>
+<li class="chapter" data-level="41.2" data-path="imbalanced-data.html"><a href="imbalanced-data.html#fraud-detection"><i class="fa fa-check"></i><b>41.2</b> Fraud detection</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tool Shed for Applied Data Analytics with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="hyperparameter-tuning" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Hyperparameter Tuning<a href="hyperparameter-tuning.html#hyperparameter-tuning" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In general, there are multiple <strong>tuning</strong> parameters or so-called <strong>hyperparameters</strong> associated with each prediction method. The value of the hyperparameter has to be set before the learning process begins because those tuning parameters are external to the model and their value cannot be estimated from data.</p>
+<p>Therefore, we usually need to perform a grid search to identify the optimal combination of these parameters that minimizes the prediction error. For example, <span class="math inline">\(k\)</span> in kNN, the number of hidden layers in Neural Networks, even the degree of of polynomials in a linear regression have to be tuned before the learning process starts. In contrast, a parameter (in a paramteric model) is an internal characteristic of the model and its value can be estimated from data for any given hyperparameter.</p>
+<p>For example, <span class="math inline">\(\lambda\)</span>, the penalty parameter that shrinks the number of variables in Lasso, which we will see in Section 5, is a hyperparameter and has to be set before the estimation. When it’s set, the coefficients of Lasso are estimated from the process. We start with <strong>k-fold cross validation</strong> process and perform a cross-validated grid search to identify the optimal mix of those parameters.</p>
+<p>Here, we will learn the rules and simple application how to set up a grid serach that evaluates many different combinations of hyperparameters. This chapter covers the key concept in modern machine learning applications and many learning algorithms.</p>
+<div id="training-validation-and-test-datasets" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Training, validation, and test datasets<a href="hyperparameter-tuning.html#training-validation-and-test-datasets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before learning how to split the data into subsections randomly, we need to know what these sets are for and how we define them properly. This section is inspired by the article, <a href="https://machinelearningmastery.com/difference-test-validation-datasets/"><em>What is the Difference Between Test and Validation Datasets?</em></a>, by Jason Brownlee <span class="citation">(<a href="#ref-Brownlee_2017" role="doc-biblioref">2017</a>)</span>. The article clarifies how validation and test datasets are different, which can be confusing in practice.</p>
+<p>Let’s define them formally first:</p>
+<ul>
+<li><strong>Training Dataset</strong>: The sample of data used to fit (train) the predictive model.<br />
+</li>
+<li><strong>Validation Dataset</strong>: The sample of data used for tuning model hyperparameters, and selecting variables (feature selection).<br />
+</li>
+<li><strong>Test Dataset</strong>: The sample of data reserved to provide an unbiased evaluation of a final model fit on the training dataset.</li>
+</ul>
+<p>However, in practice, validation and test datasets are not named separately. Let’s summarize a usual process in modern machine learning applications:</p>
+<ol style="list-style-type: decimal">
+<li>You have a dataset for building a predictive model.</li>
+<li>Given the data and the prediction problem on your hand, you usually have multiple alternatives or <em>competing</em> models to start with.<br />
+</li>
+<li>Each model needs a training, which is a process of tuning their hyperparameters and selecting their features (variables) for the best predictive performance.</li>
+</ol>
+<p>Therefore, this process requires two different datasets: <strong>training</strong> and <strong>validation</strong> datasets. The intuition behind this split is very simple: the prediction is an out-of-sample problem. If we use the same sample that we use to fit the model for assessing the prediction accuracy of our model, we face the infamous overfitting problem. Since we usually don’t have another unseen dataset available to us, we split the data and leave one part out of our original dataset. We literally pretend that one that is left out is “unseen” by us. Now the question is how we do this split. Would it be 50-50?. The general approach is k-fold cross validation with a grid search. Here are the main steps:</p>
+<ol style="list-style-type: decimal">
+<li>Suppose Model 1 requires to pick a value for <span class="math inline">\(\lambda\)</span>, perhaps it is a degree of polynomials in the model.<br />
+</li>
+<li>We establish a grid, a set of sequential numbers, that is a set of possible values of <span class="math inline">\(\lambda\)</span>.<br />
+</li>
+<li>We split the data into <span class="math inline">\(k\)</span> random sections, let’s say 10 proportionally equal sections.</li>
+<li>We leave one section out and use 9 sections. The combination of these 9 sections is our <strong>training set</strong>. The one that is left out is our <strong>validation set</strong>.<br />
+</li>
+<li>We fit the model using each value in the set of possible values of <span class="math inline">\(\lambda\)</span>. For example, if we have 100 values of <span class="math inline">\(\lambda\)</span>, we fit the model to the training set 100 times, once for each possible value of <span class="math inline">\(\lambda\)</span>.</li>
+<li>We evaluate each of 100 models by using their predictive accuracy on the validation set, the one that is left out. We pick a <span class="math inline">\(\lambda\)</span> that gives the highest prediction accuracy.<br />
+</li>
+<li>We do this process 10 times (if it is 10-fold cross validation) with each time using a different section of the data as the validation set. So, note that each time our training and validation sets are going to be different. At the end, in total we will have 10 best <span class="math inline">\(\lambda\)</span>s.<br />
+</li>
+<li>We pick the average or modal value of <span class="math inline">\(\lambda\)</span> as our optimal hyperparameter that tunes our predictive model for its best performance.</li>
+</ol>
+<p>Note that the term <em>validation</em> is sometimes is mixed-up with <em>test</em> for the dataset we left out from our sample. This point often confuses practitioners. So what is the <strong>test set</strong>?</p>
+<p>We have now Model 1 tuned with the optimal <span class="math inline">\(\lambda\)</span>. This is Model 1 among several alternative models (there are more than 300 predictive models and growing in practice). Besides, the steps above we followed provides a limited answer whether if Model 1 has a good or “acceptable” prediction accuracy or not. In other words, tuning Model 1 doesn’t mean that it does a good or a bad job in prediction. How do we know and measure its performance in prediction?</p>
+<p>Usually, if the outcome that we try to predict is quantitative variable, we use root mean squared prediction error (RMSPE). There are several other metrics we will see later. If it’s an indicator outcome, we have to apply some other methods, one of which is called as Receiver Operating Curve (ROC). We will see and learn all of them all in detail shortly. But, for now, let’s pretend that we know a metric that measures the prediction accuracy of Model 1 as well as other alternative models.</p>
+<p>The only sensible way to do it would be to test the “tuned” model on a new dataset. In other words, you need to use the trained model on a real and new dataset and calculate the prediction accuracy of Model 1 by RMSPE or ROC. But, we do not have one. <strong>That’s why we have to go the beginning and create a split before starting the training process: training and test datasets. We use the training data for the feature selection and tuning the parameter.</strong> After you “trained” the model by validation, we can use the <strong>test set</strong> to see its performance.</p>
+<p>Finally, you follow the same steps for other alternative learning algorithms and then pick the winner. Having trained each model using the training set, and chosen the best model using the validation set, the test set tells you how good your final choice of model is.</p>
+<p>Here is a visualization of the split:</p>
+<p><img src="png/split.png" width="130%" height="130%" /></p>
+<p>Before seeing every step with an application in this chapter, let’s have a more intuitive and simpler explanation about “training” a model. First, what’s learning? We can summarize it this way: <strong>observe the facts, do some generalizations, use these generalizations to predict previously unseen facts, evaluate your predictions, and adjust your generalizations (knowledge) for better predictions</strong>. It’s an infinite loop.</p>
+<p>Here is the basic paradigm:</p>
+<ul>
+<li>Observe the facts (<strong>training data</strong>),</li>
+<li>Make generalizations (<strong>build prediction models</strong>),</li>
+<li>Adjust your prediction to make them better (<strong>train your model with validation data</strong>),</li>
+<li>Test your predictions on unseen data to see how they hold up (<strong>test data</strong>)</li>
+</ul>
+<p>As the distinction between validation and test datasets is now clear, we can conclude that, even if we have the best possible predictive model given the training dataset, our generalization of the seen data for prediction of unseen facts would be fruitless in practice. In fact, we may learn nothing at the end of this process and remain unknowledgeable about the unseen facts. Why would this happen? The main reason would be the lack of enough information in training set. If we do not have enough data to make and test models that are applicable to real life, our predictions may not be valid. The second reason would be modeling inefficiencies in a sense that it requires a very large computing power and storage capacity. This subject is also getting more interesting everyday. The Google’s quantum computers are one of them.</p>
+</div>
+<div id="splitting-the-data-randomly" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Splitting the data randomly<a href="hyperparameter-tuning.html#splitting-the-data-randomly" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We already know how to sample a set of observation by using <code>sample()</code>. We can use this function again to sort the data into k-fold sections. Here is an example with just 2 sections:</p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="hyperparameter-tuning.html#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="co">#We can create a simple dataset with X and Y using a DGM</span></span>
+<span id="cb350-2"><a href="hyperparameter-tuning.html#cb350-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb350-3"><a href="hyperparameter-tuning.html#cb350-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb350-4"><a href="hyperparameter-tuning.html#cb350-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">3</span>, <span class="dv">6</span>)</span>
+<span id="cb350-5"><a href="hyperparameter-tuning.html#cb350-5" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">13</span><span class="sc">*</span>X <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb350-6"><a href="hyperparameter-tuning.html#cb350-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Y, X)</span>
+<span id="cb350-7"><a href="hyperparameter-tuning.html#cb350-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb350-8"><a href="hyperparameter-tuning.html#cb350-8" aria-hidden="true" tabindex="-1"></a><span class="co">#We need to shuffle it</span></span>
+<span id="cb350-9"><a href="hyperparameter-tuning.html#cb350-9" aria-hidden="true" tabindex="-1"></a>random <span class="ot">&lt;-</span> <span class="fu">sample</span>(n, n, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb350-10"><a href="hyperparameter-tuning.html#cb350-10" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[random, ]</span>
+<span id="cb350-11"><a href="hyperparameter-tuning.html#cb350-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Now we have a dataset shuffled randomly.</span></span>
+<span id="cb350-12"><a href="hyperparameter-tuning.html#cb350-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb350-13"><a href="hyperparameter-tuning.html#cb350-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Since the order of data is now completely random,</span></span>
+<span id="cb350-14"><a href="hyperparameter-tuning.html#cb350-14" aria-hidden="true" tabindex="-1"></a><span class="co">#we can divide it as many slices as we wish</span></span>
+<span id="cb350-15"><a href="hyperparameter-tuning.html#cb350-15" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co">#2-fold (slices-sections)</span></span>
+<span id="cb350-16"><a href="hyperparameter-tuning.html#cb350-16" aria-hidden="true" tabindex="-1"></a>nslice <span class="ot">&lt;-</span> <span class="fu">floor</span>(n<span class="sc">/</span>k) <span class="co">#number of observations in each fold/slice</span></span>
+<span id="cb350-17"><a href="hyperparameter-tuning.html#cb350-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb350-18"><a href="hyperparameter-tuning.html#cb350-18" aria-hidden="true" tabindex="-1"></a><span class="co">#Since we have only 2 slices of data</span></span>
+<span id="cb350-19"><a href="hyperparameter-tuning.html#cb350-19" aria-hidden="true" tabindex="-1"></a><span class="co">#we can call one slice as a &quot;validation set&quot; the other one as a &quot;training set&quot;</span></span>
+<span id="cb350-20"><a href="hyperparameter-tuning.html#cb350-20" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> data[<span class="dv">1</span><span class="sc">:</span>nslice, ]</span>
+<span id="cb350-21"><a href="hyperparameter-tuning.html#cb350-21" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(train)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    5000 obs. of  2 variables:
+##  $ Y: num  -92.7 52.35 -114 133.6 7.39 ...
+##  $ X: num  -7.344 3.868 -9.006 9.978 0.468 ...</code></pre>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="hyperparameter-tuning.html#cb352-1" aria-hidden="true" tabindex="-1"></a>val <span class="ot">&lt;-</span> data[(nslice<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n,]</span>
+<span id="cb352-2"><a href="hyperparameter-tuning.html#cb352-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(val)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    5000 obs. of  2 variables:
+##  $ Y: num  -49.1 -53.7 -25 -46.2 135.2 ...
+##  $ X: num  -3.9 -4.22 -1.99 -3.67 10.37 ...</code></pre>
+<p>This is good, we now have it split into a 2-fold with 50-50% splitting. But what if we want a slicing that gives a 10% validation set and a 90% training set? How can we do that? One of the most common ways to do 10%-90% splitting is 10-fold slicing. Here is how:</p>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="hyperparameter-tuning.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Again, first, we need to shuffle it</span></span>
+<span id="cb354-2"><a href="hyperparameter-tuning.html#cb354-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb354-3"><a href="hyperparameter-tuning.html#cb354-3" aria-hidden="true" tabindex="-1"></a>random <span class="ot">&lt;-</span> <span class="fu">sample</span>(n, n, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb354-4"><a href="hyperparameter-tuning.html#cb354-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[random, ]</span>
+<span id="cb354-5"><a href="hyperparameter-tuning.html#cb354-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb354-6"><a href="hyperparameter-tuning.html#cb354-6" aria-hidden="true" tabindex="-1"></a><span class="co">#number of folds</span></span>
+<span id="cb354-7"><a href="hyperparameter-tuning.html#cb354-7" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb354-8"><a href="hyperparameter-tuning.html#cb354-8" aria-hidden="true" tabindex="-1"></a>nslice <span class="ot">&lt;-</span> <span class="fu">floor</span>(n<span class="sc">/</span>k) <span class="co">#number of observations in each fold/slice</span></span>
+<span id="cb354-9"><a href="hyperparameter-tuning.html#cb354-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb354-10"><a href="hyperparameter-tuning.html#cb354-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Now we have  10 slices of data and each slice has 10% of data.</span></span>
+<span id="cb354-11"><a href="hyperparameter-tuning.html#cb354-11" aria-hidden="true" tabindex="-1"></a><span class="co">#We can call one slice as a &quot;validation set&quot;</span></span>
+<span id="cb354-12"><a href="hyperparameter-tuning.html#cb354-12" aria-hidden="true" tabindex="-1"></a><span class="co">#And we group the other 9 slices as a &quot;training set&quot;</span></span>
+<span id="cb354-13"><a href="hyperparameter-tuning.html#cb354-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb354-14"><a href="hyperparameter-tuning.html#cb354-14" aria-hidden="true" tabindex="-1"></a>val <span class="ot">&lt;-</span> data[<span class="dv">1</span><span class="sc">:</span>nslice, ]</span>
+<span id="cb354-15"><a href="hyperparameter-tuning.html#cb354-15" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(val)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    1000 obs. of  2 variables:
+##  $ Y: num  -9.14 -87.79 -74.7 130.82 31.2 ...
+##  $ X: num  -0.908 -6.95 -5.881 9.809 2.21 ...</code></pre>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="hyperparameter-tuning.html#cb356-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> data[(nslice<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n, ]</span>
+<span id="cb356-2"><a href="hyperparameter-tuning.html#cb356-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(train)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    9000 obs. of  2 variables:
+##  $ Y: num  -71.6 12.1 27.9 136.1 26.3 ...
+##  $ X: num  -5.59 0.83 1.98 10.37 1.92 ...</code></pre>
+<p>How can we use this method to <em>tune</em> a model? Let’s use Kernel regressions applied by <code>loess()</code> that we have seen before.</p>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="hyperparameter-tuning.html#cb358-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Let&#39;s simulate our data</span></span>
+<span id="cb358-2"><a href="hyperparameter-tuning.html#cb358-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb358-3"><a href="hyperparameter-tuning.html#cb358-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb358-4"><a href="hyperparameter-tuning.html#cb358-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">runif</span>(n)<span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>pi)</span>
+<span id="cb358-5"><a href="hyperparameter-tuning.html#cb358-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">rnorm</span>(n)<span class="sc">/</span><span class="dv">4</span></span>
+<span id="cb358-6"><a href="hyperparameter-tuning.html#cb358-6" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x)</span>
+<span id="cb358-7"><a href="hyperparameter-tuning.html#cb358-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-109-1.png" width="672" /></p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="hyperparameter-tuning.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Estimation with degree = 2 (locally quadratic)</span></span>
+<span id="cb359-2"><a href="hyperparameter-tuning.html#cb359-2" aria-hidden="true" tabindex="-1"></a>loe0 <span class="ot">&lt;-</span> <span class="fu">loess</span>(y<span class="sc">~</span>x, <span class="at">degree=</span><span class="dv">2</span>, <span class="at">span =</span> <span class="fl">0.02</span>)</span>
+<span id="cb359-3"><a href="hyperparameter-tuning.html#cb359-3" aria-hidden="true" tabindex="-1"></a>loe1 <span class="ot">&lt;-</span> <span class="fu">loess</span>(y<span class="sc">~</span>x, <span class="at">degree=</span><span class="dv">2</span>, <span class="at">span =</span> <span class="fl">0.1</span>) </span>
+<span id="cb359-4"><a href="hyperparameter-tuning.html#cb359-4" aria-hidden="true" tabindex="-1"></a>loe2 <span class="ot">&lt;-</span> <span class="fu">loess</span>(y<span class="sc">~</span>x, <span class="at">degree=</span><span class="dv">2</span>, <span class="at">span =</span> <span class="dv">1</span>) </span>
+<span id="cb359-5"><a href="hyperparameter-tuning.html#cb359-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb359-6"><a href="hyperparameter-tuning.html#cb359-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Plots</span></span>
+<span id="cb359-7"><a href="hyperparameter-tuning.html#cb359-7" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(x), <span class="fu">max</span>(x), <span class="at">length.out =</span> <span class="dv">700</span>)</span>
+<span id="cb359-8"><a href="hyperparameter-tuning.html#cb359-8" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(loe0, t)</span>
+<span id="cb359-9"><a href="hyperparameter-tuning.html#cb359-9" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(loe1, t)</span>
+<span id="cb359-10"><a href="hyperparameter-tuning.html#cb359-10" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(loe2, t)</span>
+<span id="cb359-11"><a href="hyperparameter-tuning.html#cb359-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">cex.main =</span> <span class="fl">0.80</span>, <span class="at">cex.axis =</span> <span class="fl">0.75</span>)</span>
+<span id="cb359-12"><a href="hyperparameter-tuning.html#cb359-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, fit0, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span>
+<span id="cb359-13"><a href="hyperparameter-tuning.html#cb359-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, fit1, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb359-14"><a href="hyperparameter-tuning.html#cb359-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, fit2, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
+<p>The sensitivity of kernel regression estimations (with the locally quadratic <code>loess()</code>) to the bandwidth (<code>span</code>) is obvious from the plot. Which bandwidth should we choose for the best prediction accuracy? There are actually 2 hyperparameters in <code>loess()</code>: <code>degree</code> and <code>span</code>. We can tune both of them at the same time, but for the sake of simplicity, let’s set the <code>degree = 2</code> (locally polynomial) and tune only the bandwidth.</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="hyperparameter-tuning.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Again, first, we need to shuffle it</span></span>
+<span id="cb360-2"><a href="hyperparameter-tuning.html#cb360-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb360-3"><a href="hyperparameter-tuning.html#cb360-3" aria-hidden="true" tabindex="-1"></a>random <span class="ot">&lt;-</span> <span class="fu">sample</span>(n, n, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb360-4"><a href="hyperparameter-tuning.html#cb360-4" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> data2[random, ]</span>
+<span id="cb360-5"><a href="hyperparameter-tuning.html#cb360-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb360-6"><a href="hyperparameter-tuning.html#cb360-6" aria-hidden="true" tabindex="-1"></a><span class="co">#number of folds</span></span>
+<span id="cb360-7"><a href="hyperparameter-tuning.html#cb360-7" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb360-8"><a href="hyperparameter-tuning.html#cb360-8" aria-hidden="true" tabindex="-1"></a>nslice <span class="ot">&lt;-</span> <span class="fu">floor</span>(n<span class="sc">/</span>k) <span class="co">#number of observations in each fold/slice</span></span>
+<span id="cb360-9"><a href="hyperparameter-tuning.html#cb360-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb360-10"><a href="hyperparameter-tuning.html#cb360-10" aria-hidden="true" tabindex="-1"></a>val <span class="ot">&lt;-</span> data2[<span class="dv">1</span><span class="sc">:</span>nslice, ]</span>
+<span id="cb360-11"><a href="hyperparameter-tuning.html#cb360-11" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> data2[(nslice<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n, ]</span></code></pre></div>
+<p>Our validation and train sets are ready. We are going to use the train set to train our models with different values of <code>span</code> in each one. Then, we will validate each model by looking at the RMSPE of the model results against our validation set. The winner will be the one with the lowest RMSPE. That’s the plan. Let’s use the set of <code>span</code> = 0.02, 0.1, and 1.</p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="hyperparameter-tuning.html#cb361-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Estimation with degree = 2 (locally quadratic) by training set</span></span>
+<span id="cb361-2"><a href="hyperparameter-tuning.html#cb361-2" aria-hidden="true" tabindex="-1"></a>loe0 <span class="ot">&lt;-</span> <span class="fu">loess</span>(y<span class="sc">~</span>x, <span class="at">degree=</span><span class="dv">2</span>, <span class="at">span =</span> <span class="fl">0.02</span>, <span class="at">data =</span> train)</span>
+<span id="cb361-3"><a href="hyperparameter-tuning.html#cb361-3" aria-hidden="true" tabindex="-1"></a>loe1 <span class="ot">&lt;-</span> <span class="fu">loess</span>(y<span class="sc">~</span>x, <span class="at">degree=</span><span class="dv">2</span>, <span class="at">span =</span> <span class="fl">0.1</span>, <span class="at">data =</span> train) </span>
+<span id="cb361-4"><a href="hyperparameter-tuning.html#cb361-4" aria-hidden="true" tabindex="-1"></a>loe2 <span class="ot">&lt;-</span> <span class="fu">loess</span>(y<span class="sc">~</span>x, <span class="at">degree=</span><span class="dv">2</span>, <span class="at">span =</span> <span class="dv">1</span>, <span class="at">data =</span> train)</span>
+<span id="cb361-5"><a href="hyperparameter-tuning.html#cb361-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb361-6"><a href="hyperparameter-tuning.html#cb361-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Predicting by using validation set</span></span>
+<span id="cb361-7"><a href="hyperparameter-tuning.html#cb361-7" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(loe0, val<span class="sc">$</span>x)</span>
+<span id="cb361-8"><a href="hyperparameter-tuning.html#cb361-8" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(loe1, val<span class="sc">$</span>x)</span>
+<span id="cb361-9"><a href="hyperparameter-tuning.html#cb361-9" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(loe2, val<span class="sc">$</span>x)</span></code></pre></div>
+<p>We must also create our performance metric, RMSPE;</p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="hyperparameter-tuning.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Estimation with degree = 2 (locally quadratic) by training set</span></span>
+<span id="cb362-2"><a href="hyperparameter-tuning.html#cb362-2" aria-hidden="true" tabindex="-1"></a>rmspe0 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((val<span class="sc">$</span>y<span class="sc">-</span>fit0)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb362-3"><a href="hyperparameter-tuning.html#cb362-3" aria-hidden="true" tabindex="-1"></a>rmspe1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((val<span class="sc">$</span>y<span class="sc">-</span>fit1)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb362-4"><a href="hyperparameter-tuning.html#cb362-4" aria-hidden="true" tabindex="-1"></a>rmspe2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((val<span class="sc">$</span>y<span class="sc">-</span>fit2)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb362-5"><a href="hyperparameter-tuning.html#cb362-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb362-6"><a href="hyperparameter-tuning.html#cb362-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">paste</span>(<span class="st">&quot;With span = 0.02&quot;</span>, <span class="st">&quot;rmspe is &quot;</span>, rmspe0),</span>
+<span id="cb362-7"><a href="hyperparameter-tuning.html#cb362-7" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;With span = 0.1&quot;</span>, <span class="st">&quot;rmspe is &quot;</span>, rmspe1),</span>
+<span id="cb362-8"><a href="hyperparameter-tuning.html#cb362-8" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;With span = 1&quot;</span>, <span class="st">&quot;rmspe is &quot;</span>, rmspe2))</span></code></pre></div>
+<pre><code>## [1] &quot;With span = 0.02 rmspe is  0.2667567209162&quot; 
+## [2] &quot;With span = 0.1 rmspe is  0.247223047309939&quot;
+## [3] &quot;With span = 1 rmspe is  0.309649140565878&quot;</code></pre>
+<p>We are now able to see which bandwidth is better. When we set <code>span</code> = 0.1, RMSPE is the lowest. But we have several problems with this algorithm. First, we only used three arbitrary values for <code>span</code>. If we use 0.11, for example, we don’t know if its RMSPE could be better or not. Second, we only see the differences across RMSPE’s by manually comparing them. If we had tested for a large set of span values, this would have been difficult. Third, we have used only one set of validation and training sets. If we do it multiple times, we may have different results and different rankings of the models. How are we going to address these issues?</p>
+<p>Let’s address this last issue, about using more than one set of training and validation sets, first:</p>
+</div>
+<div id="k-fold-cross-validation" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> k-fold cross validation<a href="hyperparameter-tuning.html#k-fold-cross-validation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can start here with the following figure about k-fold cross-validation. It shows 5-fold cross validation. It splits the data into k-folds, then trains the data on k-1 folds and validation on the one fold that was left out. Although, this type cross validation is the most common one, there are also several different cross validation methods, such as leave-one-out (LOOCV), leave-one-group-out, and time-series cross validation methods, which we will see later.</p>
+<p><img src="png/grid3.png" width="130%" height="130%" /></p>
+<p>This figure illustrates 5-k CV. We have done this with the 10-fold version for only one split and did not repeat it 10 times. The only job now is to create a loop that does the first slicing 10 times. If we repeat the same <code>loess()</code> example with 10-k cross validation, we will have 10 RMSPE’s for each <code>span</code> value. To evaluate which one is the lowest, we take the average of those 10 RSMPE’s for each model.</p>
+<p>Before that, however, let’s start with a simple example of building a loop. Suppose we have a random variable <span class="math inline">\(X\)</span> and we need to calculate means of <span class="math inline">\(X\)</span> in training and validation sets to see if they are similar or not. A 10-k cross-validation example is here:</p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="hyperparameter-tuning.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="co">#data</span></span>
+<span id="cb364-2"><a href="hyperparameter-tuning.html#cb364-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb364-3"><a href="hyperparameter-tuning.html#cb364-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">2</span>, <span class="dv">5</span>)</span>
+<span id="cb364-4"><a href="hyperparameter-tuning.html#cb364-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb364-5"><a href="hyperparameter-tuning.html#cb364-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Shuffle the order of observations by their index</span></span>
+<span id="cb364-6"><a href="hyperparameter-tuning.html#cb364-6" aria-hidden="true" tabindex="-1"></a>mysample <span class="ot">&lt;-</span> <span class="fu">sample</span>(n, n, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb364-7"><a href="hyperparameter-tuning.html#cb364-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb364-8"><a href="hyperparameter-tuning.html#cb364-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Since we will have 10 means from each set</span></span>
+<span id="cb364-9"><a href="hyperparameter-tuning.html#cb364-9" aria-hidden="true" tabindex="-1"></a><span class="co">#we need empty &quot;containers&quot; for those values</span></span>
+<span id="cb364-10"><a href="hyperparameter-tuning.html#cb364-10" aria-hidden="true" tabindex="-1"></a>fold <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb364-11"><a href="hyperparameter-tuning.html#cb364-11" aria-hidden="true" tabindex="-1"></a>means_validate <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb364-12"><a href="hyperparameter-tuning.html#cb364-12" aria-hidden="true" tabindex="-1"></a>means_train <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb364-13"><a href="hyperparameter-tuning.html#cb364-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb364-14"><a href="hyperparameter-tuning.html#cb364-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Here is the loop</span></span>
+<span id="cb364-15"><a href="hyperparameter-tuning.html#cb364-15" aria-hidden="true" tabindex="-1"></a>nvalidate <span class="ot">&lt;-</span> <span class="fu">round</span>(n<span class="sc">/</span>fold) <span class="co">#number of observation in each set</span></span>
+<span id="cb364-16"><a href="hyperparameter-tuning.html#cb364-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb364-17"><a href="hyperparameter-tuning.html#cb364-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>fold){</span>
+<span id="cb364-18"><a href="hyperparameter-tuning.html#cb364-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;K-fold loop: &quot;</span>, i, <span class="st">&quot;</span><span class="sc">\r</span><span class="st">&quot;</span>) <span class="co">#This tells us which fold we are at the moment</span></span>
+<span id="cb364-19"><a href="hyperparameter-tuning.html#cb364-19" aria-hidden="true" tabindex="-1"></a>                                <span class="co">#No need to have it as it slows the loop speed </span></span>
+<span id="cb364-20"><a href="hyperparameter-tuning.html#cb364-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb364-21"><a href="hyperparameter-tuning.html#cb364-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&lt;</span> fold) validate <span class="ot">&lt;-</span> mysample[((i<span class="dv">-1</span>)<span class="sc">*</span>nvalidate<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(i<span class="sc">*</span>nvalidate)]</span>
+<span id="cb364-22"><a href="hyperparameter-tuning.html#cb364-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> validate <span class="ot">&lt;-</span> mysample[((i<span class="dv">-1</span>)<span class="sc">*</span>nvalidate<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n]</span>
+<span id="cb364-23"><a href="hyperparameter-tuning.html#cb364-23" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, n)[<span class="sc">-</span>validate]</span>
+<span id="cb364-24"><a href="hyperparameter-tuning.html#cb364-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb364-25"><a href="hyperparameter-tuning.html#cb364-25" aria-hidden="true" tabindex="-1"></a>  X_validate <span class="ot">&lt;-</span> X[validate]</span>
+<span id="cb364-26"><a href="hyperparameter-tuning.html#cb364-26" aria-hidden="true" tabindex="-1"></a>  X_train <span class="ot">&lt;-</span> X[<span class="sc">-</span>validate]</span>
+<span id="cb364-27"><a href="hyperparameter-tuning.html#cb364-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb364-28"><a href="hyperparameter-tuning.html#cb364-28" aria-hidden="true" tabindex="-1"></a>  means_validate[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(X_validate)</span>
+<span id="cb364-29"><a href="hyperparameter-tuning.html#cb364-29" aria-hidden="true" tabindex="-1"></a>  means_train[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(X_train)</span>
+<span id="cb364-30"><a href="hyperparameter-tuning.html#cb364-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## K-fold loop:  1 
+K-fold loop:  2 
+K-fold loop:  3 
+K-fold loop:  4 
+K-fold loop:  5 
+K-fold loop:  6 
+K-fold loop:  7 
+K-fold loop:  8 
+K-fold loop:  9 
+K-fold loop:  10 </code></pre>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="hyperparameter-tuning.html#cb366-1" aria-hidden="true" tabindex="-1"></a>means_validate</span></code></pre></div>
+<pre><code>##  [1] 1.960626 2.078920 1.844554 2.028020 2.223252 2.090933 2.082902 1.842147
+##  [9] 2.106923 2.184972</code></pre>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="hyperparameter-tuning.html#cb368-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means_validate)</span></code></pre></div>
+<pre><code>## [1] 2.044325</code></pre>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="hyperparameter-tuning.html#cb370-1" aria-hidden="true" tabindex="-1"></a>means_train</span></code></pre></div>
+<pre><code>##  [1] 2.053625 2.040481 2.066522 2.046137 2.024444 2.039146 2.040039 2.066789
+##  [9] 2.037370 2.028697</code></pre>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="hyperparameter-tuning.html#cb372-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means_train)</span></code></pre></div>
+<pre><code>## [1] 2.044325</code></pre>
+<p>This is impressive. The only difference between this simple example and a more complex one is some adjustments that we need to make in the type of calculations. Let’s do it with our <code>loess()</code> example:</p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="hyperparameter-tuning.html#cb374-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Let&#39;s simulate our data</span></span>
+<span id="cb374-2"><a href="hyperparameter-tuning.html#cb374-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">10000</span></span>
+<span id="cb374-3"><a href="hyperparameter-tuning.html#cb374-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb374-4"><a href="hyperparameter-tuning.html#cb374-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">runif</span>(n)<span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>pi)</span>
+<span id="cb374-5"><a href="hyperparameter-tuning.html#cb374-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">rnorm</span>(n)<span class="sc">/</span><span class="dv">4</span></span>
+<span id="cb374-6"><a href="hyperparameter-tuning.html#cb374-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb374-7"><a href="hyperparameter-tuning.html#cb374-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x)</span>
+<span id="cb374-8"><a href="hyperparameter-tuning.html#cb374-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb374-9"><a href="hyperparameter-tuning.html#cb374-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Shuffle the order of observations by their index</span></span>
+<span id="cb374-10"><a href="hyperparameter-tuning.html#cb374-10" aria-hidden="true" tabindex="-1"></a>mysample <span class="ot">&lt;-</span> <span class="fu">sample</span>(n, n, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb374-11"><a href="hyperparameter-tuning.html#cb374-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb374-12"><a href="hyperparameter-tuning.html#cb374-12" aria-hidden="true" tabindex="-1"></a>fold <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="co">#10-k CV</span></span>
+<span id="cb374-13"><a href="hyperparameter-tuning.html#cb374-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb374-14"><a href="hyperparameter-tuning.html#cb374-14" aria-hidden="true" tabindex="-1"></a>RMSPE <span class="ot">&lt;-</span> <span class="fu">c</span>() <span class="co"># we need an empty container to store RMSPE from validate set</span></span>
+<span id="cb374-15"><a href="hyperparameter-tuning.html#cb374-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb374-16"><a href="hyperparameter-tuning.html#cb374-16" aria-hidden="true" tabindex="-1"></a><span class="co">#loop</span></span>
+<span id="cb374-17"><a href="hyperparameter-tuning.html#cb374-17" aria-hidden="true" tabindex="-1"></a>nvalidate <span class="ot">&lt;-</span> <span class="fu">round</span>(n<span class="sc">/</span>fold)</span>
+<span id="cb374-18"><a href="hyperparameter-tuning.html#cb374-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>fold){</span>
+<span id="cb374-19"><a href="hyperparameter-tuning.html#cb374-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&lt;</span> fold) validate <span class="ot">&lt;-</span> mysample[((i<span class="dv">-1</span>)<span class="sc">*</span>nvalidate<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(i<span class="sc">*</span>nvalidate)]</span>
+<span id="cb374-20"><a href="hyperparameter-tuning.html#cb374-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> validate <span class="ot">&lt;-</span> mysample[((i<span class="dv">-1</span>)<span class="sc">*</span>nvalidate<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n]</span>
+<span id="cb374-21"><a href="hyperparameter-tuning.html#cb374-21" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, n)[<span class="sc">-</span>validate]</span>
+<span id="cb374-22"><a href="hyperparameter-tuning.html#cb374-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb374-23"><a href="hyperparameter-tuning.html#cb374-23" aria-hidden="true" tabindex="-1"></a>  data_validate <span class="ot">&lt;-</span> data[validate,]</span>
+<span id="cb374-24"><a href="hyperparameter-tuning.html#cb374-24" aria-hidden="true" tabindex="-1"></a>  data_train <span class="ot">&lt;-</span> data[<span class="sc">-</span>validate,]</span>
+<span id="cb374-25"><a href="hyperparameter-tuning.html#cb374-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb374-26"><a href="hyperparameter-tuning.html#cb374-26" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">loess</span>(y <span class="sc">~</span> x, <span class="at">control=</span><span class="fu">loess.control</span>(<span class="at">surface=</span><span class="st">&quot;direct&quot;</span>), </span>
+<span id="cb374-27"><a href="hyperparameter-tuning.html#cb374-27" aria-hidden="true" tabindex="-1"></a>                       <span class="at">degree=</span><span class="dv">2</span>, <span class="at">span =</span> <span class="fl">0.1</span>, <span class="at">data =</span> data_train)</span>
+<span id="cb374-28"><a href="hyperparameter-tuning.html#cb374-28" aria-hidden="true" tabindex="-1"></a>  <span class="co">#loess.control() is used for the adjustment</span></span>
+<span id="cb374-29"><a href="hyperparameter-tuning.html#cb374-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">#for x values that are outside of x values used in training</span></span>
+<span id="cb374-30"><a href="hyperparameter-tuning.html#cb374-30" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, data_validate<span class="sc">$</span>x)</span>
+<span id="cb374-31"><a href="hyperparameter-tuning.html#cb374-31" aria-hidden="true" tabindex="-1"></a>  RMSPE[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((data_validate<span class="sc">$</span>y<span class="sc">-</span>fit)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb374-32"><a href="hyperparameter-tuning.html#cb374-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb374-33"><a href="hyperparameter-tuning.html#cb374-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb374-34"><a href="hyperparameter-tuning.html#cb374-34" aria-hidden="true" tabindex="-1"></a>RMSPE</span></code></pre></div>
+<pre><code>##  [1] 0.2427814 0.2469909 0.2387873 0.2472059 0.2489808 0.2510570 0.2553914
+##  [8] 0.2517241 0.2521053 0.2429688</code></pre>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="hyperparameter-tuning.html#cb376-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(RMSPE)</span></code></pre></div>
+<pre><code>## [1] 0.2477993</code></pre>
+<p>How can we use this k-fold cross validation in tuning the parameters by 3 possible values of <code>span</code> = 0.02, 0.1, and 1:</p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="hyperparameter-tuning.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the same data</span></span>
+<span id="cb378-2"><a href="hyperparameter-tuning.html#cb378-2" aria-hidden="true" tabindex="-1"></a>mysample <span class="ot">&lt;-</span> <span class="fu">sample</span>(n, n, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb378-3"><a href="hyperparameter-tuning.html#cb378-3" aria-hidden="true" tabindex="-1"></a>fold <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="co">#10-k CV</span></span>
+<span id="cb378-4"><a href="hyperparameter-tuning.html#cb378-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb378-5"><a href="hyperparameter-tuning.html#cb378-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Possible values for span, GRID!</span></span>
+<span id="cb378-6"><a href="hyperparameter-tuning.html#cb378-6" aria-hidden="true" tabindex="-1"></a>span <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.1</span>, <span class="dv">1</span>)</span>
+<span id="cb378-7"><a href="hyperparameter-tuning.html#cb378-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb378-8"><a href="hyperparameter-tuning.html#cb378-8" aria-hidden="true" tabindex="-1"></a><span class="co">#We need a container to store RMSPE from validate set</span></span>
+<span id="cb378-9"><a href="hyperparameter-tuning.html#cb378-9" aria-hidden="true" tabindex="-1"></a><span class="co">#but we have to have a matrix now with 3 columns for each paramater in span</span></span>
+<span id="cb378-10"><a href="hyperparameter-tuning.html#cb378-10" aria-hidden="true" tabindex="-1"></a>RMSPE <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> fold, <span class="at">ncol =</span> <span class="fu">length</span>(span)) </span>
+<span id="cb378-11"><a href="hyperparameter-tuning.html#cb378-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb378-12"><a href="hyperparameter-tuning.html#cb378-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Loop</span></span>
+<span id="cb378-13"><a href="hyperparameter-tuning.html#cb378-13" aria-hidden="true" tabindex="-1"></a>nvalidate <span class="ot">&lt;-</span> <span class="fu">round</span>(n<span class="sc">/</span>fold)</span>
+<span id="cb378-14"><a href="hyperparameter-tuning.html#cb378-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>fold){</span>
+<span id="cb378-15"><a href="hyperparameter-tuning.html#cb378-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&lt;</span> fold) validate <span class="ot">&lt;-</span> mysample[((i<span class="dv">-1</span>)<span class="sc">*</span>nvalidate<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(i<span class="sc">*</span>nvalidate)]</span>
+<span id="cb378-16"><a href="hyperparameter-tuning.html#cb378-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> validate <span class="ot">&lt;-</span> mysample[((i<span class="dv">-1</span>)<span class="sc">*</span>nvalidate<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n]</span>
+<span id="cb378-17"><a href="hyperparameter-tuning.html#cb378-17" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, n)[<span class="sc">-</span>validate]</span>
+<span id="cb378-18"><a href="hyperparameter-tuning.html#cb378-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb378-19"><a href="hyperparameter-tuning.html#cb378-19" aria-hidden="true" tabindex="-1"></a>  data_validate <span class="ot">&lt;-</span> data[validate,]</span>
+<span id="cb378-20"><a href="hyperparameter-tuning.html#cb378-20" aria-hidden="true" tabindex="-1"></a>  data_train <span class="ot">&lt;-</span> data[<span class="sc">-</span>validate,]</span>
+<span id="cb378-21"><a href="hyperparameter-tuning.html#cb378-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb378-22"><a href="hyperparameter-tuning.html#cb378-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">#We need another loop running each value in span:</span></span>
+<span id="cb378-23"><a href="hyperparameter-tuning.html#cb378-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(span)) {</span>
+<span id="cb378-24"><a href="hyperparameter-tuning.html#cb378-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#cat(&quot;K-fold loop: &quot;, i, j,  &quot;\r&quot;) </span></span>
+<span id="cb378-25"><a href="hyperparameter-tuning.html#cb378-25" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">loess</span>(y <span class="sc">~</span> x, <span class="at">control=</span><span class="fu">loess.control</span>(<span class="at">surface=</span><span class="st">&quot;direct&quot;</span>), </span>
+<span id="cb378-26"><a href="hyperparameter-tuning.html#cb378-26" aria-hidden="true" tabindex="-1"></a>                       <span class="at">degree=</span><span class="dv">2</span>, <span class="at">span =</span> span[j], <span class="at">data =</span> data_train)</span>
+<span id="cb378-27"><a href="hyperparameter-tuning.html#cb378-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb378-28"><a href="hyperparameter-tuning.html#cb378-28" aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, data_validate<span class="sc">$</span>x)</span>
+<span id="cb378-29"><a href="hyperparameter-tuning.html#cb378-29" aria-hidden="true" tabindex="-1"></a>    RMSPE[i,j] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((data_validate<span class="sc">$</span>y<span class="sc">-</span>fit)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb378-30"><a href="hyperparameter-tuning.html#cb378-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb378-31"><a href="hyperparameter-tuning.html#cb378-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb378-32"><a href="hyperparameter-tuning.html#cb378-32" aria-hidden="true" tabindex="-1"></a>RMSPE</span></code></pre></div>
+<pre><code>##            [,1]      [,2]      [,3]
+##  [1,] 0.2553526 0.2537322 0.3221018
+##  [2,] 0.2498332 0.2490425 0.3136585
+##  [3,] 0.2457066 0.2438678 0.3156779
+##  [4,] 0.2537020 0.2515660 0.3124925
+##  [5,] 0.2541144 0.2506757 0.3135304
+##  [6,] 0.2462051 0.2438164 0.3139374
+##  [7,] 0.2589021 0.2571637 0.3147272
+##  [8,] 0.2453394 0.2435748 0.3145081
+##  [9,] 0.2479946 0.2461617 0.3002658
+## [10,] 0.2399564 0.2393222 0.3006061</code></pre>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="hyperparameter-tuning.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Here are the values you compare to choose an optimal span</span></span>
+<span id="cb380-2"><a href="hyperparameter-tuning.html#cb380-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(RMSPE)</span></code></pre></div>
+<pre><code>## [1] 0.2497106 0.2478923 0.3121506</code></pre>
+</div>
+<div id="grid-search" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Grid search<a href="hyperparameter-tuning.html#grid-search" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The traditional way of performing hyperparameter optimization has been <em>grid search</em>, or a <em>parameter sweep</em>, which is simply an <strong>exhaustive searching</strong> through a manually specified subset of the hyperparameter space of a learning algorithm. This is how <em>grid search</em> is defined by Wikipedia.</p>
+<p>Although we did not call it as grid search, we have already done it in the last example. It was a simple search for optimal <code>span</code> with three arbitrary numbers, 0.02, 0.1 and 1. Besides, we didn’t search for <code>degree</code>, which is another hyperparamater in <code>loess()</code>.</p>
+<p>Hence the first job is to set the hyperparameter grid. In each hyperparameter, we need to know the maximum and the minimum values of this subset. For example, <code>span</code> in <code>loess()</code> sets the size of the neighborhood, which ranges between 0 to 1. This controls the degree of smoothing. So, the greater the value of span, smoother the fitted curve is. For example, if <span class="math inline">\(n\)</span> is the number of data points and <code>span</code> = 0.5, then for a given <span class="math inline">\(X\)</span>, loess will use the 0.5 * <span class="math inline">\(n\)</span> closest points to <span class="math inline">\(X\)</span> for the fit.</p>
+<p>Additionally the <code>degree</code> argument in <code>loess()</code> is defined as <em>the degree of the polynomials to be used, normally 1 or 2. (Degree 0 is also allowed, but see the ‘Note’. in <code>?loess</code>)</em>. For each learning algorithm, the number of tuning parameters and their ranges will be different. Before running any grid search, therefore, we need to understand their function and range.</p>
+<p>Let’s use our example again <strong>without</strong> cross validation first:</p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="hyperparameter-tuning.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the same data with reduced size </span></span>
+<span id="cb382-2"><a href="hyperparameter-tuning.html#cb382-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb382-3"><a href="hyperparameter-tuning.html#cb382-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb382-4"><a href="hyperparameter-tuning.html#cb382-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">runif</span>(n)<span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>pi)</span>
+<span id="cb382-5"><a href="hyperparameter-tuning.html#cb382-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">rnorm</span>(n)<span class="sc">/</span><span class="dv">4</span></span>
+<span id="cb382-6"><a href="hyperparameter-tuning.html#cb382-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x)</span>
+<span id="cb382-7"><a href="hyperparameter-tuning.html#cb382-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb382-8"><a href="hyperparameter-tuning.html#cb382-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating a set of possible values for span: GRID</span></span>
+<span id="cb382-9"><a href="hyperparameter-tuning.html#cb382-9" aria-hidden="true" tabindex="-1"></a>span <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.01</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.02</span>) <span class="co">#this creates 50 options</span></span>
+<span id="cb382-10"><a href="hyperparameter-tuning.html#cb382-10" aria-hidden="true" tabindex="-1"></a>degree <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)</span>
+<span id="cb382-11"><a href="hyperparameter-tuning.html#cb382-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb382-12"><a href="hyperparameter-tuning.html#cb382-12" aria-hidden="true" tabindex="-1"></a><span class="co">#We need a (span x degree) matrix to store RMSPE </span></span>
+<span id="cb382-13"><a href="hyperparameter-tuning.html#cb382-13" aria-hidden="true" tabindex="-1"></a>RMSPE <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(span), <span class="at">ncol =</span> <span class="fu">length</span>(degree)) </span>
+<span id="cb382-14"><a href="hyperparameter-tuning.html#cb382-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb382-15"><a href="hyperparameter-tuning.html#cb382-15" aria-hidden="true" tabindex="-1"></a><span class="co">#loop for grid search over span</span></span>
+<span id="cb382-16"><a href="hyperparameter-tuning.html#cb382-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(span)){</span>
+<span id="cb382-17"><a href="hyperparameter-tuning.html#cb382-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb382-18"><a href="hyperparameter-tuning.html#cb382-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#loop for grid search for degree</span></span>
+<span id="cb382-19"><a href="hyperparameter-tuning.html#cb382-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(degree)) {</span>
+<span id="cb382-20"><a href="hyperparameter-tuning.html#cb382-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">#cat(&quot;Loops: &quot;, i, j,  &quot;\r&quot;)   </span></span>
+<span id="cb382-21"><a href="hyperparameter-tuning.html#cb382-21" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">loess</span>(y <span class="sc">~</span> x, <span class="at">control=</span><span class="fu">loess.control</span>(<span class="at">surface=</span><span class="st">&quot;direct&quot;</span>), </span>
+<span id="cb382-22"><a href="hyperparameter-tuning.html#cb382-22" aria-hidden="true" tabindex="-1"></a>                       <span class="at">degree=</span>degree[j], <span class="at">span =</span> span[i], <span class="at">data =</span> data)</span>
+<span id="cb382-23"><a href="hyperparameter-tuning.html#cb382-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb382-24"><a href="hyperparameter-tuning.html#cb382-24" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, data<span class="sc">$</span>x)</span>
+<span id="cb382-25"><a href="hyperparameter-tuning.html#cb382-25" aria-hidden="true" tabindex="-1"></a>  RMSPE[i,j] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((data<span class="sc">$</span>y<span class="sc">-</span>fit)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb382-26"><a href="hyperparameter-tuning.html#cb382-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb382-27"><a href="hyperparameter-tuning.html#cb382-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The RMSPE matrix is a <span class="math inline">\(50 \times 2\)</span> matrix. Each row gives us RMSPE calculated for each <code>span</code> parameter for 2 different <code>degree</code> parameters. Note that this is not a <em>correct</em> RSMPE as it uses only one sample and calculates <em>in-sample</em> RMSPE. Moreover, it is not efficient way to search a grid as it uses double loops. We will improve it step by step.</p>
+<p>Now our job is to find the smallest RMSPE in the matrix.</p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="hyperparameter-tuning.html#cb383-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(RMSPE)</span></code></pre></div>
+<pre><code>##           [,1]      [,2]
+## [1,] 0.2241721 0.2019041
+## [2,] 0.2466408 0.2413781
+## [3,] 0.2512451 0.2465098
+## [4,] 0.2538281 0.2496574
+## [5,] 0.2551257 0.2523178
+## [6,] 0.2557593 0.2534789</code></pre>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="hyperparameter-tuning.html#cb385-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Here are the values you compare for an optimal degree</span></span>
+<span id="cb385-2"><a href="hyperparameter-tuning.html#cb385-2" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(RMSPE <span class="sc">==</span> <span class="fu">min</span>(RMSPE), <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##      row col
+## [1,]   1   2</code></pre>
+<p>We will the same method in tuning our model, <code>loess()</code>, with cross validation</p>
+</div>
+<div id="cross-validated-grid-search" class="section level2 hasAnchor" number="9.5">
+<h2><span class="header-section-number">9.5</span> Cross-validated grid search<a href="hyperparameter-tuning.html#cross-validated-grid-search" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>All we need to do is to put our grid search algorithm inside the cross-validation loop. We will improve two things: we will have a “better” grid so that the number of loops will be fewer. Here is an example:</p>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="hyperparameter-tuning.html#cb387-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating a set of possible values for span: GRID</span></span>
+<span id="cb387-2"><a href="hyperparameter-tuning.html#cb387-2" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.01</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.02</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb387-3"><a href="hyperparameter-tuning.html#cb387-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(grid)</span></code></pre></div>
+<pre><code>##   Var1 Var2
+## 1 0.01    1
+## 2 0.03    1
+## 3 0.05    1
+## 4 0.07    1
+## 5 0.09    1
+## 6 0.11    1</code></pre>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="hyperparameter-tuning.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="co">#or</span></span>
+<span id="cb389-2"><a href="hyperparameter-tuning.html#cb389-2" aria-hidden="true" tabindex="-1"></a>span <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.01</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.02</span>)</span>
+<span id="cb389-3"><a href="hyperparameter-tuning.html#cb389-3" aria-hidden="true" tabindex="-1"></a>degree <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="fu">length</span>(span)), <span class="fu">rep</span>(<span class="dv">2</span>,<span class="fu">length</span>(span)))</span>
+<span id="cb389-4"><a href="hyperparameter-tuning.html#cb389-4" aria-hidden="true" tabindex="-1"></a>grid_mine <span class="ot">&lt;-</span> <span class="fu">cbind</span>(span, degree)</span>
+<span id="cb389-5"><a href="hyperparameter-tuning.html#cb389-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(grid)</span></code></pre></div>
+<pre><code>##   Var1 Var2
+## 1 0.01    1
+## 2 0.03    1
+## 3 0.05    1
+## 4 0.07    1
+## 5 0.09    1
+## 6 0.11    1</code></pre>
+<p>Now we need to go through each row of <code>grid</code> that contains two tuning parameters in each CV: the first column is <code>span</code> and the second column is <code>degree</code>.</p>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="hyperparameter-tuning.html#cb391-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the same data with reduced size </span></span>
+<span id="cb391-2"><a href="hyperparameter-tuning.html#cb391-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb391-3"><a href="hyperparameter-tuning.html#cb391-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb391-4"><a href="hyperparameter-tuning.html#cb391-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">runif</span>(n)<span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>pi)</span>
+<span id="cb391-5"><a href="hyperparameter-tuning.html#cb391-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">rnorm</span>(n)<span class="sc">/</span><span class="dv">4</span></span>
+<span id="cb391-6"><a href="hyperparameter-tuning.html#cb391-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x)</span>
+<span id="cb391-7"><a href="hyperparameter-tuning.html#cb391-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb391-8"><a href="hyperparameter-tuning.html#cb391-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Setting CV</span></span>
+<span id="cb391-9"><a href="hyperparameter-tuning.html#cb391-9" aria-hidden="true" tabindex="-1"></a>mysample <span class="ot">&lt;-</span> <span class="fu">sample</span>(n, n, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb391-10"><a href="hyperparameter-tuning.html#cb391-10" aria-hidden="true" tabindex="-1"></a>fold <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="co">#10-fold CV</span></span>
+<span id="cb391-11"><a href="hyperparameter-tuning.html#cb391-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb391-12"><a href="hyperparameter-tuning.html#cb391-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Since we will do the same tuning 10 times</span></span>
+<span id="cb391-13"><a href="hyperparameter-tuning.html#cb391-13" aria-hidden="true" tabindex="-1"></a><span class="co">#we need to have a container that stores </span></span>
+<span id="cb391-14"><a href="hyperparameter-tuning.html#cb391-14" aria-hidden="true" tabindex="-1"></a><span class="co">#10 optimal sets of span and degree values</span></span>
+<span id="cb391-15"><a href="hyperparameter-tuning.html#cb391-15" aria-hidden="true" tabindex="-1"></a>OPT <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb391-16"><a href="hyperparameter-tuning.html#cb391-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb391-17"><a href="hyperparameter-tuning.html#cb391-17" aria-hidden="true" tabindex="-1"></a><span class="co">#loop</span></span>
+<span id="cb391-18"><a href="hyperparameter-tuning.html#cb391-18" aria-hidden="true" tabindex="-1"></a>nvalidate <span class="ot">&lt;-</span> <span class="fu">round</span>(n<span class="sc">/</span>fold)</span>
+<span id="cb391-19"><a href="hyperparameter-tuning.html#cb391-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb391-20"><a href="hyperparameter-tuning.html#cb391-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>fold){</span>
+<span id="cb391-21"><a href="hyperparameter-tuning.html#cb391-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">#cat(&quot;K-fold loop: &quot;, i, &quot;\r&quot;) </span></span>
+<span id="cb391-22"><a href="hyperparameter-tuning.html#cb391-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb391-23"><a href="hyperparameter-tuning.html#cb391-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&lt;</span> fold) validate <span class="ot">&lt;-</span> mysample[((i<span class="dv">-1</span>)<span class="sc">*</span>nvalidate<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(i<span class="sc">*</span>nvalidate)]</span>
+<span id="cb391-24"><a href="hyperparameter-tuning.html#cb391-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> validate <span class="ot">&lt;-</span> mysample[((i<span class="dv">-1</span>)<span class="sc">*</span>nvalidate<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n]</span>
+<span id="cb391-25"><a href="hyperparameter-tuning.html#cb391-25" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, n)[<span class="sc">-</span>validate]</span>
+<span id="cb391-26"><a href="hyperparameter-tuning.html#cb391-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb391-27"><a href="hyperparameter-tuning.html#cb391-27" aria-hidden="true" tabindex="-1"></a>  data_validate <span class="ot">&lt;-</span> data[validate,]</span>
+<span id="cb391-28"><a href="hyperparameter-tuning.html#cb391-28" aria-hidden="true" tabindex="-1"></a>  data_train <span class="ot">&lt;-</span> data[<span class="sc">-</span>validate,]</span>
+<span id="cb391-29"><a href="hyperparameter-tuning.html#cb391-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb391-30"><a href="hyperparameter-tuning.html#cb391-30" aria-hidden="true" tabindex="-1"></a>  <span class="co">#we need a vector to store RMSPE of each row in the grid </span></span>
+<span id="cb391-31"><a href="hyperparameter-tuning.html#cb391-31" aria-hidden="true" tabindex="-1"></a>  RMSPE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb391-32"><a href="hyperparameter-tuning.html#cb391-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb391-33"><a href="hyperparameter-tuning.html#cb391-33" aria-hidden="true" tabindex="-1"></a>  <span class="co">#we need to have another loop running each row in grid:</span></span>
+<span id="cb391-34"><a href="hyperparameter-tuning.html#cb391-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(grid)){</span>
+<span id="cb391-35"><a href="hyperparameter-tuning.html#cb391-35" aria-hidden="true" tabindex="-1"></a>      model <span class="ot">&lt;-</span> <span class="fu">loess</span>(y <span class="sc">~</span> x, <span class="at">control=</span><span class="fu">loess.control</span>(<span class="at">surface=</span><span class="st">&quot;direct&quot;</span>), </span>
+<span id="cb391-36"><a href="hyperparameter-tuning.html#cb391-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">degree=</span>grid[s,<span class="dv">2</span>], <span class="at">span =</span> grid[s,<span class="dv">1</span>], <span class="at">data =</span> data_train)</span>
+<span id="cb391-37"><a href="hyperparameter-tuning.html#cb391-37" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb391-38"><a href="hyperparameter-tuning.html#cb391-38" aria-hidden="true" tabindex="-1"></a>      fit <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, data_validate<span class="sc">$</span>x)</span>
+<span id="cb391-39"><a href="hyperparameter-tuning.html#cb391-39" aria-hidden="true" tabindex="-1"></a>      RMSPE[s] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((data_validate<span class="sc">$</span>y<span class="sc">-</span>fit)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb391-40"><a href="hyperparameter-tuning.html#cb391-40" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb391-41"><a href="hyperparameter-tuning.html#cb391-41" aria-hidden="true" tabindex="-1"></a>  OPT[i] <span class="ot">&lt;-</span> <span class="fu">which</span>(RMSPE <span class="sc">==</span> <span class="fu">min</span>(RMSPE), <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb391-42"><a href="hyperparameter-tuning.html#cb391-42" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb391-43"><a href="hyperparameter-tuning.html#cb391-43" aria-hidden="true" tabindex="-1"></a>opgrid <span class="ot">&lt;-</span> grid[OPT,]</span>
+<span id="cb391-44"><a href="hyperparameter-tuning.html#cb391-44" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(opgrid) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;span&quot;</span>, <span class="st">&quot;degree&quot;</span>)</span>
+<span id="cb391-45"><a href="hyperparameter-tuning.html#cb391-45" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(opgrid) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb391-46"><a href="hyperparameter-tuning.html#cb391-46" aria-hidden="true" tabindex="-1"></a>opgrid</span></code></pre></div>
+<pre><code>##    span degree
+## 1  0.09      2
+## 2  0.63      2
+## 3  0.23      2
+## 4  0.03      2
+## 5  0.33      2
+## 6  0.59      2
+## 7  0.75      2
+## 8  0.57      2
+## 9  0.25      1
+## 10 0.21      1</code></pre>
+<p>These results are good but how are we going to pick one set, the coordinates of the optimal <code>span</code> and <code>degree</code>? It seems that most folds agree that we should use <code>degree</code> = 2, but which <code>span</code> value is the optimal? If the hyperparameter is a discrete value, we can use majority rule with the modal value, which is just the highest number of occurrences in the set. This would be appropriate for <code>degree</code> but not for <code>span</code>. Instead, we should use the mean of all 10 optimal <code>span</code> values, each of which is calculated from each fold.</p>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="hyperparameter-tuning.html#cb393-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb393-2"><a href="hyperparameter-tuning.html#cb393-2" aria-hidden="true" tabindex="-1"></a>opt_degree <span class="ot">&lt;-</span> <span class="fu">modal</span>(opgrid[,<span class="dv">2</span>])</span>
+<span id="cb393-3"><a href="hyperparameter-tuning.html#cb393-3" aria-hidden="true" tabindex="-1"></a>opt_span <span class="ot">&lt;-</span> <span class="fu">mean</span>(opgrid[,<span class="dv">1</span>])</span>
+<span id="cb393-4"><a href="hyperparameter-tuning.html#cb393-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb393-5"><a href="hyperparameter-tuning.html#cb393-5" aria-hidden="true" tabindex="-1"></a>opt_degree</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="hyperparameter-tuning.html#cb395-1" aria-hidden="true" tabindex="-1"></a>opt_span</span></code></pre></div>
+<pre><code>## [1] 0.368</code></pre>
+<p>Now, the last job is to use them in predictions to see how good they are. Remember, we used the whole sample to tune our hyperparameters. At the outset, we said that this type of application should be avoided. Therefore, we need to create a test set at the beginning and put that subset a side, and use only the remaining data to tune our hyperparameters. Here is an illustration about this process:</p>
+<p><img src="png/grid.png" width="140%" height="140%" /></p>
+<p>Let’s do it:</p>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="hyperparameter-tuning.html#cb397-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the same data</span></span>
+<span id="cb397-2"><a href="hyperparameter-tuning.html#cb397-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb397-3"><a href="hyperparameter-tuning.html#cb397-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb397-4"><a href="hyperparameter-tuning.html#cb397-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">runif</span>(n)<span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>pi)</span>
+<span id="cb397-5"><a href="hyperparameter-tuning.html#cb397-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">rnorm</span>(n)<span class="sc">/</span><span class="dv">4</span></span>
+<span id="cb397-6"><a href="hyperparameter-tuning.html#cb397-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x)</span>
+<span id="cb397-7"><a href="hyperparameter-tuning.html#cb397-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb397-8"><a href="hyperparameter-tuning.html#cb397-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a set of possible values for span: GRID</span></span>
+<span id="cb397-9"><a href="hyperparameter-tuning.html#cb397-9" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.01</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.02</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb397-10"><a href="hyperparameter-tuning.html#cb397-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb397-11"><a href="hyperparameter-tuning.html#cb397-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Train - Test Split</span></span>
+<span id="cb397-12"><a href="hyperparameter-tuning.html#cb397-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">321</span>)</span>
+<span id="cb397-13"><a href="hyperparameter-tuning.html#cb397-13" aria-hidden="true" tabindex="-1"></a>shuf <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(data), <span class="fu">nrow</span>(data), <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb397-14"><a href="hyperparameter-tuning.html#cb397-14" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">10</span> </span>
+<span id="cb397-15"><a href="hyperparameter-tuning.html#cb397-15" aria-hidden="true" tabindex="-1"></a>indx <span class="ot">&lt;-</span> shuf[<span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(data)<span class="sc">/</span>k)]</span>
+<span id="cb397-16"><a href="hyperparameter-tuning.html#cb397-16" aria-hidden="true" tabindex="-1"></a>testset <span class="ot">&lt;-</span> data[indx, ] <span class="co">#10% of data set a side</span></span>
+<span id="cb397-17"><a href="hyperparameter-tuning.html#cb397-17" aria-hidden="true" tabindex="-1"></a>trainset <span class="ot">&lt;-</span> data[<span class="sc">-</span>indx,] </span>
+<span id="cb397-18"><a href="hyperparameter-tuning.html#cb397-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb397-19"><a href="hyperparameter-tuning.html#cb397-19" aria-hidden="true" tabindex="-1"></a><span class="co"># k-CV, which is the same as before</span></span>
+<span id="cb397-20"><a href="hyperparameter-tuning.html#cb397-20" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb397-21"><a href="hyperparameter-tuning.html#cb397-21" aria-hidden="true" tabindex="-1"></a>mysample <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(trainset), <span class="fu">nrow</span>(trainset), <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb397-22"><a href="hyperparameter-tuning.html#cb397-22" aria-hidden="true" tabindex="-1"></a>fold <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb397-23"><a href="hyperparameter-tuning.html#cb397-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb397-24"><a href="hyperparameter-tuning.html#cb397-24" aria-hidden="true" tabindex="-1"></a>OPT <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb397-25"><a href="hyperparameter-tuning.html#cb397-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb397-26"><a href="hyperparameter-tuning.html#cb397-26" aria-hidden="true" tabindex="-1"></a><span class="co"># CV loop</span></span>
+<span id="cb397-27"><a href="hyperparameter-tuning.html#cb397-27" aria-hidden="true" tabindex="-1"></a>nvalid <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">nrow</span>(trainset)<span class="sc">/</span>fold)</span>
+<span id="cb397-28"><a href="hyperparameter-tuning.html#cb397-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>fold){</span>
+<span id="cb397-29"><a href="hyperparameter-tuning.html#cb397-29" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&lt;</span> fold) valid <span class="ot">&lt;-</span> mysample[((i<span class="dv">-1</span>)<span class="sc">*</span>nvalid<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(i<span class="sc">*</span>nvalid)] <span class="co"># Simpler version</span></span>
+<span id="cb397-30"><a href="hyperparameter-tuning.html#cb397-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb397-31"><a href="hyperparameter-tuning.html#cb397-31" aria-hidden="true" tabindex="-1"></a>  data_valid <span class="ot">&lt;-</span> trainset[valid, ]</span>
+<span id="cb397-32"><a href="hyperparameter-tuning.html#cb397-32" aria-hidden="true" tabindex="-1"></a>  data_train <span class="ot">&lt;-</span> trainset[<span class="sc">-</span>valid, ]</span>
+<span id="cb397-33"><a href="hyperparameter-tuning.html#cb397-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb397-34"><a href="hyperparameter-tuning.html#cb397-34" aria-hidden="true" tabindex="-1"></a>  RMSPE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb397-35"><a href="hyperparameter-tuning.html#cb397-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb397-36"><a href="hyperparameter-tuning.html#cb397-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(grid)){</span>
+<span id="cb397-37"><a href="hyperparameter-tuning.html#cb397-37" aria-hidden="true" tabindex="-1"></a>      model <span class="ot">&lt;-</span> <span class="fu">loess</span>(y <span class="sc">~</span> x, <span class="at">control=</span><span class="fu">loess.control</span>(<span class="at">surface=</span><span class="st">&quot;direct&quot;</span>), </span>
+<span id="cb397-38"><a href="hyperparameter-tuning.html#cb397-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">degree=</span>grid[s,<span class="dv">2</span>], <span class="at">span =</span> grid[s,<span class="dv">1</span>], <span class="at">data =</span> data_train)</span>
+<span id="cb397-39"><a href="hyperparameter-tuning.html#cb397-39" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb397-40"><a href="hyperparameter-tuning.html#cb397-40" aria-hidden="true" tabindex="-1"></a>      fit <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, data_valid<span class="sc">$</span>x)</span>
+<span id="cb397-41"><a href="hyperparameter-tuning.html#cb397-41" aria-hidden="true" tabindex="-1"></a>      RMSPE[s] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((data_valid<span class="sc">$</span>y<span class="sc">-</span>fit)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb397-42"><a href="hyperparameter-tuning.html#cb397-42" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb397-43"><a href="hyperparameter-tuning.html#cb397-43" aria-hidden="true" tabindex="-1"></a>  OPT[i] <span class="ot">&lt;-</span> <span class="fu">which</span>(RMSPE <span class="sc">==</span> <span class="fu">min</span>(RMSPE))</span>
+<span id="cb397-44"><a href="hyperparameter-tuning.html#cb397-44" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb397-45"><a href="hyperparameter-tuning.html#cb397-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb397-46"><a href="hyperparameter-tuning.html#cb397-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Hyperparameters</span></span>
+<span id="cb397-47"><a href="hyperparameter-tuning.html#cb397-47" aria-hidden="true" tabindex="-1"></a>opgrid <span class="ot">&lt;-</span> grid[OPT,]</span>
+<span id="cb397-48"><a href="hyperparameter-tuning.html#cb397-48" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(opgrid) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;span&quot;</span>, <span class="st">&quot;degree&quot;</span>)</span>
+<span id="cb397-49"><a href="hyperparameter-tuning.html#cb397-49" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(opgrid) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb397-50"><a href="hyperparameter-tuning.html#cb397-50" aria-hidden="true" tabindex="-1"></a>opt_degree <span class="ot">&lt;-</span> <span class="fu">modal</span>(opgrid[,<span class="dv">2</span>])</span>
+<span id="cb397-51"><a href="hyperparameter-tuning.html#cb397-51" aria-hidden="true" tabindex="-1"></a>opt_degree</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="hyperparameter-tuning.html#cb399-1" aria-hidden="true" tabindex="-1"></a>opt_span <span class="ot">&lt;-</span> <span class="fu">mean</span>(opgrid[,<span class="dv">1</span>])</span>
+<span id="cb399-2"><a href="hyperparameter-tuning.html#cb399-2" aria-hidden="true" tabindex="-1"></a>opt_span</span></code></pre></div>
+<pre><code>## [1] 0.23</code></pre>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="hyperparameter-tuning.html#cb401-1" aria-hidden="true" tabindex="-1"></a><span class="co"># **** Using the test set for final evaluation ******</span></span>
+<span id="cb401-2"><a href="hyperparameter-tuning.html#cb401-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">loess</span>(y <span class="sc">~</span> x, <span class="at">control=</span><span class="fu">loess.control</span>(<span class="at">surface=</span><span class="st">&quot;direct&quot;</span>), </span>
+<span id="cb401-3"><a href="hyperparameter-tuning.html#cb401-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">degree=</span>opt_degree, <span class="at">span =</span> opt_span, <span class="at">data =</span> trainset)</span>
+<span id="cb401-4"><a href="hyperparameter-tuning.html#cb401-4" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, testset<span class="sc">$</span>x)</span>
+<span id="cb401-5"><a href="hyperparameter-tuning.html#cb401-5" aria-hidden="true" tabindex="-1"></a>RMSPE_test <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((testset<span class="sc">$</span>y<span class="sc">-</span>fit)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb401-6"><a href="hyperparameter-tuning.html#cb401-6" aria-hidden="true" tabindex="-1"></a>RMSPE_test</span></code></pre></div>
+<pre><code>## [1] 0.2527365</code></pre>
+<p>What we have built is an algorithm that <strong>learns</strong> by trial-and-error. However, we need one more step to finalize this process: instead of doing only one 90%-10% train split, we need to do it multiple times and use the average <code>RMSPE_test</code> and the uncertainty (its variation) associated with it as our final performance metrics. Here again:</p>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="hyperparameter-tuning.html#cb403-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the same data</span></span>
+<span id="cb403-2"><a href="hyperparameter-tuning.html#cb403-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb403-3"><a href="hyperparameter-tuning.html#cb403-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb403-4"><a href="hyperparameter-tuning.html#cb403-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">runif</span>(n)<span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>pi)</span>
+<span id="cb403-5"><a href="hyperparameter-tuning.html#cb403-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">rnorm</span>(n)<span class="sc">/</span><span class="dv">4</span></span>
+<span id="cb403-6"><a href="hyperparameter-tuning.html#cb403-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x)</span>
+<span id="cb403-7"><a href="hyperparameter-tuning.html#cb403-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb403-8"><a href="hyperparameter-tuning.html#cb403-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating a set of possible values for span: GRID</span></span>
+<span id="cb403-9"><a href="hyperparameter-tuning.html#cb403-9" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.01</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.02</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb403-10"><a href="hyperparameter-tuning.html#cb403-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb403-11"><a href="hyperparameter-tuning.html#cb403-11" aria-hidden="true" tabindex="-1"></a><span class="co"># loop for Train - Test split 100 times</span></span>
+<span id="cb403-12"><a href="hyperparameter-tuning.html#cb403-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb403-13"><a href="hyperparameter-tuning.html#cb403-13" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> <span class="dv">100</span> <span class="co"># number of times we loop</span></span>
+<span id="cb403-14"><a href="hyperparameter-tuning.html#cb403-14" aria-hidden="true" tabindex="-1"></a>RMSPE_test <span class="ot">&lt;-</span> <span class="fu">c</span>() <span class="co"># container for 100 RMSPE&#39;s</span></span>
+<span id="cb403-15"><a href="hyperparameter-tuning.html#cb403-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb403-16"><a href="hyperparameter-tuning.html#cb403-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>t) {</span>
+<span id="cb403-17"><a href="hyperparameter-tuning.html#cb403-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">10</span><span class="sc">+</span>l)</span>
+<span id="cb403-18"><a href="hyperparameter-tuning.html#cb403-18" aria-hidden="true" tabindex="-1"></a>  shuf <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(data), <span class="fu">nrow</span>(data), <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb403-19"><a href="hyperparameter-tuning.html#cb403-19" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb403-20"><a href="hyperparameter-tuning.html#cb403-20" aria-hidden="true" tabindex="-1"></a>  indx <span class="ot">&lt;-</span> shuf[<span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(data)<span class="sc">/</span>k)]</span>
+<span id="cb403-21"><a href="hyperparameter-tuning.html#cb403-21" aria-hidden="true" tabindex="-1"></a>  testset <span class="ot">&lt;-</span> data[indx, ] <span class="co">#10% of data set a side</span></span>
+<span id="cb403-22"><a href="hyperparameter-tuning.html#cb403-22" aria-hidden="true" tabindex="-1"></a>  trainset <span class="ot">&lt;-</span> data[<span class="sc">-</span>indx,] </span>
+<span id="cb403-23"><a href="hyperparameter-tuning.html#cb403-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb403-24"><a href="hyperparameter-tuning.html#cb403-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># k-CV, which is the same as before</span></span>
+<span id="cb403-25"><a href="hyperparameter-tuning.html#cb403-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">5</span><span class="sc">*</span>l)</span>
+<span id="cb403-26"><a href="hyperparameter-tuning.html#cb403-26" aria-hidden="true" tabindex="-1"></a>  mysample <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(trainset), <span class="fu">nrow</span>(trainset), <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb403-27"><a href="hyperparameter-tuning.html#cb403-27" aria-hidden="true" tabindex="-1"></a>  fold <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb403-28"><a href="hyperparameter-tuning.html#cb403-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb403-29"><a href="hyperparameter-tuning.html#cb403-29" aria-hidden="true" tabindex="-1"></a>  OPT <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb403-30"><a href="hyperparameter-tuning.html#cb403-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb403-31"><a href="hyperparameter-tuning.html#cb403-31" aria-hidden="true" tabindex="-1"></a>  <span class="co">#CV loop</span></span>
+<span id="cb403-32"><a href="hyperparameter-tuning.html#cb403-32" aria-hidden="true" tabindex="-1"></a>  nvalid <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">nrow</span>(trainset)<span class="sc">/</span>fold)</span>
+<span id="cb403-33"><a href="hyperparameter-tuning.html#cb403-33" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>fold){</span>
+<span id="cb403-34"><a href="hyperparameter-tuning.html#cb403-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(i <span class="sc">&lt;</span> fold) valid <span class="ot">&lt;-</span> mysample[((i<span class="dv">-1</span>)<span class="sc">*</span>nvalid<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(i<span class="sc">*</span>nvalid)]</span>
+<span id="cb403-35"><a href="hyperparameter-tuning.html#cb403-35" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb403-36"><a href="hyperparameter-tuning.html#cb403-36" aria-hidden="true" tabindex="-1"></a>    data_valid <span class="ot">&lt;-</span> trainset[valid, ]</span>
+<span id="cb403-37"><a href="hyperparameter-tuning.html#cb403-37" aria-hidden="true" tabindex="-1"></a>    data_train <span class="ot">&lt;-</span> trainset[<span class="sc">-</span>valid, ]</span>
+<span id="cb403-38"><a href="hyperparameter-tuning.html#cb403-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb403-39"><a href="hyperparameter-tuning.html#cb403-39" aria-hidden="true" tabindex="-1"></a>    RMSPE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb403-40"><a href="hyperparameter-tuning.html#cb403-40" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb403-41"><a href="hyperparameter-tuning.html#cb403-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(grid)){</span>
+<span id="cb403-42"><a href="hyperparameter-tuning.html#cb403-42" aria-hidden="true" tabindex="-1"></a>        model <span class="ot">&lt;-</span> <span class="fu">loess</span>(y <span class="sc">~</span> x, <span class="at">control=</span><span class="fu">loess.control</span>(<span class="at">surface=</span><span class="st">&quot;direct&quot;</span>), </span>
+<span id="cb403-43"><a href="hyperparameter-tuning.html#cb403-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">degree=</span>grid[s,<span class="dv">2</span>], <span class="at">span =</span> grid[s,<span class="dv">1</span>], <span class="at">data =</span> data_train)</span>
+<span id="cb403-44"><a href="hyperparameter-tuning.html#cb403-44" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb403-45"><a href="hyperparameter-tuning.html#cb403-45" aria-hidden="true" tabindex="-1"></a>        fit <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, data_valid<span class="sc">$</span>x)</span>
+<span id="cb403-46"><a href="hyperparameter-tuning.html#cb403-46" aria-hidden="true" tabindex="-1"></a>        RMSPE[s] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((data_valid<span class="sc">$</span>y<span class="sc">-</span>fit)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb403-47"><a href="hyperparameter-tuning.html#cb403-47" aria-hidden="true" tabindex="-1"></a>     }</span>
+<span id="cb403-48"><a href="hyperparameter-tuning.html#cb403-48" aria-hidden="true" tabindex="-1"></a>   OPT[i] <span class="ot">&lt;-</span> <span class="fu">which</span>(RMSPE <span class="sc">==</span> <span class="fu">min</span>(RMSPE))</span>
+<span id="cb403-49"><a href="hyperparameter-tuning.html#cb403-49" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb403-50"><a href="hyperparameter-tuning.html#cb403-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb403-51"><a href="hyperparameter-tuning.html#cb403-51" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Hyperparameters</span></span>
+<span id="cb403-52"><a href="hyperparameter-tuning.html#cb403-52" aria-hidden="true" tabindex="-1"></a>  opgrid <span class="ot">&lt;-</span> grid[OPT,]</span>
+<span id="cb403-53"><a href="hyperparameter-tuning.html#cb403-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(opgrid) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;span&quot;</span>, <span class="st">&quot;degree&quot;</span>)</span>
+<span id="cb403-54"><a href="hyperparameter-tuning.html#cb403-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(opgrid) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb403-55"><a href="hyperparameter-tuning.html#cb403-55" aria-hidden="true" tabindex="-1"></a>  opt_degree <span class="ot">&lt;-</span> <span class="fu">modal</span>(opgrid[,<span class="dv">2</span>])</span>
+<span id="cb403-56"><a href="hyperparameter-tuning.html#cb403-56" aria-hidden="true" tabindex="-1"></a>  opt_span <span class="ot">&lt;-</span> <span class="fu">mean</span>(opgrid[,<span class="dv">1</span>])</span>
+<span id="cb403-57"><a href="hyperparameter-tuning.html#cb403-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb403-58"><a href="hyperparameter-tuning.html#cb403-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># **** Using the test set for final evaluation ******</span></span>
+<span id="cb403-59"><a href="hyperparameter-tuning.html#cb403-59" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">loess</span>(y <span class="sc">~</span> x, <span class="at">control=</span><span class="fu">loess.control</span>(<span class="at">surface=</span><span class="st">&quot;direct&quot;</span>), </span>
+<span id="cb403-60"><a href="hyperparameter-tuning.html#cb403-60" aria-hidden="true" tabindex="-1"></a>                 <span class="at">degree=</span>opt_degree, <span class="at">span =</span> opt_span, <span class="at">data =</span> trainset)</span>
+<span id="cb403-61"><a href="hyperparameter-tuning.html#cb403-61" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, testset<span class="sc">$</span>x)</span>
+<span id="cb403-62"><a href="hyperparameter-tuning.html#cb403-62" aria-hidden="true" tabindex="-1"></a>  RMSPE_test[l] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((testset<span class="sc">$</span>y<span class="sc">-</span>fit)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb403-63"><a href="hyperparameter-tuning.html#cb403-63" aria-hidden="true" tabindex="-1"></a>}  </span></code></pre></div>
+<p>We can now see the average RMSPE and its variance:</p>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="hyperparameter-tuning.html#cb404-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(RMSPE_test, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb404-2"><a href="hyperparameter-tuning.html#cb404-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="fu">mean</span>(RMSPE_test), <span class="at">b=</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-125-1.png" width="672" /></p>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="hyperparameter-tuning.html#cb405-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(RMSPE_test)</span></code></pre></div>
+<pre><code>## [1] 0.2564112</code></pre>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="hyperparameter-tuning.html#cb407-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(RMSPE_test)</span></code></pre></div>
+<pre><code>## [1] 0.0003384585</code></pre>
+<p>What happens when the data is time-series?</p>
+</div>
+<div id="when-the-data-is-time-series" class="section level2 hasAnchor" number="9.6">
+<h2><span class="header-section-number">9.6</span> When the data is time-series<a href="hyperparameter-tuning.html#when-the-data-is-time-series" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>How can we develop a learning algorithm that uses time-series data? The main difference between time-series and cross-sectional datasets is that we cannot randomly shuffle time series.</p>
+<p>We will use the <code>EuStockMarkets</code> dataset pre-loaded in R. The data contains the daily closing prices of major European stock indices: Germany DAX (Ibis), Switzerland SMI, France CAC, and UK FTSE. The data are sampled in business time, i.e., weekends and holidays are omitted. We will focus on the FTSE. Below, the data and its plot:</p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="hyperparameter-tuning.html#cb409-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Data</span></span>
+<span id="cb409-2"><a href="hyperparameter-tuning.html#cb409-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(EuStockMarkets)</span></code></pre></div>
+<pre><code>##  Time-Series [1:1860, 1:4] from 1991 to 1999: 1629 1614 1607 1621 1618 ...
+##  - attr(*, &quot;dimnames&quot;)=List of 2
+##   ..$ : NULL
+##   ..$ : chr [1:4] &quot;DAX&quot; &quot;SMI&quot; &quot;CAC&quot; &quot;FTSE&quot;</code></pre>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="hyperparameter-tuning.html#cb411-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(EuStockMarkets)</span>
+<span id="cb411-2"><a href="hyperparameter-tuning.html#cb411-2" aria-hidden="true" tabindex="-1"></a>day_index <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(data), <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb411-3"><a href="hyperparameter-tuning.html#cb411-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">cbind</span>(data, day_index)</span>
+<span id="cb411-4"><a href="hyperparameter-tuning.html#cb411-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
+<pre><code>##       DAX    SMI    CAC   FTSE day_index
+## 1 1628.75 1678.1 1772.8 2443.6         1
+## 2 1613.63 1688.5 1750.5 2460.2         2
+## 3 1606.51 1678.6 1718.0 2448.2         3
+## 4 1621.04 1684.1 1708.1 2470.4         4
+## 5 1618.16 1686.6 1723.1 2484.7         5
+## 6 1610.61 1671.6 1714.3 2466.8         6</code></pre>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="hyperparameter-tuning.html#cb413-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data<span class="sc">$</span>day_index, data<span class="sc">$</span>FTSE, <span class="at">col =</span> <span class="st">&quot;orange&quot;</span>,</span>
+<span id="cb413-2"><a href="hyperparameter-tuning.html#cb413-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex.main =</span> <span class="fl">0.80</span>, <span class="at">cex.axis =</span> <span class="fl">0.75</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-126-1.png" width="672" /></p>
+<p>As we have seen before, we can use smoothing methods to detect trends in the presence of noisy data especially in cases where the shape of the trend is unknown. We can visually see the trend in our plot below. When we assume that the trend is smooth as opposed to the noise, or deviation from the trend, which is <strong>unpredictable</strong> and wobbly. Here is an illustration for the FTSE:</p>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="hyperparameter-tuning.html#cb414-1" aria-hidden="true" tabindex="-1"></a>tsd <span class="ot">&lt;-</span> EuStockMarkets</span>
+<span id="cb414-2"><a href="hyperparameter-tuning.html#cb414-2" aria-hidden="true" tabindex="-1"></a>dctsd <span class="ot">&lt;-</span> <span class="fu">decompose</span>(tsd[,<span class="dv">4</span>])</span>
+<span id="cb414-3"><a href="hyperparameter-tuning.html#cb414-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dctsd, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-127-1.png" width="672" /></p>
+<p>We will see more about time-series applications later.</p>
+<p>Separating the trend from the noise will enable us to predict the future values better. One way to extract the trend is to estimate a linear trend, but in many cases, we do not know a non-linear trend line reflects the movement better in the data. Having learnt how to model a learning algorithm, we can now train <code>loess()</code> for extracting the trend in FTSE. Let’s see different smoothing lines to visualize differences:</p>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="hyperparameter-tuning.html#cb415-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data<span class="sc">$</span>day_index, data<span class="sc">$</span>FTSE, <span class="at">type =</span><span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb415-2"><a href="hyperparameter-tuning.html#cb415-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex.main =</span> <span class="fl">0.80</span>, <span class="at">cex.axis =</span> <span class="fl">0.75</span>, <span class="at">ldw =</span> <span class="dv">2</span>)</span>
+<span id="cb415-3"><a href="hyperparameter-tuning.html#cb415-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(data<span class="sc">$</span>day_index,  <span class="fu">predict</span>(<span class="fu">lm</span>(FTSE <span class="sc">~</span> day_index, data)), <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span>
+<span id="cb415-4"><a href="hyperparameter-tuning.html#cb415-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(data<span class="sc">$</span>day_index, <span class="fu">predict</span>(<span class="fu">loess</span>(data<span class="sc">$</span>FTSE <span class="sc">~</span> data<span class="sc">$</span>day_index, <span class="at">degree=</span><span class="dv">1</span>, <span class="at">span =</span> <span class="fl">0.01</span>)),</span>
+<span id="cb415-5"><a href="hyperparameter-tuning.html#cb415-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;grey&quot;</span>)</span>
+<span id="cb415-6"><a href="hyperparameter-tuning.html#cb415-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(data<span class="sc">$</span>day_index, <span class="fu">predict</span>(<span class="fu">loess</span>(data<span class="sc">$</span>FTSE <span class="sc">~</span> data<span class="sc">$</span>day_index, <span class="at">degree=</span><span class="dv">1</span>, <span class="at">span =</span> <span class="fl">0.1</span>)),</span>
+<span id="cb415-7"><a href="hyperparameter-tuning.html#cb415-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb415-8"><a href="hyperparameter-tuning.html#cb415-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(data<span class="sc">$</span>day_index, <span class="fu">predict</span>(<span class="fu">loess</span>(data<span class="sc">$</span>FTSE <span class="sc">~</span> data<span class="sc">$</span>day_index, <span class="at">degree=</span><span class="dv">1</span>, <span class="at">span =</span> <span class="fl">0.9</span>)),</span>
+<span id="cb415-9"><a href="hyperparameter-tuning.html#cb415-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;yellow&quot;</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-128-1.png" width="672" /></p>
+<p>It seems that a linear trend is not appropriate as it underfits to predict. Although a smoothing method like <code>loess()</code> would be a good choice, but which <code>loess()</code> would be a good fit? We could now use a <strong>self-learning</strong> algorithm by using a k-fold cross-validated grid search, but the data is time-series: we cannot shuffle it.</p>
+<p>If we use the whole data overfitting would be a major concern since our training data could contain information from the future. One way of validating time series data is to keep the time order in the data when we use k-fold cross validation so that in each fold the training data takes place before the test data.</p>
+<p>This type of cross validation is called as <strong>h-step-ahead rolling cross-validation</strong>. (There is also a method called as <strong>sliding-window-cross-validation</strong>). Below we can see an illustration of this kind of cross validation:</p>
+<p><img src="png/TScv.png" width="130%" height="130%" /></p>
+<p>We are going to split the data without a random shuffle:</p>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="hyperparameter-tuning.html#cb416-1" aria-hidden="true" tabindex="-1"></a><span class="co">#We are going to train the model only with span</span></span>
+<span id="cb416-2"><a href="hyperparameter-tuning.html#cb416-2" aria-hidden="true" tabindex="-1"></a>span <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.05</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.05</span>) <span class="co">#this creates 25 options</span></span>
+<span id="cb416-3"><a href="hyperparameter-tuning.html#cb416-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb416-4"><a href="hyperparameter-tuning.html#cb416-4" aria-hidden="true" tabindex="-1"></a><span class="co"># *****h-step-rolling-CV********</span></span>
+<span id="cb416-5"><a href="hyperparameter-tuning.html#cb416-5" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb416-6"><a href="hyperparameter-tuning.html#cb416-6" aria-hidden="true" tabindex="-1"></a>opt <span class="ot">&lt;-</span> <span class="fu">c</span>() </span>
+<span id="cb416-7"><a href="hyperparameter-tuning.html#cb416-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb416-8"><a href="hyperparameter-tuning.html#cb416-8" aria-hidden="true" tabindex="-1"></a><span class="co">#CV loop</span></span>
+<span id="cb416-9"><a href="hyperparameter-tuning.html#cb416-9" aria-hidden="true" tabindex="-1"></a>nvalid <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">nrow</span>(data)<span class="sc">/</span>h)</span>
+<span id="cb416-10"><a href="hyperparameter-tuning.html#cb416-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb416-11"><a href="hyperparameter-tuning.html#cb416-11" aria-hidden="true" tabindex="-1"></a><span class="co">#This gives the 10 cutoff points in rows</span></span>
+<span id="cb416-12"><a href="hyperparameter-tuning.html#cb416-12" aria-hidden="true" tabindex="-1"></a>cut<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>)</span>
+<span id="cb416-13"><a href="hyperparameter-tuning.html#cb416-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>h){cut <span class="ot">&lt;-</span> <span class="fu">c</span>(cut, nvalid<span class="sc">*</span>j)}</span>
+<span id="cb416-14"><a href="hyperparameter-tuning.html#cb416-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb416-15"><a href="hyperparameter-tuning.html#cb416-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>h){</span>
+<span id="cb416-16"><a href="hyperparameter-tuning.html#cb416-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&lt;</span> h)  train <span class="ot">&lt;-</span> data[(cut[<span class="dv">1</span>]<span class="sc">:</span>cut[i<span class="sc">+</span><span class="dv">1</span>]),]</span>
+<span id="cb416-17"><a href="hyperparameter-tuning.html#cb416-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> train <span class="ot">&lt;-</span> data[cut[<span class="dv">1</span>]<span class="sc">:</span>cut[i],]</span>
+<span id="cb416-18"><a href="hyperparameter-tuning.html#cb416-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i<span class="sc">+</span><span class="dv">2</span> <span class="sc">&lt;</span> h)  valid <span class="ot">&lt;-</span> data[(cut[i<span class="sc">+</span><span class="dv">1</span>]<span class="sc">:</span>cut[i<span class="sc">+</span><span class="dv">2</span>]),]</span>
+<span id="cb416-19"><a href="hyperparameter-tuning.html#cb416-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb416-20"><a href="hyperparameter-tuning.html#cb416-20" aria-hidden="true" tabindex="-1"></a>  RMSPE <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>), <span class="fu">length</span>(span)) <span class="co">#Matrix to store RMSPE </span></span>
+<span id="cb416-21"><a href="hyperparameter-tuning.html#cb416-21" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb416-22"><a href="hyperparameter-tuning.html#cb416-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(span)){</span>
+<span id="cb416-23"><a href="hyperparameter-tuning.html#cb416-23" aria-hidden="true" tabindex="-1"></a>      model <span class="ot">&lt;-</span> <span class="fu">loess</span>(FTSE <span class="sc">~</span> day_index, <span class="at">control=</span><span class="fu">loess.control</span>(<span class="at">surface=</span><span class="st">&quot;direct&quot;</span>), </span>
+<span id="cb416-24"><a href="hyperparameter-tuning.html#cb416-24" aria-hidden="true" tabindex="-1"></a>                     <span class="at">degree=</span><span class="dv">2</span>, <span class="at">span =</span> span[s], <span class="at">data =</span> train)</span>
+<span id="cb416-25"><a href="hyperparameter-tuning.html#cb416-25" aria-hidden="true" tabindex="-1"></a>      fit <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, valid<span class="sc">$</span>day_index)</span>
+<span id="cb416-26"><a href="hyperparameter-tuning.html#cb416-26" aria-hidden="true" tabindex="-1"></a>      RMSPE[s] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((valid<span class="sc">$</span>FTSE<span class="sc">-</span>fit)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb416-27"><a href="hyperparameter-tuning.html#cb416-27" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb416-28"><a href="hyperparameter-tuning.html#cb416-28" aria-hidden="true" tabindex="-1"></a>opt[i] <span class="ot">&lt;-</span> <span class="fu">which</span>(RMSPE <span class="sc">==</span> <span class="fu">min</span>(RMSPE), <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb416-29"><a href="hyperparameter-tuning.html#cb416-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb416-30"><a href="hyperparameter-tuning.html#cb416-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb416-31"><a href="hyperparameter-tuning.html#cb416-31" aria-hidden="true" tabindex="-1"></a><span class="co">#Hyperparameters</span></span>
+<span id="cb416-32"><a href="hyperparameter-tuning.html#cb416-32" aria-hidden="true" tabindex="-1"></a>opt_span <span class="ot">&lt;-</span> <span class="fu">mean</span>(span[opt])</span>
+<span id="cb416-33"><a href="hyperparameter-tuning.html#cb416-33" aria-hidden="true" tabindex="-1"></a>opt_span</span></code></pre></div>
+<pre><code>## [1] 0.43</code></pre>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="hyperparameter-tuning.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data<span class="sc">$</span>day_index, data<span class="sc">$</span>FTSE, <span class="at">type =</span><span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>,</span>
+<span id="cb418-2"><a href="hyperparameter-tuning.html#cb418-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex.main =</span> <span class="fl">0.80</span>, <span class="at">cex.axis =</span> <span class="fl">0.75</span>)</span>
+<span id="cb418-3"><a href="hyperparameter-tuning.html#cb418-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(data<span class="sc">$</span>day_index, <span class="fu">predict</span>(<span class="fu">loess</span>(data<span class="sc">$</span>FTSE <span class="sc">~</span> data<span class="sc">$</span>day_index,</span>
+<span id="cb418-4"><a href="hyperparameter-tuning.html#cb418-4" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">degree=</span><span class="dv">2</span>, <span class="at">span =</span> opt_span)),</span>
+<span id="cb418-5"><a href="hyperparameter-tuning.html#cb418-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+<p>Note that we did not start this algorithm with the initial split for testing. For the full train-validate-test routine the initial split has to be added into this cross-validation script.</p>
+<p>Moreover, we started the validation after the first 10% split. We can also decide on this starting point. For example, we can change the code and decide to train the model after 30% training set. That flexibility is specially important if we apply <strong>Day Forward-Chaining Nested Cross-Validation</strong>, which is the same method <em>rolling windows</em> are the days. The following figure helps demonstrate this method</p>
+<p><img src="png/grid4.png" width="130%" height="130%" /></p>
+<p>Although it is designed for a day-chained cross validation, we can replace <em>days</em> with weeks, months or 21-day windows. In fact, our algorithm that uses 10% splits can be considered a <strong>10% Split Forward-Chaining Nested Cross-Validation</strong>.</p>
+<p>Before concluding this section, notice that as the sample size rises, the learning algorithms take a longer time to complete, specially for cross sectional data. That’s why there are some other cross-validation methods that use only a subsample randomly selected from the original sample to speed up the validation and the test procedures. You can think how slow the conventional cross validation would be if the dataset has 200 million observations, for example.</p>
+<p>There are some methods to accelerate the training process. One method is to increase the delta (the increments) in our grid and identify the range of hyperparameters where the RMSPE becomes the lowest. Then we reshape our grid with finer increments targeting that specific range. Another method is called random grid search. In this method, instead of the exhaustive enumeration of all combinations, we select them randomly. This can be found in <a href="https://jmlr.csail.mit.edu/papers/volume13/bergstra12a/bergstra12a.pdf">Random Search for Hyper-Parameter Optimization</a> by James Bergstra and
+Yoshua Bengio <span class="citation">(<a href="#ref-Berg_2012" role="doc-biblioref">2012</a>)</span>. Finally, we also use parallel processing so that each loop will be assigned to a separate core in capable computers. We will see several application using these options later in the book. Both methods are covered in Chapter 14.</p>
+<p>Although, each learning model has its own package in R with a very efficient tuning process for some of their hyperparameters, we may still need to adjust some other parameters. For example, although in Lasso-elastic net (we will see it later), the penalization parameter, <span class="math inline">\(\lambda\)</span> is tuned by <code>glmnet()</code>, <span class="math inline">\(\alpha\)</span>, that is the weight for the linear combination of Lasso and Ridge penalties, has to be decided before the estimations.</p>
+<p>Finally, we did not use functions in our algorithms. We should create functions for each major process in algorithms and compile them in one clean “source” script.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Berg_2012" class="csl-entry">
+Bergstra, James, and Yoshua Bengio. 2012. <span>“Random Search for Hyper-Parameter Optimization.”</span> <em>Journal of Machine Learning Research</em> 13: 281–305. <a href="https://jmlr.csail.mit.edu/papers/volume13/bergstra12a/bergstra12a.pdf ">https://jmlr.csail.mit.edu/papers/volume13/bergstra12a/bergstra12a.pdf </a>.
+</div>
+<div id="ref-Brownlee_2017" class="csl-entry">
+Brownlee, Jason. 2017. <span>“What Is the Difference Between Test and Validation Datasets?”</span> <a href="https://machinelearningmastery.com/difference-test-validation-datasets/">https://machinelearningmastery.com/difference-test-validation-datasets/</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="nonparametric-classifier---knn.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tuning-in-classification.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/09-HyperTuning.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["YA_TextBook.pdf", "YA_TextBook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,1527 @@
+{
+    "sources": [
+        {
+            "author": [
+                {
+                    "family": "Alpaydin",
+                    "given": "Ethem"
+                }
+            ],
+            "edition": "3rd",
+            "id": "alpaydin_2014",
+            "issued": {
+                "date-parts": [
+                    [
+                        2014
+                    ]
+                ]
+            },
+            "publisher": "MIT Press",
+            "publisher-place": "Cambridge, MA",
+            "title": "Introduction to machine learning",
+            "type": "book"
+        },
+        {
+            "URL": "https://sites.google.com/view/mlportal/home",
+            "id": "mlportal_2022",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022
+                    ]
+                ]
+            },
+            "publisher": "MLPortal",
+            "publisher-place": "Halifax, Nova Scotia",
+            "title": "Research portal on machine learning for social and health policies",
+            "type": ""
+        },
+        {
+            "author": [
+                {
+                    "family": "Pearl",
+                    "given": "Judea"
+                },
+                {
+                    "family": "Mackenzie",
+                    "given": "Dana"
+                }
+            ],
+            "edition": "1st",
+            "id": "Pearl_Mackenzie_2018",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "publisher": "Basic Books",
+            "title": "The book of why",
+            "type": "book"
+        },
+        {
+            "URL": "https://forecasting.svetunkov.ru/en/2019/10/18/how-confident-are-you-assessing-the-uncertainty-in-forecasting/",
+            "author": [
+                {
+                    "family": "Svetunkov",
+                    "given": "Ivan"
+                }
+            ],
+            "id": "Svetunkov_2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "title": "How confident are you? Assessing the uncertainty in forecasting",
+            "type": ""
+        },
+        {
+            "author": [
+                {
+                    "family": "Breiman",
+                    "given": "Leo"
+                }
+            ],
+            "container-title": "Statistical Science",
+            "id": "Breiman_TC",
+            "issue": "3",
+            "issued": {
+                "date-parts": [
+                    [
+                        2001
+                    ]
+                ]
+            },
+            "page": "199-231",
+            "title": "The two cultures",
+            "type": "article-journal",
+            "volume": "16"
+        },
+        {
+            "URL": "https://statisticalhorizons.com/linear-vs-logistic/",
+            "author": [
+                {
+                    "family": "Hippel",
+                    "given": "Paul Von"
+                }
+            ],
+            "id": "Hippel_2015",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "publisher": "Statistical Horizons",
+            "title": "Linear vs. Logistic probability models: Which is better, and when?",
+            "title-short": "Linear vs. Logistic probability models",
+            "type": ""
+        },
+        {
+            "URL": "https://bookdown.org/egarpor/SSS2-UC3M/logreg-deviance.html",
+            "author": [
+                {
+                    "family": "García-Portugués",
+                    "given": "Eduardo"
+                }
+            ],
+            "id": "Eduardo_LabNotes",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022
+                    ]
+                ]
+            },
+            "publisher": "University of Madrid",
+            "title": "Lab notes for statistics for social sciences II: Multivariate techniques",
+            "title-short": "Lab notes for statistics for social sciences II",
+            "type": "book"
+        },
+        {
+            "URL": "https://bookdown.org/egarpor/PM-UC3M/",
+            "author": [
+                {
+                    "family": "García-Portugués",
+                    "given": "Eduardo"
+                }
+            ],
+            "id": "Garcia-Portugues2022",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022
+                    ]
+                ]
+            },
+            "note": "Version 5.9.9. ISBN 978-84-09-29679-8",
+            "title": "Notes for predictive modeling",
+            "type": "book"
+        },
+        {
+            "URL": "https://socialsciences.mcmaster.ca/jfox/Books/Companion/appendices/Appendix-Nonparametric-Regression.pdf",
+            "author": [
+                {
+                    "family": "Fox",
+                    "given": "John"
+                },
+                {
+                    "family": "Weisberg",
+                    "given": "Sanford"
+                }
+            ],
+            "edition": "3rd",
+            "id": "Fox_2018",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "publisher": "SAGE Publishing",
+            "title": "Nonparametric regression in r: An appendix to an r companion to applied regression",
+            "title-short": "Nonparametric regression in r",
+            "type": "book"
+        },
+        {
+            "author": [
+                {
+                    "family": "Ahamada",
+                    "given": "Ibrahim"
+                },
+                {
+                    "family": "Flachaire",
+                    "given": "Emmanuel"
+                }
+            ],
+            "id": "Ibrahim_2011",
+            "issued": {
+                "date-parts": [
+                    [
+                        2011
+                    ]
+                ]
+            },
+            "publisher": "Oxford University Press",
+            "title": "Non-parametric econometrics",
+            "type": "book"
+        },
+        {
+            "DOI": "https://doi.org/10.1016/0304-4076(95)01754-2",
+            "ISSN": "0304-4076",
+            "URL": "https://www.sciencedirect.com/science/article/pii/0304407695017542",
+            "author": [
+                {
+                    "family": "Pfann",
+                    "given": "Gerard A."
+                },
+                {
+                    "family": "Schotman",
+                    "given": "Peter C."
+                },
+                {
+                    "family": "Tschernig",
+                    "given": "Rolf"
+                }
+            ],
+            "container-title": "Journal of Econometrics",
+            "id": "PFANN",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        1996
+                    ]
+                ]
+            },
+            "page": "149-176",
+            "title": "Nonlinear interest rate dynamics and implications for the term structure",
+            "type": "article-journal",
+            "volume": "74"
+        },
+        {
+            "URL": "https://freakonometrics.hypotheses.org/47681",
+            "author": [
+                {
+                    "family": "Charpentier",
+                    "given": "Arthur"
+                }
+            ],
+            "id": "Charpentier_SplineReg",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "publisher": "Freakonometrics",
+            "title": "Regression with splines: Should we care about non-significant components?",
+            "title-short": "Regression with splines",
+            "type": ""
+        },
+        {
+            "URL": "https://freakonometrics.hypotheses.org/19424",
+            "author": [
+                {
+                    "family": "Charpentier",
+                    "given": "Arthur"
+                }
+            ],
+            "id": "Charpentier_Alternatives",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "publisher": "Freakonometrics",
+            "title": "On some alternatives to regression models",
+            "type": ""
+        },
+        {
+            "URL": "http://jse.amstat.org/v19n3/decock.pdf",
+            "author": [
+                {
+                    "family": "Cock",
+                    "given": "Dean De"
+                }
+            ],
+            "container-title": "Journal of Statistics Education",
+            "id": "Cock_2019",
+            "issue": "3",
+            "issued": {
+                "date-parts": [
+                    [
+                        2011
+                    ]
+                ]
+            },
+            "title": "Ames, iowa: Alternative to the boston housing data as an end of semester regression project",
+            "title-short": "Ames, iowa",
+            "type": "article-journal",
+            "volume": "19"
+        },
+        {
+            "URL": "https://www.sciencedirect.com/science/article/pii/S0304380006002572",
+            "author": [
+                {
+                    "family": "Leathwick",
+                    "given": "J. R."
+                },
+                {
+                    "family": "Elith",
+                    "given": "J."
+                },
+                {
+                    "family": "Hastie",
+                    "given": "T."
+                }
+            ],
+            "container-title": "Ecological Modelling",
+            "id": "Leath_2006",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        2006
+                    ]
+                ]
+            },
+            "note": "Predicting Species Distributions",
+            "page": "188-196",
+            "title": "Comparative performance of generalized additive models and multivariate adaptive regression splines for statistical modelling of species distributions",
+            "type": "article-journal",
+            "volume": "199"
+        },
+        {
+            "URL": "https://fred.stlouisfed.org/",
+            "author": [
+                {
+                    "family": "FRED"
+                }
+            ],
+            "id": "FRED_1",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "publisher": "Federal Reserve Bank of St. Louis",
+            "title": "FRED",
+            "type": ""
+        },
+        {
+            "URL": "https://rafalab.github.io/dsbook/",
+            "author": [
+                {
+                    "family": "Irizarry",
+                    "given": "Rafael A."
+                }
+            ],
+            "id": "Irizarry_2022",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022
+                    ]
+                ]
+            },
+            "publisher": "Bookdown",
+            "title": "Data analysis and prediction algorithms with r",
+            "type": "book"
+        },
+        {
+            "URL": "https://topepo.github.io/caret/index.html",
+            "author": [
+                {
+                    "family": "Kuhn",
+                    "given": "Max"
+                }
+            ],
+            "id": "Kuhn_2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "publisher": "Bookdown",
+            "title": "The caret package",
+            "type": "book"
+        },
+        {
+            "URL": "https://archive.ics.uci.edu/ml/datasets/Adult",
+            "author": [
+                {
+                    "family": "Kohavi",
+                    "given": "Ronny"
+                },
+                {
+                    "family": "Becker",
+                    "given": "Barry"
+                }
+            ],
+            "id": "Kohavi_1996",
+            "issued": {
+                "date-parts": [
+                    [
+                        1996
+                    ]
+                ]
+            },
+            "publisher": "University of California, Irvine, School of Information & Computer Sciences",
+            "title": "Adult data set",
+            "type": ""
+        },
+        {
+            "URL": "https://rpubs.com/mbaumer/knn ",
+            "author": [
+                {
+                    "family": "Baumer",
+                    "given": "Matthew"
+                }
+            ],
+            "id": "Baumer_2015",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "title": "K nearest neighbors",
+            "type": ""
+        },
+        {
+            "URL": "https://machinelearningmastery.com/difference-test-validation-datasets/",
+            "author": [
+                {
+                    "family": "Brownlee",
+                    "given": "Jason"
+                }
+            ],
+            "id": "Brownlee_2017",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "title": "What is the difference between test and validation datasets?",
+            "type": ""
+        },
+        {
+            "URL": "https://jmlr.csail.mit.edu/papers/volume13/bergstra12a/bergstra12a.pdf ",
+            "author": [
+                {
+                    "family": "Bergstra",
+                    "given": "James"
+                },
+                {
+                    "family": "Bengio",
+                    "given": "Yoshua"
+                }
+            ],
+            "container-title": "Journal of Machine Learning Research",
+            "id": "Berg_2012",
+            "issued": {
+                "date-parts": [
+                    [
+                        2012
+                    ]
+                ]
+            },
+            "page": "281-305",
+            "publisher": "Universite de Montreal",
+            "title": "Random search for hyper-parameter optimization",
+            "type": "article-journal",
+            "volume": "13"
+        },
+        {
+            "ISSN": "0167-8655",
+            "URL": "https://www.sciencedirect.com/science/article/pii/S016786550500303X ",
+            "author": [
+                {
+                    "family": "Fawcett",
+                    "given": "Tom"
+                }
+            ],
+            "container-title": "Pattern Recognition Letters",
+            "id": "Fawcett_2006",
+            "issue": "8",
+            "issued": {
+                "date-parts": [
+                    [
+                        2006
+                    ]
+                ]
+            },
+            "note": "ROC Analysis in Pattern Recognition",
+            "page": "861-874",
+            "title": "An introduction to ROC analysis",
+            "type": "article-journal",
+            "volume": "27"
+        },
+        {
+            "URL": "http://gim.unmc.edu/dxtests/Default.htm ",
+            "author": [
+                {
+                    "family": "Tape",
+                    "given": "Thomas G."
+                }
+            ],
+            "id": "Tape",
+            "publisher": "University of Nebraska Medical Center",
+            "title": "Interpreting diagnostic tests",
+            "type": ""
+        },
+        {
+            "URL": "https://statisticaloddsandends.wordpress.com/2020/06/07/what-is-the-delong-test-for-comparing-aucs/ ",
+            "author": [
+                {
+                    "family": "Tay",
+                    "given": "Kenneth"
+                }
+            ],
+            "id": "Ken_2020",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "title": "What is the DeLong test for comparing AUCs?",
+            "type": ""
+        },
+        {
+            "URL": "https://arxiv.org/pdf/1812.01388.pdf",
+            "author": [
+                {
+                    "family": "Brabec",
+                    "given": "Jan"
+                },
+                {
+                    "family": "Machlica",
+                    "given": "Lukás"
+                }
+            ],
+            "container-title": "CoRR",
+            "id": "Brab_2018",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "title": "Bad practices in evaluation methodology relevant to class-imbalanced problems",
+            "type": "article-journal",
+            "volume": "abs/1812.01388"
+        },
+        {
+            "URL": "https://daviddalpiaz.github.io/stat432sp18/supp/knn_class_r.html",
+            "author": [
+                {
+                    "family": "Dalpiaz",
+                    "given": "David"
+                }
+            ],
+            "id": "Dal_2017",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "title": "KNN for classification using knn3()",
+            "type": ""
+        },
+        {
+            "URL": "https://freakonometrics.hypotheses.org/52776",
+            "author": [
+                {
+                    "family": "Charpentier",
+                    "given": "Arthur"
+                }
+            ],
+            "id": "Charpentier_scratch",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "publisher": "Freakonometrics",
+            "title": "Classification from scratch, trees 9/8",
+            "type": ""
+        },
+        {
+            "URL": "https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf",
+            "author": [
+                {
+                    "family": "Atkinson",
+                    "given": "Elizabeth J."
+                },
+                {
+                    "family": "Therneau",
+                    "given": "Terry M."
+                }
+            ],
+            "id": "Atkinson_2022",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022
+                    ]
+                ]
+            },
+            "title": "An introduction to recursive partitioning using the RPART routines",
+            "type": ""
+        },
+        {
+            "URL": "https://www.mayo.edu/research/documents/rpartminipdf/doc-10027257",
+            "author": [
+                {
+                    "family": "Atkinson",
+                    "given": "Elizabeth J."
+                },
+                {
+                    "family": "Therneau",
+                    "given": "Terry M."
+                },
+                {
+                    "family": "Foundation",
+                    "given": "Mayo"
+                }
+            ],
+            "id": "Atkinson_2000",
+            "issued": {
+                "date-parts": [
+                    [
+                        2000
+                    ]
+                ]
+            },
+            "title": "An introduction to recursive partitioning using the RPART routines",
+            "type": ""
+        },
+        {
+            "URL": "https://stats.stackexchange.com/q/223211",
+            "author": [
+                {
+                    "family": "Chalk",
+                    "given": "Alan"
+                }
+            ],
+            "id": "Alan_2016",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "note": "URL:https://stats.stackexchange.com/q/223211 (version: 2016-07-17)",
+            "publisher": "Cross Validated",
+            "title": "Rpart complexity parameter confusion",
+            "type": ""
+        },
+        {
+            "URL": "https://rdrr.io/cran/ISLR/man/Hitters.html",
+            "author": [
+                {
+                    "family": "ISLR"
+                }
+            ],
+            "id": "ISLR_2021",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "publisher": "ISLR",
+            "title": "Hitters: Baseball data",
+            "title-short": "Hitters",
+            "type": ""
+        },
+        {
+            "URL": "https://web.archive.org/web/20121010030839/http://www.cs.princeton.edu/~schapire/papers/strengthofweak.pdf",
+            "author": [
+                {
+                    "family": "Schapire",
+                    "given": "Robert E."
+                }
+            ],
+            "container-title": "Machine Learning",
+            "id": "Schapire",
+            "issued": {
+                "date-parts": [
+                    [
+                        1990
+                    ]
+                ]
+            },
+            "page": "197-227",
+            "title": "The strength of weak learnability",
+            "type": "article-journal",
+            "volume": "5"
+        },
+        {
+            "URL": "https://www.stat.berkeley.edu/~breiman/RandomForests/cc_home.htm ",
+            "author": [
+                {
+                    "family": "Breiman",
+                    "given": "Leo"
+                },
+                {
+                    "family": "Cutler",
+                    "given": "Adele"
+                }
+            ],
+            "id": "Brei_2004",
+            "issued": {
+                "date-parts": [
+                    [
+                        2004
+                    ]
+                ]
+            },
+            "title": "Random forests",
+            "type": ""
+        },
+        {
+            "URL": "https://link.springer.com/article/10.1023/A:1010933404324#citeas",
+            "author": [
+                {
+                    "family": "Breiman",
+                    "given": "Leo"
+                }
+            ],
+            "container-title": "Machine Learning",
+            "id": "Breiman_2001",
+            "issued": {
+                "date-parts": [
+                    [
+                        2001
+                    ]
+                ]
+            },
+            "page": "5-32",
+            "title": "Random forests",
+            "type": "article-journal",
+            "volume": "45"
+        },
+        {
+            "URL": "https://freakonometrics.hypotheses.org/52782",
+            "author": [
+                {
+                    "family": "Charpentier",
+                    "given": "Arthur"
+                }
+            ],
+            "id": "Hyp_2018",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "publisher": "Freakonometrics",
+            "title": "Classification from scratch, boosting 11/8",
+            "type": ""
+        },
+        {
+            "URL": "https://cran.r-project.org/web/packages/gbm/vignettes/gbm.pdf ",
+            "author": [
+                {
+                    "family": "Ridgeway",
+                    "given": "Greg"
+                }
+            ],
+            "id": "Ridgeway_2020",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "title": "Generalized boosted models: A guide to the gbm package",
+            "title-short": "Generalized boosted models",
+            "type": ""
+        },
+        {
+            "DOI": "https://doi.org/10.1006/jcss.1997.1504",
+            "ISSN": "0022-0000",
+            "URL": "https://www.sciencedirect.com/science/article/pii/S002200009791504X",
+            "author": [
+                {
+                    "family": "Freund",
+                    "given": "Yoav"
+                },
+                {
+                    "family": "Schapire",
+                    "given": "Robert E."
+                }
+            ],
+            "container-title": "Journal of Computer and System Sciences",
+            "id": "FREUND_1997",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        1997
+                    ]
+                ]
+            },
+            "page": "119-139",
+            "title": "A decision-theoretic generalization of on-line learning and an application to boosting",
+            "type": "article-journal",
+            "volume": "55"
+        },
+        {
+            "URL": "https://hastie.su.domains/ElemStatLearn/",
+            "author": [
+                {
+                    "family": "Hastie",
+                    "given": "Trevor"
+                },
+                {
+                    "family": "Tibshirani",
+                    "given": "Robert"
+                },
+                {
+                    "family": "Friedman",
+                    "given": "Jerome"
+                }
+            ],
+            "edition": "2nd",
+            "id": "Hastie_2009",
+            "issued": {
+                "date-parts": [
+                    [
+                        2009
+                    ]
+                ]
+            },
+            "publisher": "Springer",
+            "title": "The elements of statistical learning: Data mining, inference, and prediction.",
+            "title-short": "The elements of statistical learning",
+            "type": "book"
+        },
+        {
+            "URL": "https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html",
+            "author": [
+                {
+                    "family": "Paluszyńska",
+                    "given": "Aleksandra"
+                }
+            ],
+            "id": "Palu_2012",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "title": "Understanding random forests with randomForestExplainer",
+            "type": ""
+        },
+        {
+            "URL": "https://jmlr.csail.mit.edu/papers/volume13/bergstra12a/bergstra12a.pdf ",
+            "author": [
+                {
+                    "family": "Bergstra",
+                    "given": "James"
+                },
+                {
+                    "family": "Bengio",
+                    "given": "Yoshua"
+                }
+            ],
+            "container-title": "Journal of Machine Learning Research",
+            "id": "Bergs_2012",
+            "issued": {
+                "date-parts": [
+                    [
+                        2012
+                    ]
+                ]
+            },
+            "page": "281-305",
+            "title": "Random search for hyper-parameter optimization",
+            "type": "article-journal",
+            "volume": "13"
+        },
+        {
+            "URL": "https://rdrr.io/cran/ISLR/man/Carseats.html ",
+            "author": [
+                {
+                    "family": "ISLR"
+                }
+            ],
+            "id": "ISLR_Car",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "publisher": "ISLR",
+            "title": "Carseats: Sales of child car seats",
+            "title-short": "Carseats",
+            "type": ""
+        },
+        {
+            "URL": "https://skranz.github.io/",
+            "author": [
+                {
+                    "family": "Kranz",
+                    "given": "Sebastian"
+                }
+            ],
+            "id": "Kranz_2021",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022
+                    ]
+                ]
+            },
+            "publisher": "Ulm University",
+            "title": "Mozart’s emotions and creativity: Statistical analysis of composers’ letters and output.",
+            "title-short": "Mozart’s emotions and creativity",
+            "type": ""
+        },
+        {
+            "URL": "https://glmnet.stanford.edu/articles/glmnet.html",
+            "author": [
+                {
+                    "family": "Hastie",
+                    "given": "Trevor"
+                },
+                {
+                    "family": "Qian",
+                    "given": "Junyang"
+                },
+                {
+                    "family": "Tay",
+                    "given": "Kenneth"
+                }
+            ],
+            "id": "Hastie_glmnet",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "title": "An introduction to glmnet",
+            "type": ""
+        },
+        {
+            "URL": "https://math.mit.edu/~gs/linearalgebra/ila0601.pdf",
+            "author": [
+                {
+                    "family": "Strang",
+                    "given": "Gilbert"
+                }
+            ],
+            "id": "Strang_2016",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "page": "283-297",
+            "publisher": "Wellesley-Cambridge Press",
+            "title": "Introduction to linear algebra, fifth edition",
+            "type": "book"
+        },
+        {
+            "URL": "https://math.stackexchange.com/q/243553",
+            "author": [
+                {
+                    "family": "user17762"
+                }
+            ],
+            "id": "Use_eigen",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "note": "URL:https://math.stackexchange.com/q/243553 (version: 2020-03-28)",
+            "publisher": "Mathematics Stack Exchange",
+            "title": "How to intuitively understand eigenvalue and eigenvector?",
+            "type": ""
+        },
+        {
+            "DOI": "10.18637/jss.v089.i11",
+            "author": [
+                {
+                    "family": "Erichson",
+                    "given": "N. Benjamin"
+                },
+                {
+                    "family": "Voronin",
+                    "given": "Sergey"
+                },
+                {
+                    "family": "Brunton",
+                    "given": "Steven L."
+                },
+                {
+                    "family": "Kutz",
+                    "given": "J. Nathan"
+                }
+            ],
+            "container-title": "Journal of Statistical Software",
+            "id": "Erichson_2019",
+            "issue": "11",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "page": "1-48",
+            "title": "Randomized matrix decompositions using r",
+            "type": "article-journal",
+            "volume": "89"
+        },
+        {
+            "URL": "https://www.youtube.com/watch?v=nbBvuuNVfco ",
+            "author": [
+                {
+                    "family": "Brunton",
+                    "given": "Steve"
+                }
+            ],
+            "id": "Brunton_2020",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "title": "Singular value decomposition (SVD): Mathematical overview",
+            "title-short": "Singular value decomposition (SVD)",
+            "type": ""
+        },
+        {
+            "URL": "https://orinanobworld.blogspot.com/2015/10/ols-oddities.html ",
+            "author": [
+                {
+                    "family": "Rubin",
+                    "given": "Paul"
+                }
+            ],
+            "id": "Rubin_2015",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "title": "OLS oddities",
+            "type": ""
+        },
+        {
+            "URL": "https://arxiv.org/pdf/1509.09169.pdf ",
+            "author": [
+                {
+                    "dropping-particle": "van",
+                    "family": "Wieringen",
+                    "given": "Wessel"
+                }
+            ],
+            "id": "Wieringen_2021",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "title": "Lecture notes on ridge regression",
+            "type": ""
+        },
+        {
+            "URL": "https://www.youtube.com/watch?v=fkf4IBRSeEc ",
+            "author": [
+                {
+                    "family": "Brunton",
+                    "given": "Steve"
+                }
+            ],
+            "id": "Brunton_PCA",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "title": "Principal component analysis (PCA)",
+            "type": ""
+        },
+        {
+            "URL": "https://setosa.io/ev/principal-component-analysis/",
+            "author": [
+                {
+                    "family": "Powell",
+                    "given": "Victor"
+                }
+            ],
+            "id": "Powell_PCA",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "title": "Principal component analysis",
+            "type": ""
+        },
+        {
+            "URL": "https://stats.stackexchange.com/q/154716",
+            "author": [
+                {
+                    "family": "DU",
+                    "given": "Kroll"
+                }
+            ],
+            "id": "Kroll_2015",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "note": "URL:https://stats.stackexchange.com/q/154716 (version: 2020-06-11)",
+            "publisher": "Cross Validated",
+            "title": "PCA: Eigenvectors of opposite sign and not being able to compute eigenvectors with ‘solve‘ in r",
+            "title-short": "PCA",
+            "type": ""
+        },
+        {
+            "URL": "https://stackoverflow.com/questions/55076133/dont-know-why-eigen-gives-a-vectors-of-wrong-sign-and-the-loading-matrix-is-j",
+            "author": [
+                {
+                    "family": "Wilks"
+                }
+            ],
+            "id": "Wilks_2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "publisher": "Stack Overflow",
+            "title": "Don’t know why eigen() gives a vectors of wrong sign and the loading matrix is just vector",
+            "type": ""
+        },
+        {
+            "URL": "http://orlandi.ing.univaq.it/pub/Kutz%20J.%20Dynamic%20Mode%20Decomposition.%20Data-Driven%20Modeling%20of%20Complex%20Systems%202016.pdf",
+            "author": [
+                {
+                    "family": "Kutz",
+                    "given": "Nathan"
+                },
+                {
+                    "family": "Brunton",
+                    "given": "Steven"
+                },
+                {
+                    "family": "Brunton",
+                    "given": "Bingni"
+                },
+                {
+                    "family": "Proctor",
+                    "given": "Joshua"
+                }
+            ],
+            "id": "Decomp_2016",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "publisher": "Society for Industrial & Applied Mathematics",
+            "title": "Dynamic mode decomposition, data-driven modeling of complex systems",
+            "type": "book"
+        },
+        {
+            "URL": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4681537/pdf/nihms740182.pdf ",
+            "author": [
+                {
+                    "family": "Kim",
+                    "given": "Seongho"
+                }
+            ],
+            "container-title": "Commun Stat Appl Methods",
+            "id": "Kim_2015",
+            "issue": "6",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "page": "665-674",
+            "title": "Ppcor: An r package for a fast calculation to semi-partial correlation coefficients",
+            "title-short": "Ppcor",
+            "type": "article-journal",
+            "volume": "22"
+        },
+        {
+            "URL": "https://pubmed.ncbi.nlm.nih.gov/16646851/",
+            "author": [
+                {
+                    "family": "Schäfer",
+                    "given": "Juliane"
+                },
+                {
+                    "family": "Strimmer",
+                    "given": "Korbinian"
+                }
+            ],
+            "container-title": "Statistical Applications in Genetic & Molecular Biology",
+            "id": "Schafer_2005",
+            "issue": "32",
+            "issued": {
+                "date-parts": [
+                    [
+                        2005
+                    ]
+                ]
+            },
+            "publisher": "National Library of Medicine",
+            "title": "A shrinkage approach to large-scale covariance matrix estimation and implications for functional genomics",
+            "type": "article-journal",
+            "volume": "4"
+        },
+        {
+            "URL": "https://stats.stackexchange.com/q/151315",
+            "author": [
+                {
+                    "family": "Lepidopterist"
+                }
+            ],
+            "id": "Intui_Cross",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "note": "URL:https://stats.stackexchange.com/q/151315 (version: 2015-05-08)",
+            "publisher": "Cross Validated",
+            "title": "What is the intuitive (geometric?) Meaning of minimizing the log determinant of a matrix?",
+            "type": ""
+        },
+        {
+            "URL": "https://arxiv.org/pdf/1206.1386v2.pdf",
+            "author": [
+                {
+                    "family": "Zhang",
+                    "given": "Teng"
+                }
+            ],
+            "container-title": "arXiv:1206.1386v2",
+            "id": "Zhang_2012",
+            "issue": "11",
+            "issued": {
+                "date-parts": [
+                    [
+                        2012
+                    ]
+                ]
+            },
+            "publisher": "Citeseer",
+            "title": "Robust subspace recovery by geodesically convex optimization",
+            "type": "article-journal",
+            "volume": "60"
+        },
+        {
+            "URL": "https://www.tandfonline.com/doi/epub/10.1080/10618600.2019.1604374?needAccess=true https://www.sciencedirect.com/science/article/abs/pii/S0167947316301141 ",
+            "author": [
+                {
+                    "dropping-particle": "van",
+                    "family": "Wieringen",
+                    "given": "Wessel"
+                }
+            ],
+            "container-title": "Journal of Computational & Graphical Statistics",
+            "id": "Wessel_2019",
+            "issue": "4",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "page": "932-942",
+            "title": "The generalized ridge estimator of the inverse covariance matrix",
+            "type": "article-journal",
+            "volume": "28"
+        },
+        {
+            "URL": "https://www.sciencedirect.com/science/article/abs/pii/S0167947316301141",
+            "author": [
+                {
+                    "dropping-particle": "van",
+                    "family": "Wieringen",
+                    "given": "Wessel"
+                },
+                {
+                    "family": "Peeters",
+                    "given": "Carel F. W."
+                }
+            ],
+            "container-title": "Computational Statistics & Data Analysis",
+            "id": "Wessel_Ridge",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "page": "284-303",
+            "title": "Ridge estimation of inverse covariance matrices from high-dimensional data",
+            "type": "article-journal",
+            "volume": "103"
+        },
+        {
+            "URL": "http://gilesd-j.com/2019/01/07/7-reasons-for-policy-professionals-to-get-pumped-about-r-programming-in-2019/",
+            "author": [
+                {
+                    "family": "Dickenson-Jones",
+                    "given": "Giles"
+                }
+            ],
+            "id": "Jones_2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "title": "7 reasons for policy professionals to get into r programming in 2019",
+            "type": ""
+        },
+        {
+            "URL": "https://statisticaloddsandends.wordpress.com/2019/08/24/visualizing-the-relationship-between-multiple-variables/",
+            "author": [
+                {
+                    "family": "Tay",
+                    "given": "Kenneth"
+                }
+            ],
+            "id": "Tay_2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "title": "Visualizing the relationship between multiple variables",
+            "type": ""
+        },
+        {
+            "URL": "https://stats.oarc.ucla.edu/r/library/r-library-introduction-to-bootstrapping/",
+            "author": [
+                {
+                    "family": "UCLA"
+                }
+            ],
+            "id": "UCLA_2021",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "publisher": "ULCA Advanced Research Computing Statistical Methods & Data Analytics",
+            "title": "R library introduction to bootstrapping",
+            "type": ""
+        },
+        {
+            "URL": "https://theressomethingaboutr.wordpress.com/2019/02/12/in-memory-of-monty-hall/",
+            "author": [
+                {
+                    "family": "Rajter",
+                    "given": "M"
+                }
+            ],
+            "id": "Rajter_2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "title": "In memory of monty hall",
+            "type": ""
+        },
+        {
+            "URL": "https://stats.stackexchange.com/q/376191",
+            "author": [
+                {
+                    "family": "Gulzar"
+                }
+            ],
+            "id": "Gulzar_2018",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "note": "URL:https://stats.stackexchange.com/q/376191 (version: 2018-11-09)",
+            "publisher": "Cross Validated",
+            "type": ""
+        },
+        {
+            "URL": "https://jair.org/index.php/jair/article/view/10302",
+            "author": [
+                {
+                    "family": "Chawla",
+                    "given": "N. V."
+                },
+                {
+                    "family": "Bowyer",
+                    "given": "K. W."
+                },
+                {
+                    "family": "Hall",
+                    "given": "L. O."
+                },
+                {
+                    "family": "Kegelmeyer",
+                    "given": "W. P."
+                }
+            ],
+            "container-title": "Journal of Artificial Intelligence Research",
+            "id": "Chawla_2002",
+            "issued": {
+                "date-parts": [
+                    [
+                        2002
+                    ]
+                ]
+            },
+            "page": "321-357",
+            "title": "SMOTE: Synthetic minority over-sampling technique",
+            "title-short": "SMOTE",
+            "type": "article-journal",
+            "volume": "16"
+        },
+        {
+            "URL": "https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud",
+            "author": [
+                {
+                    "family": "Kaggle"
+                }
+            ],
+            "id": "Kaggle_Cred",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "publisher": "Kaggle",
+            "title": "Credit card fraud detection",
+            "type": ""
+        }
+    ],
+    "project_biblios": [
+        "WorkingBib(currentV3).bib"
+    ]
+}

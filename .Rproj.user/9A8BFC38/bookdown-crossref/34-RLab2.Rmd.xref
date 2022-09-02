@@ -1,0 +1,22 @@
+h1:r-lab-2---basics-ii R Lab 2 - Basics II
+h2:data-frames-and-lists Data frames and lists
+h3:lists Lists
+h3:data-frames Data Frames
+h3:reading-importing-and-writting-exporting-data-files Reading (importing) and writting (exporting) data files
+h3:subsetting-data-frames Subsetting Data Frames
+h3:plotting-from-data-frame Plotting from data frame
+h3:some-useful-functions Some useful functions
+h3:categorical-variables-in-data-frames Categorical Variables in Data Frames
+h2:programming-basics Programming Basics
+h3:ifelse if/Else
+h3:loops Loops
+h3:the-apply-family The  family
+h4:apply 
+h4:lapply 
+h4:sapply 
+h4:tapply 
+h4:mapply 
+h3:functions Functions
+h4:outer 
+h3:dplyr 
+

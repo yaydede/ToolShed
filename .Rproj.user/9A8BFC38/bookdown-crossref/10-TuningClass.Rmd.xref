@@ -1,0 +1,12 @@
+h1:tuning-in-classification Tuning in Classification
+h2:confusion-matrix Confusion matrix
+h2:performance-measures Performance measures
+h2:roc---reciever-operating-curve ROC - Reciever Operating Curve
+h2:auc---area-under-the-curve AUC - Area Under the Curve
+h1:classification-example Classification Example
+h2:lpm LPM
+h2:logistic-regression Logistic Regression
+h2:knn kNN
+h3:knn-10-fold-cv kNN 10-fold CV
+h3:knn-with-caret kNN with 
+

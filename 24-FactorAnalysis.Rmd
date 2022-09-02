@@ -1,0 +1,88 @@
+# Factor Analysis
+
+Factor Analysis (FA) is a method for modeling observed variables, and their covariance structure, in terms of a smaller number of underlying latent (unobserved) "factors". In FA the observed variables are modeled as linear functions of the "factors." In PCA, we create new variables that are linear combinations of the observed variables.  In both PCA and FA, the dimension of the data is reduced. 
+
+A factor model can be thought of as a series of multiple regressions, predicting each of the observable variables $X_{i}$ from the values of the (unobservable) common factors $f_{i}$:
+
+$$
+\begin{gathered}
+X_{1}=\mu_{1}+l_{11} f_{1}+l_{12} f_{2}+\cdots+l_{1 m} f_{m}+\epsilon_{1} \\
+X_{2}=\mu_{2}+l_{21} f_{1}+l_{22} f_{2}+\cdots+l_{2 m} f_{m}+\epsilon_{2} \\
+\vdots \\
+X_{p}=\mu_{p}+l_{p 1} f_{1}+l_{p 2} f_{2}+\cdots+l_{p m} f_{m}+\epsilon_{p}
+\end{gathered}
+$$
+
+where $\mu_{i}$ is the variable mean (intercept).
+
+The regression coefficients $l_{i j}$ (the partial slopes) for all of these multiple regressions are called factor **loadings**: $l_{i j}=$ is loading of the $i^{t h}$ variable on the $j^{t h}$ factor. With a matrix notation, we can show the matrix of factor loadings:
+
+$$
+\mathbf{L}=\left(\begin{array}{cccc}
+l_{11} & l_{12} & \ldots & l_{1 m} \\
+l_{21} & l_{22} & \ldots & l_{2 m} \\
+\vdots & \vdots & & \vdots \\
+l_{p 1} & l_{p 2} & \ldots & l_{p m}
+\end{array}\right)
+$$
+  
+The errors $\varepsilon_{i}$ are called the **specific factors**. Here, $\varepsilon_{i}=$ specific factor for variable $i$. When we collect them in a vector, we can express these series of multivariate regression as follows:
+
+\begin{equation}
+\mathbf{X}=\boldsymbol{\mu}+\mathbf{L f}+\boldsymbol{\epsilon}
+  (\#eq:25-1)
+\end{equation} 
+
+There are multiple assumptions:
+  
+- $E\left(\epsilon_{i}\right)=0$ and $\operatorname{var}\left(\epsilon_{i}\right)=\psi_{i}$ (a.k.a "specific variance"), 
+- $E\left(f_{i}\right)=0$ and $\operatorname{var}\left(f_{i}\right)=1$,
+- $\operatorname{cov}\left(f_{i}, f_{j}\right)=0$ for $i \neq j$,
+- $\operatorname{cov}\left(\epsilon_{i}, \epsilon_{j}\right)=0$ for $i \neq j$,
+- $\operatorname{cov}\left(\epsilon_{i}, f_{j}\right)=0$,
+
+Hence,
+  
+- $\operatorname{var}\left(X_{i}\right)=\sigma_{i}^{2}=\sum_{j=1}^{m} l_{i j}^{2}+\psi_{i}$. The term $\sum_{j=1}^{m} l_{i j}^{2}$ is called the **Communality** for variable $i$.  The larger the communality, the better the model performance for the $i$ th variable.
+- $\operatorname{cov}\left(X_{i}, X_{j}\right)=\sigma_{i j}=\sum_{k=1}^{m} l_{i k} l_{j k}$, 
+- $\operatorname{cov}\left(X_{i}, f_{j}\right)=l_{i j}$
+  
+The variance-covariance matrix can then be expressed as:
+
+\begin{equation}
+\Sigma=\mathbf{L L}^{\prime}+\mathbf{\Psi}
+  (\#eq:25-2)
+\end{equation} 
+
+where,
+
+$$
+\boldsymbol{\Psi}=\left(\begin{array}{cccc}
+\psi_{1} & 0 & \ldots & 0 \\
+0 & \psi_{2} & \ldots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \ldots & \psi_{p}
+\end{array}\right)
+$$
+  
+The total variance of each variable is a result of the sum of the shared variance with another variable, the common variance (**communality**), and the unique variance inherent to each variable (**specific variance**)
+
+There are multiple methods to estimate the parameters of a factor model.  In general, two methods are most common: PCA and MLE
+
+After PCA, we can get several outcomes by `factoextra`:
+
+```{r}
+get_pca_var(Xpca)
+fviz_pca_var(Xpca, col.var="contrib",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE # Avoid text overlapping
+             )
+# Contributions of variables to PC1
+fviz_contrib(Xpca, choice = "var", axes = 1, top = 10)
+# Contributions of variables to PC2
+fviz_contrib(Xpca, choice = "var", axes = 2, top = 10)
+```
+  
+For more see: <https://cran.r-project.org/web/packages/factoextra/readme/README.html>
+
+TBC ...

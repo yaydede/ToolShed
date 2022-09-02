@@ -1,0 +1,153 @@
+# Smoothing
+
+We can define $Y_i$ with a following model:
+
+$$
+Y_{i}=f\left(x_{i}\right)+\varepsilon_{i}
+$$
+  
+We do not want to (and cannot) predict $Y_i$ as we don't know the random part, the "noise" $\epsilon_i$.  If we predict $f(x)$ well, it would give us a good approximation about $Y_i$.  Hence we need to know the best $f(x)$. Nonparametric estimations can also be used for recovering $f(x)$, which is called "smoothing" when the outcome variable is quantitative.  In general, the purposes of smoothing is two-fold: building a forecasting model by smoothing and learning the shape of the trend embedded in the data ($Y$).  You can think of smoothing as process that reduces the effect of noise in the data.  
+
+We will use several datasets from `MASS`. The `mcycle` dataset (from the `MASS` package) contains $n=133$ pairs of time points (in ms) and observed head accelerations (in g) that were recorded in a simulated motorcycle accident. We will several smoothing methods to explore the relationship between time and acceleration. Fist, let's visualize the relationship between time $(X)$ and acceleration $(Y)$ and see if we can assume that $f(x_i)$ is a linear function of time:  
+
+
+```{r , message=FALSE, warning=FALSE}
+library(tidyverse)
+library(MASS)
+data(mcycle)
+head(mcycle)
+
+plot(mcycle$times, mcycle$accel,
+      cex.axis = 0.75, cex.main = 0.8)
+
+#Let’s use linear regression
+lines(mcycle$times,  predict(lm(accel ~ times, mcycle)), lwd = 2, col = "red")
+```
+  
+The line does not appear to describe the trend very well. Let's try an alternative model:  
+
+## Using bins
+
+As we have seen before, the main idea is to group data points into bins (equal size) in which the value of $f(x)$ can be assumed to be constant. We can consider this assumption realistic because we consider $f(x)$ is almost constant in small windows of time. After deciding the window size (say, 10ms), we find out how many observations ($Y_i$) we have in those 10-ms windows.  We can calculate the number of observations in a 10-ms window centered around $x_i$ satisfying the following condition:
+
+$$
+\left(x-\frac{10}{2}<x_{i}<x+\frac{10}{2}\right)
+$$
+When we apply condition such as this for each observation of $x_i$, we create a moving 10-ms window. Note that the window is established by adding half of 10ms to $x_i$ to get the forward half and subtracting it from $x_i$ to get the backward half.  When we identify all the observations in each window, we estimate $f(x)$ as the average of the $Y_i$ values in that window.   If we define $A_0$ as the set of indexes in each window and $N_0$ as the number of observation in each window, with our data, computing $f(x)$ can be expressed as, 
+
+\begin{equation}
+\hat{f}\left(x_{0}\right)=\frac{1}{N_{0}} \sum_{i \in A_{0}} Y_{i},
+  (\#eq:7-1)
+\end{equation} 
+  
+We build an estimate of the underlying curve.  Here is its application to our data:  
+
+```{r, message=FALSE, warning=FALSE}
+#With ksmooth() Pay attention to "box"
+fit1 <- with(mcycle, ksmooth(times, accel, kernel = "box", bandwidth = 7))
+fit2 <- with(mcycle, ksmooth(times, accel, kernel = "box", bandwidth = 10))
+fit3 <- with(mcycle, ksmooth(times, accel, kernel = "box", bandwidth = 21))
+
+
+plot(mcycle$times, mcycle$accel, 
+     xlab = "Time (ms)", ylab = "Acceleration (g)")
+lines(mcycle$times,  fit1$y, lwd = 2, col = "blue")
+lines(mcycle$times,  fit2$y, lwd = 2, col = "red")
+lines(mcycle$times,  fit3$y, lwd = 2, col = "green")
+```
+  
+As you can see, even if we use a shorter bandwidth, the lines are quite wiggly.
+
+## Kernel smoothing
+
+We can take care of this by taking weighted averages that give the center points more weight than far away points.  
+
+```{r , message=FALSE, warning=FALSE}
+#With ksmooth() Pay attention to "box"
+fit1 <- with(mcycle, ksmooth(times, accel, kernel = "normal", bandwidth = 7))
+fit2 <- with(mcycle, ksmooth(times, accel, kernel = "normal", bandwidth = 10))
+fit3 <- with(mcycle, ksmooth(times, accel, kernel = "normal", bandwidth = 21))
+
+
+plot(mcycle$times, mcycle$accel, 
+     xlab = "Time (ms)", ylab = "Acceleration (g)")
+lines(mcycle$times,  fit1$y, lwd = 2, col = "blue")
+lines(mcycle$times,  fit2$y, lwd = 2, col = "red")
+lines(mcycle$times,  fit3$y, lwd = 2, col = "green")
+```
+  
+Now they look smoother.  There are several functions in R that implement bin smoothers. One example is `ksmooth`, shown above. In practice, however, we typically prefer methods that are slightly more complex than fitting a constant. Methods such as `loess`, which we explain next, improve on this.
+
+## Locally weighted regression `loess()`
+
+A limitation of the bin smoother approach by `ksmooth()` is that we need small windows for the approximately constant assumptions to hold.  Now `loess()` permits us to consider larger window sizes.  
+
+```{r, message=FALSE, warning=FALSE}
+#With loess()
+fit1 <- loess(accel ~ times, degree = 1, span = 0.1, mcycle)
+fit2 <-loess(accel ~ times, degree = 1, span = 0.9, mcycle)
+
+summary(fit1)
+```
+  
+```{r, message=FALSE, warning=FALSE}
+plot(mcycle$times, mcycle$accel, 
+     xlab = "Time (ms)", ylab = "Acceleration (g)")
+lines(mcycle$times,  fit1$fitted, lwd = 2, col = "blue")
+lines(mcycle$times,  fit2$fitted, lwd = 2, col = "red")
+```
+  
+It seems the "blue" line is better than the "red" line.  We can make our windows even larger by fitting parabolas instead of lines.  
+
+```{r, message=FALSE, warning=FALSE}
+fit1 <- loess(accel ~ times, degree = 1, span = 0.1, data = mcycle)
+fit2 <-loess(accel ~ times, degree = 2, span = 0.1, data = mcycle)
+
+plot(mcycle$times, mcycle$accel, 
+     xlab = "Time (ms)", ylab = "Acceleration (g)")
+lines(mcycle$times,  fit1$fitted, lwd = 2, col = "blue")
+lines(mcycle$times,  fit2$fitted, lwd = 2, col = "green")
+```
+
+
+## Smooth Spline Regression
+We can also use `npreg` package with `ss()` function for automated smooth splines
+
+```{r, message=FALSE, warning=FALSE}
+library(npreg)
+
+mod.ss <- with(mcycle, ss(times, accel))
+mod.ss
+summary(mod.ss)
+```
+```{r}
+plot(mod.ss, xlab = "Time (ms)", ylab = "Acceleration (g)", col = "orange")
+rug(mcycle$times)  # add rug to plot for the precise location of each point
+```
+  
+The gray shaded area denotes a 95% Bayesian “confidence interval” for the unknown function.
+
+## Multivariate Loess
+Loess can handle up to 4 predictor variables.  But when it's more than two, it's always advisable to use additive models either GAM or MARS.  Let's try `loess()` with 3 variables.  This dataset was produced from US economic time series data available [from St.Louis Federal Reserve](http://research.stlouisfed.org/fred2).  It's a data frame with 478 rows and 6 variables: `psavert`, personal savings rate; `pce`, personal consumption expenditures, in billions of dollars; `unemploy`, number of unemployed in thousands, `uempmed` median duration of unemployment, in weeks; and `pop` total population, in thousands.  Although we have a time variable, `date`, let's create an index for time.
+
+```{r, message=FALSE, warning=FALSE}
+data(economics, package="ggplot2")  
+str(economics)
+
+economics$index <- 1:nrow(economics)
+fit1 <- loess(uempmed ~ index, data=economics, span=0.5) # 40% smoothing span
+
+plot(economics$index, economics$uempmed,
+      cex.axis = 0.75, cex.main = 0.8)
+lines(economics$index,  fit1$fitted, lwd = 2, col = "red")
+
+#Now more predictors
+fit2 <- loess(uempmed ~ pce + psavert +pop,
+              data=economics, span=1) 
+
+RRSS_2 <- sqrt(sum((fit2$residuals)^2))
+RRSS_2
+```
+
+
+

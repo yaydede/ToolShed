@@ -1,0 +1,9 @@
+# Neural Networks
+
+https://stats.stackexchange.com/questions/510052/are-neural-networks-better-than-svms
+
+Both Support Vector Machines and Neural Networks employ some kind of data transformation that moves them into a higher dimensional space. What the kernel function does for the SVM, the hidden layers do for neural networks. For example, the output layer in the network performs a linear separation of the transformed data.e difference.
+
+To demonstrate this, I'm so free to use Haitao's example. As you can see below, a two-layer neural network, with 5 neurons in the hidden layer, can perfectly separate the two classes. The blue class can be fully enclosed in a pentagon (pale blue) area. Each neuron in the hidden layer determines a linear boundary---a side of the pentagon, producing, say, +1 when its input is a point on the "blue" side of the line and -1 otherwise (it could also produce 0, it doesn't really matter).
+
+I have used different colours to highlight which neuron is responsible for which boundary. The output neuron (black) simply checks (performs a logical AND, which is again a linearly separable function) whether all hidden neurons give the same, "positive" answer. Observe that this last neuron has five inputs. I.e. its input is a 5-dimensional vector. So the hidden layers have transformed 2D data into 5D data.
