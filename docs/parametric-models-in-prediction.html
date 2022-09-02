@@ -467,7 +467,7 @@ div.csl-indent {
 <div id="parametric-models-in-prediction" class="section level1 unnumbered hasAnchor">
 <h1>Parametric models in prediction<a href="parametric-models-in-prediction.html#parametric-models-in-prediction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Remember, in simple regression or classification problems, we cannot train a parametric model in a way that the fitted model minimizes out-of-sample prediction error. We could and did the fit the models <strong>manually</strong> by adding or removing predictors and their interactions and polynomials. Penalization in regressions (also called as regularization or shrinkage) is an alternative and automated fitting procedure, which can yield better prediction accuracy and model interpretability by preventing overfitting.</p>
-<p>Two methods, Ridge and Lasso, are two of well-known benchmark techniques that reduce the model complexity and prevent overfitting resulting from simple linear regression. (See <a href="https://skranz.github.io">LASSO AND THE METHODS OF CAUSALITY</a>) <span class="citation">(<a href="#ref-Kranz_2021" role="doc-biblioref">Kranz 2022</a>)</span></p>
+<p>Two methods, Ridge and Lasso, are two of well-known benchmark techniques that reduce the model complexity and prevent overfitting resulting from simple linear regression.</p>
 <p>As we have seen in earlier chapters, by dropping a variable in a regression it is possible to reduce the variance at the cost of a negligible increase in bias. In fitting the predictive model, some of the variables used in a multiple regression model may not be well associated with the response. Keeping those “irrelevant” variables often leads to unnecessary complexity in the resulting model. Sometimes this process, - removing irrelevant variables - is called as “feature selection”, which sets the corresponding coefficients to zero.</p>
 <p>In addition to variable selection, we can also constrain or shrink the estimated coefficients. If the number of observations is not much larger than the number of variables, this regularization can lead to substantial improvements in the out-of-sample prediction accuracy.<br />
 As we have seen before, one can fit the following standard linear model, which describes the relationship between <span class="math inline">\(Y\)</span> and a set of <span class="math inline">\(X\)</span> variables, by using least squares.</p>
@@ -475,12 +475,6 @@ As we have seen before, one can fit the following standard linear model, which d
 Y=\beta_{0}+\beta_{1} X_{1}+\cdots+\beta_{p} X_{p}+\epsilon
 \]</span></p>
 <p>Although this model is linear, one can obtain a non-linear nature of the relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span>’s by adding polynomials and interaction that increases the the dimension of the model beyond what the dataset provides. There are several approaches involving fitting a model that incorporates features selection. Here, we will see only the “shrinkage” method that shrinks the estimated coefficients towards zero. The two best-known techniques for shrinking the regression coefficients towards zero are ridge regression and the lasso.</p>
-</div>
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-Kranz_2021" class="csl-entry">
-Kranz, Sebastian. 2022. <span>“Mozart’s Emotions and Creativity: Statistical Analysis of Composers’ Letters and Output.”</span> Ulm University. <a href="https://skranz.github.io/">https://skranz.github.io/</a>.
-</div>
 </div>
             </section>
 
