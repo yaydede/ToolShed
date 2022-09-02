@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 24 Rank(r) Approximations | Tool Shed for Applied Data Analytics with R</title>
-  <meta name="description" content="Chapter 24 Rank(r) Approximations | Tool Shed for Applied Data Analytics with R" />
+  <title>License | Tool Shed for Applied Data Analytics with R</title>
+  <meta name="description" content="License | Tool Shed for Applied Data Analytics with R" />
   <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 24 Rank(r) Approximations | Tool Shed for Applied Data Analytics with R" />
+  <meta property="og:title" content="License | Tool Shed for Applied Data Analytics with R" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
   
   <meta name="github-repo" content="yaydede/ToolShed_draft" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 24 Rank(r) Approximations | Tool Shed for Applied Data Analytics with R" />
+  <meta name="twitter:title" content="License | Tool Shed for Applied Data Analytics with R" />
   
   
   <meta name="twitter:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="singular-value-decomposition.html"/>
-<link rel="next" href="moore-penrose-inverse.html"/>
+<link rel="prev" href="acknowledgements.html"/>
+<link rel="next" href="intro.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -465,69 +465,21 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="rankr-approximations" class="section level1 hasAnchor" number="24">
-<h1><span class="header-section-number">Chapter 24</span> Rank(r) Approximations<a href="rankr-approximations.html#rankr-approximations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>SVD can also be used for rank approximations a.k.a. matrix approximations. Since <span class="math inline">\(\mathbf{A=U \Sigma V^{\top}}\)</span> can be written as</p>
-<p><span class="math display">\[
-=\sigma_{1} u_{1} v_{1}^{\top}+\sigma_{2} u_{2} v_{2}^{\top}+\ldots+\sigma_{n} u_{n} v_{n}^{\top}+ 0
-\]</span>
-Each term in this equation is a Rank 1 matrix: <span class="math inline">\(u_1\)</span> is <span class="math inline">\(n \times 1\)</span> column vector and <span class="math inline">\(v_1\)</span> is <span class="math inline">\(1 \times n\)</span> row vector. Hence these are the only orthogonal entries in the resulting matrix, hence Rank1. Therefore, the first term with <span class="math inline">\(\sigma_1\)</span> is a Rank 1 <span class="math inline">\(n \times n\)</span> matrix. All other terms have the same dimension. Since <span class="math inline">\(\sigma\)</span>s are ordered, the first term is the carries the most information. So Rank 1 approximation is taking only the first term and ignoring the others.</p>
-<p>And Rank 2 approximation can be obtained by adding the first 2 terms and so on. As we add more terms we can get the full information in the data. But often times, we truncate the ranks at <span class="math inline">\(r\)</span> by removing the terms with small <span class="math inline">\(sigma\)</span>. This is also called noise reduction.<br />
-Here is an example for an image compression for a matrix from our own work (Graphical Network Analysis of COVID-19 Spread). A better example for an image can be found in the Github repo of package <code>rsvd</code> <a href="https://github.com/erichson/rSVD">Tiger</a> <span class="citation">(<a href="#ref-Erichson_2019" role="doc-biblioref">Erichson et al. 2019</a>)</span>:</p>
-<div class="sourceCode" id="cb886"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb886-1"><a href="rankr-approximations.html#cb886-1" aria-hidden="true" tabindex="-1"></a>comt <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;comt.rds&quot;</span>)</span>
-<span id="cb886-2"><a href="rankr-approximations.html#cb886-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb886-3"><a href="rankr-approximations.html#cb886-3" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(comt, <span class="at">Colv =</span> <span class="cn">NA</span>, <span class="at">Rowv =</span> <span class="cn">NA</span>,</span>
-<span id="cb886-4"><a href="rankr-approximations.html#cb886-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Heatmap - Original&quot;</span>,</span>
-<span id="cb886-5"><a href="rankr-approximations.html#cb886-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Lags&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Starting days of 7-day rolling windows&quot;</span>)</span></code></pre></div>
-<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-298-1.png" width="672" /></p>
-<div class="sourceCode" id="cb887"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb887-1"><a href="rankr-approximations.html#cb887-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Regular SVD</span></span>
-<span id="cb887-2"><a href="rankr-approximations.html#cb887-2" aria-hidden="true" tabindex="-1"></a>fck <span class="ot">&lt;-</span><span class="fu">svd</span>(comt)</span>
-<span id="cb887-3"><a href="rankr-approximations.html#cb887-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb887-4"><a href="rankr-approximations.html#cb887-4" aria-hidden="true" tabindex="-1"></a>comt.re <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(fck<span class="sc">$</span>u[,<span class="dv">1</span><span class="sc">:</span>r])<span class="sc">%*%</span><span class="fu">diag</span>(fck<span class="sc">$</span>d)[<span class="dv">1</span><span class="sc">:</span>r,<span class="dv">1</span><span class="sc">:</span>r]<span class="sc">%*%</span><span class="fu">t</span>(fck<span class="sc">$</span>v[,<span class="dv">1</span><span class="sc">:</span>r])</span>
-<span id="cb887-5"><a href="rankr-approximations.html#cb887-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb887-6"><a href="rankr-approximations.html#cb887-6" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(comt.re, <span class="at">Colv =</span> <span class="cn">NA</span>, <span class="at">Rowv =</span> <span class="cn">NA</span>,</span>
-<span id="cb887-7"><a href="rankr-approximations.html#cb887-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Heatmap Matrix - Rank(2) Approx&quot;</span>,</span>
-<span id="cb887-8"><a href="rankr-approximations.html#cb887-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Lags&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Startting days of 7-day rolling windows&quot;</span>)</span></code></pre></div>
-<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-298-2.png" width="672" /></p>
-<div class="sourceCode" id="cb888"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb888-1"><a href="rankr-approximations.html#cb888-1" aria-hidden="true" tabindex="-1"></a><span class="co">#XX&#39; and X&#39;X SVD</span></span>
-<span id="cb888-2"><a href="rankr-approximations.html#cb888-2" aria-hidden="true" tabindex="-1"></a>wtf <span class="ot">&lt;-</span> comt<span class="sc">%*%</span><span class="fu">t</span>(comt)</span>
-<span id="cb888-3"><a href="rankr-approximations.html#cb888-3" aria-hidden="true" tabindex="-1"></a>fck <span class="ot">&lt;-</span><span class="fu">svd</span>(wtf)</span>
-<span id="cb888-4"><a href="rankr-approximations.html#cb888-4" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb888-5"><a href="rankr-approximations.html#cb888-5" aria-hidden="true" tabindex="-1"></a>comt.re2 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(fck<span class="sc">$</span>u[,<span class="dv">1</span><span class="sc">:</span>r])<span class="sc">%*%</span><span class="fu">diag</span>(fck<span class="sc">$</span>d)[<span class="dv">1</span><span class="sc">:</span>r,<span class="dv">1</span><span class="sc">:</span>r]<span class="sc">%*%</span><span class="fu">t</span>(fck<span class="sc">$</span>v[,<span class="dv">1</span><span class="sc">:</span>r])</span>
-<span id="cb888-6"><a href="rankr-approximations.html#cb888-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb888-7"><a href="rankr-approximations.html#cb888-7" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(comt.re2, <span class="at">Colv =</span> <span class="cn">NA</span>, <span class="at">Rowv =</span> <span class="cn">NA</span>,</span>
-<span id="cb888-8"><a href="rankr-approximations.html#cb888-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Row Corr. - Rank(2)&quot;</span>,</span>
-<span id="cb888-9"><a href="rankr-approximations.html#cb888-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Startting days of 7-day rolling windows&quot;</span>,</span>
-<span id="cb888-10"><a href="rankr-approximations.html#cb888-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Startting days of 7-day rolling windows&quot;</span>)</span></code></pre></div>
-<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-298-3.png" width="672" /></p>
-<div class="sourceCode" id="cb889"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb889-1"><a href="rankr-approximations.html#cb889-1" aria-hidden="true" tabindex="-1"></a>wtf <span class="ot">&lt;-</span> <span class="fu">t</span>(comt)<span class="sc">%*%</span>comt</span>
-<span id="cb889-2"><a href="rankr-approximations.html#cb889-2" aria-hidden="true" tabindex="-1"></a>fck <span class="ot">&lt;-</span><span class="fu">svd</span>(wtf)</span>
-<span id="cb889-3"><a href="rankr-approximations.html#cb889-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb889-4"><a href="rankr-approximations.html#cb889-4" aria-hidden="true" tabindex="-1"></a>comt.re3 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(fck<span class="sc">$</span>u[,<span class="dv">1</span><span class="sc">:</span>r])<span class="sc">%*%</span><span class="fu">diag</span>(fck<span class="sc">$</span>d)[<span class="dv">1</span><span class="sc">:</span>r,<span class="dv">1</span><span class="sc">:</span>r]<span class="sc">%*%</span><span class="fu">t</span>(fck<span class="sc">$</span>v[,<span class="dv">1</span><span class="sc">:</span>r])</span>
-<span id="cb889-5"><a href="rankr-approximations.html#cb889-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb889-6"><a href="rankr-approximations.html#cb889-6" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(comt.re3, <span class="at">Colv =</span> <span class="cn">NA</span>, <span class="at">Rowv =</span> <span class="cn">NA</span>,</span>
-<span id="cb889-7"><a href="rankr-approximations.html#cb889-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Column Corr. - Rank(2)&quot;</span>,</span>
-<span id="cb889-8"><a href="rankr-approximations.html#cb889-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Lags&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Lags&quot;</span>)</span></code></pre></div>
-<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-298-4.png" width="672" /></p>
-<p>There is a series of lectures on SVD by <a href="https://www.youtube.com/watch?v=nbBvuuNVfco">Steve Brunton at YouTube</a> <span class="citation">(<a href="#ref-Brunton_2020" role="doc-biblioref">Brunton 2020b</a>)</span> that you can benefit from greatly!</p>
+<div id="license" class="section level1 unnumbered hasAnchor">
+<h1>License<a href="license.html#license" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="figure">
+<img src="png/cc.png" alt="" />
+<p class="caption">This work is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+</div>
 
-</div>
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-Brunton_2020" class="csl-entry">
-———. 2020b. <span>“Singular Value Decomposition (SVD): Mathematical Overview.”</span> <a href="https://www.youtube.com/watch?v=nbBvuuNVfco ">https://www.youtube.com/watch?v=nbBvuuNVfco </a>.
-</div>
-<div id="ref-Erichson_2019" class="csl-entry">
-Erichson, N. Benjamin, Sergey Voronin, Steven L. Brunton, and J. Nathan Kutz. 2019. <span>“Randomized Matrix Decompositions Using r.”</span> <em>Journal of Statistical Software</em> 89 (11): 1–48. <a href="https://doi.org/10.18637/jss.v089.i11">https://doi.org/10.18637/jss.v089.i11</a>.
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="singular-value-decomposition.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="moore-penrose-inverse.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="acknowledgements.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -558,7 +510,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/yaydede/ToolShed/edit/master/21-RankrApprox.Rmd",
+"link": "https://github.com/yaydede/ToolShed/edit/master/index.Rmd",
 "text": "Edit"
 },
 "history": {

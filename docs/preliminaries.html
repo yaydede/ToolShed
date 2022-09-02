@@ -10,15 +10,15 @@
 
   <meta property="og:title" content="Chapter 2 Preliminaries | Tool Shed for Applied Data Analytics with R" />
   <meta property="og:type" content="book" />
-  <meta property="og:image" content="/png/cover2.png" />
+  <meta property="og:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
   
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="yaydede/ToolShed_draft" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 2 Preliminaries | Tool Shed for Applied Data Analytics with R" />
   
   
-  <meta name="twitter:image" content="/png/cover2.png" />
+  <meta name="twitter:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
 
 <meta name="author" content="Yigit Aydede" />
 
@@ -172,6 +172,7 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
 <li class="chapter" data-level="" data-path="who.html"><a href="who.html"><i class="fa fa-check"></i>Who</a></li>
 <li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i>License</a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> How we define Machine Learning</a></li>
 <li class="chapter" data-level="2" data-path="preliminaries.html"><a href="preliminaries.html"><i class="fa fa-check"></i><b>2</b> Preliminaries</a>
 <ul>
@@ -445,7 +446,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+<li><a href="https://github.com/yaydede/ToolShed" target="blank">&copy; 2020 - 2022 Yigit Aydede</a></li>
 
 </ul>
 
@@ -593,10 +594,10 @@ div.csl-indent {
 <pre><code>## [1] &quot;2022-09-02&quot;</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="preliminaries.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get current system time</span></span>
 <span id="cb17-2"><a href="preliminaries.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;2022-09-02 07:53:04 ADT&quot;</code></pre>
+<pre><code>## [1] &quot;2022-09-02 11:43:29 ADT&quot;</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="preliminaries.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#lubridate</span></span>
 <span id="cb19-2"><a href="preliminaries.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;2022-09-02 07:53:04 ADT&quot;</code></pre>
+<pre><code>## [1] &quot;2022-09-02 11:43:29 ADT&quot;</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="preliminaries.html#cb21-1" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2022-07-11&quot;</span>, <span class="st">&quot;2012-04-19&quot;</span>, <span class="st">&quot;2017-03-08&quot;</span>)</span>
 <span id="cb21-2"><a href="preliminaries.html#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="preliminaries.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># extract years from dates</span></span>
@@ -760,8 +761,8 @@ X \sim N\left(\mu=2, \sigma^{2}=25\right)
 <pre><code>## [1] 11.79982</code></pre>
 <p>Lastly, to generate a random sample of size n = 10, use <code>rnorm()</code></p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="preliminaries.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>##  [1]  -4.69324813   9.70215377   2.64308541  -0.04599432 -10.75911513
-##  [6]   5.66132154   0.94389716  17.00814777  -3.01337914   5.30029910</code></pre>
+<pre><code>##  [1] -5.0881978  2.4859328  1.0029852  4.4751240 -4.5028534 -0.4135207
+##  [7] -1.2866020  1.9947708 14.6654924  8.0651027</code></pre>
 <p>These functions exist for many other distributions such as: <code>binom</code> (Binomial), <code>t</code> (Student’s t), <code>pois</code> (Poisson), <code>f</code> (F), <code>chisq</code> (Chi-Squared).</p>
 </div>
 <div id="regressions" class="section level2 hasAnchor" number="2.4">
@@ -1477,7 +1478,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-Preliminaries.Rmd",
+"link": "https://github.com/yaydede/ToolShed/edit/master/02-Preliminaries.Rmd",
 "text": "Edit"
 },
 "history": {

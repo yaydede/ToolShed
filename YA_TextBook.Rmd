@@ -2,7 +2,7 @@
 title: "Tool Shed for Applied Data Analytics with R"
 subtitle: "Machine Learning & Beyond"
 titlerunning: "Tool Shed"
-author: "Yigit Aydede"
+author: "[Yigit Aydede](https://yaydede.github.io/Yigit_Aydede/)"
 date: "This version: `r Sys.Date()`"
 site: bookdown::bookdown_site
 output: 
@@ -12,8 +12,11 @@ bibliography: [WorkingBib(currentV3).bib]
 biblio-style: apalike
 nocite: '@*'
 link-citations: yes
-github-repo: rstudio/bookdown-demo
+github-repo: yaydede/ToolShed_draft
+url: 'https\://yaydede.github.io/ToolShed/'
 cover-image: "png/cover2.png"
+urlcolor: cyan
+description: ""
 ---
 
 # Preface {.unnumbered}
@@ -60,12 +63,17 @@ I also benefited from my participation in the Summer School of [SiDe](https://ww
 
 Finally, I thank my research assistant Kyle Morton. Without him, this book wouldn't be possible.
 
+# License {.unnumbered}
+
+![This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).](png/cc.png)
+
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 ```
+
 
 <!--chapter:end:index.Rmd-->
 

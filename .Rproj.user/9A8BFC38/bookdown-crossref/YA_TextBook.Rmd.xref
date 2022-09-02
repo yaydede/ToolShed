@@ -1,6 +1,7 @@
 h1:preface Preface
 h1:who Who
 h1:acknowledgements Acknowledgements
+h1:license License
 h1:intro How we define Machine Learning
 h1:preliminaries Preliminaries
 h2:data-and-dataset-types Data and dataset types

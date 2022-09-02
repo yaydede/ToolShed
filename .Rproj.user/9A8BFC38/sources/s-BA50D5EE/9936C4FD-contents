@@ -63,9 +63,9 @@ I also benefited from my participation in the Summer School of [SiDe](https://ww
 
 Finally, I thank my research assistant Kyle Morton. Without him, this book wouldn't be possible.
 
-# License {.unnumbered}
+# License
 
-![This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).](png/cc.png)
+![This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).](images/cc.png)
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
