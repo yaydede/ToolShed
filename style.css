@@ -42,3 +42,43 @@ li code {
 .book .book-body .page-wrapper .page-inner section.normal code {
   padding: .1em;
 }
+
+.header-section-number {
+  color: #a7a7a7;
+}
+
+.footnotes {
+  font-size: 12px;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal .title {
+  text-align: center;
+  font-size: 80px;
+  line-height: 80px;
+  border-bottom: none;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal .author {
+  text-align: center;
+  font-size: 50px;
+  line-height: 50px;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal .subtitle {
+  text-align: center;
+  font-size: 40px;
+  line-height: 40px;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal h1 {
+  border-bottom: 1px solid #eaecef;
+  font-size: 3em;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal h2 {
+  border-bottom: 1px solid #eaecef;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal h3 {
+  border-bottom: 1px solid #eaecef;
+}

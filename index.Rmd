@@ -46,11 +46,11 @@ Broadly speaking, many social scientists look at a statistical analysis from the
 
 Solving these problems requires more than an application of predictive model - a "function" in R or Python.  As I tried to look at predictions from economists' perspective, the book has become a "**tool shed**" for social scientists and policy analysts beyond machine learning "code" applications. It starts with describing a formal distinction between causal inference and prediction and adds many other tools that cannot be easily found in "econometrics" textbooks: nonparametric methods, unbiased variable importance measures, penalized regressions, model selection with sparsity, dimension reduction methods, nonparametric time-series predictions, graphical network analysis, algorithmic optimization methods, classification with imbalanced data, and so on. These are not new, but I collect and cover them from scratch in one book with less abstraction and more applications using R.
 
-# Who {.unnumbered}
+## Who {.unnumbered}
 
 This book is targeted at *motivated* students and researchers who have no robust statistical background. It is applied because I skip many theoretical proofs and justifications that can easily be found elsewhere. I do not assume a previous experience with R but some familiarity with coding.
 
-# Acknowledgements {.unnumbered}
+## Acknowledgements {.unnumbered}
 
 This book was made possible by Mutlu Yuksel, Tolga Kaya, Mehmet Caner, Juri Marcucci, Atul Dar, Andrea Guisto and my wife Isik Aydede. This work is greatly inspired by following books and people:
 
@@ -63,7 +63,7 @@ I also benefited from my participation in the Summer School of [SiDe](https://ww
 
 Finally, I thank my research assistant Kyle Morton. Without him, this book wouldn't be possible.
 
-# License {.unnumbered}
+## License {.unnumbered}
 
 ![This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).](png/cc.png)
 
