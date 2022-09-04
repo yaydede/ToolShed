@@ -133,8 +133,8 @@ h1:part-time-series (PART) Time Series
 h1:arima-models ARIMA models
 h1:grid-search-for-arima Grid search for ARIMA
 h1:embedding Embedding
-h1:random-forest-1 Random Forest
-h1:neural-networks-1 Neural Networks
+h1:ts-with-random-forest TS with Random Forest
+h1:neural-networks-ts Neural Networks & TS
 h1:part-network-analysis (PART) Network Analysis
 h1:graphical-network-analysis Graphical Network Analysis
 h1:fundementals Fundementals

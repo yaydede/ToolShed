@@ -176,8 +176,8 @@ dynamic-mode-decomposition
 arima-models
 grid-search-for-arima
 embedding
-random-forest-1
-neural-networks-1
+ts-with-random-forest
+neural-networks-ts
 fundementals
 covariance
 correlation
