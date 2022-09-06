@@ -1,7 +1,7 @@
 ---
-title: "Tool Box for Social Scientists and Policy Analysts"
+title: "Toolbox for Social Scientists and Policy Analysts"
 subtitle: "Applied Data Analytics & Machine Learning with R"
-titlerunning: "Tool Box"
+titlerunning: "Toolbox"
 author: "[Yigit Aydede](https://yaydede.github.io/Yigit_Aydede/)"
 date: "This version: `r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -44,7 +44,7 @@ And he describes the current state:
 
 Broadly speaking, many social scientists look at a statistical analysis from the window of causal inference. They don't focus on predictions, even if "ice cream sales predict crime rates" very well (Pearl et al. 2016). They know that a higher ice cream sales do not cause higher crime rates. What's missing here is that, although a predictive model that accurately predicts outcomes is great, most of the time we don't just need predictions but we want to be able to find the important predictors.  This is specially important when we have unconventional or high-dimensional data. For example, if you build a model of house prices, knowing which features are most predictive of price tells us which features people are willing to pay for. In fact, the use of machine learning models as a means of variable selection is growing in many classification tasks beyond those "*Netflix problems*". Bioinformatics is one the few scientific fields extensively using machine learning methods to select a subset of genetic markers relevant for the prediction of a certain disease, for example.   
 
-Solving these problems requires more than an application of predictive models - a "function" in R or Python.  As I tried to look at predictions from economists' perspective, the book has become a "**tool box**" for social scientists and policy analysts beyond machine learning "code" applications. It starts with describing a formal distinction between causal inference and prediction and adds many other tools that cannot be easily found in "econometrics" textbooks: nonparametric methods, unbiased variable importance measures, penalized regressions, model selection with sparsity, dimension reduction methods, nonparametric time-series predictions, graphical network analysis, algorithmic optimization methods, classification with imbalanced data, and so on. These are not new, but I collect and cover them from scratch in one book with less abstraction and more applications using R.
+Solving these problems requires more than an application of predictive models - a "function" in R or Python.  As I tried to look at predictions from economists' perspective, the book has become a "**toolbox**" for social scientists and policy analysts beyond machine learning "code" applications. It starts with describing a formal distinction between causal inference and prediction and adds many other tools that cannot be easily found in "econometrics" textbooks: nonparametric methods, unbiased variable importance measures, penalized regressions, model selection with sparsity, dimension reduction methods, nonparametric time-series predictions, graphical network analysis, algorithmic optimization methods, classification with imbalanced data, and so on. These are not new, but I collect and cover them from scratch in one book with less abstraction and more applications using R.
 
 ## Who {.unnumbered}
 
@@ -180,13 +180,23 @@ mday(dates)
 
   
 **Panel**  
-Panel data (also known as longitudinal data) is a dataset in which the behavior of multiple entities are observed across time. These entities could be states, companies, individuals, countries, etc. Note in the example below, two countries ("A", and "B") have variables observed over a time span between 1990 to 1999.
+Panel data (also known as longitudinal data) is a data set in which the behavior of multiple entities are observed across time. These entities could be states, companies, individuals, countries, etc. Note in the example below, we use the `plm` [package](https://cran.r-project.org/web/packages/plm/vignettes/A_plmPackage.html) which has several data sets.  The first one, "EmplUK", is summarized below:  
   
 ```{r stat4, message=FALSE, warning=FALSE}
 library(foreign)
-panel <- read.dta("http://dss.princeton.edu/training/Panel101.dta")
-panel[1:20,1:7]
+library(plm)
+data("EmplUK", package="plm")
+#data("Produc", package="plm")
+#data("Grunfeld", package="plm")
+#data("Wages", package="plm")
+
+head(EmplUK, 15)
+
+length(unique(EmplUK$firm))
+table(EmplUK$year)
 ```
+  
+As you can see, we have 140 unique subjects (firms) each of which is observed between 1976 and 1984.  However, there are some firms with missing years.  This type of panel data is called as "unbalanced panel"
 
 ## Plots
 

@@ -4,7 +4,7 @@ bookdown::gitbook:
     toc:
       collapse: section
       before: |
-        <li><a href="./">Tool Shed</a></li>
+        <li><a href="./">Toolbox</a></li>
       after: |
         <li><a href="https://github.com/yaydede/ToolShed" target="blank">&copy; 2020 - 2022 Yigit Aydede</a></li>
     edit: https://github.com/yaydede/ToolShed/edit/master/%s

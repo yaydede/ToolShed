@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 25 Moore-Penrose inverse | Tool Box for Social Scientists and Policy Analysts</title>
-  <meta name="description" content="Chapter 25 Moore-Penrose inverse | Tool Box for Social Scientists and Policy Analysts" />
+  <title>Chapter 25 Moore-Penrose inverse | Toolbox for Social Scientists and Policy Analysts</title>
+  <meta name="description" content="Chapter 25 Moore-Penrose inverse | Toolbox for Social Scientists and Policy Analysts" />
   <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 25 Moore-Penrose inverse | Tool Box for Social Scientists and Policy Analysts" />
+  <meta property="og:title" content="Chapter 25 Moore-Penrose inverse | Toolbox for Social Scientists and Policy Analysts" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
   
   <meta name="github-repo" content="yaydede/ToolShed_draft" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 25 Moore-Penrose inverse | Tool Box for Social Scientists and Policy Analysts" />
+  <meta name="twitter:title" content="Chapter 25 Moore-Penrose inverse | Toolbox for Social Scientists and Policy Analysts" />
   
   
   <meta name="twitter:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
@@ -166,7 +166,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Tool Shed</a></li>
+<li><a href="./">Toolbox</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
@@ -459,7 +459,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tool Box for Social Scientists and Policy Analysts</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Toolbox for Social Scientists and Policy Analysts</a>
           </h1>
         </div>
 
@@ -484,17 +484,17 @@ div.csl-indent {
 \]</span>
 is called <strong>“generalized inverse” or The Moore-Penrose Pseudoinverse</strong>.</p>
 <p>Here are some application of SVD and Pseudoinverse.</p>
-<div class="sourceCode" id="cb890"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb890-1"><a href="moore-penrose-inverse.html#cb890-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple SVD and generalized inverse</span></span>
-<span id="cb890-2"><a href="moore-penrose-inverse.html#cb890-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
-<span id="cb890-3"><a href="moore-penrose-inverse.html#cb890-3" aria-hidden="true" tabindex="-1"></a>              <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">9</span>, <span class="dv">4</span>)</span>
-<span id="cb890-4"><a href="moore-penrose-inverse.html#cb890-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb890-5"><a href="moore-penrose-inverse.html#cb890-5" aria-hidden="true" tabindex="-1"></a>a.svd <span class="ot">&lt;-</span> <span class="fu">svd</span>(a)</span>
-<span id="cb890-6"><a href="moore-penrose-inverse.html#cb890-6" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">/</span>a.svd<span class="sc">$</span>d[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
-<span id="cb890-7"><a href="moore-penrose-inverse.html#cb890-7" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> a.svd<span class="sc">$</span>u</span>
-<span id="cb890-8"><a href="moore-penrose-inverse.html#cb890-8" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> a.svd<span class="sc">$</span>v</span>
-<span id="cb890-9"><a href="moore-penrose-inverse.html#cb890-9" aria-hidden="true" tabindex="-1"></a>us <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(u[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
-<span id="cb890-10"><a href="moore-penrose-inverse.html#cb890-10" aria-hidden="true" tabindex="-1"></a>vs <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(v[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
-<span id="cb890-11"><a href="moore-penrose-inverse.html#cb890-11" aria-hidden="true" tabindex="-1"></a>(a.ginv <span class="ot">&lt;-</span> vs <span class="sc">%*%</span> ds <span class="sc">%*%</span> <span class="fu">t</span>(us))</span></code></pre></div>
+<div class="sourceCode" id="cb894"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb894-1"><a href="moore-penrose-inverse.html#cb894-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple SVD and generalized inverse</span></span>
+<span id="cb894-2"><a href="moore-penrose-inverse.html#cb894-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb894-3"><a href="moore-penrose-inverse.html#cb894-3" aria-hidden="true" tabindex="-1"></a>              <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">9</span>, <span class="dv">4</span>)</span>
+<span id="cb894-4"><a href="moore-penrose-inverse.html#cb894-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb894-5"><a href="moore-penrose-inverse.html#cb894-5" aria-hidden="true" tabindex="-1"></a>a.svd <span class="ot">&lt;-</span> <span class="fu">svd</span>(a)</span>
+<span id="cb894-6"><a href="moore-penrose-inverse.html#cb894-6" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">/</span>a.svd<span class="sc">$</span>d[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb894-7"><a href="moore-penrose-inverse.html#cb894-7" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> a.svd<span class="sc">$</span>u</span>
+<span id="cb894-8"><a href="moore-penrose-inverse.html#cb894-8" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> a.svd<span class="sc">$</span>v</span>
+<span id="cb894-9"><a href="moore-penrose-inverse.html#cb894-9" aria-hidden="true" tabindex="-1"></a>us <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(u[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb894-10"><a href="moore-penrose-inverse.html#cb894-10" aria-hidden="true" tabindex="-1"></a>vs <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(v[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb894-11"><a href="moore-penrose-inverse.html#cb894-11" aria-hidden="true" tabindex="-1"></a>(a.ginv <span class="ot">&lt;-</span> vs <span class="sc">%*%</span> ds <span class="sc">%*%</span> <span class="fu">t</span>(us))</span></code></pre></div>
 <pre><code>##             [,1]        [,2]        [,3]        [,4]        [,5]        [,6]
 ## [1,]  0.08333333  0.08333333  0.08333333  0.08333333  0.08333333  0.08333333
 ## [2,]  0.25000000  0.25000000  0.25000000 -0.08333333 -0.08333333 -0.08333333
@@ -505,7 +505,7 @@ is called <strong>“generalized inverse” or The Moore-Penrose Pseudoinverse</
 ## [2,] -0.08333333 -0.08333333 -0.08333333
 ## [3,] -0.08333333 -0.08333333 -0.08333333
 ## [4,]  0.25000000  0.25000000  0.25000000</code></pre>
-<div class="sourceCode" id="cb892"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb892-1"><a href="moore-penrose-inverse.html#cb892-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ginv</span>(a)</span></code></pre></div>
+<div class="sourceCode" id="cb896"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb896-1"><a href="moore-penrose-inverse.html#cb896-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ginv</span>(a)</span></code></pre></div>
 <pre><code>##             [,1]        [,2]        [,3]        [,4]        [,5]        [,6]
 ## [1,]  0.08333333  0.08333333  0.08333333  0.08333333  0.08333333  0.08333333
 ## [2,]  0.25000000  0.25000000  0.25000000 -0.08333333 -0.08333333 -0.08333333
@@ -516,35 +516,35 @@ is called <strong>“generalized inverse” or The Moore-Penrose Pseudoinverse</
 ## [2,] -0.08333333 -0.08333333 -0.08333333
 ## [3,] -0.08333333 -0.08333333 -0.08333333
 ## [4,]  0.25000000  0.25000000  0.25000000</code></pre>
-<div class="sourceCode" id="cb894"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb894-1"><a href="moore-penrose-inverse.html#cb894-1" aria-hidden="true" tabindex="-1"></a><span class="co">#*****OLS with SVD******</span></span>
-<span id="cb894-2"><a href="moore-penrose-inverse.html#cb894-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">20</span>)</span>
-<span id="cb894-3"><a href="moore-penrose-inverse.html#cb894-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>)</span>
-<span id="cb894-4"><a href="moore-penrose-inverse.html#cb894-4" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>)</span>
-<span id="cb894-5"><a href="moore-penrose-inverse.html#cb894-5" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">20</span>, <span class="at">ncol=</span><span class="dv">1</span>)</span>
-<span id="cb894-6"><a href="moore-penrose-inverse.html#cb894-6" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(x1, x2, x3)</span>
-<span id="cb894-7"><a href="moore-penrose-inverse.html#cb894-7" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="dv">2</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">ncol=</span><span class="dv">1</span>)</span>
-<span id="cb894-8"><a href="moore-penrose-inverse.html#cb894-8" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> X<span class="sc">%*%</span>beta <span class="sc">+</span> u</span>
-<span id="cb894-9"><a href="moore-penrose-inverse.html#cb894-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb894-10"><a href="moore-penrose-inverse.html#cb894-10" aria-hidden="true" tabindex="-1"></a><span class="do">##OLS</span></span>
-<span id="cb894-11"><a href="moore-penrose-inverse.html#cb894-11" aria-hidden="true" tabindex="-1"></a>betahat_OLS <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X)<span class="sc">%*%</span>X)<span class="sc">%*%</span><span class="fu">t</span>(X)<span class="sc">%*%</span>Y</span>
-<span id="cb894-12"><a href="moore-penrose-inverse.html#cb894-12" aria-hidden="true" tabindex="-1"></a>betahat_OLS</span></code></pre></div>
+<div class="sourceCode" id="cb898"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb898-1"><a href="moore-penrose-inverse.html#cb898-1" aria-hidden="true" tabindex="-1"></a><span class="co">#*****OLS with SVD******</span></span>
+<span id="cb898-2"><a href="moore-penrose-inverse.html#cb898-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">20</span>)</span>
+<span id="cb898-3"><a href="moore-penrose-inverse.html#cb898-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>)</span>
+<span id="cb898-4"><a href="moore-penrose-inverse.html#cb898-4" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>)</span>
+<span id="cb898-5"><a href="moore-penrose-inverse.html#cb898-5" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">20</span>, <span class="at">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb898-6"><a href="moore-penrose-inverse.html#cb898-6" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(x1, x2, x3)</span>
+<span id="cb898-7"><a href="moore-penrose-inverse.html#cb898-7" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="dv">2</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb898-8"><a href="moore-penrose-inverse.html#cb898-8" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> X<span class="sc">%*%</span>beta <span class="sc">+</span> u</span>
+<span id="cb898-9"><a href="moore-penrose-inverse.html#cb898-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb898-10"><a href="moore-penrose-inverse.html#cb898-10" aria-hidden="true" tabindex="-1"></a><span class="do">##OLS</span></span>
+<span id="cb898-11"><a href="moore-penrose-inverse.html#cb898-11" aria-hidden="true" tabindex="-1"></a>betahat_OLS <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X)<span class="sc">%*%</span>X)<span class="sc">%*%</span><span class="fu">t</span>(X)<span class="sc">%*%</span>Y</span>
+<span id="cb898-12"><a href="moore-penrose-inverse.html#cb898-12" aria-hidden="true" tabindex="-1"></a>betahat_OLS</span></code></pre></div>
 <pre><code>##         [,1]
 ## x1 0.5134681
 ## x2 1.3045372
 ## x3 1.9270506</code></pre>
-<div class="sourceCode" id="cb896"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb896-1"><a href="moore-penrose-inverse.html#cb896-1" aria-hidden="true" tabindex="-1"></a><span class="do">##SVD</span></span>
-<span id="cb896-2"><a href="moore-penrose-inverse.html#cb896-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Let&#39;s find &quot;generalized inverse of X&quot; by sdv</span></span>
-<span id="cb896-3"><a href="moore-penrose-inverse.html#cb896-3" aria-hidden="true" tabindex="-1"></a>X.svd <span class="ot">&lt;-</span> <span class="fu">svd</span>(X)</span>
-<span id="cb896-4"><a href="moore-penrose-inverse.html#cb896-4" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">/</span>X.svd<span class="sc">$</span>d)</span>
-<span id="cb896-5"><a href="moore-penrose-inverse.html#cb896-5" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> X.svd<span class="sc">$</span>u</span>
-<span id="cb896-6"><a href="moore-penrose-inverse.html#cb896-6" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> X.svd<span class="sc">$</span>v</span>
-<span id="cb896-7"><a href="moore-penrose-inverse.html#cb896-7" aria-hidden="true" tabindex="-1"></a>us <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(u)</span>
-<span id="cb896-8"><a href="moore-penrose-inverse.html#cb896-8" aria-hidden="true" tabindex="-1"></a>vs <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(v)</span>
-<span id="cb896-9"><a href="moore-penrose-inverse.html#cb896-9" aria-hidden="true" tabindex="-1"></a>X.ginv_mine <span class="ot">&lt;-</span> vs <span class="sc">%*%</span> ds <span class="sc">%*%</span> <span class="fu">t</span>(us)</span>
-<span id="cb896-10"><a href="moore-penrose-inverse.html#cb896-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb896-11"><a href="moore-penrose-inverse.html#cb896-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare</span></span>
-<span id="cb896-12"><a href="moore-penrose-inverse.html#cb896-12" aria-hidden="true" tabindex="-1"></a>X.ginv <span class="ot">&lt;-</span> <span class="fu">ginv</span>(X)</span>
-<span id="cb896-13"><a href="moore-penrose-inverse.html#cb896-13" aria-hidden="true" tabindex="-1"></a>X.ginv_mine </span></code></pre></div>
+<div class="sourceCode" id="cb900"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb900-1"><a href="moore-penrose-inverse.html#cb900-1" aria-hidden="true" tabindex="-1"></a><span class="do">##SVD</span></span>
+<span id="cb900-2"><a href="moore-penrose-inverse.html#cb900-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Let&#39;s find &quot;generalized inverse of X&quot; by sdv</span></span>
+<span id="cb900-3"><a href="moore-penrose-inverse.html#cb900-3" aria-hidden="true" tabindex="-1"></a>X.svd <span class="ot">&lt;-</span> <span class="fu">svd</span>(X)</span>
+<span id="cb900-4"><a href="moore-penrose-inverse.html#cb900-4" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">/</span>X.svd<span class="sc">$</span>d)</span>
+<span id="cb900-5"><a href="moore-penrose-inverse.html#cb900-5" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> X.svd<span class="sc">$</span>u</span>
+<span id="cb900-6"><a href="moore-penrose-inverse.html#cb900-6" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> X.svd<span class="sc">$</span>v</span>
+<span id="cb900-7"><a href="moore-penrose-inverse.html#cb900-7" aria-hidden="true" tabindex="-1"></a>us <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(u)</span>
+<span id="cb900-8"><a href="moore-penrose-inverse.html#cb900-8" aria-hidden="true" tabindex="-1"></a>vs <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(v)</span>
+<span id="cb900-9"><a href="moore-penrose-inverse.html#cb900-9" aria-hidden="true" tabindex="-1"></a>X.ginv_mine <span class="ot">&lt;-</span> vs <span class="sc">%*%</span> ds <span class="sc">%*%</span> <span class="fu">t</span>(us)</span>
+<span id="cb900-10"><a href="moore-penrose-inverse.html#cb900-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb900-11"><a href="moore-penrose-inverse.html#cb900-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare</span></span>
+<span id="cb900-12"><a href="moore-penrose-inverse.html#cb900-12" aria-hidden="true" tabindex="-1"></a>X.ginv <span class="ot">&lt;-</span> <span class="fu">ginv</span>(X)</span>
+<span id="cb900-13"><a href="moore-penrose-inverse.html#cb900-13" aria-hidden="true" tabindex="-1"></a>X.ginv_mine </span></code></pre></div>
 <pre><code>##              [,1]         [,2]         [,3]        [,4]        [,5]        [,6]
 ## [1,]  0.051019597  0.050424599  0.048808811  0.04816300  0.04223529  0.04865884
 ## [2,] -0.006377008 -0.006107027 -0.011308809 -0.03139212 -0.01509463 -0.06538120
@@ -561,7 +561,7 @@ is called <strong>“generalized inverse” or The Moore-Penrose Pseudoinverse</
 ## [1,]  0.04382186  0.04974219
 ## [2,] -0.07309874  0.03545806
 ## [3,] -0.04257243 -0.02400045</code></pre>
-<div class="sourceCode" id="cb898"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb898-1"><a href="moore-penrose-inverse.html#cb898-1" aria-hidden="true" tabindex="-1"></a>X.ginv</span></code></pre></div>
+<div class="sourceCode" id="cb902"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb902-1"><a href="moore-penrose-inverse.html#cb902-1" aria-hidden="true" tabindex="-1"></a>X.ginv</span></code></pre></div>
 <pre><code>##              [,1]         [,2]         [,3]        [,4]        [,5]        [,6]
 ## [1,]  0.051019597  0.050424599  0.048808811  0.04816300  0.04223529  0.04865884
 ## [2,] -0.006377008 -0.006107027 -0.011308809 -0.03139212 -0.01509463 -0.06538120
@@ -578,27 +578,27 @@ is called <strong>“generalized inverse” or The Moore-Penrose Pseudoinverse</
 ## [1,]  0.04382186  0.04974219
 ## [2,] -0.07309874  0.03545806
 ## [3,] -0.04257243 -0.02400045</code></pre>
-<div class="sourceCode" id="cb900"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb900-1"><a href="moore-penrose-inverse.html#cb900-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Now OLS</span></span>
-<span id="cb900-2"><a href="moore-penrose-inverse.html#cb900-2" aria-hidden="true" tabindex="-1"></a>betahat_ginv <span class="ot">&lt;-</span> X.ginv <span class="sc">%*%</span>Y</span>
-<span id="cb900-3"><a href="moore-penrose-inverse.html#cb900-3" aria-hidden="true" tabindex="-1"></a>betahat_ginv</span></code></pre></div>
+<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb904-1"><a href="moore-penrose-inverse.html#cb904-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Now OLS</span></span>
+<span id="cb904-2"><a href="moore-penrose-inverse.html#cb904-2" aria-hidden="true" tabindex="-1"></a>betahat_ginv <span class="ot">&lt;-</span> X.ginv <span class="sc">%*%</span>Y</span>
+<span id="cb904-3"><a href="moore-penrose-inverse.html#cb904-3" aria-hidden="true" tabindex="-1"></a>betahat_ginv</span></code></pre></div>
 <pre><code>##           [,1]
 ## [1,] 0.5134681
 ## [2,] 1.3045372
 ## [3,] 1.9270506</code></pre>
-<div class="sourceCode" id="cb902"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb902-1"><a href="moore-penrose-inverse.html#cb902-1" aria-hidden="true" tabindex="-1"></a>betahat_OLS</span></code></pre></div>
+<div class="sourceCode" id="cb906"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb906-1"><a href="moore-penrose-inverse.html#cb906-1" aria-hidden="true" tabindex="-1"></a>betahat_OLS</span></code></pre></div>
 <pre><code>##         [,1]
 ## x1 0.5134681
 ## x2 1.3045372
 ## x3 1.9270506</code></pre>
-<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb904-1"><a href="moore-penrose-inverse.html#cb904-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rank-one approximation</span></span>
-<span id="cb904-2"><a href="moore-penrose-inverse.html#cb904-2" aria-hidden="true" tabindex="-1"></a><span class="co">#http://cs.brown.edu/courses/cs053/current/slides/12-01-2017.pdf</span></span>
-<span id="cb904-3"><a href="moore-penrose-inverse.html#cb904-3" aria-hidden="true" tabindex="-1"></a><span class="co">#https://cran.r-project.org/web/packages/matlib/vignettes/eigen-ex1.html</span></span>
-<span id="cb904-4"><a href="moore-penrose-inverse.html#cb904-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb904-5"><a href="moore-penrose-inverse.html#cb904-5" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">2</span>), <span class="dv">2</span> ,<span class="dv">2</span>)</span>
-<span id="cb904-6"><a href="moore-penrose-inverse.html#cb904-6" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">eigen</span>(<span class="fu">t</span>(A)<span class="sc">%*%</span>(A))<span class="sc">$</span>vector[,<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb904-7"><a href="moore-penrose-inverse.html#cb904-7" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">eigen</span>(<span class="fu">t</span>(A)<span class="sc">%*%</span>(A))<span class="sc">$</span>values[<span class="dv">1</span>])</span>
-<span id="cb904-8"><a href="moore-penrose-inverse.html#cb904-8" aria-hidden="true" tabindex="-1"></a>u1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">eigen</span>(A<span class="sc">%*%</span><span class="fu">t</span>(A))<span class="sc">$</span>vector[,<span class="dv">1</span>], <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb904-9"><a href="moore-penrose-inverse.html#cb904-9" aria-hidden="true" tabindex="-1"></a>Atilde <span class="ot">&lt;-</span> sigma<span class="sc">*</span>u1<span class="sc">%*%</span>v1</span></code></pre></div>
+<div class="sourceCode" id="cb908"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb908-1"><a href="moore-penrose-inverse.html#cb908-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rank-one approximation</span></span>
+<span id="cb908-2"><a href="moore-penrose-inverse.html#cb908-2" aria-hidden="true" tabindex="-1"></a><span class="co">#http://cs.brown.edu/courses/cs053/current/slides/12-01-2017.pdf</span></span>
+<span id="cb908-3"><a href="moore-penrose-inverse.html#cb908-3" aria-hidden="true" tabindex="-1"></a><span class="co">#https://cran.r-project.org/web/packages/matlib/vignettes/eigen-ex1.html</span></span>
+<span id="cb908-4"><a href="moore-penrose-inverse.html#cb908-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb908-5"><a href="moore-penrose-inverse.html#cb908-5" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">2</span>), <span class="dv">2</span> ,<span class="dv">2</span>)</span>
+<span id="cb908-6"><a href="moore-penrose-inverse.html#cb908-6" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">eigen</span>(<span class="fu">t</span>(A)<span class="sc">%*%</span>(A))<span class="sc">$</span>vector[,<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb908-7"><a href="moore-penrose-inverse.html#cb908-7" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">eigen</span>(<span class="fu">t</span>(A)<span class="sc">%*%</span>(A))<span class="sc">$</span>values[<span class="dv">1</span>])</span>
+<span id="cb908-8"><a href="moore-penrose-inverse.html#cb908-8" aria-hidden="true" tabindex="-1"></a>u1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">eigen</span>(A<span class="sc">%*%</span><span class="fu">t</span>(A))<span class="sc">$</span>vector[,<span class="dv">1</span>], <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb908-9"><a href="moore-penrose-inverse.html#cb908-9" aria-hidden="true" tabindex="-1"></a>Atilde <span class="ot">&lt;-</span> sigma<span class="sc">*</span>u1<span class="sc">%*%</span>v1</span></code></pre></div>
 <p>Now the question where and when we can use <code>ginv</code>? See <a href="https://orinanobworld.blogspot.com/2015/10/ols-oddities.html" class="uri">https://orinanobworld.blogspot.com/2015/10/ols-oddities.html</a> <span class="citation">(<a href="#ref-Rubin_2015" role="doc-biblioref">Rubin 2015</a>)</span>. Here the excerpt:</p>
 <blockquote>
 <p>The bigger surprise, though, had to do with multicollinearity, which occurs when <span class="math inline">\(\mathbf{X}\)</span> has less than full column rank. Multicollinearity means <span class="math inline">\(\mathbf{X^TX}\)</span> is singular and cannot be inverted. It also means the model contains redundant predictors (some predictors are linear combinations of others), and I always gave my students the standard prescription: figure out which predictors were redundant and eliminate them. Other people sometimes recommend a perturbation approach (ridge regression). For that matter, gradient descent should work properly with multicollinear data.</p>

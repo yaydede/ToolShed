@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 7 Smoothing | Tool Box for Social Scientists and Policy Analysts</title>
-  <meta name="description" content="Chapter 7 Smoothing | Tool Box for Social Scientists and Policy Analysts" />
+  <title>Chapter 7 Smoothing | Toolbox for Social Scientists and Policy Analysts</title>
+  <meta name="description" content="Chapter 7 Smoothing | Toolbox for Social Scientists and Policy Analysts" />
   <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 7 Smoothing | Tool Box for Social Scientists and Policy Analysts" />
+  <meta property="og:title" content="Chapter 7 Smoothing | Toolbox for Social Scientists and Policy Analysts" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
   
   <meta name="github-repo" content="yaydede/ToolShed_draft" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 7 Smoothing | Tool Box for Social Scientists and Policy Analysts" />
+  <meta name="twitter:title" content="Chapter 7 Smoothing | Toolbox for Social Scientists and Policy Analysts" />
   
   
   <meta name="twitter:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
@@ -166,7 +166,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Tool Shed</a></li>
+<li><a href="./">Toolbox</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
@@ -459,7 +459,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tool Box for Social Scientists and Policy Analysts</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Toolbox for Social Scientists and Policy Analysts</a>
           </h1>
         </div>
 
@@ -475,10 +475,10 @@ Y_{i}=f\left(x_{i}\right)+\varepsilon_{i}
 \]</span></p>
 <p>We do not want to (and cannot) predict <span class="math inline">\(Y_i\)</span> as we don’t know the random part, the “noise” <span class="math inline">\(\epsilon_i\)</span>. If we predict <span class="math inline">\(f(x)\)</span> well, it would give us a good approximation about <span class="math inline">\(Y_i\)</span>. Hence we need to know the best <span class="math inline">\(f(x)\)</span>. Nonparametric estimations can also be used for recovering <span class="math inline">\(f(x)\)</span>, which is called “smoothing” when the outcome variable is quantitative. In general, the purposes of smoothing is two-fold: building a forecasting model by smoothing and learning the shape of the trend embedded in the data (<span class="math inline">\(Y\)</span>). You can think of smoothing as process that reduces the effect of noise in the data.</p>
 <p>We will use several datasets from <code>MASS</code>. The <code>mcycle</code> dataset (from the <code>MASS</code> package) contains <span class="math inline">\(n=133\)</span> pairs of time points (in ms) and observed head accelerations (in g) that were recorded in a simulated motorcycle accident. We will several smoothing methods to explore the relationship between time and acceleration. Fist, let’s visualize the relationship between time <span class="math inline">\((X)\)</span> and acceleration <span class="math inline">\((Y)\)</span> and see if we can assume that <span class="math inline">\(f(x_i)\)</span> is a linear function of time:</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="smoothing.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb291-2"><a href="smoothing.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb291-3"><a href="smoothing.html#cb291-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mcycle)</span>
-<span id="cb291-4"><a href="smoothing.html#cb291-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mcycle)</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="smoothing.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb295-2"><a href="smoothing.html#cb295-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb295-3"><a href="smoothing.html#cb295-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mcycle)</span>
+<span id="cb295-4"><a href="smoothing.html#cb295-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mcycle)</span></code></pre></div>
 <pre><code>##   times accel
 ## 1   2.4   0.0
 ## 2   2.6  -1.3
@@ -486,11 +486,11 @@ Y_{i}=f\left(x_{i}\right)+\varepsilon_{i}
 ## 4   3.6   0.0
 ## 5   4.0  -2.7
 ## 6   6.2  -2.7</code></pre>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="smoothing.html#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcycle<span class="sc">$</span>times, mcycle<span class="sc">$</span>accel,</span>
-<span id="cb293-2"><a href="smoothing.html#cb293-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">cex.axis =</span> <span class="fl">0.75</span>, <span class="at">cex.main =</span> <span class="fl">0.8</span>)</span>
-<span id="cb293-3"><a href="smoothing.html#cb293-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb293-4"><a href="smoothing.html#cb293-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Let’s use linear regression</span></span>
-<span id="cb293-5"><a href="smoothing.html#cb293-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  <span class="fu">predict</span>(<span class="fu">lm</span>(accel <span class="sc">~</span> times, mcycle)), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="smoothing.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcycle<span class="sc">$</span>times, mcycle<span class="sc">$</span>accel,</span>
+<span id="cb297-2"><a href="smoothing.html#cb297-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">cex.axis =</span> <span class="fl">0.75</span>, <span class="at">cex.main =</span> <span class="fl">0.8</span>)</span>
+<span id="cb297-3"><a href="smoothing.html#cb297-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb297-4"><a href="smoothing.html#cb297-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Let’s use linear regression</span></span>
+<span id="cb297-5"><a href="smoothing.html#cb297-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  <span class="fu">predict</span>(<span class="fu">lm</span>(accel <span class="sc">~</span> times, mcycle)), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
 <p>The line does not appear to describe the trend very well. Let’s try an alternative model:</p>
 <div id="using-bins" class="section level2 hasAnchor" number="7.1">
@@ -505,45 +505,45 @@ When we apply condition such as this for each observation of <span class="math i
   \tag{7.1}
 \end{equation}\]</span></p>
 <p>We build an estimate of the underlying curve. Here is its application to our data:</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="smoothing.html#cb294-1" aria-hidden="true" tabindex="-1"></a><span class="co">#With ksmooth() Pay attention to &quot;box&quot;</span></span>
-<span id="cb294-2"><a href="smoothing.html#cb294-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;box&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">7</span>))</span>
-<span id="cb294-3"><a href="smoothing.html#cb294-3" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;box&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">10</span>))</span>
-<span id="cb294-4"><a href="smoothing.html#cb294-4" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;box&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">21</span>))</span>
-<span id="cb294-5"><a href="smoothing.html#cb294-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb294-6"><a href="smoothing.html#cb294-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb294-7"><a href="smoothing.html#cb294-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcycle<span class="sc">$</span>times, mcycle<span class="sc">$</span>accel, </span>
-<span id="cb294-8"><a href="smoothing.html#cb294-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time (ms)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Acceleration (g)&quot;</span>)</span>
-<span id="cb294-9"><a href="smoothing.html#cb294-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit1<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb294-10"><a href="smoothing.html#cb294-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit2<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb294-11"><a href="smoothing.html#cb294-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit3<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="smoothing.html#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="co">#With ksmooth() Pay attention to &quot;box&quot;</span></span>
+<span id="cb298-2"><a href="smoothing.html#cb298-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;box&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">7</span>))</span>
+<span id="cb298-3"><a href="smoothing.html#cb298-3" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;box&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">10</span>))</span>
+<span id="cb298-4"><a href="smoothing.html#cb298-4" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;box&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">21</span>))</span>
+<span id="cb298-5"><a href="smoothing.html#cb298-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb298-6"><a href="smoothing.html#cb298-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb298-7"><a href="smoothing.html#cb298-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcycle<span class="sc">$</span>times, mcycle<span class="sc">$</span>accel, </span>
+<span id="cb298-8"><a href="smoothing.html#cb298-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time (ms)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Acceleration (g)&quot;</span>)</span>
+<span id="cb298-9"><a href="smoothing.html#cb298-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit1<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb298-10"><a href="smoothing.html#cb298-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit2<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb298-11"><a href="smoothing.html#cb298-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit3<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
 <p>As you can see, even if we use a shorter bandwidth, the lines are quite wiggly.</p>
 </div>
 <div id="kernel-smoothing" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Kernel smoothing<a href="smoothing.html#kernel-smoothing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We can take care of this by taking weighted averages that give the center points more weight than far away points.</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="smoothing.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="co">#With ksmooth() Pay attention to &quot;box&quot;</span></span>
-<span id="cb295-2"><a href="smoothing.html#cb295-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;normal&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">7</span>))</span>
-<span id="cb295-3"><a href="smoothing.html#cb295-3" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;normal&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">10</span>))</span>
-<span id="cb295-4"><a href="smoothing.html#cb295-4" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;normal&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">21</span>))</span>
-<span id="cb295-5"><a href="smoothing.html#cb295-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb295-6"><a href="smoothing.html#cb295-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb295-7"><a href="smoothing.html#cb295-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcycle<span class="sc">$</span>times, mcycle<span class="sc">$</span>accel, </span>
-<span id="cb295-8"><a href="smoothing.html#cb295-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time (ms)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Acceleration (g)&quot;</span>)</span>
-<span id="cb295-9"><a href="smoothing.html#cb295-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit1<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb295-10"><a href="smoothing.html#cb295-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit2<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb295-11"><a href="smoothing.html#cb295-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit3<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="smoothing.html#cb299-1" aria-hidden="true" tabindex="-1"></a><span class="co">#With ksmooth() Pay attention to &quot;box&quot;</span></span>
+<span id="cb299-2"><a href="smoothing.html#cb299-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;normal&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">7</span>))</span>
+<span id="cb299-3"><a href="smoothing.html#cb299-3" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;normal&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">10</span>))</span>
+<span id="cb299-4"><a href="smoothing.html#cb299-4" aria-hidden="true" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ksmooth</span>(times, accel, <span class="at">kernel =</span> <span class="st">&quot;normal&quot;</span>, <span class="at">bandwidth =</span> <span class="dv">21</span>))</span>
+<span id="cb299-5"><a href="smoothing.html#cb299-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb299-6"><a href="smoothing.html#cb299-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb299-7"><a href="smoothing.html#cb299-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcycle<span class="sc">$</span>times, mcycle<span class="sc">$</span>accel, </span>
+<span id="cb299-8"><a href="smoothing.html#cb299-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time (ms)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Acceleration (g)&quot;</span>)</span>
+<span id="cb299-9"><a href="smoothing.html#cb299-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit1<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb299-10"><a href="smoothing.html#cb299-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit2<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb299-11"><a href="smoothing.html#cb299-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit3<span class="sc">$</span>y, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
 <p>Now they look smoother. There are several functions in R that implement bin smoothers. One example is <code>ksmooth</code>, shown above. In practice, however, we typically prefer methods that are slightly more complex than fitting a constant. Methods such as <code>loess</code>, which we explain next, improve on this.</p>
 </div>
 <div id="locally-weighted-regression-loess" class="section level2 hasAnchor" number="7.3">
 <h2><span class="header-section-number">7.3</span> Locally weighted regression <code>loess()</code><a href="smoothing.html#locally-weighted-regression-loess" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A limitation of the bin smoother approach by <code>ksmooth()</code> is that we need small windows for the approximately constant assumptions to hold. Now <code>loess()</code> permits us to consider larger window sizes.</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="smoothing.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="co">#With loess()</span></span>
-<span id="cb296-2"><a href="smoothing.html#cb296-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">loess</span>(accel <span class="sc">~</span> times, <span class="at">degree =</span> <span class="dv">1</span>, <span class="at">span =</span> <span class="fl">0.1</span>, mcycle)</span>
-<span id="cb296-3"><a href="smoothing.html#cb296-3" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span><span class="fu">loess</span>(accel <span class="sc">~</span> times, <span class="at">degree =</span> <span class="dv">1</span>, <span class="at">span =</span> <span class="fl">0.9</span>, mcycle)</span>
-<span id="cb296-4"><a href="smoothing.html#cb296-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb296-5"><a href="smoothing.html#cb296-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="smoothing.html#cb300-1" aria-hidden="true" tabindex="-1"></a><span class="co">#With loess()</span></span>
+<span id="cb300-2"><a href="smoothing.html#cb300-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">loess</span>(accel <span class="sc">~</span> times, <span class="at">degree =</span> <span class="dv">1</span>, <span class="at">span =</span> <span class="fl">0.1</span>, mcycle)</span>
+<span id="cb300-3"><a href="smoothing.html#cb300-3" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span><span class="fu">loess</span>(accel <span class="sc">~</span> times, <span class="at">degree =</span> <span class="dv">1</span>, <span class="at">span =</span> <span class="fl">0.9</span>, mcycle)</span>
+<span id="cb300-4"><a href="smoothing.html#cb300-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb300-5"><a href="smoothing.html#cb300-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
 <pre><code>## Call:
 ## loess(formula = accel ~ times, data = mcycle, span = 0.1, degree = 1)
 ## 
@@ -560,28 +560,28 @@ When we apply condition such as this for each observation of <span class="math i
 ##   normalize:  TRUE
 ##  parametric:  FALSE
 ## drop.square:  FALSE</code></pre>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="smoothing.html#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcycle<span class="sc">$</span>times, mcycle<span class="sc">$</span>accel, </span>
-<span id="cb298-2"><a href="smoothing.html#cb298-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time (ms)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Acceleration (g)&quot;</span>)</span>
-<span id="cb298-3"><a href="smoothing.html#cb298-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit1<span class="sc">$</span>fitted, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb298-4"><a href="smoothing.html#cb298-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit2<span class="sc">$</span>fitted, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="smoothing.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcycle<span class="sc">$</span>times, mcycle<span class="sc">$</span>accel, </span>
+<span id="cb302-2"><a href="smoothing.html#cb302-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time (ms)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Acceleration (g)&quot;</span>)</span>
+<span id="cb302-3"><a href="smoothing.html#cb302-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit1<span class="sc">$</span>fitted, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb302-4"><a href="smoothing.html#cb302-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit2<span class="sc">$</span>fitted, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-80-1.png" width="672" /></p>
 <p>It seems the “blue” line is better than the “red” line. We can make our windows even larger by fitting parabolas instead of lines.</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="smoothing.html#cb299-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">loess</span>(accel <span class="sc">~</span> times, <span class="at">degree =</span> <span class="dv">1</span>, <span class="at">span =</span> <span class="fl">0.1</span>, <span class="at">data =</span> mcycle)</span>
-<span id="cb299-2"><a href="smoothing.html#cb299-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span><span class="fu">loess</span>(accel <span class="sc">~</span> times, <span class="at">degree =</span> <span class="dv">2</span>, <span class="at">span =</span> <span class="fl">0.1</span>, <span class="at">data =</span> mcycle)</span>
-<span id="cb299-3"><a href="smoothing.html#cb299-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb299-4"><a href="smoothing.html#cb299-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcycle<span class="sc">$</span>times, mcycle<span class="sc">$</span>accel, </span>
-<span id="cb299-5"><a href="smoothing.html#cb299-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time (ms)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Acceleration (g)&quot;</span>)</span>
-<span id="cb299-6"><a href="smoothing.html#cb299-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit1<span class="sc">$</span>fitted, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb299-7"><a href="smoothing.html#cb299-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit2<span class="sc">$</span>fitted, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="smoothing.html#cb303-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">loess</span>(accel <span class="sc">~</span> times, <span class="at">degree =</span> <span class="dv">1</span>, <span class="at">span =</span> <span class="fl">0.1</span>, <span class="at">data =</span> mcycle)</span>
+<span id="cb303-2"><a href="smoothing.html#cb303-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span><span class="fu">loess</span>(accel <span class="sc">~</span> times, <span class="at">degree =</span> <span class="dv">2</span>, <span class="at">span =</span> <span class="fl">0.1</span>, <span class="at">data =</span> mcycle)</span>
+<span id="cb303-3"><a href="smoothing.html#cb303-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb303-4"><a href="smoothing.html#cb303-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcycle<span class="sc">$</span>times, mcycle<span class="sc">$</span>accel, </span>
+<span id="cb303-5"><a href="smoothing.html#cb303-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time (ms)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Acceleration (g)&quot;</span>)</span>
+<span id="cb303-6"><a href="smoothing.html#cb303-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit1<span class="sc">$</span>fitted, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb303-7"><a href="smoothing.html#cb303-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(mcycle<span class="sc">$</span>times,  fit2<span class="sc">$</span>fitted, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-81-1.png" width="672" /></p>
 </div>
 <div id="smooth-spline-regression" class="section level2 hasAnchor" number="7.4">
 <h2><span class="header-section-number">7.4</span> Smooth Spline Regression<a href="smoothing.html#smooth-spline-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We can also use <code>npreg</code> package with <code>ss()</code> function for automated smooth splines</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="smoothing.html#cb300-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(npreg)</span>
-<span id="cb300-2"><a href="smoothing.html#cb300-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb300-3"><a href="smoothing.html#cb300-3" aria-hidden="true" tabindex="-1"></a>mod.ss <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ss</span>(times, accel))</span>
-<span id="cb300-4"><a href="smoothing.html#cb300-4" aria-hidden="true" tabindex="-1"></a>mod.ss</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="smoothing.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(npreg)</span>
+<span id="cb304-2"><a href="smoothing.html#cb304-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb304-3"><a href="smoothing.html#cb304-3" aria-hidden="true" tabindex="-1"></a>mod.ss <span class="ot">&lt;-</span> <span class="fu">with</span>(mcycle, <span class="fu">ss</span>(times, accel))</span>
+<span id="cb304-4"><a href="smoothing.html#cb304-4" aria-hidden="true" tabindex="-1"></a>mod.ss</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## ss(x = times, y = accel)
@@ -590,7 +590,7 @@ When we apply condition such as this for each observation of <span class="math i
 ## Equivalent Degrees of Freedom (Df) 12.20781
 ## Penalized Criterion (RSS) 62034.66
 ## Generalized Cross-Validation (GCV) 565.4684</code></pre>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="smoothing.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.ss)</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="smoothing.html#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.ss)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## ss(x = times, y = accel)
@@ -616,16 +616,16 @@ When we apply condition such as this for each observation of <span class="math i
 ## Residual standard error: 22.66 on 120.8 degrees of freedom
 ## Multiple R-squared:  0.7999,    Adjusted R-squared:  0.7801
 ## F-statistic: 41.21 on 11.21 and 120.8 DF,  p-value: &lt;2e-16</code></pre>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="smoothing.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.ss, <span class="at">xlab =</span> <span class="st">&quot;Time (ms)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Acceleration (g)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;orange&quot;</span>)</span>
-<span id="cb304-2"><a href="smoothing.html#cb304-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(mcycle<span class="sc">$</span>times)  <span class="co"># add rug to plot for the precise location of each point</span></span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="smoothing.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.ss, <span class="at">xlab =</span> <span class="st">&quot;Time (ms)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Acceleration (g)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;orange&quot;</span>)</span>
+<span id="cb308-2"><a href="smoothing.html#cb308-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(mcycle<span class="sc">$</span>times)  <span class="co"># add rug to plot for the precise location of each point</span></span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-83-1.png" width="672" /></p>
 <p>The gray shaded area denotes a 95% Bayesian “confidence interval” for the unknown function.</p>
 </div>
 <div id="multivariate-loess" class="section level2 hasAnchor" number="7.5">
 <h2><span class="header-section-number">7.5</span> Multivariate Loess<a href="smoothing.html#multivariate-loess" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Loess can handle up to 4 predictor variables. But when it’s more than two, it’s always advisable to use additive models either GAM or MARS. Let’s try <code>loess()</code> with 3 variables. This dataset was produced from US economic time series data available <a href="http://research.stlouisfed.org/fred2">from St.Louis Federal Reserve</a>. It’s a data frame with 478 rows and 6 variables: <code>psavert</code>, personal savings rate; <code>pce</code>, personal consumption expenditures, in billions of dollars; <code>unemploy</code>, number of unemployed in thousands, <code>uempmed</code> median duration of unemployment, in weeks; and <code>pop</code> total population, in thousands. Although we have a time variable, <code>date</code>, let’s create an index for time.</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="smoothing.html#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(economics, <span class="at">package=</span><span class="st">&quot;ggplot2&quot;</span>)  </span>
-<span id="cb305-2"><a href="smoothing.html#cb305-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(economics)</span></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="smoothing.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(economics, <span class="at">package=</span><span class="st">&quot;ggplot2&quot;</span>)  </span>
+<span id="cb309-2"><a href="smoothing.html#cb309-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(economics)</span></code></pre></div>
 <pre><code>## spec_tbl_df [574 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ date    : Date[1:574], format: &quot;1967-07-01&quot; &quot;1967-08-01&quot; ...
 ##  $ pce     : num [1:574] 507 510 516 512 517 ...
@@ -633,19 +633,19 @@ When we apply condition such as this for each observation of <span class="math i
 ##  $ psavert : num [1:574] 12.6 12.6 11.9 12.9 12.8 11.8 11.7 12.3 11.7 12.3 ...
 ##  $ uempmed : num [1:574] 4.5 4.7 4.6 4.9 4.7 4.8 5.1 4.5 4.1 4.6 ...
 ##  $ unemploy: num [1:574] 2944 2945 2958 3143 3066 ...</code></pre>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="smoothing.html#cb307-1" aria-hidden="true" tabindex="-1"></a>economics<span class="sc">$</span>index <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(economics)</span>
-<span id="cb307-2"><a href="smoothing.html#cb307-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">loess</span>(uempmed <span class="sc">~</span> index, <span class="at">data=</span>economics, <span class="at">span=</span><span class="fl">0.5</span>) <span class="co"># 40% smoothing span</span></span>
-<span id="cb307-3"><a href="smoothing.html#cb307-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb307-4"><a href="smoothing.html#cb307-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(economics<span class="sc">$</span>index, economics<span class="sc">$</span>uempmed,</span>
-<span id="cb307-5"><a href="smoothing.html#cb307-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">cex.axis =</span> <span class="fl">0.75</span>, <span class="at">cex.main =</span> <span class="fl">0.8</span>)</span>
-<span id="cb307-6"><a href="smoothing.html#cb307-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(economics<span class="sc">$</span>index,  fit1<span class="sc">$</span>fitted, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="smoothing.html#cb311-1" aria-hidden="true" tabindex="-1"></a>economics<span class="sc">$</span>index <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(economics)</span>
+<span id="cb311-2"><a href="smoothing.html#cb311-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">loess</span>(uempmed <span class="sc">~</span> index, <span class="at">data=</span>economics, <span class="at">span=</span><span class="fl">0.5</span>) <span class="co"># 40% smoothing span</span></span>
+<span id="cb311-3"><a href="smoothing.html#cb311-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb311-4"><a href="smoothing.html#cb311-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(economics<span class="sc">$</span>index, economics<span class="sc">$</span>uempmed,</span>
+<span id="cb311-5"><a href="smoothing.html#cb311-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">cex.axis =</span> <span class="fl">0.75</span>, <span class="at">cex.main =</span> <span class="fl">0.8</span>)</span>
+<span id="cb311-6"><a href="smoothing.html#cb311-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(economics<span class="sc">$</span>index,  fit1<span class="sc">$</span>fitted, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="smoothing.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Now more predictors</span></span>
-<span id="cb308-2"><a href="smoothing.html#cb308-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">loess</span>(uempmed <span class="sc">~</span> pce <span class="sc">+</span> psavert <span class="sc">+</span>pop,</span>
-<span id="cb308-3"><a href="smoothing.html#cb308-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>economics, <span class="at">span=</span><span class="dv">1</span>) </span>
-<span id="cb308-4"><a href="smoothing.html#cb308-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb308-5"><a href="smoothing.html#cb308-5" aria-hidden="true" tabindex="-1"></a>RRSS_2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((fit2<span class="sc">$</span>residuals)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb308-6"><a href="smoothing.html#cb308-6" aria-hidden="true" tabindex="-1"></a>RRSS_2</span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="smoothing.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Now more predictors</span></span>
+<span id="cb312-2"><a href="smoothing.html#cb312-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">loess</span>(uempmed <span class="sc">~</span> pce <span class="sc">+</span> psavert <span class="sc">+</span>pop,</span>
+<span id="cb312-3"><a href="smoothing.html#cb312-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>economics, <span class="at">span=</span><span class="dv">1</span>) </span>
+<span id="cb312-4"><a href="smoothing.html#cb312-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-5"><a href="smoothing.html#cb312-5" aria-hidden="true" tabindex="-1"></a>RRSS_2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((fit2<span class="sc">$</span>residuals)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb312-6"><a href="smoothing.html#cb312-6" aria-hidden="true" tabindex="-1"></a>RRSS_2</span></code></pre></div>
 <pre><code>## [1] 121.3815</code></pre>
 
 </div>

@@ -84,13 +84,23 @@ mday(dates)
 
   
 **Panel**  
-Panel data (also known as longitudinal data) is a dataset in which the behavior of multiple entities are observed across time. These entities could be states, companies, individuals, countries, etc. Note in the example below, two countries ("A", and "B") have variables observed over a time span between 1990 to 1999.
+Panel data (also known as longitudinal data) is a data set in which the behavior of multiple entities are observed across time. These entities could be states, companies, individuals, countries, etc. Note in the example below, we use the `plm` [package](https://cran.r-project.org/web/packages/plm/vignettes/A_plmPackage.html) which has several data sets.  The first one, "EmplUK", is summarized below:  
   
 ```{r stat4, message=FALSE, warning=FALSE}
 library(foreign)
-panel <- read.dta("http://dss.princeton.edu/training/Panel101.dta")
-panel[1:20,1:7]
+library(plm)
+data("EmplUK", package="plm")
+#data("Produc", package="plm")
+#data("Grunfeld", package="plm")
+#data("Wages", package="plm")
+
+head(EmplUK, 15)
+
+length(unique(EmplUK$firm))
+table(EmplUK$year)
 ```
+  
+As you can see, we have 140 unique subjects (firms) each of which is observed between 1976 and 1984.  However, there are some firms with missing years.  This type of panel data is called as "unbalanced panel"
 
 ## Plots
 

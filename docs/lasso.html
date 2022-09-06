@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 18 Lasso | Tool Box for Social Scientists and Policy Analysts</title>
-  <meta name="description" content="Chapter 18 Lasso | Tool Box for Social Scientists and Policy Analysts" />
+  <title>Chapter 18 Lasso | Toolbox for Social Scientists and Policy Analysts</title>
+  <meta name="description" content="Chapter 18 Lasso | Toolbox for Social Scientists and Policy Analysts" />
   <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 18 Lasso | Tool Box for Social Scientists and Policy Analysts" />
+  <meta property="og:title" content="Chapter 18 Lasso | Toolbox for Social Scientists and Policy Analysts" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
   
   <meta name="github-repo" content="yaydede/ToolShed_draft" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 18 Lasso | Tool Box for Social Scientists and Policy Analysts" />
+  <meta name="twitter:title" content="Chapter 18 Lasso | Toolbox for Social Scientists and Policy Analysts" />
   
   
   <meta name="twitter:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
@@ -166,7 +166,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Tool Shed</a></li>
+<li><a href="./">Toolbox</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
@@ -459,7 +459,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tool Box for Social Scientists and Policy Analysts</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Toolbox for Social Scientists and Policy Analysts</a>
           </h1>
         </div>
 
@@ -481,85 +481,85 @@ of forcing some of the coefficient estimates to be exactly equal to zero when th
 <div id="regression-2" class="section level2 hasAnchor" number="18.1">
 <h2><span class="header-section-number">18.1</span> Regression<a href="lasso.html#regression-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now, we will apply lasso to the same data in the last chapter, <code>Hitters</code>. Again, we will follow the similar way to compare ridge and lasso as in ISLR :</p>
-<div class="sourceCode" id="cb815"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb815-1"><a href="lasso.html#cb815-1" aria-hidden="true" tabindex="-1"></a>X  <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Salary<span class="sc">~</span>., df)[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb815-2"><a href="lasso.html#cb815-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> df<span class="sc">$</span>Salary</span>
-<span id="cb815-3"><a href="lasso.html#cb815-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb815-4"><a href="lasso.html#cb815-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Without a specific grid on lambda</span></span>
-<span id="cb815-5"><a href="lasso.html#cb815-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb815-6"><a href="lasso.html#cb815-6" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(X), <span class="fu">nrow</span>(X)<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb815-7"><a href="lasso.html#cb815-7" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span>train)</span>
-<span id="cb815-8"><a href="lasso.html#cb815-8" aria-hidden="true" tabindex="-1"></a>ytest <span class="ot">&lt;-</span> y[test]</span>
-<span id="cb815-9"><a href="lasso.html#cb815-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb815-10"><a href="lasso.html#cb815-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb815-11"><a href="lasso.html#cb815-11" aria-hidden="true" tabindex="-1"></a>ridge.out <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">0</span>)</span>
-<span id="cb815-12"><a href="lasso.html#cb815-12" aria-hidden="true" tabindex="-1"></a>yhatR <span class="ot">&lt;-</span> <span class="fu">predict</span>(ridge.out, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>, <span class="at">newx =</span> X[test,])</span>
-<span id="cb815-13"><a href="lasso.html#cb815-13" aria-hidden="true" tabindex="-1"></a>mse_r <span class="ot">&lt;-</span> <span class="fu">mean</span>((yhatR <span class="sc">-</span> ytest)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb815-14"><a href="lasso.html#cb815-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb815-15"><a href="lasso.html#cb815-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb815-16"><a href="lasso.html#cb815-16" aria-hidden="true" tabindex="-1"></a>lasso.out <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">1</span>)</span>
-<span id="cb815-17"><a href="lasso.html#cb815-17" aria-hidden="true" tabindex="-1"></a>yhatL <span class="ot">&lt;-</span> <span class="fu">predict</span>(lasso.out, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>, <span class="at">newx =</span> X[test,])</span>
-<span id="cb815-18"><a href="lasso.html#cb815-18" aria-hidden="true" tabindex="-1"></a>mse_l <span class="ot">&lt;-</span> <span class="fu">mean</span>((yhatL <span class="sc">-</span> ytest)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb815-19"><a href="lasso.html#cb815-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb815-20"><a href="lasso.html#cb815-20" aria-hidden="true" tabindex="-1"></a>mse_r</span></code></pre></div>
-<pre><code>## [1] 139863.2</code></pre>
-<div class="sourceCode" id="cb817"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb817-1"><a href="lasso.html#cb817-1" aria-hidden="true" tabindex="-1"></a>mse_l</span></code></pre></div>
-<pre><code>## [1] 143668.8</code></pre>
-<div class="sourceCode" id="cb819"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb819-1"><a href="lasso.html#cb819-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With a specific grid on lambda + lm()</span></span>
-<span id="cb819-2"><a href="lasso.html#cb819-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb819-3"><a href="lasso.html#cb819-3" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(X), <span class="fu">nrow</span>(X)<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb819-4"><a href="lasso.html#cb819-4" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span>train)</span>
-<span id="cb819-5"><a href="lasso.html#cb819-5" aria-hidden="true" tabindex="-1"></a>ytest <span class="ot">&lt;-</span> y[test]</span>
-<span id="cb819-6"><a href="lasso.html#cb819-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb819-7"><a href="lasso.html#cb819-7" aria-hidden="true" tabindex="-1"></a>ridge.mod <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> grid, <span class="at">thresh =</span> <span class="fl">1e-12</span>)</span>
-<span id="cb819-8"><a href="lasso.html#cb819-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb819-9"><a href="lasso.html#cb819-9" aria-hidden="true" tabindex="-1"></a>cv.outR <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">0</span>)</span>
-<span id="cb819-10"><a href="lasso.html#cb819-10" aria-hidden="true" tabindex="-1"></a>bestlamR <span class="ot">&lt;-</span> cv.outR<span class="sc">$</span>lambda.min</span>
-<span id="cb819-11"><a href="lasso.html#cb819-11" aria-hidden="true" tabindex="-1"></a>yhatR <span class="ot">&lt;-</span> <span class="fu">predict</span>(ridge.mod, <span class="at">s =</span> bestlamR, <span class="at">newx =</span> X[test,])</span>
-<span id="cb819-12"><a href="lasso.html#cb819-12" aria-hidden="true" tabindex="-1"></a>mse_R <span class="ot">&lt;-</span> <span class="fu">mean</span>((yhatR <span class="sc">-</span> ytest)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb819-13"><a href="lasso.html#cb819-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb819-14"><a href="lasso.html#cb819-14" aria-hidden="true" tabindex="-1"></a>lasso.mod <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid, <span class="at">thresh =</span> <span class="fl">1e-12</span>)</span>
+<div class="sourceCode" id="cb819"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb819-1"><a href="lasso.html#cb819-1" aria-hidden="true" tabindex="-1"></a>X  <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Salary<span class="sc">~</span>., df)[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb819-2"><a href="lasso.html#cb819-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> df<span class="sc">$</span>Salary</span>
+<span id="cb819-3"><a href="lasso.html#cb819-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb819-4"><a href="lasso.html#cb819-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Without a specific grid on lambda</span></span>
+<span id="cb819-5"><a href="lasso.html#cb819-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb819-6"><a href="lasso.html#cb819-6" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(X), <span class="fu">nrow</span>(X)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb819-7"><a href="lasso.html#cb819-7" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span>train)</span>
+<span id="cb819-8"><a href="lasso.html#cb819-8" aria-hidden="true" tabindex="-1"></a>ytest <span class="ot">&lt;-</span> y[test]</span>
+<span id="cb819-9"><a href="lasso.html#cb819-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb819-10"><a href="lasso.html#cb819-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb819-11"><a href="lasso.html#cb819-11" aria-hidden="true" tabindex="-1"></a>ridge.out <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">0</span>)</span>
+<span id="cb819-12"><a href="lasso.html#cb819-12" aria-hidden="true" tabindex="-1"></a>yhatR <span class="ot">&lt;-</span> <span class="fu">predict</span>(ridge.out, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>, <span class="at">newx =</span> X[test,])</span>
+<span id="cb819-13"><a href="lasso.html#cb819-13" aria-hidden="true" tabindex="-1"></a>mse_r <span class="ot">&lt;-</span> <span class="fu">mean</span>((yhatR <span class="sc">-</span> ytest)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb819-14"><a href="lasso.html#cb819-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb819-15"><a href="lasso.html#cb819-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb819-16"><a href="lasso.html#cb819-16" aria-hidden="true" tabindex="-1"></a>cv.outL <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">1</span>)</span>
-<span id="cb819-17"><a href="lasso.html#cb819-17" aria-hidden="true" tabindex="-1"></a>bestlamL <span class="ot">&lt;-</span> cv.outL<span class="sc">$</span>lambda.min</span>
-<span id="cb819-18"><a href="lasso.html#cb819-18" aria-hidden="true" tabindex="-1"></a>yhatL <span class="ot">&lt;-</span> <span class="fu">predict</span>(lasso.mod, <span class="at">s =</span> bestlamL, <span class="at">newx =</span> X[test,])</span>
-<span id="cb819-19"><a href="lasso.html#cb819-19" aria-hidden="true" tabindex="-1"></a>mse_L <span class="ot">&lt;-</span> <span class="fu">mean</span>((yhatL <span class="sc">-</span> ytest)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb819-20"><a href="lasso.html#cb819-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb819-21"><a href="lasso.html#cb819-21" aria-hidden="true" tabindex="-1"></a>mse_R</span></code></pre></div>
+<span id="cb819-16"><a href="lasso.html#cb819-16" aria-hidden="true" tabindex="-1"></a>lasso.out <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb819-17"><a href="lasso.html#cb819-17" aria-hidden="true" tabindex="-1"></a>yhatL <span class="ot">&lt;-</span> <span class="fu">predict</span>(lasso.out, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>, <span class="at">newx =</span> X[test,])</span>
+<span id="cb819-18"><a href="lasso.html#cb819-18" aria-hidden="true" tabindex="-1"></a>mse_l <span class="ot">&lt;-</span> <span class="fu">mean</span>((yhatL <span class="sc">-</span> ytest)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb819-19"><a href="lasso.html#cb819-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb819-20"><a href="lasso.html#cb819-20" aria-hidden="true" tabindex="-1"></a>mse_r</span></code></pre></div>
+<pre><code>## [1] 139863.2</code></pre>
+<div class="sourceCode" id="cb821"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb821-1"><a href="lasso.html#cb821-1" aria-hidden="true" tabindex="-1"></a>mse_l</span></code></pre></div>
+<pre><code>## [1] 143668.8</code></pre>
+<div class="sourceCode" id="cb823"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb823-1"><a href="lasso.html#cb823-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With a specific grid on lambda + lm()</span></span>
+<span id="cb823-2"><a href="lasso.html#cb823-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb823-3"><a href="lasso.html#cb823-3" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(X), <span class="fu">nrow</span>(X)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb823-4"><a href="lasso.html#cb823-4" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span>train)</span>
+<span id="cb823-5"><a href="lasso.html#cb823-5" aria-hidden="true" tabindex="-1"></a>ytest <span class="ot">&lt;-</span> y[test]</span>
+<span id="cb823-6"><a href="lasso.html#cb823-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb823-7"><a href="lasso.html#cb823-7" aria-hidden="true" tabindex="-1"></a>ridge.mod <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> grid, <span class="at">thresh =</span> <span class="fl">1e-12</span>)</span>
+<span id="cb823-8"><a href="lasso.html#cb823-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb823-9"><a href="lasso.html#cb823-9" aria-hidden="true" tabindex="-1"></a>cv.outR <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">0</span>)</span>
+<span id="cb823-10"><a href="lasso.html#cb823-10" aria-hidden="true" tabindex="-1"></a>bestlamR <span class="ot">&lt;-</span> cv.outR<span class="sc">$</span>lambda.min</span>
+<span id="cb823-11"><a href="lasso.html#cb823-11" aria-hidden="true" tabindex="-1"></a>yhatR <span class="ot">&lt;-</span> <span class="fu">predict</span>(ridge.mod, <span class="at">s =</span> bestlamR, <span class="at">newx =</span> X[test,])</span>
+<span id="cb823-12"><a href="lasso.html#cb823-12" aria-hidden="true" tabindex="-1"></a>mse_R <span class="ot">&lt;-</span> <span class="fu">mean</span>((yhatR <span class="sc">-</span> ytest)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb823-13"><a href="lasso.html#cb823-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb823-14"><a href="lasso.html#cb823-14" aria-hidden="true" tabindex="-1"></a>lasso.mod <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid, <span class="at">thresh =</span> <span class="fl">1e-12</span>)</span>
+<span id="cb823-15"><a href="lasso.html#cb823-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb823-16"><a href="lasso.html#cb823-16" aria-hidden="true" tabindex="-1"></a>cv.outL <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb823-17"><a href="lasso.html#cb823-17" aria-hidden="true" tabindex="-1"></a>bestlamL <span class="ot">&lt;-</span> cv.outL<span class="sc">$</span>lambda.min</span>
+<span id="cb823-18"><a href="lasso.html#cb823-18" aria-hidden="true" tabindex="-1"></a>yhatL <span class="ot">&lt;-</span> <span class="fu">predict</span>(lasso.mod, <span class="at">s =</span> bestlamL, <span class="at">newx =</span> X[test,])</span>
+<span id="cb823-19"><a href="lasso.html#cb823-19" aria-hidden="true" tabindex="-1"></a>mse_L <span class="ot">&lt;-</span> <span class="fu">mean</span>((yhatL <span class="sc">-</span> ytest)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb823-20"><a href="lasso.html#cb823-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb823-21"><a href="lasso.html#cb823-21" aria-hidden="true" tabindex="-1"></a>mse_R</span></code></pre></div>
 <pre><code>## [1] 139856.6</code></pre>
-<div class="sourceCode" id="cb821"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb821-1"><a href="lasso.html#cb821-1" aria-hidden="true" tabindex="-1"></a>mse_L</span></code></pre></div>
+<div class="sourceCode" id="cb825"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb825-1"><a href="lasso.html#cb825-1" aria-hidden="true" tabindex="-1"></a>mse_L</span></code></pre></div>
 <pre><code>## [1] 143572.1</code></pre>
 <p>Now we will apply our own algorithm</p>
-<div class="sourceCode" id="cb823"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb823-1"><a href="lasso.html#cb823-1" aria-hidden="true" tabindex="-1"></a>MSPE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb823-2"><a href="lasso.html#cb823-2" aria-hidden="true" tabindex="-1"></a>MMSPE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb823-3"><a href="lasso.html#cb823-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb823-4"><a href="lasso.html#cb823-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)){</span>
-<span id="cb823-5"><a href="lasso.html#cb823-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
-<span id="cb823-6"><a href="lasso.html#cb823-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(j)</span>
-<span id="cb823-7"><a href="lasso.html#cb823-7" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb823-8"><a href="lasso.html#cb823-8" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">unique</span>(ind)</span>
-<span id="cb823-9"><a href="lasso.html#cb823-9" aria-hidden="true" tabindex="-1"></a>    train <span class="ot">&lt;-</span> df[ind, ]</span>
-<span id="cb823-10"><a href="lasso.html#cb823-10" aria-hidden="true" tabindex="-1"></a>    xtrain <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Salary<span class="sc">~</span>., train)[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb823-11"><a href="lasso.html#cb823-11" aria-hidden="true" tabindex="-1"></a>    ytrain <span class="ot">&lt;-</span> df[ind, <span class="dv">19</span>]</span>
-<span id="cb823-12"><a href="lasso.html#cb823-12" aria-hidden="true" tabindex="-1"></a>    test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
-<span id="cb823-13"><a href="lasso.html#cb823-13" aria-hidden="true" tabindex="-1"></a>    xtest <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Salary<span class="sc">~</span>., test)[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb823-14"><a href="lasso.html#cb823-14" aria-hidden="true" tabindex="-1"></a>    ytest <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, <span class="dv">19</span>]</span>
-<span id="cb823-15"><a href="lasso.html#cb823-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb823-16"><a href="lasso.html#cb823-16" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(xtrain, ytrain, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid[i], <span class="at">thresh =</span> <span class="fl">1e-12</span>)</span>
-<span id="cb823-17"><a href="lasso.html#cb823-17" aria-hidden="true" tabindex="-1"></a>    yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">s =</span> grid[i], <span class="at">newx =</span> xtest)</span>
-<span id="cb823-18"><a href="lasso.html#cb823-18" aria-hidden="true" tabindex="-1"></a>    MSPE[j] <span class="ot">&lt;-</span> <span class="fu">mean</span>((yhat <span class="sc">-</span> ytest)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb823-19"><a href="lasso.html#cb823-19" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb823-20"><a href="lasso.html#cb823-20" aria-hidden="true" tabindex="-1"></a>  MMSPE[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(MSPE)</span>
-<span id="cb823-21"><a href="lasso.html#cb823-21" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb823-22"><a href="lasso.html#cb823-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb823-23"><a href="lasso.html#cb823-23" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(MMSPE)</span></code></pre></div>
+<div class="sourceCode" id="cb827"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb827-1"><a href="lasso.html#cb827-1" aria-hidden="true" tabindex="-1"></a>MSPE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb827-2"><a href="lasso.html#cb827-2" aria-hidden="true" tabindex="-1"></a>MMSPE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb827-3"><a href="lasso.html#cb827-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb827-4"><a href="lasso.html#cb827-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)){</span>
+<span id="cb827-5"><a href="lasso.html#cb827-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
+<span id="cb827-6"><a href="lasso.html#cb827-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(j)</span>
+<span id="cb827-7"><a href="lasso.html#cb827-7" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb827-8"><a href="lasso.html#cb827-8" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">unique</span>(ind)</span>
+<span id="cb827-9"><a href="lasso.html#cb827-9" aria-hidden="true" tabindex="-1"></a>    train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb827-10"><a href="lasso.html#cb827-10" aria-hidden="true" tabindex="-1"></a>    xtrain <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Salary<span class="sc">~</span>., train)[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb827-11"><a href="lasso.html#cb827-11" aria-hidden="true" tabindex="-1"></a>    ytrain <span class="ot">&lt;-</span> df[ind, <span class="dv">19</span>]</span>
+<span id="cb827-12"><a href="lasso.html#cb827-12" aria-hidden="true" tabindex="-1"></a>    test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb827-13"><a href="lasso.html#cb827-13" aria-hidden="true" tabindex="-1"></a>    xtest <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Salary<span class="sc">~</span>., test)[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb827-14"><a href="lasso.html#cb827-14" aria-hidden="true" tabindex="-1"></a>    ytest <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, <span class="dv">19</span>]</span>
+<span id="cb827-15"><a href="lasso.html#cb827-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb827-16"><a href="lasso.html#cb827-16" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(xtrain, ytrain, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid[i], <span class="at">thresh =</span> <span class="fl">1e-12</span>)</span>
+<span id="cb827-17"><a href="lasso.html#cb827-17" aria-hidden="true" tabindex="-1"></a>    yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">s =</span> grid[i], <span class="at">newx =</span> xtest)</span>
+<span id="cb827-18"><a href="lasso.html#cb827-18" aria-hidden="true" tabindex="-1"></a>    MSPE[j] <span class="ot">&lt;-</span> <span class="fu">mean</span>((yhat <span class="sc">-</span> ytest)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb827-19"><a href="lasso.html#cb827-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb827-20"><a href="lasso.html#cb827-20" aria-hidden="true" tabindex="-1"></a>  MMSPE[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(MSPE)</span>
+<span id="cb827-21"><a href="lasso.html#cb827-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb827-22"><a href="lasso.html#cb827-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb827-23"><a href="lasso.html#cb827-23" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(MMSPE)</span></code></pre></div>
 <pre><code>## [1] 119855.1</code></pre>
-<div class="sourceCode" id="cb825"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb825-1"><a href="lasso.html#cb825-1" aria-hidden="true" tabindex="-1"></a>grid[<span class="fu">which.min</span>(MMSPE)]</span></code></pre></div>
+<div class="sourceCode" id="cb829"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb829-1"><a href="lasso.html#cb829-1" aria-hidden="true" tabindex="-1"></a>grid[<span class="fu">which.min</span>(MMSPE)]</span></code></pre></div>
 <pre><code>## [1] 2.656088</code></pre>
-<div class="sourceCode" id="cb827"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb827-1"><a href="lasso.html#cb827-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(grid), MMSPE, <span class="at">type=</span><span class="st">&quot;o&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb831"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb831-1"><a href="lasso.html#cb831-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(grid), MMSPE, <span class="at">type=</span><span class="st">&quot;o&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-287-1.png" width="672" /></p>
 <p>What are the coefficients?</p>
-<div class="sourceCode" id="cb828"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb828-1"><a href="lasso.html#cb828-1" aria-hidden="true" tabindex="-1"></a>coef_lasso <span class="ot">&lt;-</span> <span class="fu">coef</span>(model, <span class="at">s=</span>grid[<span class="fu">which.min</span>(MMSPE)], <span class="at">nonzero =</span> T)</span>
-<span id="cb828-2"><a href="lasso.html#cb828-2" aria-hidden="true" tabindex="-1"></a>coef_lasso</span></code></pre></div>
+<div class="sourceCode" id="cb832"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb832-1"><a href="lasso.html#cb832-1" aria-hidden="true" tabindex="-1"></a>coef_lasso <span class="ot">&lt;-</span> <span class="fu">coef</span>(model, <span class="at">s=</span>grid[<span class="fu">which.min</span>(MMSPE)], <span class="at">nonzero =</span> T)</span>
+<span id="cb832-2"><a href="lasso.html#cb832-2" aria-hidden="true" tabindex="-1"></a>coef_lasso</span></code></pre></div>
 <pre><code>## 20 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
 ##                        s1
 ## (Intercept)  285.73172897
@@ -587,11 +587,11 @@ of forcing some of the coefficient estimates to be exactly equal to zero when th
 <h2><span class="header-section-number">18.2</span> LPM/Logistic<a href="lasso.html#lpmlogistic" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Instead of numerical outcome variable, when we have a binary variable the regression becomes a classification problem. As we have seen before, we can use LPM or Logistic regression when the response is categorical. If there are two possible outcomes, we use the binomial distribution, else we use the multinomial.</p>
 <p>We will start with <code>Titanic</code> dataset:</p>
-<div class="sourceCode" id="cb830"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb830-1"><a href="lasso.html#cb830-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PASWR)</span>
-<span id="cb830-2"><a href="lasso.html#cb830-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb830-3"><a href="lasso.html#cb830-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb830-4"><a href="lasso.html#cb830-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic3)</span>
-<span id="cb830-5"><a href="lasso.html#cb830-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(titanic3)</span></code></pre></div>
+<div class="sourceCode" id="cb834"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb834-1"><a href="lasso.html#cb834-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PASWR)</span>
+<span id="cb834-2"><a href="lasso.html#cb834-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb834-3"><a href="lasso.html#cb834-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb834-4"><a href="lasso.html#cb834-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic3)</span>
+<span id="cb834-5"><a href="lasso.html#cb834-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(titanic3)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    1309 obs. of  14 variables:
 ##  $ pclass   : Factor w/ 3 levels &quot;1st&quot;,&quot;2nd&quot;,&quot;3rd&quot;: 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ survived : int  1 1 0 0 0 1 1 0 1 0 ...
@@ -607,18 +607,18 @@ of forcing some of the coefficient estimates to be exactly equal to zero when th
 ##  $ boat     : Factor w/ 28 levels &quot;&quot;,&quot;1&quot;,&quot;10&quot;,&quot;11&quot;,..: 13 4 1 1 1 14 3 1 28 1 ...
 ##  $ body     : int  NA NA NA 135 NA NA NA NA NA 22 ...
 ##  $ home.dest: Factor w/ 369 levels &quot;&quot;,&quot;?Havana, Cuba&quot;,..: 309 231 231 231 231 237 163 25 23 229 ...</code></pre>
-<div class="sourceCode" id="cb832"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb832-1"><a href="lasso.html#cb832-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
-<span id="cb832-2"><a href="lasso.html#cb832-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;survived&quot;</span>,<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;age&quot;</span>,<span class="st">&quot;pclass&quot;</span>,<span class="st">&quot;sibsp&quot;</span>,<span class="st">&quot;parch&quot;</span>)</span>
-<span id="cb832-3"><a href="lasso.html#cb832-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> titanic3[, a]</span>
-<span id="cb832-4"><a href="lasso.html#cb832-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]</span>
-<span id="cb832-5"><a href="lasso.html#cb832-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>survived <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>survived)</span>
-<span id="cb832-6"><a href="lasso.html#cb832-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb832-7"><a href="lasso.html#cb832-7" aria-hidden="true" tabindex="-1"></a><span class="co"># model.matrix</span></span>
-<span id="cb832-8"><a href="lasso.html#cb832-8" aria-hidden="true" tabindex="-1"></a>X  <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., df)[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb832-9"><a href="lasso.html#cb832-9" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> df<span class="sc">$</span>survived</span>
-<span id="cb832-10"><a href="lasso.html#cb832-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb832-11"><a href="lasso.html#cb832-11" aria-hidden="true" tabindex="-1"></a><span class="co"># look at the difference b/w X and df</span></span>
-<span id="cb832-12"><a href="lasso.html#cb832-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(X)</span></code></pre></div>
+<div class="sourceCode" id="cb836"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb836-1"><a href="lasso.html#cb836-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb836-2"><a href="lasso.html#cb836-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;survived&quot;</span>,<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;age&quot;</span>,<span class="st">&quot;pclass&quot;</span>,<span class="st">&quot;sibsp&quot;</span>,<span class="st">&quot;parch&quot;</span>)</span>
+<span id="cb836-3"><a href="lasso.html#cb836-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> titanic3[, a]</span>
+<span id="cb836-4"><a href="lasso.html#cb836-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]</span>
+<span id="cb836-5"><a href="lasso.html#cb836-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>survived <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>survived)</span>
+<span id="cb836-6"><a href="lasso.html#cb836-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb836-7"><a href="lasso.html#cb836-7" aria-hidden="true" tabindex="-1"></a><span class="co"># model.matrix</span></span>
+<span id="cb836-8"><a href="lasso.html#cb836-8" aria-hidden="true" tabindex="-1"></a>X  <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., df)[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb836-9"><a href="lasso.html#cb836-9" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> df<span class="sc">$</span>survived</span>
+<span id="cb836-10"><a href="lasso.html#cb836-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb836-11"><a href="lasso.html#cb836-11" aria-hidden="true" tabindex="-1"></a><span class="co"># look at the difference b/w X and df</span></span>
+<span id="cb836-12"><a href="lasso.html#cb836-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(X)</span></code></pre></div>
 <pre><code>##   sexmale     age pclass2nd pclass3rd sibsp parch
 ## 1       0 29.0000         0         0     0     0
 ## 2       1  0.9167         0         0     1     2
@@ -627,194 +627,194 @@ of forcing some of the coefficient estimates to be exactly equal to zero when th
 ## 5       0 25.0000         0         0     1     2
 ## 6       1 48.0000         0         0     0     0</code></pre>
 <p>The input matrix <code>x</code> is the same as other families. For binomial logistic regression, the response variable <code>y</code> should be either a factor with two levels, or a two-column matrix of counts or proportions. Other optional arguments of <code>glmnet</code> for binomial regression are almost same as those for Gaussian family. Don’t forget to set family option to “binomial”.</p>
-<div class="sourceCode" id="cb834"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb834-1"><a href="lasso.html#cb834-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ROCR)</span>
-<span id="cb834-2"><a href="lasso.html#cb834-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb834-3"><a href="lasso.html#cb834-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb834-4"><a href="lasso.html#cb834-4" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(X), <span class="fu">nrow</span>(X)<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb834-5"><a href="lasso.html#cb834-5" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span>train)</span>
-<span id="cb834-6"><a href="lasso.html#cb834-6" aria-hidden="true" tabindex="-1"></a>ytest <span class="ot">&lt;-</span> y[test]</span>
-<span id="cb834-7"><a href="lasso.html#cb834-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb834-8"><a href="lasso.html#cb834-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge</span></span>
-<span id="cb834-9"><a href="lasso.html#cb834-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb834-10"><a href="lasso.html#cb834-10" aria-hidden="true" tabindex="-1"></a>cv.outR <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb834-11"><a href="lasso.html#cb834-11" aria-hidden="true" tabindex="-1"></a>phatR <span class="ot">&lt;-</span> <span class="fu">predict</span>(cv.outR, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>, <span class="at">newx =</span> X[test,], <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb834-12"><a href="lasso.html#cb834-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb834-13"><a href="lasso.html#cb834-13" aria-hidden="true" tabindex="-1"></a>predR <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phatR, ytest)</span>
-<span id="cb834-14"><a href="lasso.html#cb834-14" aria-hidden="true" tabindex="-1"></a>aucR <span class="ot">&lt;-</span> <span class="fu">performance</span>(predR, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
-<span id="cb834-15"><a href="lasso.html#cb834-15" aria-hidden="true" tabindex="-1"></a>AUCR <span class="ot">&lt;-</span> aucR<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
-<span id="cb834-16"><a href="lasso.html#cb834-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb834-17"><a href="lasso.html#cb834-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Lasso</span></span>
-<span id="cb834-18"><a href="lasso.html#cb834-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb834-19"><a href="lasso.html#cb834-19" aria-hidden="true" tabindex="-1"></a>cv.outL <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb834-20"><a href="lasso.html#cb834-20" aria-hidden="true" tabindex="-1"></a>phatL <span class="ot">&lt;-</span> <span class="fu">predict</span>(cv.outL, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>, <span class="at">newx =</span> X[test,], <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb834-21"><a href="lasso.html#cb834-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb834-22"><a href="lasso.html#cb834-22" aria-hidden="true" tabindex="-1"></a>predL <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phatL, ytest)</span>
-<span id="cb834-23"><a href="lasso.html#cb834-23" aria-hidden="true" tabindex="-1"></a>aucL <span class="ot">&lt;-</span> <span class="fu">performance</span>(predL, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
-<span id="cb834-24"><a href="lasso.html#cb834-24" aria-hidden="true" tabindex="-1"></a>AUCL <span class="ot">&lt;-</span> aucL<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
-<span id="cb834-25"><a href="lasso.html#cb834-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb834-26"><a href="lasso.html#cb834-26" aria-hidden="true" tabindex="-1"></a>AUCR</span></code></pre></div>
-<pre><code>## [1] 0.8663923</code></pre>
-<div class="sourceCode" id="cb836"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb836-1"><a href="lasso.html#cb836-1" aria-hidden="true" tabindex="-1"></a>AUCL</span></code></pre></div>
-<pre><code>## [1] 0.8656826</code></pre>
-<div class="sourceCode" id="cb838"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb838-1"><a href="lasso.html#cb838-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic</span></span>
-<span id="cb838-2"><a href="lasso.html#cb838-2" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> df[train,]</span>
-<span id="cb838-3"><a href="lasso.html#cb838-3" aria-hidden="true" tabindex="-1"></a>tt <span class="ot">&lt;-</span> df[test, ]</span>
-<span id="cb838-4"><a href="lasso.html#cb838-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb838-5"><a href="lasso.html#cb838-5" aria-hidden="true" tabindex="-1"></a>logi <span class="ot">&lt;-</span> <span class="fu">glm</span>(survived<span class="sc">~</span>., <span class="at">data =</span> tr, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb838-6"><a href="lasso.html#cb838-6" aria-hidden="true" tabindex="-1"></a>phat <span class="ot">&lt;-</span> <span class="fu">predict</span>(logi, <span class="at">newdata =</span> tt, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<div class="sourceCode" id="cb838"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb838-1"><a href="lasso.html#cb838-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ROCR)</span>
+<span id="cb838-2"><a href="lasso.html#cb838-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb838-3"><a href="lasso.html#cb838-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb838-4"><a href="lasso.html#cb838-4" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(X), <span class="fu">nrow</span>(X)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb838-5"><a href="lasso.html#cb838-5" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span>train)</span>
+<span id="cb838-6"><a href="lasso.html#cb838-6" aria-hidden="true" tabindex="-1"></a>ytest <span class="ot">&lt;-</span> y[test]</span>
 <span id="cb838-7"><a href="lasso.html#cb838-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb838-8"><a href="lasso.html#cb838-8" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, tt<span class="sc">$</span>survived)</span>
-<span id="cb838-9"><a href="lasso.html#cb838-9" aria-hidden="true" tabindex="-1"></a>auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
-<span id="cb838-10"><a href="lasso.html#cb838-10" aria-hidden="true" tabindex="-1"></a>auc<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span></code></pre></div>
+<span id="cb838-8"><a href="lasso.html#cb838-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge</span></span>
+<span id="cb838-9"><a href="lasso.html#cb838-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb838-10"><a href="lasso.html#cb838-10" aria-hidden="true" tabindex="-1"></a>cv.outR <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb838-11"><a href="lasso.html#cb838-11" aria-hidden="true" tabindex="-1"></a>phatR <span class="ot">&lt;-</span> <span class="fu">predict</span>(cv.outR, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>, <span class="at">newx =</span> X[test,], <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb838-12"><a href="lasso.html#cb838-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb838-13"><a href="lasso.html#cb838-13" aria-hidden="true" tabindex="-1"></a>predR <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phatR, ytest)</span>
+<span id="cb838-14"><a href="lasso.html#cb838-14" aria-hidden="true" tabindex="-1"></a>aucR <span class="ot">&lt;-</span> <span class="fu">performance</span>(predR, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb838-15"><a href="lasso.html#cb838-15" aria-hidden="true" tabindex="-1"></a>AUCR <span class="ot">&lt;-</span> aucR<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb838-16"><a href="lasso.html#cb838-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb838-17"><a href="lasso.html#cb838-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Lasso</span></span>
+<span id="cb838-18"><a href="lasso.html#cb838-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb838-19"><a href="lasso.html#cb838-19" aria-hidden="true" tabindex="-1"></a>cv.outL <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X[train,], y[train], <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb838-20"><a href="lasso.html#cb838-20" aria-hidden="true" tabindex="-1"></a>phatL <span class="ot">&lt;-</span> <span class="fu">predict</span>(cv.outL, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>, <span class="at">newx =</span> X[test,], <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb838-21"><a href="lasso.html#cb838-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb838-22"><a href="lasso.html#cb838-22" aria-hidden="true" tabindex="-1"></a>predL <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phatL, ytest)</span>
+<span id="cb838-23"><a href="lasso.html#cb838-23" aria-hidden="true" tabindex="-1"></a>aucL <span class="ot">&lt;-</span> <span class="fu">performance</span>(predL, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb838-24"><a href="lasso.html#cb838-24" aria-hidden="true" tabindex="-1"></a>AUCL <span class="ot">&lt;-</span> aucL<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb838-25"><a href="lasso.html#cb838-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb838-26"><a href="lasso.html#cb838-26" aria-hidden="true" tabindex="-1"></a>AUCR</span></code></pre></div>
+<pre><code>## [1] 0.8663923</code></pre>
+<div class="sourceCode" id="cb840"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb840-1"><a href="lasso.html#cb840-1" aria-hidden="true" tabindex="-1"></a>AUCL</span></code></pre></div>
+<pre><code>## [1] 0.8656826</code></pre>
+<div class="sourceCode" id="cb842"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb842-1"><a href="lasso.html#cb842-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic</span></span>
+<span id="cb842-2"><a href="lasso.html#cb842-2" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> df[train,]</span>
+<span id="cb842-3"><a href="lasso.html#cb842-3" aria-hidden="true" tabindex="-1"></a>tt <span class="ot">&lt;-</span> df[test, ]</span>
+<span id="cb842-4"><a href="lasso.html#cb842-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb842-5"><a href="lasso.html#cb842-5" aria-hidden="true" tabindex="-1"></a>logi <span class="ot">&lt;-</span> <span class="fu">glm</span>(survived<span class="sc">~</span>., <span class="at">data =</span> tr, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb842-6"><a href="lasso.html#cb842-6" aria-hidden="true" tabindex="-1"></a>phat <span class="ot">&lt;-</span> <span class="fu">predict</span>(logi, <span class="at">newdata =</span> tt, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb842-7"><a href="lasso.html#cb842-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb842-8"><a href="lasso.html#cb842-8" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, tt<span class="sc">$</span>survived)</span>
+<span id="cb842-9"><a href="lasso.html#cb842-9" aria-hidden="true" tabindex="-1"></a>auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb842-10"><a href="lasso.html#cb842-10" aria-hidden="true" tabindex="-1"></a>auc<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span></code></pre></div>
 <pre><code>## [1] 0.8655769</code></pre>
 <p>Now our own algorithm:</p>
-<div class="sourceCode" id="cb840"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb840-1"><a href="lasso.html#cb840-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PASWR)</span>
-<span id="cb840-2"><a href="lasso.html#cb840-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb840-3"><a href="lasso.html#cb840-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb840-4"><a href="lasso.html#cb840-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic3)</span>
-<span id="cb840-5"><a href="lasso.html#cb840-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb840-6"><a href="lasso.html#cb840-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
-<span id="cb840-7"><a href="lasso.html#cb840-7" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;survived&quot;</span>,<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;age&quot;</span>,<span class="st">&quot;pclass&quot;</span>,<span class="st">&quot;sibsp&quot;</span>,<span class="st">&quot;parch&quot;</span>)</span>
-<span id="cb840-8"><a href="lasso.html#cb840-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> titanic3[, a]</span>
-<span id="cb840-9"><a href="lasso.html#cb840-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]</span>
-<span id="cb840-10"><a href="lasso.html#cb840-10" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>survived <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>survived)</span>
-<span id="cb840-11"><a href="lasso.html#cb840-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb840-12"><a href="lasso.html#cb840-12" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">=</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="at">length =</span> <span class="dv">100</span>)</span>
-<span id="cb840-13"><a href="lasso.html#cb840-13" aria-hidden="true" tabindex="-1"></a>AUC <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb840-14"><a href="lasso.html#cb840-14" aria-hidden="true" tabindex="-1"></a>MAUC <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb840-15"><a href="lasso.html#cb840-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb840-16"><a href="lasso.html#cb840-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)){</span>
-<span id="cb840-17"><a href="lasso.html#cb840-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
-<span id="cb840-18"><a href="lasso.html#cb840-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(j)</span>
-<span id="cb840-19"><a href="lasso.html#cb840-19" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb840-20"><a href="lasso.html#cb840-20" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">unique</span>(ind)</span>
-<span id="cb840-21"><a href="lasso.html#cb840-21" aria-hidden="true" tabindex="-1"></a>    train <span class="ot">&lt;-</span> df[ind, ]</span>
-<span id="cb840-22"><a href="lasso.html#cb840-22" aria-hidden="true" tabindex="-1"></a>    xtrain <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., train)[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb840-23"><a href="lasso.html#cb840-23" aria-hidden="true" tabindex="-1"></a>    ytrain <span class="ot">&lt;-</span> df[ind, <span class="dv">1</span>]</span>
-<span id="cb840-24"><a href="lasso.html#cb840-24" aria-hidden="true" tabindex="-1"></a>    test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
-<span id="cb840-25"><a href="lasso.html#cb840-25" aria-hidden="true" tabindex="-1"></a>    xtest <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., test)[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb840-26"><a href="lasso.html#cb840-26" aria-hidden="true" tabindex="-1"></a>    ytest <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, <span class="dv">1</span>]</span>
-<span id="cb840-27"><a href="lasso.html#cb840-27" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb840-28"><a href="lasso.html#cb840-28" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(xtrain, ytrain, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid[i],</span>
-<span id="cb840-29"><a href="lasso.html#cb840-29" aria-hidden="true" tabindex="-1"></a>                    <span class="at">thresh =</span> <span class="fl">1e-12</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb840-30"><a href="lasso.html#cb840-30" aria-hidden="true" tabindex="-1"></a>    phat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">s =</span> grid[i], <span class="at">newx =</span> xtest, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb840-31"><a href="lasso.html#cb840-31" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb840-32"><a href="lasso.html#cb840-32" aria-hidden="true" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, ytest)</span>
-<span id="cb840-33"><a href="lasso.html#cb840-33" aria-hidden="true" tabindex="-1"></a>    auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
-<span id="cb840-34"><a href="lasso.html#cb840-34" aria-hidden="true" tabindex="-1"></a>    AUC[j] <span class="ot">&lt;-</span> auc<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
-<span id="cb840-35"><a href="lasso.html#cb840-35" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb840-36"><a href="lasso.html#cb840-36" aria-hidden="true" tabindex="-1"></a>MAUC[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(AUC)</span>
-<span id="cb840-37"><a href="lasso.html#cb840-37" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb840-38"><a href="lasso.html#cb840-38" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(MAUC)</span></code></pre></div>
+<div class="sourceCode" id="cb844"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb844-1"><a href="lasso.html#cb844-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PASWR)</span>
+<span id="cb844-2"><a href="lasso.html#cb844-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb844-3"><a href="lasso.html#cb844-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb844-4"><a href="lasso.html#cb844-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic3)</span>
+<span id="cb844-5"><a href="lasso.html#cb844-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb844-6"><a href="lasso.html#cb844-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb844-7"><a href="lasso.html#cb844-7" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;survived&quot;</span>,<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;age&quot;</span>,<span class="st">&quot;pclass&quot;</span>,<span class="st">&quot;sibsp&quot;</span>,<span class="st">&quot;parch&quot;</span>)</span>
+<span id="cb844-8"><a href="lasso.html#cb844-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> titanic3[, a]</span>
+<span id="cb844-9"><a href="lasso.html#cb844-9" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]</span>
+<span id="cb844-10"><a href="lasso.html#cb844-10" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>survived <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>survived)</span>
+<span id="cb844-11"><a href="lasso.html#cb844-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb844-12"><a href="lasso.html#cb844-12" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">=</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="at">length =</span> <span class="dv">100</span>)</span>
+<span id="cb844-13"><a href="lasso.html#cb844-13" aria-hidden="true" tabindex="-1"></a>AUC <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb844-14"><a href="lasso.html#cb844-14" aria-hidden="true" tabindex="-1"></a>MAUC <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb844-15"><a href="lasso.html#cb844-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb844-16"><a href="lasso.html#cb844-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)){</span>
+<span id="cb844-17"><a href="lasso.html#cb844-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
+<span id="cb844-18"><a href="lasso.html#cb844-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(j)</span>
+<span id="cb844-19"><a href="lasso.html#cb844-19" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb844-20"><a href="lasso.html#cb844-20" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">unique</span>(ind)</span>
+<span id="cb844-21"><a href="lasso.html#cb844-21" aria-hidden="true" tabindex="-1"></a>    train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb844-22"><a href="lasso.html#cb844-22" aria-hidden="true" tabindex="-1"></a>    xtrain <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., train)[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb844-23"><a href="lasso.html#cb844-23" aria-hidden="true" tabindex="-1"></a>    ytrain <span class="ot">&lt;-</span> df[ind, <span class="dv">1</span>]</span>
+<span id="cb844-24"><a href="lasso.html#cb844-24" aria-hidden="true" tabindex="-1"></a>    test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb844-25"><a href="lasso.html#cb844-25" aria-hidden="true" tabindex="-1"></a>    xtest <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., test)[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb844-26"><a href="lasso.html#cb844-26" aria-hidden="true" tabindex="-1"></a>    ytest <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, <span class="dv">1</span>]</span>
+<span id="cb844-27"><a href="lasso.html#cb844-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb844-28"><a href="lasso.html#cb844-28" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(xtrain, ytrain, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid[i],</span>
+<span id="cb844-29"><a href="lasso.html#cb844-29" aria-hidden="true" tabindex="-1"></a>                    <span class="at">thresh =</span> <span class="fl">1e-12</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb844-30"><a href="lasso.html#cb844-30" aria-hidden="true" tabindex="-1"></a>    phat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">s =</span> grid[i], <span class="at">newx =</span> xtest, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb844-31"><a href="lasso.html#cb844-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb844-32"><a href="lasso.html#cb844-32" aria-hidden="true" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, ytest)</span>
+<span id="cb844-33"><a href="lasso.html#cb844-33" aria-hidden="true" tabindex="-1"></a>    auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb844-34"><a href="lasso.html#cb844-34" aria-hidden="true" tabindex="-1"></a>    AUC[j] <span class="ot">&lt;-</span> auc<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb844-35"><a href="lasso.html#cb844-35" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb844-36"><a href="lasso.html#cb844-36" aria-hidden="true" tabindex="-1"></a>MAUC[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(AUC)</span>
+<span id="cb844-37"><a href="lasso.html#cb844-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb844-38"><a href="lasso.html#cb844-38" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(MAUC)</span></code></pre></div>
 <pre><code>## [1] 0.8370252</code></pre>
-<div class="sourceCode" id="cb842"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb842-1"><a href="lasso.html#cb842-1" aria-hidden="true" tabindex="-1"></a>grid[<span class="fu">which.max</span>(MAUC)]</span></code></pre></div>
+<div class="sourceCode" id="cb846"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb846-1"><a href="lasso.html#cb846-1" aria-hidden="true" tabindex="-1"></a>grid[<span class="fu">which.max</span>(MAUC)]</span></code></pre></div>
 <pre><code>## [1] 0.01</code></pre>
-<div class="sourceCode" id="cb844"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb844-1"><a href="lasso.html#cb844-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(grid), MAUC, <span class="at">type=</span><span class="st">&quot;o&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb848"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb848-1"><a href="lasso.html#cb848-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(grid), MAUC, <span class="at">type=</span><span class="st">&quot;o&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-291-1.png" width="672" /></p>
 <p>And Ridge:</p>
-<div class="sourceCode" id="cb845"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb845-1"><a href="lasso.html#cb845-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PASWR)</span>
-<span id="cb845-2"><a href="lasso.html#cb845-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb845-3"><a href="lasso.html#cb845-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic3)</span>
-<span id="cb845-4"><a href="lasso.html#cb845-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb845-5"><a href="lasso.html#cb845-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
-<span id="cb845-6"><a href="lasso.html#cb845-6" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;survived&quot;</span>,<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;age&quot;</span>,<span class="st">&quot;pclass&quot;</span>,<span class="st">&quot;sibsp&quot;</span>,<span class="st">&quot;parch&quot;</span>)</span>
-<span id="cb845-7"><a href="lasso.html#cb845-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> titanic3[, a]</span>
-<span id="cb845-8"><a href="lasso.html#cb845-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]</span>
-<span id="cb845-9"><a href="lasso.html#cb845-9" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>survived <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>survived)</span>
-<span id="cb845-10"><a href="lasso.html#cb845-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb845-11"><a href="lasso.html#cb845-11" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">=</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="at">length =</span> <span class="dv">100</span>)</span>
-<span id="cb845-12"><a href="lasso.html#cb845-12" aria-hidden="true" tabindex="-1"></a>AUC <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb845-13"><a href="lasso.html#cb845-13" aria-hidden="true" tabindex="-1"></a>MAUC <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb845-14"><a href="lasso.html#cb845-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb845-15"><a href="lasso.html#cb845-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)){</span>
-<span id="cb845-16"><a href="lasso.html#cb845-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
-<span id="cb845-17"><a href="lasso.html#cb845-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(j)</span>
-<span id="cb845-18"><a href="lasso.html#cb845-18" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb845-19"><a href="lasso.html#cb845-19" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">unique</span>(ind)</span>
-<span id="cb845-20"><a href="lasso.html#cb845-20" aria-hidden="true" tabindex="-1"></a>    train <span class="ot">&lt;-</span> df[ind, ]</span>
-<span id="cb845-21"><a href="lasso.html#cb845-21" aria-hidden="true" tabindex="-1"></a>    xtrain <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., train)[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb845-22"><a href="lasso.html#cb845-22" aria-hidden="true" tabindex="-1"></a>    ytrain <span class="ot">&lt;-</span> df[ind, <span class="dv">1</span>]</span>
-<span id="cb845-23"><a href="lasso.html#cb845-23" aria-hidden="true" tabindex="-1"></a>    test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
-<span id="cb845-24"><a href="lasso.html#cb845-24" aria-hidden="true" tabindex="-1"></a>    xtest <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., test)[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb845-25"><a href="lasso.html#cb845-25" aria-hidden="true" tabindex="-1"></a>    ytest <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, <span class="dv">1</span>]</span>
-<span id="cb845-26"><a href="lasso.html#cb845-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb845-27"><a href="lasso.html#cb845-27" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(xtrain, ytrain, <span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> grid[i],</span>
-<span id="cb845-28"><a href="lasso.html#cb845-28" aria-hidden="true" tabindex="-1"></a>                    <span class="at">thresh =</span> <span class="fl">1e-12</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb845-29"><a href="lasso.html#cb845-29" aria-hidden="true" tabindex="-1"></a>    phat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">s =</span> grid[i], <span class="at">newx =</span> xtest, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb845-30"><a href="lasso.html#cb845-30" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb845-31"><a href="lasso.html#cb845-31" aria-hidden="true" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, ytest)</span>
-<span id="cb845-32"><a href="lasso.html#cb845-32" aria-hidden="true" tabindex="-1"></a>    auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
-<span id="cb845-33"><a href="lasso.html#cb845-33" aria-hidden="true" tabindex="-1"></a>    AUC[j] <span class="ot">&lt;-</span> auc<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
-<span id="cb845-34"><a href="lasso.html#cb845-34" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb845-35"><a href="lasso.html#cb845-35" aria-hidden="true" tabindex="-1"></a>  MAUC[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(AUC)</span>
-<span id="cb845-36"><a href="lasso.html#cb845-36" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb845-37"><a href="lasso.html#cb845-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb845-38"><a href="lasso.html#cb845-38" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(MAUC)</span></code></pre></div>
+<div class="sourceCode" id="cb849"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb849-1"><a href="lasso.html#cb849-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PASWR)</span>
+<span id="cb849-2"><a href="lasso.html#cb849-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb849-3"><a href="lasso.html#cb849-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic3)</span>
+<span id="cb849-4"><a href="lasso.html#cb849-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb849-5"><a href="lasso.html#cb849-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb849-6"><a href="lasso.html#cb849-6" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;survived&quot;</span>,<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;age&quot;</span>,<span class="st">&quot;pclass&quot;</span>,<span class="st">&quot;sibsp&quot;</span>,<span class="st">&quot;parch&quot;</span>)</span>
+<span id="cb849-7"><a href="lasso.html#cb849-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> titanic3[, a]</span>
+<span id="cb849-8"><a href="lasso.html#cb849-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]</span>
+<span id="cb849-9"><a href="lasso.html#cb849-9" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>survived <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>survived)</span>
+<span id="cb849-10"><a href="lasso.html#cb849-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb849-11"><a href="lasso.html#cb849-11" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">=</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="at">length =</span> <span class="dv">100</span>)</span>
+<span id="cb849-12"><a href="lasso.html#cb849-12" aria-hidden="true" tabindex="-1"></a>AUC <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb849-13"><a href="lasso.html#cb849-13" aria-hidden="true" tabindex="-1"></a>MAUC <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb849-14"><a href="lasso.html#cb849-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb849-15"><a href="lasso.html#cb849-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)){</span>
+<span id="cb849-16"><a href="lasso.html#cb849-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
+<span id="cb849-17"><a href="lasso.html#cb849-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(j)</span>
+<span id="cb849-18"><a href="lasso.html#cb849-18" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb849-19"><a href="lasso.html#cb849-19" aria-hidden="true" tabindex="-1"></a>    ind <span class="ot">&lt;-</span> <span class="fu">unique</span>(ind)</span>
+<span id="cb849-20"><a href="lasso.html#cb849-20" aria-hidden="true" tabindex="-1"></a>    train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb849-21"><a href="lasso.html#cb849-21" aria-hidden="true" tabindex="-1"></a>    xtrain <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., train)[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb849-22"><a href="lasso.html#cb849-22" aria-hidden="true" tabindex="-1"></a>    ytrain <span class="ot">&lt;-</span> df[ind, <span class="dv">1</span>]</span>
+<span id="cb849-23"><a href="lasso.html#cb849-23" aria-hidden="true" tabindex="-1"></a>    test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb849-24"><a href="lasso.html#cb849-24" aria-hidden="true" tabindex="-1"></a>    xtest <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., test)[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb849-25"><a href="lasso.html#cb849-25" aria-hidden="true" tabindex="-1"></a>    ytest <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, <span class="dv">1</span>]</span>
+<span id="cb849-26"><a href="lasso.html#cb849-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb849-27"><a href="lasso.html#cb849-27" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(xtrain, ytrain, <span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> grid[i],</span>
+<span id="cb849-28"><a href="lasso.html#cb849-28" aria-hidden="true" tabindex="-1"></a>                    <span class="at">thresh =</span> <span class="fl">1e-12</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb849-29"><a href="lasso.html#cb849-29" aria-hidden="true" tabindex="-1"></a>    phat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">s =</span> grid[i], <span class="at">newx =</span> xtest, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb849-30"><a href="lasso.html#cb849-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb849-31"><a href="lasso.html#cb849-31" aria-hidden="true" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, ytest)</span>
+<span id="cb849-32"><a href="lasso.html#cb849-32" aria-hidden="true" tabindex="-1"></a>    auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb849-33"><a href="lasso.html#cb849-33" aria-hidden="true" tabindex="-1"></a>    AUC[j] <span class="ot">&lt;-</span> auc<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb849-34"><a href="lasso.html#cb849-34" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb849-35"><a href="lasso.html#cb849-35" aria-hidden="true" tabindex="-1"></a>  MAUC[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(AUC)</span>
+<span id="cb849-36"><a href="lasso.html#cb849-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb849-37"><a href="lasso.html#cb849-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb849-38"><a href="lasso.html#cb849-38" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(MAUC)</span></code></pre></div>
 <pre><code>## [1] 0.8384748</code></pre>
-<div class="sourceCode" id="cb847"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb847-1"><a href="lasso.html#cb847-1" aria-hidden="true" tabindex="-1"></a>grid[<span class="fu">which.max</span>(MAUC)]</span></code></pre></div>
+<div class="sourceCode" id="cb851"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb851-1"><a href="lasso.html#cb851-1" aria-hidden="true" tabindex="-1"></a>grid[<span class="fu">which.max</span>(MAUC)]</span></code></pre></div>
 <pre><code>## [1] 0.01</code></pre>
-<div class="sourceCode" id="cb849"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb849-1"><a href="lasso.html#cb849-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(grid), MAUC, <span class="at">type=</span><span class="st">&quot;o&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb853"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb853-1"><a href="lasso.html#cb853-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(grid), MAUC, <span class="at">type=</span><span class="st">&quot;o&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-292-1.png" width="672" /></p>
 <p>What’s the level of uncertainty?</p>
-<div class="sourceCode" id="cb850"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb850-1"><a href="lasso.html#cb850-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PASWR)</span>
-<span id="cb850-2"><a href="lasso.html#cb850-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb850-3"><a href="lasso.html#cb850-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic3)</span>
-<span id="cb850-4"><a href="lasso.html#cb850-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb850-5"><a href="lasso.html#cb850-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
-<span id="cb850-6"><a href="lasso.html#cb850-6" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;survived&quot;</span>,<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;age&quot;</span>,<span class="st">&quot;pclass&quot;</span>,<span class="st">&quot;sibsp&quot;</span>,<span class="st">&quot;parch&quot;</span>)</span>
-<span id="cb850-7"><a href="lasso.html#cb850-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> titanic3[, a]</span>
-<span id="cb850-8"><a href="lasso.html#cb850-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]</span>
-<span id="cb850-9"><a href="lasso.html#cb850-9" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>survived <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>survived)</span>
-<span id="cb850-10"><a href="lasso.html#cb850-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb850-11"><a href="lasso.html#cb850-11" aria-hidden="true" tabindex="-1"></a>AUC <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb850-12"><a href="lasso.html#cb850-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb850-13"><a href="lasso.html#cb850-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>){</span>
-<span id="cb850-14"><a href="lasso.html#cb850-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
-<span id="cb850-15"><a href="lasso.html#cb850-15" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb850-16"><a href="lasso.html#cb850-16" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">unique</span>(ind)</span>
-<span id="cb850-17"><a href="lasso.html#cb850-17" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> df[ind, ]</span>
-<span id="cb850-18"><a href="lasso.html#cb850-18" aria-hidden="true" tabindex="-1"></a>  xtrain <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., train)[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb850-19"><a href="lasso.html#cb850-19" aria-hidden="true" tabindex="-1"></a>  ytrain <span class="ot">&lt;-</span> df[ind, <span class="dv">1</span>]</span>
-<span id="cb850-20"><a href="lasso.html#cb850-20" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
-<span id="cb850-21"><a href="lasso.html#cb850-21" aria-hidden="true" tabindex="-1"></a>  xtest <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., test)[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb850-22"><a href="lasso.html#cb850-22" aria-hidden="true" tabindex="-1"></a>  ytest <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, <span class="dv">1</span>]</span>
-<span id="cb850-23"><a href="lasso.html#cb850-23" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb850-24"><a href="lasso.html#cb850-24" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(xtrain, ytrain, <span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> <span class="fl">0.01</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb850-25"><a href="lasso.html#cb850-25" aria-hidden="true" tabindex="-1"></a>  phat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">s =</span> <span class="fl">0.01</span>, <span class="at">newx =</span> xtest, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb850-26"><a href="lasso.html#cb850-26" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb850-27"><a href="lasso.html#cb850-27" aria-hidden="true" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, ytest)</span>
-<span id="cb850-28"><a href="lasso.html#cb850-28" aria-hidden="true" tabindex="-1"></a>  auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
-<span id="cb850-29"><a href="lasso.html#cb850-29" aria-hidden="true" tabindex="-1"></a>  AUC[i] <span class="ot">&lt;-</span> auc<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
-<span id="cb850-30"><a href="lasso.html#cb850-30" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb850-31"><a href="lasso.html#cb850-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb850-32"><a href="lasso.html#cb850-32" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(AUC))</span></code></pre></div>
+<div class="sourceCode" id="cb854"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb854-1"><a href="lasso.html#cb854-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PASWR)</span>
+<span id="cb854-2"><a href="lasso.html#cb854-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb854-3"><a href="lasso.html#cb854-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(titanic3)</span>
+<span id="cb854-4"><a href="lasso.html#cb854-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb854-5"><a href="lasso.html#cb854-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb854-6"><a href="lasso.html#cb854-6" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;survived&quot;</span>,<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;age&quot;</span>,<span class="st">&quot;pclass&quot;</span>,<span class="st">&quot;sibsp&quot;</span>,<span class="st">&quot;parch&quot;</span>)</span>
+<span id="cb854-7"><a href="lasso.html#cb854-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> titanic3[, a]</span>
+<span id="cb854-8"><a href="lasso.html#cb854-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]</span>
+<span id="cb854-9"><a href="lasso.html#cb854-9" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>survived <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>survived)</span>
+<span id="cb854-10"><a href="lasso.html#cb854-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb854-11"><a href="lasso.html#cb854-11" aria-hidden="true" tabindex="-1"></a>AUC <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb854-12"><a href="lasso.html#cb854-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb854-13"><a href="lasso.html#cb854-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>){</span>
+<span id="cb854-14"><a href="lasso.html#cb854-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
+<span id="cb854-15"><a href="lasso.html#cb854-15" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb854-16"><a href="lasso.html#cb854-16" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">unique</span>(ind)</span>
+<span id="cb854-17"><a href="lasso.html#cb854-17" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb854-18"><a href="lasso.html#cb854-18" aria-hidden="true" tabindex="-1"></a>  xtrain <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., train)[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb854-19"><a href="lasso.html#cb854-19" aria-hidden="true" tabindex="-1"></a>  ytrain <span class="ot">&lt;-</span> df[ind, <span class="dv">1</span>]</span>
+<span id="cb854-20"><a href="lasso.html#cb854-20" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb854-21"><a href="lasso.html#cb854-21" aria-hidden="true" tabindex="-1"></a>  xtest <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(survived<span class="sc">~</span>., test)[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb854-22"><a href="lasso.html#cb854-22" aria-hidden="true" tabindex="-1"></a>  ytest <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, <span class="dv">1</span>]</span>
+<span id="cb854-23"><a href="lasso.html#cb854-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb854-24"><a href="lasso.html#cb854-24" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(xtrain, ytrain, <span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">lambda =</span> <span class="fl">0.01</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb854-25"><a href="lasso.html#cb854-25" aria-hidden="true" tabindex="-1"></a>  phat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">s =</span> <span class="fl">0.01</span>, <span class="at">newx =</span> xtest, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb854-26"><a href="lasso.html#cb854-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb854-27"><a href="lasso.html#cb854-27" aria-hidden="true" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, ytest)</span>
+<span id="cb854-28"><a href="lasso.html#cb854-28" aria-hidden="true" tabindex="-1"></a>  auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb854-29"><a href="lasso.html#cb854-29" aria-hidden="true" tabindex="-1"></a>  AUC[i] <span class="ot">&lt;-</span> auc<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb854-30"><a href="lasso.html#cb854-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb854-31"><a href="lasso.html#cb854-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb854-32"><a href="lasso.html#cb854-32" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(AUC))</span></code></pre></div>
 <pre><code>## [1] 0.0175584</code></pre>
-<div class="sourceCode" id="cb852"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb852-1"><a href="lasso.html#cb852-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(AUC)</span></code></pre></div>
+<div class="sourceCode" id="cb856"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb856-1"><a href="lasso.html#cb856-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(AUC)</span></code></pre></div>
 <pre><code>## [1] 0.8405726</code></pre>
-<div class="sourceCode" id="cb854"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb854-1"><a href="lasso.html#cb854-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(AUC, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb858"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb858-1"><a href="lasso.html#cb858-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(AUC, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-293-1.png" width="672" /></p>
 <p>And the uncertainty with logistic:</p>
-<div class="sourceCode" id="cb855"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb855-1"><a href="lasso.html#cb855-1" aria-hidden="true" tabindex="-1"></a>AUC1 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb855-2"><a href="lasso.html#cb855-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb855-3"><a href="lasso.html#cb855-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>) {</span>
-<span id="cb855-4"><a href="lasso.html#cb855-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
-<span id="cb855-5"><a href="lasso.html#cb855-5" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb855-6"><a href="lasso.html#cb855-6" aria-hidden="true" tabindex="-1"></a>  tr <span class="ot">&lt;-</span> df[ind, ]</span>
-<span id="cb855-7"><a href="lasso.html#cb855-7" aria-hidden="true" tabindex="-1"></a>  tt <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
-<span id="cb855-8"><a href="lasso.html#cb855-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb855-9"><a href="lasso.html#cb855-9" aria-hidden="true" tabindex="-1"></a>  logi <span class="ot">&lt;-</span> <span class="fu">glm</span>(survived<span class="sc">~</span>., <span class="at">data =</span> tr, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb855-10"><a href="lasso.html#cb855-10" aria-hidden="true" tabindex="-1"></a>  phat <span class="ot">&lt;-</span> <span class="fu">predict</span>(logi, <span class="at">newdata =</span> tt, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb855-11"><a href="lasso.html#cb855-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb855-12"><a href="lasso.html#cb855-12" aria-hidden="true" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, tt<span class="sc">$</span>survived)</span>
-<span id="cb855-13"><a href="lasso.html#cb855-13" aria-hidden="true" tabindex="-1"></a>  auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
-<span id="cb855-14"><a href="lasso.html#cb855-14" aria-hidden="true" tabindex="-1"></a>  AUC1[i] <span class="ot">&lt;-</span> auc<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
-<span id="cb855-15"><a href="lasso.html#cb855-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb855-16"><a href="lasso.html#cb855-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb855-17"><a href="lasso.html#cb855-17" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(AUC1))</span></code></pre></div>
+<div class="sourceCode" id="cb859"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb859-1"><a href="lasso.html#cb859-1" aria-hidden="true" tabindex="-1"></a>AUC1 <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb859-2"><a href="lasso.html#cb859-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb859-3"><a href="lasso.html#cb859-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>) {</span>
+<span id="cb859-4"><a href="lasso.html#cb859-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
+<span id="cb859-5"><a href="lasso.html#cb859-5" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb859-6"><a href="lasso.html#cb859-6" aria-hidden="true" tabindex="-1"></a>  tr <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb859-7"><a href="lasso.html#cb859-7" aria-hidden="true" tabindex="-1"></a>  tt <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb859-8"><a href="lasso.html#cb859-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb859-9"><a href="lasso.html#cb859-9" aria-hidden="true" tabindex="-1"></a>  logi <span class="ot">&lt;-</span> <span class="fu">glm</span>(survived<span class="sc">~</span>., <span class="at">data =</span> tr, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb859-10"><a href="lasso.html#cb859-10" aria-hidden="true" tabindex="-1"></a>  phat <span class="ot">&lt;-</span> <span class="fu">predict</span>(logi, <span class="at">newdata =</span> tt, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb859-11"><a href="lasso.html#cb859-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb859-12"><a href="lasso.html#cb859-12" aria-hidden="true" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phat, tt<span class="sc">$</span>survived)</span>
+<span id="cb859-13"><a href="lasso.html#cb859-13" aria-hidden="true" tabindex="-1"></a>  auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb859-14"><a href="lasso.html#cb859-14" aria-hidden="true" tabindex="-1"></a>  AUC1[i] <span class="ot">&lt;-</span> auc<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb859-15"><a href="lasso.html#cb859-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb859-16"><a href="lasso.html#cb859-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb859-17"><a href="lasso.html#cb859-17" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(AUC1))</span></code></pre></div>
 <pre><code>## [1] 0.01736246</code></pre>
-<div class="sourceCode" id="cb857"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb857-1"><a href="lasso.html#cb857-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(AUC1)</span></code></pre></div>
+<div class="sourceCode" id="cb861"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb861-1"><a href="lasso.html#cb861-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(AUC1)</span></code></pre></div>
 <pre><code>## [1] 0.8408637</code></pre>
-<div class="sourceCode" id="cb859"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb859-1"><a href="lasso.html#cb859-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(AUC1, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb863"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb863-1"><a href="lasso.html#cb863-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(AUC1, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-294-1.png" width="672" /></p>
 </div>
 <div id="adaptive-lasso" class="section level2 hasAnchor" number="18.3">

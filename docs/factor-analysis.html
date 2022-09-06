@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 27 Factor Analysis | Tool Box for Social Scientists and Policy Analysts</title>
-  <meta name="description" content="Chapter 27 Factor Analysis | Tool Box for Social Scientists and Policy Analysts" />
+  <title>Chapter 27 Factor Analysis | Toolbox for Social Scientists and Policy Analysts</title>
+  <meta name="description" content="Chapter 27 Factor Analysis | Toolbox for Social Scientists and Policy Analysts" />
   <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 27 Factor Analysis | Tool Box for Social Scientists and Policy Analysts" />
+  <meta property="og:title" content="Chapter 27 Factor Analysis | Toolbox for Social Scientists and Policy Analysts" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
   
   <meta name="github-repo" content="yaydede/ToolShed_draft" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 27 Factor Analysis | Tool Box for Social Scientists and Policy Analysts" />
+  <meta name="twitter:title" content="Chapter 27 Factor Analysis | Toolbox for Social Scientists and Policy Analysts" />
   
   
   <meta name="twitter:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
@@ -166,7 +166,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Tool Shed</a></li>
+<li><a href="./">Toolbox</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
@@ -459,7 +459,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tool Box for Social Scientists and Policy Analysts</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Toolbox for Social Scientists and Policy Analysts</a>
           </h1>
         </div>
 
@@ -525,7 +525,7 @@ l_{p 1} &amp; l_{p 2} &amp; \ldots &amp; l_{p m}
 <p>The total variance of each variable is a result of the sum of the shared variance with another variable, the common variance (<strong>communality</strong>), and the unique variance inherent to each variable (<strong>specific variance</strong>)</p>
 <p>There are multiple methods to estimate the parameters of a factor model. In general, two methods are most common: PCA and MLE</p>
 <p>After PCA, we can get several outcomes by <code>factoextra</code>:</p>
-<div class="sourceCode" id="cb942"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb942-1"><a href="factor-analysis.html#cb942-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_pca_var</span>(Xpca)</span></code></pre></div>
+<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb946-1"><a href="factor-analysis.html#cb946-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_pca_var</span>(Xpca)</span></code></pre></div>
 <pre><code>## Principal Component Analysis Results for variables
 ##  ===================================================
 ##   Name       Description                                    
@@ -533,16 +533,16 @@ l_{p 1} &amp; l_{p 2} &amp; \ldots &amp; l_{p m}
 ## 2 &quot;$cor&quot;     &quot;Correlations between variables and dimensions&quot;
 ## 3 &quot;$cos2&quot;    &quot;Cos2 for the variables&quot;                       
 ## 4 &quot;$contrib&quot; &quot;contributions of the variables&quot;</code></pre>
-<div class="sourceCode" id="cb944"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb944-1"><a href="factor-analysis.html#cb944-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(Xpca, <span class="at">col.var=</span><span class="st">&quot;contrib&quot;</span>,</span>
-<span id="cb944-2"><a href="factor-analysis.html#cb944-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">gradient.cols =</span> <span class="fu">c</span>(<span class="st">&quot;#00AFBB&quot;</span>, <span class="st">&quot;#E7B800&quot;</span>, <span class="st">&quot;#FC4E07&quot;</span>),</span>
-<span id="cb944-3"><a href="factor-analysis.html#cb944-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">repel =</span> <span class="cn">TRUE</span> <span class="co"># Avoid text overlapping</span></span>
-<span id="cb944-4"><a href="factor-analysis.html#cb944-4" aria-hidden="true" tabindex="-1"></a>             )</span></code></pre></div>
+<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb948-1"><a href="factor-analysis.html#cb948-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(Xpca, <span class="at">col.var=</span><span class="st">&quot;contrib&quot;</span>,</span>
+<span id="cb948-2"><a href="factor-analysis.html#cb948-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">gradient.cols =</span> <span class="fu">c</span>(<span class="st">&quot;#00AFBB&quot;</span>, <span class="st">&quot;#E7B800&quot;</span>, <span class="st">&quot;#FC4E07&quot;</span>),</span>
+<span id="cb948-3"><a href="factor-analysis.html#cb948-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">repel =</span> <span class="cn">TRUE</span> <span class="co"># Avoid text overlapping</span></span>
+<span id="cb948-4"><a href="factor-analysis.html#cb948-4" aria-hidden="true" tabindex="-1"></a>             )</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-309-1.png" width="672" /></p>
-<div class="sourceCode" id="cb945"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb945-1"><a href="factor-analysis.html#cb945-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributions of variables to PC1</span></span>
-<span id="cb945-2"><a href="factor-analysis.html#cb945-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(Xpca, <span class="at">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="at">axes =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb949"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb949-1"><a href="factor-analysis.html#cb949-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributions of variables to PC1</span></span>
+<span id="cb949-2"><a href="factor-analysis.html#cb949-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(Xpca, <span class="at">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="at">axes =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-309-2.png" width="672" /></p>
-<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb946-1"><a href="factor-analysis.html#cb946-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributions of variables to PC2</span></span>
-<span id="cb946-2"><a href="factor-analysis.html#cb946-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(Xpca, <span class="at">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="at">axes =</span> <span class="dv">2</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb950"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb950-1"><a href="factor-analysis.html#cb950-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributions of variables to PC2</span></span>
+<span id="cb950-2"><a href="factor-analysis.html#cb950-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(Xpca, <span class="at">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="at">axes =</span> <span class="dv">2</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-309-3.png" width="672" /></p>
 <p>For more see: <a href="https://cran.r-project.org/web/packages/factoextra/readme/README.html" class="uri">https://cran.r-project.org/web/packages/factoextra/readme/README.html</a></p>
 <p>TBC …</p>
