@@ -26,7 +26,7 @@ Our lives are shaped by predictions that we make daily. The process of predictin
 This book takes on the first part, **statistical models**, without too much abstraction. It doesn't teach all aspects of **programming** but enough coding skills that you can find your way in building predictive algorithms with R. All gets into a computer. So, we also need to know enough about the "machines" with which we can facilitate a better efficiency. We have enough of it too ...
 
 ```{r, echo=FALSE}
-knitr::include_graphics("png/cover2.png")
+knitr::include_graphics("png/cover3.png")
 ```
 
 According to Leo Breiman [@Breiman_2001], [Statistical Modeling: The Two Cultures](https://projecteuclid.org/download/pdf_1/euclid.ss/1009213726), there are two goals in analyzing the data:
@@ -48,7 +48,7 @@ Solving these problems requires more than an application of predictive models - 
 
 ## Who {.unnumbered}
 
-This book is targeted at *motivated* students and researchers who have no robust statistical background. It is applied because I skip many theoretical proofs and justifications that can easily be found elsewhere. I do not assume a previous experience with R but some familiarity with coding.
+This book is targeted at *motivated* students and researchers who have a background in inferential statistics using parametric models. It is applied because I skip many theoretical proofs and justifications that can easily be found elsewhere. I do not assume a previous experience with R but some familiarity with coding.
 
 ## Acknowledgements {.unnumbered}
 
