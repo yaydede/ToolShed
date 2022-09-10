@@ -1,6 +1,6 @@
 ---
 title: "Toolbox for Social Scientists and Policy Analysts"
-subtitle: "Applied Data Analytics & Machine Learning with R"
+subtitle: "Applied Data Analytics with Machine Learning and R"
 titlerunning: "Toolbox"
 author: "[Yigit Aydede](https://yaydede.github.io/Yigit_Aydede/)"
 date: "This version: `r Sys.Date()`"
