@@ -1105,7 +1105,7 @@ The starting point will be to define these two different but similar processes.
 
 # Bias-Variance Tradeoff
 
-The intuition in the subject covered formally in the following chapters is simple: if a "thing" is more specific to a certain "environment", it would be less generalizable for other environments.  The "thing" is our predictive model, the "environment" is the data, our sample.  If we build a model that fits (predicts) the sample very well, the model would be too specific for that data but less generalizable (hence, lower prediction capacity) for other samples.  What's the "sweet spot" between being too "specific" and more "generalizable" when we build a predictive model?      
+The intuition behind the subject formally covered in the following chapters is simple: if a "thing" is more specific to a certain "environment", it would be less generalizable for other environments.  The "thing" is our predictive model, the "environment" is the data, our sample.  If we build a model that fits (predicts) our sample very well, it would be too specific for that data but less generalizable for other samples.  What's the "sweet spot" between being "specific" and "generalizable" when we build a predictive model?      
 
 ## Estimator and MSE
   
