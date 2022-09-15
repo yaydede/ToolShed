@@ -48,11 +48,11 @@ The structure of the book is different from many other books on machine learning
 
 The book covers the concepts with applications.  However, the most applications use “toy data” to make the book more generalizable for other fields with a similar curriculum in inferential statistics.  We will have supplementary books covering field specific data with applications. I do not believe that we need a book for each field (accounting, management, finance, economics, political science, sociology, and so on).  The first supplementary online book using real data (from economic and financial sources) will be ready very soon.
 
-After well-known predictive algorithms collected only in two sections, the book proceeds into five new sections: Penalized Regressions, which are the well-known high-dimensional methods in economics and finance used in model selection and sparsity.  The following sections covers Dimension Reduction Methods.  They are the most important tools in “noise” reduction in almost all fields in social science.  This section puts all the methods (EVD, SVD, Rank approximations, PCA, FA, DMD) together with applications.  The next section gives a new look at time-series applications by showing how time series data can be used in predictions beyond traditional parametric models. The last section covers Network Analysis.  This concept is also very prevalent in many business fields and specially in economics and finance.  This section summarizes all new developments in graphical network analysis.   
+After well-known predictive algorithms collected only in two sections, the book proceeds into five new sections: Penalized Regressions, which are the well-known high-dimensional methods in economics and finance used in model selection and sparsity.  The following section covers Dimension Reduction Methods.  They are important tools in “noise” reduction in almost all fields in social science.  This section puts all main methods (EVD, SVD, Rank approximations, PCA, FA, DMD) together with applications.  The next section gives a new look at time-series applications by showing how time series data can be used in predictions beyond traditional parametric models. The last section covers Network Analysis.  This concept is also very prevalent in many business fields and specially in economics and finance.  This section summarizes all new developments in Graphical Network Analysis.   
 
 Finally, the chapters in Appendix provide enough information on two important subjects: Algorithmic Optimization (including gradient descent applications) and the discussion on classification with imbalanced data. Moreover, there will be some addition to several chapters covering Conditional Inference Trees, General CV, and Causal Random Forest.  
 
-I hope that this book provides a good starting point to give predictive analytics a place in curricula of social science and business fields.  
+I hope that this book provides a good starting point to give predictive analytics a well-deserved place in curricula of social science and business fields.  I also hope that this book will "grow" by the time to keep up with the fast changing world.  Hence, I guess, it will always be a "draft" in a humble way ...
   
 ## Who {.unnumbered}
 
@@ -64,16 +64,18 @@ This book is targeted at *motivated* students and researchers who have a backgro
 
 ## Acknowledgements {.unnumbered}
 
-This book was made possible by Mutlu Yuksel, Tolga Kaya, Mehmet Caner, Juri Marcucci, Atul Dar, Andrea Guisto and my wife Isik Aydede. This work is greatly inspired by following books and people:
+This book was made possible by Mutlu Yuksel, Tolga Kaya, Mehmet Caner, Juri Marcucci, Atul Dar and, Andrea Guisto. This work is greatly inspired by following books and people:
 
 1.  [Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/) by Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani.
 2.  [Introduction to Data Science](https://rafalab.github.io/dsbook/) by Rafael A. Irizarry.\
 3.  [Applied Statistics with R](https://daviddalpiaz.github.io/appliedstats/) by David Dalpiaz
 4.  [R for Statistical Learning](https://daviddalpiaz.github.io/r4sl/) by David Dalpiaz
 
-I also benefited from my participation in the Summer School of [SiDe](https://www.side-iea.it/events/summer-schools) in 2019 on *Machine Learning Algorithms for Econometricians* by [Arthur Carpentier](https://freakonometrics.github.io) and [Emmanuel Flachaire](https://www.amse-aixmarseille.fr/fr/membres/flachaire) and in 2017 on *High-Dimensional Econometrics* by [Anders Bredahl Kock](https://sites.google.com/site/andersbkock/) and [Mehmet Caner](https://poole.ncsu.edu/people/mehmet-caner/).
+I've also greatly benefited from my participation in the Summer School of [SiDe](https://www.side-iea.it/events/summer-schools) in 2019 on *Machine Learning Algorithms for Econometricians* by [Arthur Carpentier](https://freakonometrics.github.io) and [Emmanuel Flachaire](https://www.amse-aixmarseille.fr/fr/membres/flachaire) and in 2017 on *High-Dimensional Econometrics* by [Anders Bredahl Kock](https://sites.google.com/site/andersbkock/) and [Mehmet Caner](https://poole.ncsu.edu/people/mehmet-caner/).  I never stop  learning from these people.
 
-Finally, I thank my research assistant Kyle Morton. Without him, this book wouldn't be possible.
+I also thank my research assistant Kyle Morton. Without him, this book wouldn't be possible.
+
+Finally, my wife and my son, Isik and Ege, you are always my compass finding my purpose ... 
 
 ## License {.unnumbered}
 
