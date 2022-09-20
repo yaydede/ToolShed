@@ -1,6 +1,8 @@
 # (PART) Network Analysis {-}
 
 # Graphical Network Analysis {-}
+  
+Following chapters are work in progress without a proper copyediting ...
 
 # Fundementals
 

@@ -2,6 +2,8 @@
 
 # Parametric models in prediction {-}
 
+*Note that this section is work in progress without a proper copyediting* ...
+
 Remember, in simple regression or classification problems, we cannot train a parametric model in a way that the fitted model minimizes out-of-sample prediction error.  We could and did the fit the models **manually** by adding or removing predictors and their interactions and polynomials.    Penalization in regressions (also called as regularization or shrinkage) is an alternative and automated fitting procedure, which can yield better prediction accuracy and model interpretability by preventing overfitting.
 
 Two methods, Ridge and Lasso, are two of well-known benchmark techniques that reduce the model complexity and prevent overfitting resulting from simple linear regression. 

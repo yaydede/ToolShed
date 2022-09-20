@@ -8388,6 +8388,8 @@ TBC ...
 
 # Parametric models in prediction {-}
 
+*Note that this section is work in progress without a proper copyediting* ...
+
 Remember, in simple regression or classification problems, we cannot train a parametric model in a way that the fitted model minimizes out-of-sample prediction error.  We could and did the fit the models **manually** by adding or removing predictors and their interactions and polynomials.    Penalization in regressions (also called as regularization or shrinkage) is an alternative and automated fitting procedure, which can yield better prediction accuracy and model interpretability by preventing overfitting.
 
 Two methods, Ridge and Lasso, are two of well-known benchmark techniques that reduce the model complexity and prevent overfitting resulting from simple linear regression. 
@@ -9705,6 +9707,8 @@ TBC ...
 # (PART) Network Analysis {-}
 
 # Graphical Network Analysis {-}
+  
+Following chapters are work in progress without a proper copyediting ...
 
 # Fundementals
 
@@ -10001,8 +10005,7 @@ For more information and matrix solutions to partial correlations, see <https://
 
 # Regularized covariance matrix
 
-See [A Shrinkage Approach to Large-Scale Covariance Matrix Estimation and Implications for Functional Genomics](https://strimmerlab.github.io/publications/journals/shrinkcov2005.pdf) [@Schafer_2005]
-Before some applications, why is a covariance matrix $S$ is singular when $n<p$ in the data matrix of $X$? Consider the $n \times p$ matrix of sample data, $X$. From the above, the rank of $X$ is at most $\min (n, p)$. Since
+Why is a covariance matrix $S$ is singular when $n<p$ in the data matrix of $X$? Consider the $n \times p$ matrix of sample data, $X$. From the above, the rank of $X$ is at most $\min (n, p)$. Since
 
 $$
 \mathbf{S}=\frac{1}{n} \mathbf{X}_{c}^{\prime} \mathbf{X}_{c}
@@ -10011,7 +10014,7 @@ $\operatorname{rank}(X_c)$ will be $n$ ($n<p$).  Since $\operatorname{rank}(A B)
 
 ## MLE  
 
-Before understanding L1 or L2 regularization, we need to see the multivariate Gaussian distribution, its parameterization and MLE solutions.  The multivariate Gaussian distribution of a random vector $X \in \mathbf{R}^{p}$ is commonly expressed in terms of the parameters $\mu$ and $\Sigma$, where $\mu$ is an $p \times 1$ vector and $\Sigma$ is an $p \times p$, a nonsingular symmetric covariance matrix. Hence, we have the following form for the density function (the Wishart distribution arises as the distribution of the sample covariance matrix for a sample from a multivariate normal distribution - [See Wishard Distribution](https://en.wikipedia.org/wiki/Wishart_distribution)). :
+Before understanding L1 or L2 regularization, we need to see the multivariate Gaussian distribution, its parameterization and MLE solutions.  The multivariate Gaussian distribution of a random vector $X \in \mathbf{R}^{p}$ is commonly expressed in terms of the parameters $\mu$ and $\Sigma$, where $\mu$ is an $p \times 1$ vector and $\Sigma$ is an $p \times p$, a nonsingular symmetric covariance matrix. Hence, we have the following form for the density function (the Wishart distribution arises as the distribution of the sample covariance matrix for a sample from a multivariate normal distribution - [See Wishard Distribution](https://en.wikipedia.org/wiki/Wishart_distribution)):
 
 $$
 f(x \mid \mu, \Sigma)=\frac{1}{(2 \pi)^{p / 2}|\Sigma|^{1 / 2}} \exp \left\{-\frac{1}{2}(x-\mu)^{T} \Sigma^{-1}(x-\mu)\right\},
@@ -10055,12 +10058,12 @@ $$
 \ell(\Omega ; S)=\ln |\Omega|-\operatorname{tr}(S \Omega)
 $$
 
-where $\Omega=\Sigma^{-1}$ is the so-called precision matrix (also sometimes called the concentration matrix). It is precisely this $\Omega$ for which we seek an estimate we will denote $P$. Indeed, one can naturally try to use the inverse of $S$ for this.
+where $\Omega=\Sigma^{-1}$ is the so-called precision matrix (also sometimes called the concentration matrix). It is precisely this $\Omega$ for which we seek an estimate, which we will denote $P$. Indeed, one can naturally try to use the inverse of $S$ for this.
 
 The differential of this log-likelihood is
 
 $$
-d \ln \mathcal{L}(\mu, \Sigma)=-\frac{n}{2} \operatorname{tr}\left[\Sigma^{-1}\{d \Sigma\}\right]-\frac{1}{2} \operatorname{tr}\left[-\Sigma^{-1}\{d \Sigma\} \Sigma^{-1} \sum_{i=1}^{n}\left(x_{i}-\mu\right)\left(x_{i}-\mu\right)^{\mathrm{T}}-2 \Sigma^{-1} \sum_{i=1}^{n}\left(x_{i}-\mu\right)\{d \mu\}^{\mathrm{T}}\right]
+d \ln \mathcal{L}(\mu, \Sigma)=\\-\frac{n}{2} \operatorname{tr}\left[\Sigma^{-1}\{d \Sigma\}\right]-\frac{1}{2} \operatorname{tr}\left[-\Sigma^{-1}\{d \Sigma\} \Sigma^{-1} \sum_{i=1}^{n}\left(x_{i}-\mu\right)\left(x_{i}-\mu\right)^{\mathrm{T}}-2 \Sigma^{-1} \sum_{i=1}^{n}\left(x_{i}-\mu\right)\{d \mu\}^{\mathrm{T}}\right]
 $$
 
 and
@@ -10068,38 +10071,37 @@ and
 $$
 \sum_{i=1}^{n}\left(x_{i}-\mu\right)\left(x_{i}-\mu\right)^{\mathrm{T}}=\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)\left(x_{i}-\bar{x}\right)^{\mathrm{T}}=S
 $$
-Then the terms involving $d \Sigma$ in $d \ln L$ can be combined as
+Then the terms involving $d \Sigma$ in $d \ln \mathcal{L}$ can be combined as
 
 $$
 -\frac{1}{2} \operatorname{tr}\left(\Sigma^{-1}\{d \Sigma\}\left[n I_{p}-\Sigma^{-1} S\right]\right)
 $$
 See the rest from <https://en.wikipedia.org/wiki/Estimation_of_covariance_matrices>. For $n < p$, the empirical estimate of the covariance matrix becomes singular, i.e. it cannot be inverted to compute the precision matrix.
 
-There is also another intiutive way to see whole algebra ([see the post here](https://stats.stackexchange.com/questions/151315/what-is-the-intuitive-geometric-meaning-of-minimizing-the-log-determinant-of)) [@Intui_Cross]
+There is also another intuitive way to see the whole algebra ([see the post here](https://stats.stackexchange.com/questions/151315/what-is-the-intuitive-geometric-meaning-of-minimizing-the-log-determinant-of)) [@Intui_Cross]:
 
 Let's start with the univariate standard normal density (parameter free) which is
 $$
 \frac{1}{\sqrt{2 \pi}} \exp \left(-\frac{1}{2} t^{2}\right)
 $$
-When we extend (parametrize) it to $x=\sigma t+\mu$, the change of variable requires $d t=\frac{1}{\sigma} d x$ making the general normal density
+When we extend (parameterize) it to $x=\sigma t+\mu$, the change of variable requires $d t=\frac{1}{\sigma} d x$ making the general normal density
 $$
 \frac{1}{\sqrt{2 \pi}} \frac{1}{\sigma} \exp \left(-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\right)
 $$
-Let us also work out the $M L$ estimation of $\mu$ and $\sigma$ simultaneously (when both unknown). The log-likelihood is
+The log-likelihood is
 $$
-\text { A constant }-\frac{n}{2} \log \left(\sigma^{2}\right)-\frac{1}{2} \sum_{i=1}^{n}\left(\frac{x_{i}-\mu}{\sigma}\right)^{2}
+\text { A constant }-\frac{n}{2} \log \left(\sigma^{2}\right)-\frac{1}{2} \sum_{i=1}^{n}\left(\frac{x_{i}-\mu}{\sigma}\right)^{2},
 $$
 maximization of which is equivalent to minimizing
 $$
 n \log \left(\sigma^{2}\right)+\sum_{i=1}^{n}\left(\frac{x_{i}-\mu}{\sigma}\right)^{2}
 $$
-and both terms involving $\sigma^{2}$ need to be accounted for in the minimization (with respect to $\sigma^{2}$ ).
-
-Multivariate (say number of dimensions $=d$ ) analogues behave the similar way. Starting with the generating (standard) density
+  
+Multivariate (say number of dimensions $=d$ ) counterpart behaves the similar way. Starting with the generating (standard) density
 $$
 (\sqrt{2 \pi})^{-d} \exp \left(-\frac{1}{2} \mathbf{z}^{t} \mathbf{z}\right)
 $$
-and the general MVN density is
+and the general multivariate normal (MVN) density is
 $$
 (\sqrt{2 \pi})^{-d}|\boldsymbol{\Sigma}|^{-1 / 2} \exp \left(-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^{t} \mathbf{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})\right)
 $$
@@ -10112,7 +10114,7 @@ n \log |\boldsymbol{\Sigma}|+\sum_{i=1}^{n}(\mathbf{x}-\boldsymbol{\mu})^{t} \bo
 $$
 
 Again, in simpler terms, $n \log |\mathbf{\Sigma}|$ takes the spot of $n \log \left(\sigma^{2}\right)$ which was there in the univariate case. These terms account for corresponding change of variable adjustments in each scenario.
-Above is based on taking $\rho(x)=x$ as in the <http://arxiv.org/pdf/1206.1386v2> [@Zhang_2012] language. Using $\rho(x)=\frac{d}{2} \log x$ (discussed after $1.5$ on $\mathrm{p} .2$ ) changes things accordingly (although, as noted in the paper this $\rho(x)$ does not give a valid density).
+  
 
 Let's start with a data matrix of 10x6, where no need for regularization.  
 
@@ -10241,8 +10243,7 @@ $$
 
 As such, the rotated coefficients must shrink, but it is possible, when $\lambda$ is sufficiently small, for some of the $\hat{\beta}_{R}$ themselves actually to increase in size.
 
-See: [The Generalized Ridge Estimator of the Inverse Covariance Matrix](https://www.tandfonline.com/doi/epub/10.1080/10618600.2019.1604374?needAccess=true) [@Wessel_2019], [Ridge estimation of inverse covariance matrices from high-dimensional data](https://www.sciencedirect.com/science/article/abs/pii/S0167947316301141) [@Wessel_Ridge]
-Interest in graphical models that combine a probabilistic description (through a multivariate distribution) of a system with a graph that depicts the system’s structure (capturing dependence relationships), has surged in recent years. In its trail this has renewed the attention to the estimation of precision matrices as they harbor the conditional (in)dependencies among jointly distributed variates. In particular, with the advent of high-dimensional data, for which traditional precision estimators are not well-defined, this brought about several novel precision estimators.
+Interest in graphical models that combine a probabilistic description (through a multivariate distribution) of a system with a graph that depicts the system’s structure (capturing dependence relationships), has surged in recent years^[See: [The Generalized Ridge Estimator of the Inverse Covariance Matrix](https://www.tandfonline.com/doi/epub/10.1080/10618600.2019.1604374?needAccess=true) [@Wessel_2019], [Ridge estimation of inverse covariance matrices from high-dimensional data](https://www.sciencedirect.com/science/article/abs/pii/S0167947316301141) [@Wessel_Ridge]]. In its trail this has renewed the attention to the estimation of precision matrices as they harbor the conditional (in)dependencies among jointly distributed variates. In particular, with the advent of high-dimensional data, for which traditional precision estimators are not well-defined, this brought about several novel precision estimators.
 
 Generally, these novel estimators overcome the undersampling by maximization of the log-likelihood augmented with a so-called penalty.  A penalty discourages large (in some sense) values among the elements of the precision matrix estimate. This reduces the risk of overfitting but also yields a well-defined penalized precision matrix estimator. 
 
