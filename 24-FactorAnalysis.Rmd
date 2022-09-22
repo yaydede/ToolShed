@@ -47,7 +47,7 @@ Hence,
 - $\operatorname{cov}\left(X_{i}, X_{j}\right)=\sigma_{i j}=\sum_{k=1}^{m} l_{i k} l_{j k}$, 
 - $\operatorname{cov}\left(X_{i}, f_{j}\right)=l_{i j}$
   
-The variance-covariance matrix can then be expressed as:
+The factor model for our variance-covariance matrix can then be expressed as:
 
 \begin{equation}
 \Sigma=\mathbf{L L}^{\prime}+\mathbf{\Psi}
@@ -64,10 +64,16 @@ $$
 0 & 0 & \ldots & \psi_{p}
 \end{array}\right)
 $$
+And, 
+
+$$
+\hat{l}_{i j}=\hat{e}_{j i} \sqrt{\hat{\lambda}_j}
+$$
+
   
 The total variance of each variable is a result of the sum of the shared variance with another variable, the common variance (**communality**), and the unique variance inherent to each variable (**specific variance**)
 
-There are multiple methods to estimate the parameters of a factor model.  In general, two methods are most common: PCA and MLE
+There are multiple methods to estimate the parameters of a factor model.  In general, two methods are most common: PCA (as we showed) and MLE
 
 After PCA, we can get several outcomes by `factoextra`:
 

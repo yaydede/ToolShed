@@ -508,7 +508,7 @@ l_{p 1} &amp; l_{p 2} &amp; \ldots &amp; l_{p m}
 <li><span class="math inline">\(\operatorname{cov}\left(X_{i}, X_{j}\right)=\sigma_{i j}=\sum_{k=1}^{m} l_{i k} l_{j k}\)</span>,</li>
 <li><span class="math inline">\(\operatorname{cov}\left(X_{i}, f_{j}\right)=l_{i j}\)</span></li>
 </ul>
-<p>The variance-covariance matrix can then be expressed as:</p>
+<p>The factor model for our variance-covariance matrix can then be expressed as:</p>
 <p><span class="math display" id="eq:25-2">\[\begin{equation}
 \Sigma=\mathbf{L L}^{\prime}+\mathbf{\Psi}
   \tag{27.2}
@@ -521,11 +521,15 @@ l_{p 1} &amp; l_{p 2} &amp; \ldots &amp; l_{p m}
 \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
 0 &amp; 0 &amp; \ldots &amp; \psi_{p}
 \end{array}\right)
+\]</span>
+And,</p>
+<p><span class="math display">\[
+\hat{l}_{i j}=\hat{e}_{j i} \sqrt{\hat{\lambda}_j}
 \]</span></p>
 <p>The total variance of each variable is a result of the sum of the shared variance with another variable, the common variance (<strong>communality</strong>), and the unique variance inherent to each variable (<strong>specific variance</strong>)</p>
-<p>There are multiple methods to estimate the parameters of a factor model. In general, two methods are most common: PCA and MLE</p>
+<p>There are multiple methods to estimate the parameters of a factor model. In general, two methods are most common: PCA (as we showed) and MLE</p>
 <p>After PCA, we can get several outcomes by <code>factoextra</code>:</p>
-<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb946-1"><a href="factor-analysis.html#cb946-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_pca_var</span>(Xpca)</span></code></pre></div>
+<div class="sourceCode" id="cb944"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb944-1"><a href="factor-analysis.html#cb944-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_pca_var</span>(Xpca)</span></code></pre></div>
 <pre><code>## Principal Component Analysis Results for variables
 ##  ===================================================
 ##   Name       Description                                    
@@ -533,16 +537,16 @@ l_{p 1} &amp; l_{p 2} &amp; \ldots &amp; l_{p m}
 ## 2 &quot;$cor&quot;     &quot;Correlations between variables and dimensions&quot;
 ## 3 &quot;$cos2&quot;    &quot;Cos2 for the variables&quot;                       
 ## 4 &quot;$contrib&quot; &quot;contributions of the variables&quot;</code></pre>
-<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb948-1"><a href="factor-analysis.html#cb948-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(Xpca, <span class="at">col.var=</span><span class="st">&quot;contrib&quot;</span>,</span>
-<span id="cb948-2"><a href="factor-analysis.html#cb948-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">gradient.cols =</span> <span class="fu">c</span>(<span class="st">&quot;#00AFBB&quot;</span>, <span class="st">&quot;#E7B800&quot;</span>, <span class="st">&quot;#FC4E07&quot;</span>),</span>
-<span id="cb948-3"><a href="factor-analysis.html#cb948-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">repel =</span> <span class="cn">TRUE</span> <span class="co"># Avoid text overlapping</span></span>
-<span id="cb948-4"><a href="factor-analysis.html#cb948-4" aria-hidden="true" tabindex="-1"></a>             )</span></code></pre></div>
+<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb946-1"><a href="factor-analysis.html#cb946-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(Xpca, <span class="at">col.var=</span><span class="st">&quot;contrib&quot;</span>,</span>
+<span id="cb946-2"><a href="factor-analysis.html#cb946-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">gradient.cols =</span> <span class="fu">c</span>(<span class="st">&quot;#00AFBB&quot;</span>, <span class="st">&quot;#E7B800&quot;</span>, <span class="st">&quot;#FC4E07&quot;</span>),</span>
+<span id="cb946-3"><a href="factor-analysis.html#cb946-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">repel =</span> <span class="cn">TRUE</span> <span class="co"># Avoid text overlapping</span></span>
+<span id="cb946-4"><a href="factor-analysis.html#cb946-4" aria-hidden="true" tabindex="-1"></a>             )</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-309-1.png" width="672" /></p>
-<div class="sourceCode" id="cb949"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb949-1"><a href="factor-analysis.html#cb949-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributions of variables to PC1</span></span>
-<span id="cb949-2"><a href="factor-analysis.html#cb949-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(Xpca, <span class="at">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="at">axes =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb947"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb947-1"><a href="factor-analysis.html#cb947-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributions of variables to PC1</span></span>
+<span id="cb947-2"><a href="factor-analysis.html#cb947-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(Xpca, <span class="at">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="at">axes =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-309-2.png" width="672" /></p>
-<div class="sourceCode" id="cb950"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb950-1"><a href="factor-analysis.html#cb950-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributions of variables to PC2</span></span>
-<span id="cb950-2"><a href="factor-analysis.html#cb950-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(Xpca, <span class="at">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="at">axes =</span> <span class="dv">2</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb948-1"><a href="factor-analysis.html#cb948-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributions of variables to PC2</span></span>
+<span id="cb948-2"><a href="factor-analysis.html#cb948-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(Xpca, <span class="at">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="at">axes =</span> <span class="dv">2</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-309-3.png" width="672" /></p>
 <p>For more see: <a href="https://cran.r-project.org/web/packages/factoextra/readme/README.html" class="uri">https://cran.r-project.org/web/packages/factoextra/readme/README.html</a></p>
 <p>TBC …</p>

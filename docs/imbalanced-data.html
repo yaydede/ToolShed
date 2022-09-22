@@ -478,12 +478,12 @@ div.csl-indent {
 <h2><span class="header-section-number">41.1</span> <code>SMOTE</code><a href="imbalanced-data.html#smote" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will use <a href="https://www.kaggle.com/mlg-ulb/creditcardfraud">Credit Card Fraud Detection dataset</a> on Kaggle {-<span class="citation">Kaggle (<a href="#ref-Kaggle_Cred" role="doc-biblioref">2018</a>)</span>}. The dataset has about 300K anonymized credit card transfers labeled as fraudulent or genuine. The features are numerical and anonymized (<code>V1</code>, <code>V2</code>, … , <code>V28</code>). They are the principal components obtained with principal component analysis (PCA). The only features which have not been transformed with PCA are <code>Time</code> and <code>Amount</code>. Feature <code>Time</code> contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature <code>Amount</code> is the transaction Amount and <code>Class</code> is the response variable and it takes value 1 in case of fraud and 0 otherwise.</p>
 <p>The prediction problem is to label transactions as fraud or not. We will use only a subset of data with roughly 10K observations, representing transactions.</p>
-<div class="sourceCode" id="cb1658"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1658-1"><a href="imbalanced-data.html#cb1658-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1658-2"><a href="imbalanced-data.html#cb1658-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ROCR)</span>
-<span id="cb1658-3"><a href="imbalanced-data.html#cb1658-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(smotefamily)</span>
-<span id="cb1658-4"><a href="imbalanced-data.html#cb1658-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
-<span id="cb1658-5"><a href="imbalanced-data.html#cb1658-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1658-6"><a href="imbalanced-data.html#cb1658-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(creditcard10)</span></code></pre></div>
+<div class="sourceCode" id="cb1656"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1656-1"><a href="imbalanced-data.html#cb1656-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1656-2"><a href="imbalanced-data.html#cb1656-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ROCR)</span>
+<span id="cb1656-3"><a href="imbalanced-data.html#cb1656-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(smotefamily)</span>
+<span id="cb1656-4"><a href="imbalanced-data.html#cb1656-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb1656-5"><a href="imbalanced-data.html#cb1656-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1656-6"><a href="imbalanced-data.html#cb1656-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(creditcard10)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 31
 ##     Time     V1     V2     V3       V4      V5     V6     V7      V8      V9
 ##    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
@@ -496,23 +496,22 @@ div.csl-indent {
 ## # … with 21 more variables: V10 &lt;dbl&gt;, V11 &lt;dbl&gt;, V12 &lt;dbl&gt;, V13 &lt;dbl&gt;,
 ## #   V14 &lt;dbl&gt;, V15 &lt;dbl&gt;, V16 &lt;dbl&gt;, V17 &lt;dbl&gt;, V18 &lt;dbl&gt;, V19 &lt;dbl&gt;,
 ## #   V20 &lt;dbl&gt;, V21 &lt;dbl&gt;, V22 &lt;dbl&gt;, V23 &lt;dbl&gt;, V24 &lt;dbl&gt;, V25 &lt;dbl&gt;,
-## #   V26 &lt;dbl&gt;, V27 &lt;dbl&gt;, V28 &lt;dbl&gt;, Amount &lt;dbl&gt;, Class &lt;dbl&gt;
-## # ℹ Use `colnames()` to see all variable names</code></pre>
-<div class="sourceCode" id="cb1660"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1660-1"><a href="imbalanced-data.html#cb1660-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(creditcard10<span class="sc">$</span>Class)</span></code></pre></div>
+## #   V26 &lt;dbl&gt;, V27 &lt;dbl&gt;, V28 &lt;dbl&gt;, Amount &lt;dbl&gt;, Class &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb1658"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1658-1"><a href="imbalanced-data.html#cb1658-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(creditcard10<span class="sc">$</span>Class)</span></code></pre></div>
 <pre><code>## 
 ##     0     1 
 ## 28427    53</code></pre>
-<div class="sourceCode" id="cb1662"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1662-1"><a href="imbalanced-data.html#cb1662-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(creditcard10<span class="sc">$</span>Class))</span></code></pre></div>
+<div class="sourceCode" id="cb1660"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1660-1"><a href="imbalanced-data.html#cb1660-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(creditcard10<span class="sc">$</span>Class))</span></code></pre></div>
 <pre><code>## 
 ##           0           1 
 ## 0.998139045 0.001860955</code></pre>
 <p>The class balance is way off! The split is approximately 99.83% to 0.017%.</p>
-<div class="sourceCode" id="cb1664"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1664-1"><a href="imbalanced-data.html#cb1664-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> creditcard10</span>
-<span id="cb1664-2"><a href="imbalanced-data.html#cb1664-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>V1, df<span class="sc">$</span>V2, <span class="at">col =</span> (df<span class="sc">$</span>Class<span class="sc">+</span><span class="dv">1</span>) <span class="sc">+</span> <span class="dv">4</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1662"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1662-1"><a href="imbalanced-data.html#cb1662-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> creditcard10</span>
+<span id="cb1662-2"><a href="imbalanced-data.html#cb1662-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>V1, df<span class="sc">$</span>V2, <span class="at">col =</span> (df<span class="sc">$</span>Class<span class="sc">+</span><span class="dv">1</span>) <span class="sc">+</span> <span class="dv">4</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-471-1.png" width="672" /></p>
-<div class="sourceCode" id="cb1665"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1665-1"><a href="imbalanced-data.html#cb1665-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">which</span>(df<span class="sc">$</span>Class <span class="sc">==</span> <span class="dv">1</span>, <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1665-2"><a href="imbalanced-data.html#cb1665-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1665-3"><a href="imbalanced-data.html#cb1665-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>V1[ind], df<span class="sc">$</span>V2[ind], <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.7</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1663"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1663-1"><a href="imbalanced-data.html#cb1663-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">which</span>(df<span class="sc">$</span>Class <span class="sc">==</span> <span class="dv">1</span>, <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1663-2"><a href="imbalanced-data.html#cb1663-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1663-3"><a href="imbalanced-data.html#cb1663-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>V1[ind], df<span class="sc">$</span>V2[ind], <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.7</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-472-1.png" width="672" /></p>
 <p>The idea behind SMOTE is very simple: take a red point (fraud) say Jason, find the k nearest neighbors to Jason by using all features. Then we randomly pick one observation among these, let’s say, 5 neighbors. Suppose that person is Mervin. Now, also suppose that we have only two features: <code>V1</code> and <code>V2</code></p>
 <table>
@@ -564,41 +563,41 @@ div.csl-indent {
 </tbody>
 </table>
 <p>This is one synthetic observation created form a real observation, Tim. We can repeat it 10, 20 times and create many synthetic observations from Tim. And then we can repeat it for each real cases of fraud.</p>
-<div class="sourceCode" id="cb1666"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1666-1"><a href="imbalanced-data.html#cb1666-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(smotefamily)</span>
-<span id="cb1666-2"><a href="imbalanced-data.html#cb1666-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Class <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>Class)</span>
-<span id="cb1666-3"><a href="imbalanced-data.html#cb1666-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1666-4"><a href="imbalanced-data.html#cb1666-4" aria-hidden="true" tabindex="-1"></a>outc <span class="ot">&lt;-</span> <span class="fu">SMOTE</span>(<span class="at">X =</span> df[, <span class="sc">-</span><span class="dv">31</span>], <span class="at">target =</span> df<span class="sc">$</span>Class, <span class="at">K =</span> <span class="dv">4</span>, <span class="at">dup_size =</span> <span class="dv">10</span>)</span>
-<span id="cb1666-5"><a href="imbalanced-data.html#cb1666-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1666-6"><a href="imbalanced-data.html#cb1666-6" aria-hidden="true" tabindex="-1"></a>over_df <span class="ot">=</span> outc<span class="sc">$</span>data</span>
-<span id="cb1666-7"><a href="imbalanced-data.html#cb1666-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(over_df<span class="sc">$</span>class)</span></code></pre></div>
+<div class="sourceCode" id="cb1664"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1664-1"><a href="imbalanced-data.html#cb1664-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(smotefamily)</span>
+<span id="cb1664-2"><a href="imbalanced-data.html#cb1664-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Class <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>Class)</span>
+<span id="cb1664-3"><a href="imbalanced-data.html#cb1664-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1664-4"><a href="imbalanced-data.html#cb1664-4" aria-hidden="true" tabindex="-1"></a>outc <span class="ot">&lt;-</span> <span class="fu">SMOTE</span>(<span class="at">X =</span> df[, <span class="sc">-</span><span class="dv">31</span>], <span class="at">target =</span> df<span class="sc">$</span>Class, <span class="at">K =</span> <span class="dv">4</span>, <span class="at">dup_size =</span> <span class="dv">10</span>)</span>
+<span id="cb1664-5"><a href="imbalanced-data.html#cb1664-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1664-6"><a href="imbalanced-data.html#cb1664-6" aria-hidden="true" tabindex="-1"></a>over_df <span class="ot">=</span> outc<span class="sc">$</span>data</span>
+<span id="cb1664-7"><a href="imbalanced-data.html#cb1664-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(over_df<span class="sc">$</span>class)</span></code></pre></div>
 <pre><code>## 
 ##     0     1 
 ## 28427   583</code></pre>
-<div class="sourceCode" id="cb1668"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1668-1"><a href="imbalanced-data.html#cb1668-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(over_df<span class="sc">$</span>class))</span></code></pre></div>
+<div class="sourceCode" id="cb1666"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1666-1"><a href="imbalanced-data.html#cb1666-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(over_df<span class="sc">$</span>class))</span></code></pre></div>
 <pre><code>## 
 ##          0          1 
 ## 0.97990348 0.02009652</code></pre>
 <p>Or, with higher <code>K</code> and <code>dup_size</code>:</p>
-<div class="sourceCode" id="cb1670"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1670-1"><a href="imbalanced-data.html#cb1670-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(smotefamily)</span>
-<span id="cb1670-2"><a href="imbalanced-data.html#cb1670-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Class <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>Class)</span>
-<span id="cb1670-3"><a href="imbalanced-data.html#cb1670-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1670-4"><a href="imbalanced-data.html#cb1670-4" aria-hidden="true" tabindex="-1"></a>outc <span class="ot">&lt;-</span> <span class="fu">SMOTE</span>(<span class="at">X =</span> df[, <span class="sc">-</span><span class="dv">31</span>], <span class="at">target =</span> df<span class="sc">$</span>Class, <span class="at">K =</span> <span class="dv">4</span>, <span class="at">dup_size =</span> <span class="dv">50</span>)</span>
-<span id="cb1670-5"><a href="imbalanced-data.html#cb1670-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1670-6"><a href="imbalanced-data.html#cb1670-6" aria-hidden="true" tabindex="-1"></a>over_df <span class="ot">=</span> outc<span class="sc">$</span>data</span>
-<span id="cb1670-7"><a href="imbalanced-data.html#cb1670-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(over_df<span class="sc">$</span>class)</span></code></pre></div>
+<div class="sourceCode" id="cb1668"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1668-1"><a href="imbalanced-data.html#cb1668-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(smotefamily)</span>
+<span id="cb1668-2"><a href="imbalanced-data.html#cb1668-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Class <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>Class)</span>
+<span id="cb1668-3"><a href="imbalanced-data.html#cb1668-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1668-4"><a href="imbalanced-data.html#cb1668-4" aria-hidden="true" tabindex="-1"></a>outc <span class="ot">&lt;-</span> <span class="fu">SMOTE</span>(<span class="at">X =</span> df[, <span class="sc">-</span><span class="dv">31</span>], <span class="at">target =</span> df<span class="sc">$</span>Class, <span class="at">K =</span> <span class="dv">4</span>, <span class="at">dup_size =</span> <span class="dv">50</span>)</span>
+<span id="cb1668-5"><a href="imbalanced-data.html#cb1668-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1668-6"><a href="imbalanced-data.html#cb1668-6" aria-hidden="true" tabindex="-1"></a>over_df <span class="ot">=</span> outc<span class="sc">$</span>data</span>
+<span id="cb1668-7"><a href="imbalanced-data.html#cb1668-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(over_df<span class="sc">$</span>class)</span></code></pre></div>
 <pre><code>## 
 ##     0     1 
 ## 28427  2703</code></pre>
-<div class="sourceCode" id="cb1672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1672-1"><a href="imbalanced-data.html#cb1672-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(over_df<span class="sc">$</span>class))</span></code></pre></div>
+<div class="sourceCode" id="cb1670"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1670-1"><a href="imbalanced-data.html#cb1670-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(over_df<span class="sc">$</span>class))</span></code></pre></div>
 <pre><code>## 
 ##          0          1 
 ## 0.91317058 0.08682942</code></pre>
 <p>And, here is the new plot with expanded “fraud” cases:</p>
-<div class="sourceCode" id="cb1674"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1674-1"><a href="imbalanced-data.html#cb1674-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">which</span>(over_df<span class="sc">$</span>class <span class="sc">==</span> <span class="dv">1</span>, <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1674-2"><a href="imbalanced-data.html#cb1674-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(over_df<span class="sc">$</span>V1[ind], over_df<span class="sc">$</span>V2[ind], <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.7</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1672-1"><a href="imbalanced-data.html#cb1672-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">which</span>(over_df<span class="sc">$</span>class <span class="sc">==</span> <span class="dv">1</span>, <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1672-2"><a href="imbalanced-data.html#cb1672-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(over_df<span class="sc">$</span>V1[ind], over_df<span class="sc">$</span>V2[ind], <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.7</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-475-1.png" width="672" /></p>
 <p>All together:</p>
-<div class="sourceCode" id="cb1675"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1675-1"><a href="imbalanced-data.html#cb1675-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(over_df<span class="sc">$</span>V1, over_df<span class="sc">$</span>V2, <span class="at">col =</span> (<span class="fu">as.numeric</span>(over_df<span class="sc">$</span>class)<span class="sc">+</span><span class="dv">1</span>) <span class="sc">+</span> <span class="dv">4</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1673"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1673-1"><a href="imbalanced-data.html#cb1673-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(over_df<span class="sc">$</span>V1, over_df<span class="sc">$</span>V2, <span class="at">col =</span> (<span class="fu">as.numeric</span>(over_df<span class="sc">$</span>class)<span class="sc">+</span><span class="dv">1</span>) <span class="sc">+</span> <span class="dv">4</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-476-1.png" width="672" /></p>
 </div>
 <div id="fraud-detection" class="section level2 hasAnchor" number="41.2">
@@ -610,49 +609,49 @@ div.csl-indent {
 <li>Test performance on (original) test set</li>
 </ul>
 <p>In addition, we will compare with and without balancing.</p>
-<div class="sourceCode" id="cb1676"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1676-1"><a href="imbalanced-data.html#cb1676-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> creditcard10</span>
-<span id="cb1676-2"><a href="imbalanced-data.html#cb1676-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Class <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>Class)</span>
-<span id="cb1676-3"><a href="imbalanced-data.html#cb1676-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1676-4"><a href="imbalanced-data.html#cb1676-4" aria-hidden="true" tabindex="-1"></a>AUCb <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb1676-5"><a href="imbalanced-data.html#cb1676-5" aria-hidden="true" tabindex="-1"></a>AUCimb <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb1676-6"><a href="imbalanced-data.html#cb1676-6" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">10</span> <span class="co"># Could be 50, since the data is large for RF</span></span>
-<span id="cb1676-7"><a href="imbalanced-data.html#cb1676-7" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> <span class="dv">100</span></span>
-<span id="cb1676-8"><a href="imbalanced-data.html#cb1676-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1676-9"><a href="imbalanced-data.html#cb1676-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
-<span id="cb1676-10"><a href="imbalanced-data.html#cb1676-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i<span class="sc">+</span>i<span class="sc">*</span><span class="dv">100</span>)</span>
-<span id="cb1676-11"><a href="imbalanced-data.html#cb1676-11" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1676-12"><a href="imbalanced-data.html#cb1676-12" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">unique</span>(ind) <span class="co"># Otherwise it oversamples 0&#39;s</span></span>
-<span id="cb1676-13"><a href="imbalanced-data.html#cb1676-13" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> df[ind, ]</span>
-<span id="cb1676-14"><a href="imbalanced-data.html#cb1676-14" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
-<span id="cb1676-15"><a href="imbalanced-data.html#cb1676-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1676-16"><a href="imbalanced-data.html#cb1676-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Balancing</span></span>
-<span id="cb1676-17"><a href="imbalanced-data.html#cb1676-17" aria-hidden="true" tabindex="-1"></a>  outdf <span class="ot">&lt;-</span> <span class="fu">SMOTE</span>(<span class="at">X =</span> train[, <span class="sc">-</span><span class="dv">31</span>], <span class="at">target =</span> train<span class="sc">$</span>Class, <span class="at">K =</span> <span class="dv">10</span>, <span class="at">dup_size =</span> <span class="dv">50</span>)</span>
-<span id="cb1676-18"><a href="imbalanced-data.html#cb1676-18" aria-hidden="true" tabindex="-1"></a>  trainn <span class="ot">&lt;-</span> outdf<span class="sc">$</span>data</span>
-<span id="cb1676-19"><a href="imbalanced-data.html#cb1676-19" aria-hidden="true" tabindex="-1"></a>  trainn<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(trainn<span class="sc">$</span>class) <span class="co">#SMOTE makes factor to &quot;chr&quot;!</span></span>
-<span id="cb1676-20"><a href="imbalanced-data.html#cb1676-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(trainn)[<span class="dv">31</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Class&quot;</span> <span class="co">#SMOTE made it lower case!</span></span>
-<span id="cb1676-21"><a href="imbalanced-data.html#cb1676-21" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1676-22"><a href="imbalanced-data.html#cb1676-22" aria-hidden="true" tabindex="-1"></a>  modelb <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Class<span class="sc">~</span>., <span class="at">ntree =</span> B, <span class="at">data =</span> trainn)    </span>
-<span id="cb1676-23"><a href="imbalanced-data.html#cb1676-23" aria-hidden="true" tabindex="-1"></a>  phatb <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelb, test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
-<span id="cb1676-24"><a href="imbalanced-data.html#cb1676-24" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1676-25"><a href="imbalanced-data.html#cb1676-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Without Balancing</span></span>
-<span id="cb1676-26"><a href="imbalanced-data.html#cb1676-26" aria-hidden="true" tabindex="-1"></a>  modelimb <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Class<span class="sc">~</span>., <span class="at">ntree =</span> B, <span class="at">data =</span> train)    </span>
-<span id="cb1676-27"><a href="imbalanced-data.html#cb1676-27" aria-hidden="true" tabindex="-1"></a>  phatimb <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelimb, test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
-<span id="cb1676-28"><a href="imbalanced-data.html#cb1676-28" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb1676-29"><a href="imbalanced-data.html#cb1676-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">#AUCb</span></span>
-<span id="cb1676-30"><a href="imbalanced-data.html#cb1676-30" aria-hidden="true" tabindex="-1"></a>  pred_rocr1 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phatb[,<span class="dv">2</span>], test<span class="sc">$</span>Class)</span>
-<span id="cb1676-31"><a href="imbalanced-data.html#cb1676-31" aria-hidden="true" tabindex="-1"></a>  auc_ROCR1 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr1, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
-<span id="cb1676-32"><a href="imbalanced-data.html#cb1676-32" aria-hidden="true" tabindex="-1"></a>  AUCb[i] <span class="ot">&lt;-</span> auc_ROCR1<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
-<span id="cb1676-33"><a href="imbalanced-data.html#cb1676-33" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1676-34"><a href="imbalanced-data.html#cb1676-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">#AUCimb</span></span>
-<span id="cb1676-35"><a href="imbalanced-data.html#cb1676-35" aria-hidden="true" tabindex="-1"></a>  pred_rocr1 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phatimb[,<span class="dv">2</span>], test<span class="sc">$</span>Class)</span>
-<span id="cb1676-36"><a href="imbalanced-data.html#cb1676-36" aria-hidden="true" tabindex="-1"></a>  auc_ROCR1 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr1, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
-<span id="cb1676-37"><a href="imbalanced-data.html#cb1676-37" aria-hidden="true" tabindex="-1"></a>  AUCimb[i] <span class="ot">&lt;-</span> auc_ROCR1<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
-<span id="cb1676-38"><a href="imbalanced-data.html#cb1676-38" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1676-39"><a href="imbalanced-data.html#cb1676-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1676-40"><a href="imbalanced-data.html#cb1676-40" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Balanced&quot;</span>, <span class="st">&quot;Imbalanced&quot;</span>)</span>
-<span id="cb1676-41"><a href="imbalanced-data.html#cb1676-41" aria-hidden="true" tabindex="-1"></a>AUCs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(AUCb), <span class="fu">mean</span>(AUCimb))</span>
-<span id="cb1676-42"><a href="imbalanced-data.html#cb1676-42" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">var</span>(AUCb)), <span class="fu">sqrt</span>(<span class="fu">var</span>(AUCimb)))</span>
-<span id="cb1676-43"><a href="imbalanced-data.html#cb1676-43" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(model, AUCs, sd) </span></code></pre></div>
+<div class="sourceCode" id="cb1674"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1674-1"><a href="imbalanced-data.html#cb1674-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> creditcard10</span>
+<span id="cb1674-2"><a href="imbalanced-data.html#cb1674-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Class <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>Class)</span>
+<span id="cb1674-3"><a href="imbalanced-data.html#cb1674-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1674-4"><a href="imbalanced-data.html#cb1674-4" aria-hidden="true" tabindex="-1"></a>AUCb <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1674-5"><a href="imbalanced-data.html#cb1674-5" aria-hidden="true" tabindex="-1"></a>AUCimb <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1674-6"><a href="imbalanced-data.html#cb1674-6" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">10</span> <span class="co"># Could be 50, since the data is large for RF</span></span>
+<span id="cb1674-7"><a href="imbalanced-data.html#cb1674-7" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb1674-8"><a href="imbalanced-data.html#cb1674-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1674-9"><a href="imbalanced-data.html#cb1674-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb1674-10"><a href="imbalanced-data.html#cb1674-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(i<span class="sc">+</span>i<span class="sc">*</span><span class="dv">100</span>)</span>
+<span id="cb1674-11"><a href="imbalanced-data.html#cb1674-11" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1674-12"><a href="imbalanced-data.html#cb1674-12" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">&lt;-</span> <span class="fu">unique</span>(ind) <span class="co"># Otherwise it oversamples 0&#39;s</span></span>
+<span id="cb1674-13"><a href="imbalanced-data.html#cb1674-13" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> df[ind, ]</span>
+<span id="cb1674-14"><a href="imbalanced-data.html#cb1674-14" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> df[<span class="sc">-</span>ind, ]</span>
+<span id="cb1674-15"><a href="imbalanced-data.html#cb1674-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1674-16"><a href="imbalanced-data.html#cb1674-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Balancing</span></span>
+<span id="cb1674-17"><a href="imbalanced-data.html#cb1674-17" aria-hidden="true" tabindex="-1"></a>  outdf <span class="ot">&lt;-</span> <span class="fu">SMOTE</span>(<span class="at">X =</span> train[, <span class="sc">-</span><span class="dv">31</span>], <span class="at">target =</span> train<span class="sc">$</span>Class, <span class="at">K =</span> <span class="dv">10</span>, <span class="at">dup_size =</span> <span class="dv">50</span>)</span>
+<span id="cb1674-18"><a href="imbalanced-data.html#cb1674-18" aria-hidden="true" tabindex="-1"></a>  trainn <span class="ot">&lt;-</span> outdf<span class="sc">$</span>data</span>
+<span id="cb1674-19"><a href="imbalanced-data.html#cb1674-19" aria-hidden="true" tabindex="-1"></a>  trainn<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(trainn<span class="sc">$</span>class) <span class="co">#SMOTE makes factor to &quot;chr&quot;!</span></span>
+<span id="cb1674-20"><a href="imbalanced-data.html#cb1674-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(trainn)[<span class="dv">31</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Class&quot;</span> <span class="co">#SMOTE made it lower case!</span></span>
+<span id="cb1674-21"><a href="imbalanced-data.html#cb1674-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1674-22"><a href="imbalanced-data.html#cb1674-22" aria-hidden="true" tabindex="-1"></a>  modelb <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Class<span class="sc">~</span>., <span class="at">ntree =</span> B, <span class="at">data =</span> trainn)    </span>
+<span id="cb1674-23"><a href="imbalanced-data.html#cb1674-23" aria-hidden="true" tabindex="-1"></a>  phatb <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelb, test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
+<span id="cb1674-24"><a href="imbalanced-data.html#cb1674-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1674-25"><a href="imbalanced-data.html#cb1674-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Without Balancing</span></span>
+<span id="cb1674-26"><a href="imbalanced-data.html#cb1674-26" aria-hidden="true" tabindex="-1"></a>  modelimb <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Class<span class="sc">~</span>., <span class="at">ntree =</span> B, <span class="at">data =</span> train)    </span>
+<span id="cb1674-27"><a href="imbalanced-data.html#cb1674-27" aria-hidden="true" tabindex="-1"></a>  phatimb <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelimb, test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
+<span id="cb1674-28"><a href="imbalanced-data.html#cb1674-28" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb1674-29"><a href="imbalanced-data.html#cb1674-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">#AUCb</span></span>
+<span id="cb1674-30"><a href="imbalanced-data.html#cb1674-30" aria-hidden="true" tabindex="-1"></a>  pred_rocr1 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phatb[,<span class="dv">2</span>], test<span class="sc">$</span>Class)</span>
+<span id="cb1674-31"><a href="imbalanced-data.html#cb1674-31" aria-hidden="true" tabindex="-1"></a>  auc_ROCR1 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr1, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb1674-32"><a href="imbalanced-data.html#cb1674-32" aria-hidden="true" tabindex="-1"></a>  AUCb[i] <span class="ot">&lt;-</span> auc_ROCR1<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb1674-33"><a href="imbalanced-data.html#cb1674-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1674-34"><a href="imbalanced-data.html#cb1674-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">#AUCimb</span></span>
+<span id="cb1674-35"><a href="imbalanced-data.html#cb1674-35" aria-hidden="true" tabindex="-1"></a>  pred_rocr1 <span class="ot">&lt;-</span> <span class="fu">prediction</span>(phatimb[,<span class="dv">2</span>], test<span class="sc">$</span>Class)</span>
+<span id="cb1674-36"><a href="imbalanced-data.html#cb1674-36" aria-hidden="true" tabindex="-1"></a>  auc_ROCR1 <span class="ot">&lt;-</span> <span class="fu">performance</span>(pred_rocr1, <span class="at">measure =</span> <span class="st">&quot;auc&quot;</span>)</span>
+<span id="cb1674-37"><a href="imbalanced-data.html#cb1674-37" aria-hidden="true" tabindex="-1"></a>  AUCimb[i] <span class="ot">&lt;-</span> auc_ROCR1<span class="sc">@</span>y.values[[<span class="dv">1</span>]]</span>
+<span id="cb1674-38"><a href="imbalanced-data.html#cb1674-38" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1674-39"><a href="imbalanced-data.html#cb1674-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1674-40"><a href="imbalanced-data.html#cb1674-40" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Balanced&quot;</span>, <span class="st">&quot;Imbalanced&quot;</span>)</span>
+<span id="cb1674-41"><a href="imbalanced-data.html#cb1674-41" aria-hidden="true" tabindex="-1"></a>AUCs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(AUCb), <span class="fu">mean</span>(AUCimb))</span>
+<span id="cb1674-42"><a href="imbalanced-data.html#cb1674-42" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">var</span>(AUCb)), <span class="fu">sqrt</span>(<span class="fu">var</span>(AUCimb)))</span>
+<span id="cb1674-43"><a href="imbalanced-data.html#cb1674-43" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(model, AUCs, sd) </span></code></pre></div>
 <pre><code>##        model      AUCs         sd
 ## 1   Balanced 0.9630486 0.02389494
 ## 2 Imbalanced 0.9532146 0.02206243</code></pre>

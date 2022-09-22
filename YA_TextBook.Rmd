@@ -50,7 +50,7 @@ The book covers the concepts with applications.  However, the most applications 
 
 After well-known predictive algorithms collected only in two sections, the book proceeds into five new sections: Penalized Regressions, which are the well-known high-dimensional methods in economics and finance used in model selection and sparsity.  The following section covers Dimension Reduction Methods.  They are important tools in “noise” reduction in almost all fields in social science.  This section puts all main methods (EVD, SVD, Rank approximations, PCA, FA, DMD) together with applications.  The next section gives a new look at time-series applications by showing how time series data can be used in predictions beyond traditional parametric models. The last section covers Network Analysis.  This concept is also very prevalent in many business fields and specially in economics and finance.  This section summarizes all new developments in Graphical Network Analysis.   
 
-Finally, the chapters in Appendix provide enough information on two important subjects: Algorithmic Optimization (including gradient descent applications) and the discussion on classification with imbalanced data. Moreover, there will be some addition to several chapters covering Conditional Inference Trees, General CV, and Causal Random Forest.  
+Finally, the chapters in Appendix provide enough information on two important subjects: Algorithmic Optimization (including gradient descent applications) and the discussion on classification with imbalanced data. Moreover, there will be some additions to several chapters covering Conditional Inference Trees, General CV, and Causal Random Forest.  
 
 I hope that this book provides a good starting point to give predictive analytics a well-deserved place in curricula of social science and business fields.  I also hope that this book will "grow" by the time to keep up with the fast changing world.  Hence, I guess, it will always be a "draft" in a humble way ...
   
@@ -9392,7 +9392,7 @@ $$
 
 Let's see an example.  Here is the data:
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 library("factoextra")
 data(decathlon2)
 
@@ -9560,7 +9560,7 @@ Hence,
 - $\operatorname{cov}\left(X_{i}, X_{j}\right)=\sigma_{i j}=\sum_{k=1}^{m} l_{i k} l_{j k}$, 
 - $\operatorname{cov}\left(X_{i}, f_{j}\right)=l_{i j}$
   
-The variance-covariance matrix can then be expressed as:
+The factor model for our variance-covariance matrix can then be expressed as:
 
 \begin{equation}
 \Sigma=\mathbf{L L}^{\prime}+\mathbf{\Psi}
@@ -9577,10 +9577,16 @@ $$
 0 & 0 & \ldots & \psi_{p}
 \end{array}\right)
 $$
+And, 
+
+$$
+\hat{l}_{i j}=\hat{e}_{j i} \sqrt{\hat{\lambda}_j}
+$$
+
   
 The total variance of each variable is a result of the sum of the shared variance with another variable, the common variance (**communality**), and the unique variance inherent to each variable (**specific variance**)
 
-There are multiple methods to estimate the parameters of a factor model.  In general, two methods are most common: PCA and MLE
+There are multiple methods to estimate the parameters of a factor model.  In general, two methods are most common: PCA (as we showed) and MLE
 
 After PCA, we can get several outcomes by `factoextra`:
 
