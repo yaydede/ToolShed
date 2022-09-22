@@ -526,30 +526,192 @@ And,</p>
 <p><span class="math display">\[
 \hat{l}_{i j}=\hat{e}_{j i} \sqrt{\hat{\lambda}_j}
 \]</span></p>
-<p>The total variance of each variable is a result of the sum of the shared variance with another variable, the common variance (<strong>communality</strong>), and the unique variance inherent to each variable (<strong>specific variance</strong>)</p>
-<p>There are multiple methods to estimate the parameters of a factor model. In general, two methods are most common: PCA (as we showed) and MLE</p>
-<p>After PCA, we can get several outcomes by <code>factoextra</code>:</p>
-<div class="sourceCode" id="cb944"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb944-1"><a href="factor-analysis.html#cb944-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_pca_var</span>(Xpca)</span></code></pre></div>
-<pre><code>## Principal Component Analysis Results for variables
-##  ===================================================
-##   Name       Description                                    
-## 1 &quot;$coord&quot;   &quot;Coordinates for the variables&quot;                
-## 2 &quot;$cor&quot;     &quot;Correlations between variables and dimensions&quot;
-## 3 &quot;$cos2&quot;    &quot;Cos2 for the variables&quot;                       
-## 4 &quot;$contrib&quot; &quot;contributions of the variables&quot;</code></pre>
-<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb946-1"><a href="factor-analysis.html#cb946-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(Xpca, <span class="at">col.var=</span><span class="st">&quot;contrib&quot;</span>,</span>
-<span id="cb946-2"><a href="factor-analysis.html#cb946-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">gradient.cols =</span> <span class="fu">c</span>(<span class="st">&quot;#00AFBB&quot;</span>, <span class="st">&quot;#E7B800&quot;</span>, <span class="st">&quot;#FC4E07&quot;</span>),</span>
-<span id="cb946-3"><a href="factor-analysis.html#cb946-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">repel =</span> <span class="cn">TRUE</span> <span class="co"># Avoid text overlapping</span></span>
-<span id="cb946-4"><a href="factor-analysis.html#cb946-4" aria-hidden="true" tabindex="-1"></a>             )</span></code></pre></div>
-<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-309-1.png" width="672" /></p>
-<div class="sourceCode" id="cb947"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb947-1"><a href="factor-analysis.html#cb947-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributions of variables to PC1</span></span>
-<span id="cb947-2"><a href="factor-analysis.html#cb947-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(Xpca, <span class="at">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="at">axes =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-309-2.png" width="672" /></p>
-<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb948-1"><a href="factor-analysis.html#cb948-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributions of variables to PC2</span></span>
-<span id="cb948-2"><a href="factor-analysis.html#cb948-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(Xpca, <span class="at">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="at">axes =</span> <span class="dv">2</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-309-3.png" width="672" /></p>
+<p>The total variance of each variable given in the factor model (27.2) can be explained by the sum of the shared variance with another variable, <span class="math inline">\(\mathbf{L} \mathbf{L}^{\prime}\)</span> (the common variance or <strong>communality</strong>) and the unique variance, <span class="math inline">\(\mathbf{\Psi}\)</span>, inherent to each variable (<strong>specific variance</strong>)</p>
+<p>There are multiple methods to estimate the parameters of a factor model. In general, two methods are most common: PCA and MLE. Let’s have an example. The data set is called <code>bfi</code> and comes from the <code>psych</code> package. It is made up of 25 self-report personality items from the International Personality Item Pool, gender, education level and age for 2800 subjects and used in the Synthetic Aperture Personality Assessment: The personality items are split into 5 categories: Agreeableness (A), Conscientiousness (C), Extraversion (E), Neuroticism (N), Openness (O). Each item was answered on a six point scale: 1 Very Inaccurate, 2 Moderately Inaccurate, 3 Slightly Inaccurate, 4 Slightly Accurate, 5 Moderately Accurate, 6 Very Accurate.</p>
+<div class="sourceCode" id="cb944"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb944-1"><a href="factor-analysis.html#cb944-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb944-2"><a href="factor-analysis.html#cb944-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GPArotation)</span>
+<span id="cb944-3"><a href="factor-analysis.html#cb944-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;bfi&quot;</span>)</span>
+<span id="cb944-4"><a href="factor-analysis.html#cb944-4" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(bfi)</span></code></pre></div>
+<pre><code>##           vars    n  mean    sd median trimmed   mad min max range  skew
+## A1           1 2784  2.41  1.41      2    2.23  1.48   1   6     5  0.83
+## A2           2 2773  4.80  1.17      5    4.98  1.48   1   6     5 -1.12
+## A3           3 2774  4.60  1.30      5    4.79  1.48   1   6     5 -1.00
+## A4           4 2781  4.70  1.48      5    4.93  1.48   1   6     5 -1.03
+## A5           5 2784  4.56  1.26      5    4.71  1.48   1   6     5 -0.85
+## C1           6 2779  4.50  1.24      5    4.64  1.48   1   6     5 -0.85
+## C2           7 2776  4.37  1.32      5    4.50  1.48   1   6     5 -0.74
+## C3           8 2780  4.30  1.29      5    4.42  1.48   1   6     5 -0.69
+## C4           9 2774  2.55  1.38      2    2.41  1.48   1   6     5  0.60
+## C5          10 2784  3.30  1.63      3    3.25  1.48   1   6     5  0.07
+## E1          11 2777  2.97  1.63      3    2.86  1.48   1   6     5  0.37
+## E2          12 2784  3.14  1.61      3    3.06  1.48   1   6     5  0.22
+## E3          13 2775  4.00  1.35      4    4.07  1.48   1   6     5 -0.47
+## E4          14 2791  4.42  1.46      5    4.59  1.48   1   6     5 -0.82
+## E5          15 2779  4.42  1.33      5    4.56  1.48   1   6     5 -0.78
+## N1          16 2778  2.93  1.57      3    2.82  1.48   1   6     5  0.37
+## N2          17 2779  3.51  1.53      4    3.51  1.48   1   6     5 -0.08
+## N3          18 2789  3.22  1.60      3    3.16  1.48   1   6     5  0.15
+## N4          19 2764  3.19  1.57      3    3.12  1.48   1   6     5  0.20
+## N5          20 2771  2.97  1.62      3    2.85  1.48   1   6     5  0.37
+## O1          21 2778  4.82  1.13      5    4.96  1.48   1   6     5 -0.90
+## O2          22 2800  2.71  1.57      2    2.56  1.48   1   6     5  0.59
+## O3          23 2772  4.44  1.22      5    4.56  1.48   1   6     5 -0.77
+## O4          24 2786  4.89  1.22      5    5.10  1.48   1   6     5 -1.22
+## O5          25 2780  2.49  1.33      2    2.34  1.48   1   6     5  0.74
+## gender      26 2800  1.67  0.47      2    1.71  0.00   1   2     1 -0.73
+## education   27 2577  3.19  1.11      3    3.22  1.48   1   5     4 -0.05
+## age         28 2800 28.78 11.13     26   27.43 10.38   3  86    83  1.02
+##           kurtosis   se
+## A1           -0.31 0.03
+## A2            1.05 0.02
+## A3            0.44 0.02
+## A4            0.04 0.03
+## A5            0.16 0.02
+## C1            0.30 0.02
+## C2           -0.14 0.03
+## C3           -0.13 0.02
+## C4           -0.62 0.03
+## C5           -1.22 0.03
+## E1           -1.09 0.03
+## E2           -1.15 0.03
+## E3           -0.47 0.03
+## E4           -0.30 0.03
+## E5           -0.09 0.03
+## N1           -1.01 0.03
+## N2           -1.05 0.03
+## N3           -1.18 0.03
+## N4           -1.09 0.03
+## N5           -1.06 0.03
+## O1            0.43 0.02
+## O2           -0.81 0.03
+## O3            0.30 0.02
+## O4            1.08 0.02
+## O5           -0.24 0.03
+## gender       -1.47 0.01
+## education    -0.32 0.02
+## age           0.56 0.21</code></pre>
+<p>To get rid of missing observations and the last three variables,</p>
+<div class="sourceCode" id="cb946"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb946-1"><a href="factor-analysis.html#cb946-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> bfi[<span class="fu">complete.cases</span>(bfi[,<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>]),<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>]</span>
+<span id="cb946-2"><a href="factor-analysis.html#cb946-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bfi[,<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>])</span></code></pre></div>
+<pre><code>## [1] 2800   25</code></pre>
+<div class="sourceCode" id="cb948"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb948-1"><a href="factor-analysis.html#cb948-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df)</span></code></pre></div>
+<pre><code>## [1] 2436   25</code></pre>
+<p>The first decision that we need make is the number of factors that we will need to extract. For <span class="math inline">\(p=28\)</span>, the variance-covariance matrix <span class="math inline">\(\Sigma\)</span> contains
+<span class="math display">\[
+\frac{p(p+1)}{2}=\frac{25 \times 26}{2}=325
+\]</span>
+unique elements or entries. With <span class="math inline">\(m\)</span> factors, the number of parameters in the factor model would be</p>
+<p><span class="math display">\[
+p(m+1)=25(m+1)
+\]</span></p>
+<p>Taking <span class="math inline">\(m=5\)</span>, we have 150 parameters in the factor model. How do we choose <span class="math inline">\(m\)</span>? Although it is common to look at the results of the principal components analysis, often in social sciences, the underlying theory within the field of study indicates how many factors to expect.</p>
+<div class="sourceCode" id="cb950"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb950-1"><a href="factor-analysis.html#cb950-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scree</span>(df)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-311-1.png" width="672" /></p>
+<p>Let’s use the <code>factanal()</code> function of the build-in stats package</p>
+<div class="sourceCode" id="cb951"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb951-1"><a href="factor-analysis.html#cb951-1" aria-hidden="true" tabindex="-1"></a>pa.out <span class="ot">&lt;-</span> <span class="fu">factanal</span>(df, <span class="at">factors =</span> <span class="dv">5</span>)</span>
+<span id="cb951-2"><a href="factor-analysis.html#cb951-2" aria-hidden="true" tabindex="-1"></a>pa.out</span></code></pre></div>
+<pre><code>## 
+## Call:
+## factanal(x = df, factors = 5)
+## 
+## Uniquenesses:
+##    A1    A2    A3    A4    A5    C1    C2    C3    C4    C5    E1    E2    E3 
+## 0.830 0.576 0.466 0.691 0.512 0.660 0.569 0.677 0.510 0.557 0.634 0.454 0.558 
+##    E4    E5    N1    N2    N3    N4    N5    O1    O2    O3    O4    O5 
+## 0.468 0.592 0.271 0.337 0.478 0.507 0.664 0.675 0.744 0.518 0.752 0.726 
+## 
+## Loadings:
+##    Factor1 Factor2 Factor3 Factor4 Factor5
+## A1  0.104                  -0.393         
+## A2          0.191   0.144   0.601         
+## A3          0.280   0.110   0.662         
+## A4          0.181   0.234   0.454  -0.109 
+## A5 -0.124   0.351           0.580         
+## C1                  0.533           0.221 
+## C2                  0.624   0.127   0.140 
+## C3                  0.554   0.122         
+## C4  0.218          -0.653                 
+## C5  0.272  -0.190  -0.573                 
+## E1         -0.587          -0.120         
+## E2  0.233  -0.674  -0.106  -0.151         
+## E3          0.490           0.315   0.313 
+## E4 -0.121   0.613           0.363         
+## E5          0.491   0.310   0.120   0.234 
+## N1  0.816                  -0.214         
+## N2  0.787                  -0.202         
+## N3  0.714                                 
+## N4  0.562  -0.367  -0.192                 
+## N5  0.518  -0.187           0.106  -0.137 
+## O1          0.182   0.103           0.524 
+## O2  0.163          -0.113   0.102  -0.454 
+## O3          0.276           0.153   0.614 
+## O4  0.207  -0.220           0.144   0.368 
+## O5                                 -0.512 
+## 
+##                Factor1 Factor2 Factor3 Factor4 Factor5
+## SS loadings      2.687   2.320   2.034   1.978   1.557
+## Proportion Var   0.107   0.093   0.081   0.079   0.062
+## Cumulative Var   0.107   0.200   0.282   0.361   0.423
+## 
+## Test of the hypothesis that 5 factors are sufficient.
+## The chi square statistic is 1490.59 on 185 degrees of freedom.
+## The p-value is 1.22e-202</code></pre>
+<p>The first chunk provides the “uniqueness” (specific variance) for each variable, which range from 0 to 1 . The uniqueness, sometimes referred to as noise, corresponds to the proportion of variability, which can not be explained by a linear combination of the factors. This is the <span class="math inline">\(\hat{\Psi}\)</span> in the equation above. A high uniqueness for a variable indicates that the factors do not account well for its variance.</p>
+<p>The next section reports the loadings ranging from <span class="math inline">\(-1\)</span> to <span class="math inline">\(1.\)</span> This is the <span class="math inline">\(\hat{\mathbf{L}}\)</span> in the equation (27.2) above. The loadings are the contribution of each original variable to the factor. Variables with a high loading are well explained by the factor. Notice there is no entry for certain variables since <span class="math inline">\(R\)</span> does not print loadings less than <span class="math inline">\(0.1\)</span>.</p>
+<p>The communalities for the <span class="math inline">\(i^{t h}\)</span> variable are computed by taking the sum of the squared loadings for that variable. This is expressed below:</p>
+<p><span class="math display">\[
+\hat{h}_i^2=\sum_{j=1}^m \hat{l}_{i j}^2
+\]</span></p>
+<p>This proportion of the variability is denoted as <strong>communality</strong>. Another way to calculate the communality is to subtract the uniquenesses from 1. An appropriate factor model results in low values for uniqueness and high values for communality.</p>
+<div class="sourceCode" id="cb953"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb953-1"><a href="factor-analysis.html#cb953-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(pa.out<span class="sc">$</span>loadings<span class="sc">^</span><span class="dv">2</span>,<span class="dv">1</span>,sum) <span class="co"># communality</span></span></code></pre></div>
+<pre><code>##        A1        A2        A3        A4        A5        C1        C2        C3 
+## 0.1703640 0.4237506 0.5337657 0.3088959 0.4881042 0.3401202 0.4313729 0.3227542 
+##        C4        C5        E1        E2        E3        E4        E5        N1 
+## 0.4900773 0.4427531 0.3659303 0.5459794 0.4422484 0.5319941 0.4079732 0.7294156 
+##        N2        N3        N4        N5        O1        O2        O3        O4 
+## 0.6630751 0.5222584 0.4932099 0.3356293 0.3253527 0.2558864 0.4815981 0.2484000 
+##        O5 
+## 0.2740596</code></pre>
+<div class="sourceCode" id="cb955"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb955-1"><a href="factor-analysis.html#cb955-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">apply</span>(pa.out<span class="sc">$</span>loadings<span class="sc">^</span><span class="dv">2</span>,<span class="dv">1</span>,sum) <span class="co"># uniqueness</span></span></code></pre></div>
+<pre><code>##        A1        A2        A3        A4        A5        C1        C2        C3 
+## 0.8296360 0.5762494 0.4662343 0.6911041 0.5118958 0.6598798 0.5686271 0.6772458 
+##        C4        C5        E1        E2        E3        E4        E5        N1 
+## 0.5099227 0.5572469 0.6340697 0.4540206 0.5577516 0.4680059 0.5920268 0.2705844 
+##        N2        N3        N4        N5        O1        O2        O3        O4 
+## 0.3369249 0.4777416 0.5067901 0.6643707 0.6746473 0.7441136 0.5184019 0.7516000 
+##        O5 
+## 0.7259404</code></pre>
+<p>The table under the loadings reports the proportion of variance explained by each factor. The row <strong>Cumulative Var</strong> gives the cumulative proportion of variance explained. These numbers range from 0 to 1; <strong>Proportion Var</strong> shows the proportion of variance explained by each factor, and the row <strong>SS loadings</strong> gives the sum of squared loadings. This is sometimes used to determine the value of a particular factor. A factor is worth keeping if the SS loading is greater than 1 (<a href="https://stats.stackexchange.com/questions/253535/the-advantages-and-disadvantages-of-using-kaiser-rule-to-select-the-number-of-pr">Kaiser’s rule</a>).</p>
+<p>The last section of the output reports a significance test: The null hypothesis is that the number of factors in the model is sufficient to capture the full dimensionality of the data set. Conventionally, we reject <span class="math inline">\(H_0\)</span> if the <span class="math inline">\(p\)</span>-value is less than <span class="math inline">\(0.05\)</span>. Such a result indicates that the number of factors is too low. The low <span class="math inline">\(p\)</span>-value in our example above leads us to reject the <span class="math inline">\(H_0\)</span>, and indicates that we fitted NOT an appropriate model.</p>
+<p>Finally, with our estimated factor model, we may calculate <span class="math inline">\(\hat{\Sigma}\)</span> and compare it to the observed correlation matrix, <span class="math inline">\(S\)</span>, by simple matrix algebra.</p>
+<div class="sourceCode" id="cb957"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb957-1"><a href="factor-analysis.html#cb957-1" aria-hidden="true" tabindex="-1"></a>Lambda <span class="ot">&lt;-</span> pa.out<span class="sc">$</span>loadings</span>
+<span id="cb957-2"><a href="factor-analysis.html#cb957-2" aria-hidden="true" tabindex="-1"></a>Psi <span class="ot">&lt;-</span> <span class="fu">diag</span>(pa.out<span class="sc">$</span>uniquenesses)</span>
+<span id="cb957-3"><a href="factor-analysis.html#cb957-3" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> pa.out<span class="sc">$</span>correlation</span>
+<span id="cb957-4"><a href="factor-analysis.html#cb957-4" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> Lambda <span class="sc">%*%</span> <span class="fu">t</span>(Lambda) <span class="sc">+</span> Psi</span>
+<span id="cb957-5"><a href="factor-analysis.html#cb957-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">head</span>(S) <span class="sc">-</span> <span class="fu">head</span>(Sigma), <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##       A1    A2    A3    A4    A5    C1    C2    C3    C4    C5    E1    E2
+## A1  0.00 -0.12 -0.03  0.01  0.04  0.05  0.06  0.03  0.09  0.00  0.08  0.03
+## A2 -0.12  0.00  0.03  0.02 -0.03 -0.04 -0.05  0.03 -0.03  0.02 -0.04 -0.01
+## A3 -0.03  0.03  0.00  0.02  0.02 -0.02 -0.02 -0.02 -0.01 -0.01  0.03  0.01
+## A4  0.01  0.02  0.02  0.00 -0.02 -0.04  0.04 -0.06  0.01 -0.04  0.01  0.01
+## A5  0.04 -0.03  0.02 -0.02  0.00  0.02 -0.01  0.01  0.00  0.00  0.03  0.03
+## C1  0.05 -0.04 -0.02 -0.04  0.02  0.00  0.07  0.01  0.01  0.05  0.01  0.01
+##       E3    E4    E5    N1    N2    N3    N4    N5    O1    O2    O3    O4
+## A1  0.07  0.05  0.01 -0.01 -0.02  0.02  0.01  0.00  0.06  0.06  0.02 -0.02
+## A2 -0.06 -0.04  0.07  0.00  0.04 -0.03 -0.01 -0.01 -0.01 -0.01 -0.03  0.01
+## A3  0.01 -0.03 -0.01  0.02  0.01 -0.01 -0.02 -0.05  0.00 -0.02  0.00 -0.03
+## A4 -0.01  0.01 -0.02  0.02 -0.02  0.01 -0.02  0.00  0.02 -0.02  0.00 -0.02
+## A5  0.03  0.04 -0.01  0.00  0.00 -0.01 -0.01  0.00  0.00  0.00  0.00  0.00
+## C1 -0.02  0.06  0.02 -0.02 -0.01  0.02  0.01  0.01 -0.01  0.02  0.00  0.04
+##       O5
+## A1  0.07
+## A2 -0.05
+## A3 -0.01
+## A4 -0.01
+## A5  0.00
+## C1  0.02</code></pre>
+<p>This matrix is also called as the <strong>residual matrix</strong>.</p>
 <p>For more see: <a href="https://cran.r-project.org/web/packages/factoextra/readme/README.html" class="uri">https://cran.r-project.org/web/packages/factoextra/readme/README.html</a></p>
-<p>TBC …</p>
 
 </div>
             </section>
