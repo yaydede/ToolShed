@@ -242,6 +242,7 @@ monty-hall---fun-example
 algorithmic-optimization
 brute-force-optimization
 derivative-based-methods
+ml-estimation-with-logistic-regression
 gradient-descent
 one-variable
 multivariable

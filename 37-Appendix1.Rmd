@@ -87,15 +87,41 @@ There are other types of approaches. In one of these, the algorithm creates a gr
 
 ## Derivative-based methods
  
-This method is also called as the **Newton-Raphson** method. If we assume that the function is differentiable and has only one minimum (maximum), we can develop an optimization algorithm that looks for the point in parameter space where the derivative of the function is zero.  
+One of the derivative-based methods is the **Newton-Raphson** method. If we assume that the function is differentiable and has only one minimum (maximum), we can develop an optimization algorithm that looks for the point in parameter space where the derivative of the function is zero.  There are other methods, like [Fisher Scoring](https://en.wikipedia.org/wiki/Scoring_algorithm) and [Iteratively Reweighted Least Squares](https://en.wikipedia.org/wiki/Iteratively_reweighted_least_squares), that we will not see here.
 
 First let's see the Newton-Raphson method.  This is a well-known extension of your calculus class about derivatives in High School.  The method is very simple and used to find the roots of $f(x)=0$ by iterations.  In first-year computer science courses, this method is used to teach loop algorithms that calculate the value of, for example, $e^{0.71}$ or $\sqrt{12}$.  It is a simple iteration that converges in a few steps.
 
 $$
 x_{n+1}=x_{n}-\frac{f\left(x_{n}\right)}{f^{\prime}\left(x_{n}\right)}
 $$
-  
-Here is the example:  
+To understand it, let's look at the function $y=f(x)$ shown in the following graph:
+
+```{r, echo=FALSE, out.width = '80%', out.height='80%'}
+knitr::include_graphics("png/RN.png")
+```  
+
+
+It has a zero at $x=x_r$, which is not known. To find it, we start with $x_0$ as an initial estimate of $X_r$. The tangent line to the graph at the point $\left(x_0, f\left(x_0\right)\right)$ has the point $x_1$ at which the tangent crosses the $x$-axis.  The slope of this line can be defined as
+
+$$
+\frac{y-f\left(x_0\right)}{x-x_0}=f^{\prime}\left(x_0\right)
+$$
+Hence,
+
+$$
+y-f\left(x_0\right)=f^{\prime}\left(x_0\right)\left(x-x_0\right)
+$$
+At the point where the tangent line cross the $x$-axis, $y=0$ and $x=x_1$.  Hence solving the equation for $x_1$, we get
+
+$$
+x_{1}=x_{0}-\frac{f\left(x_{0}\right)}{f^{\prime}\left(x_{0}\right)}
+$$
+And the second approximations:
+
+$$
+x_{2}=x_{1}-\frac{f\left(x_{1}\right)}{f^{\prime}\left(x_{1}\right)}
+$$
+And with multiple iterations one can find the solution.  Here is the example:  
 
 ```{r, message=FALSE, warning=FALSE, cache=TRUE}
 newton <- function(f, x0, tol = 1e-5, n = 1000) {
@@ -241,6 +267,139 @@ mean(X)
 
 Finding sd is left to the practice questions.  But the way to do it should be obvious.  Use our approximation of the mean (1.853332) as a fixed parameter in the function and run the same algorithm for finding sd.  **When the power of computers and the genius of mathematics intercepts, beautiful magics happen**.  
 
+## ML Estimation with logistic regression
+
+The pdf of Bernoulli distribution is 
+
+$$
+P(Y=y)=p^y(1-p)^{1-y}
+$$
+It's likelihood
+
+$$
+\begin{aligned}
+L(\boldsymbol{\beta} \mid \mathbf{y} ; \mathbf{x}) &=L\left(\beta_0, \beta_1 \mid\left(y_1, \ldots, y_n\right) ;\left(x_1, \ldots, x_n\right)\right) \\
+&=\prod_{i=1}^n p_i^{y_i}\left(1-p_i\right)^{1-y_i}
+\end{aligned}
+$$
+And log-likelihood
+
+$$
+\begin{aligned}
+\ell(\boldsymbol{\beta} \mid \mathbf{y} ; \mathbf{x}) &=\log \left(\prod_{i=1}^n p_i^{y_i}\left(1-p_i\right)^{1-y_i}\right) \\
+&=\sum_{i=1}^n \log \left(p_i^{y_i}\right)+\log \left(\left(1-p_i\right)^{1-y_i}\right) \\
+&=\sum_{i=1}^n y_i \log \left(p_i\right)+\left(1-y_i\right) \log \left(1-p_i\right)
+\end{aligned}
+$$
+where 
+
+$$
+\begin{aligned}
+\operatorname{logit}\left(p_i\right) &=\log \left(\frac{p_i}{1-p_i}\right) \\
+&=\beta_0+\beta_1 x_1
+\end{aligned}
+$$
+
+So,
+
+$$
+p_i=\frac{\exp \left(\beta_0+x_1 \beta_1\right)}{1+\exp \left(\beta_0+x_1 \beta_1\right)}
+$$
+First partial derivative with respect to $\beta_0$
+$$
+\begin{aligned}
+\frac{\partial p_i}{\partial \beta_0} &=\frac{\exp \left(\beta_0+x_1 \beta_1\right)}{\left(1+\exp \left(\beta_0+x_1 \beta_1\right)\right)^2} \\
+&=p_i\left(1-p_i\right)
+\end{aligned}
+$$
+And 
+
+$$
+\begin{aligned}
+\frac{\partial p_i}{\partial \beta_1} &=\frac{x_1 \exp \left(\beta_0+x_1 \beta_1\right)}{\left(1+\exp \left(\beta_0+x_1 \beta_1\right)\right)^2} \\
+&=x_1 p_i\left(1-p_i\right)
+\end{aligned}
+$$
+Newton-Raphson's equation is
+
+$$
+\boldsymbol{\beta}^{(t+1)}=\boldsymbol{\beta}^{(t)}-\left(\boldsymbol{H}^{(t)}\right)^{-1} \boldsymbol{u}^{(t)},
+$$
+
+where
+
+$$
+\boldsymbol{\beta}^{(t)}=\left[\begin{array}{c}
+\beta_0^{(t)} \\
+\beta_1^{(t)}
+\end{array}\right]
+$$
+
+$$
+\boldsymbol{u}^{(t)}=\left[\begin{array}{c}
+u_0^{(t)} \\
+u_1^{(t)}
+\end{array}\right]=\left[\begin{array}{c}
+\frac{\partial \mathcal{C}\left(\beta^{(t)} \mid y ; x\right)}{\partial \beta_0} \\
+\frac{\partial \mathscr{C}\left(\beta^{(t)} \mid y ; x\right)}{\partial \beta_1}
+\end{array}\right]=\left[\begin{array}{c}
+\sum_{i=1}^n y_i-p_i^{(t)} \\
+\sum_{i=1}^n x_i\left(y_i-p_i^{(t)}\right)
+\end{array}\right]
+$$
+$$
+p_i^{(t)}=\frac{\exp \left(\beta_0^{(t)}+x_1 \beta_1^{(0)}\right)}{1+\exp \left(\beta_0^{(t)}+x_1 \beta_1^{(t)}\right)}
+$$
+
+$\boldsymbol{H}^{(t)}$ can be considered as Jacobian matrix of $\boldsymbol{u}(\cdot)$,
+
+$$
+\boldsymbol{H}^{(t)}=\left[\begin{array}{ll}
+\frac{\partial u_0^{(t)}}{\partial \beta_0} & \frac{\partial u_0^{(t)}}{\partial \beta_1} \\
+\frac{\partial u_1^{(t)}}{\partial \beta_0} & \frac{\partial u_1^{(t)}}{\partial \beta_1}
+\end{array}\right]
+$$
+  
+```{r}
+rm(list=ls())
+
+#Creating random data
+set.seed(1) 
+n <- 500 
+xx = rnorm(n) # this is our x
+z = -2 + 3 * xx
+
+#Probability is defined by a logistic function
+p = 1 / (1 + exp(-z))
+
+#Bernoulli is the special case of the binomial distribution with size = 1
+y = rbinom(n, size = 1, prob = p)
+
+#And we create our data
+df1 <-  data.frame(y, xx)
+head(df1)
+```
+  
+```{r}
+logis <- glm(y ~ xx, data = df1, family = binomial)
+summary(logis)
+```
+  
+```{r, warning=FALSE, message=FALSE, cache=TRUE}
+func.u <- function(x) c(sum(df1$y - exp(x[1] + x[2] * df1$xx)/ (1 + exp(x[1] + x[2] * df1$xx))),
+                        sum(df1$xx * (df1$y - exp(x[1] + x[2] * df1$xx)/ (1 + exp(x[1] + x[2] * df1$xx)))))
+
+delta <- matrix(1:2,nrow = 2)
+x <- array(c(-2,3))
+
+while(abs(sum(delta)) > 0.0001){
+  xx <- x ##current x value
+  x <- as.matrix(x) - solve(jacobian(func.u, x = x)) %*% func.u(x) ##new x value
+  delta <- x - as.matrix(xx)
+}
+x
+```
+  
 ## Gradient Descent
 
 Now we will find the parameters of a regression function and verify it with `lm()`.  Below, we first use a simple linear regression function on simulated data and estimate its parameters with `lm()`.  
