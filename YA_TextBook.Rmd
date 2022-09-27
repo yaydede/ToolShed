@@ -9211,9 +9211,24 @@ SVD can also be used for rank approximations a.k.a. matrix approximations.  Sinc
 $$
 =\sigma_{1} u_{1} v_{1}^{\top}+\sigma_{2} u_{2} v_{2}^{\top}+\ldots+\sigma_{n} u_{n} v_{n}^{\top}+ 0
 $$
-Each term in this equation is a Rank 1 matrix: $u_1$ is $n \times 1$ column vector and $v_1$ is $1 \times n$ row vector.  Hence these are the only orthogonal entries in the resulting matrix, hence Rank1.  Therefore, the first term with $\sigma_1$ is a Rank 1 $n \times n$ matrix. All other terms have the same dimension. Since $\sigma$s are ordered, the first term is the carries the most information.  So Rank 1 approximation is taking only the first term and ignoring the others.
+Each term in this equation is a Rank 1 matrix: $u_1$ is $n \times 1$ column vector and $v_1$ is $1 \times n$ row vector.  Hence these are the only orthogonal entries in the resulting matrix, hence Rank1.  Therefore, the first term with $\sigma_1$ is a Rank 1 $n \times n$ matrix. All other terms have the same dimension. Since $\sigma$s are ordered, the first term is the carries the most information.  So Rank 1 approximation is taking only the first term and ignoring the others.  Here is a simple example:
+
+```{r}
+#rank-one approximation
+#http://cs.brown.edu/courses/cs053/current/slides/12-01-2017.pdf
+#https://cran.r-project.org/web/packages/matlib/vignettes/eigen-ex1.html
+
+A <- matrix(c(1,5,4,2), 2 ,2)
+A
+v1 <- matrix(eigen(t(A)%*%(A))$vector[,1], 1, 2)
+sigma <- sqrt(eigen(t(A)%*%(A))$values[1])
+u1 <- matrix(eigen(A%*%t(A))$vector[,1], 2, 1)
+Atilde <- sigma*u1%*%v1
+Atilde
+```
   
-And Rank 2 approximation can be obtained by adding the first 2 terms and so on. As we add more terms we can get the full information in the data.  But often times, we truncate the ranks at $r$ by removing the terms with small $sigma$.  This is also called noise reduction.    
+And, Rank 2 approximation can be obtained by adding the first 2 terms and so on. As we add more terms we can get the full information in the data.  But often times, we truncate the ranks at $r$ by removing the terms with small $sigma$.  This is also called noise reduction.
+  
 Here is an example for an image compression for a matrix from our own work (Graphical Network Analysis of COVID-19 Spread).  A better example for an image can be found in the Github repo of package `rsvd` [Tiger](https://github.com/erichson/rSVD) [@Erichson_2019]:
 
 ```{r, warning=FALSE, message=FALSE}
@@ -9282,8 +9297,10 @@ is called **"generalized inverse" or The Moore-Penrose Pseudoinverse**.
   
 Here are some application of SVD and Pseudoinverse.  
 
-```{r}
-# Simple SVD and generalized inverse
+```{r, message=FALSE, warning=FALSE}
+library(MASS)
+
+##Simple SVD and generalized inverse
 a <- matrix(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
               0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1), 9, 4)
 
@@ -9296,7 +9313,7 @@ vs <- as.matrix(v[, 1:3])
 (a.ginv <- vs %*% ds %*% t(us))
 ginv(a)
 
-#*****OLS with SVD******
+##Simulated DGP
 x1 <- rep(1, 20)
 x2 <- rnorm(20)
 x3 <- rnorm(20)
@@ -9310,7 +9327,6 @@ betahat_OLS <- solve(t(X)%*%X)%*%t(X)%*%Y
 betahat_OLS
 
 ##SVD
-#Let's find "generalized inverse of X" by sdv
 X.svd <- svd(X)
 ds <- diag(1/X.svd$d)
 u <- X.svd$u
@@ -9321,31 +9337,15 @@ X.ginv_mine <- vs %*% ds %*% t(us)
 
 # Compare
 X.ginv <- ginv(X)
-X.ginv_mine 
-X.ginv
+round((X.ginv_mine - X.ginv),4)
 
-#Now OLS
+# Now OLS
 betahat_ginv <- X.ginv %*%Y
 betahat_ginv
 betahat_OLS
-
-#rank-one approximation
-#http://cs.brown.edu/courses/cs053/current/slides/12-01-2017.pdf
-#https://cran.r-project.org/web/packages/matlib/vignettes/eigen-ex1.html
-
-A <- matrix(c(1,5,4,2), 2 ,2)
-v1 <- matrix(eigen(t(A)%*%(A))$vector[,1], 1, 2)
-sigma <- sqrt(eigen(t(A)%*%(A))$values[1])
-u1 <- matrix(eigen(A%*%t(A))$vector[,1], 2, 1)
-Atilde <- sigma*u1%*%v1
 ```
   
-Now the question where and when we can use `ginv`? See <https://orinanobworld.blogspot.com/2015/10/ols-oddities.html> [@Rubin_2015]. Here the excerpt:
-
->The bigger surprise, though, had to do with multicollinearity, which occurs when $\mathbf{X}$ has less than full column rank. Multicollinearity means $\mathbf{X^TX}$ is singular and cannot be inverted. It also means the model contains redundant predictors (some predictors are linear combinations of others), and I always gave my students the standard prescription: figure out which predictors were redundant and eliminate them. Other people sometimes recommend a perturbation approach (ridge regression). For that matter, gradient descent should work properly with multicollinear data.
->
-
-With a high-dimensional $\mathbf{X}$, where $p > n$, the vector $\beta$ cannot uniquely be determined from the system of equations.the solution to the normal equation is 
+Now the question where and when we can use `ginv`? With a high-dimensional $\mathbf{X}$, where $p > n$, the vector $\beta$ cannot uniquely be determined from the system of equations.the solution to the normal equation is 
 
 $$
 \hat{\boldsymbol{\beta}}=\left(\mathbf{X}^{\top} \mathbf{X}\right)^{+} \mathbf{X}^{\top} \mathbf{Y}+\mathbf{v} \quad \text { for all } \mathbf{v} \in \mathcal{V}
@@ -9353,12 +9353,12 @@ $$
 
 where $\mathbf{A}^{+}$denotes the Moore-Penrose inverse of the matrix $\mathbf{A}$. Therefore, there is no unique estimator of the regression parameter (See Page 7 for proof in [Lecture notes on ridge regression](https://arxiv.org/pdf/1509.09169.pdf)) [@Wieringen_2021].  To arrive at a unique regression estimator for studies with rank deficient design matrices, the minimum least squares estimator may be employed.
 
-The minimum least squares estimator of regression parameter minimizes the sum-of-squares criterion and is of minimum length. Formally, $\hat{\boldsymbol{\beta}}_{\mathrm{MLS}}=\arg \min _{\boldsymbol{\beta} \in \mathbb{R}^{p}}\|\mathbf{Y}-\mathbf{X} \boldsymbol{\beta}\|_{2}^{2}$ such that $\left\|\hat{\boldsymbol{\beta}}_{\mathrm{M} \mathrm{m}}\right\|_{2}^{2}<\|\boldsymbol{\beta}\|_{2}^{2}$ for all $\boldsymbol{\beta}$ that minimize
+The minimum least squares estimator of regression parameter minimizes the sum-of-squares criterion and is of minimum length. Formally, $\hat{\boldsymbol{\beta}}_{\mathrm{MLS}}=\arg \min _{\boldsymbol{\beta} \in \mathbb{R}^{p}}\|\mathbf{Y}-\mathbf{X} \boldsymbol{\beta}\|_{2}^{2}$ such that $\left\|\hat{\boldsymbol{\beta}}_{\mathrm{MLS}}\right\|_{2}^{2}<\|\boldsymbol{\beta}\|_{2}^{2}$ for all $\boldsymbol{\beta}$ that minimize
 $\|\mathbf{Y}-\mathbf{X} \boldsymbol{\beta}\|_{2}^{2}$.
 
 So $\hat{\boldsymbol{\beta}}_{\mathrm{MLS}}=\left(\mathbf{X}^{\top} \mathbf{X}\right)^{+} \mathbf{X}^{\top} \mathbf{Y}$ is the minimum least squares estimator of regression parameter minimizes the sum-of-squares criterion.  
   
-An alternative (and related) estimator of the regression parameter β that avoids the use of the Moore-Penrose inverse and is able to deal with (super)-collinearity among the columns of the design matrix is the ridge regression estimator proposed by [Hoerl and Kennard (1970)](https://www.math.arizona.edu/~hzhang/math574m/Read/RidgeRegressionBiasedEstimationForNonorthogonalProblems.pdf). They propose to simply replace $\mathbf{X}^{\top} \mathbf{X}$ by $\mathbf{X}^{\top} \mathbf{X}+\lambda \mathbf{I}_{p p}$ with $\lambda \in[0, \infty)$.  The ad-hoc fix solves the singularity as it adds a positive matrix, $\lambda \mathbf{I}_{p p}$, to a positive semi-definite one, $\mathbf{X}^{\top} \mathbf{X}$, making the total a positive definite matrix, which is invertible.
+As we talked before in Chapter 17, an alternative (and related) estimator of the regression parameter $\beta$ that avoids the use of the Moore-Penrose inverse and is able to deal with (super)-collinearity among the columns of the design matrix is the ridge regression estimator proposed by [Hoerl and Kennard (1970)](https://www.math.arizona.edu/~hzhang/math574m/Read/RidgeRegressionBiasedEstimationForNonorthogonalProblems.pdf). They propose to simply replace $\mathbf{X}^{\top} \mathbf{X}$ by $\mathbf{X}^{\top} \mathbf{X}+\lambda \mathbf{I}_{p p}$ with $\lambda \in[0, \infty)$.  The ad-hoc fix solves the singularity as it adds a positive matrix, $\lambda \mathbf{I}_{p p}$, to a positive semi-definite one, $\mathbf{X}^{\top} \mathbf{X}$, making the total a positive definite matrix, which is invertible.
 
 Hence, the ad-hoc fix of the ridge regression estimator resolves the non-evaluation of the estimator in the face of super-collinearity but yields a 'ridge fit' that is not optimal in explaining the observation. Mathematically, this is due to the fact that the fit $\widehat{Y}(\lambda)$ corresponding to the ridge regression estimator is not a projection of $Y$ onto the covariate space.
 
@@ -9664,8 +9664,10 @@ For more see: <https://cran.r-project.org/web/packages/factoextra/readme/README.
 <!--chapter:end:24-FactorAnalysis.Rmd-->
 
 # Dynamic Mode Decomposition
+  
+*Note that this section is work in progress*
 
-Dynamic Mode Decomposition (DMD) is a matrix decomposition technique that is highly versatile and builds upon the power of singular value decomposition (SVD) stemming from the seminal work of Bernard Koopman in 1931 on nonlinear dynamical systems. The most comprehensive explanation (implementation and algorithm development) can be found in [Dynamic Mode Decomposition Data-Driven Modeling of Complex Systems](http://orlandi.ing.univaq.it/pub/Kutz%20J.%20Dynamic%20Mode%20Decomposition.%20Data-Driven%20Modeling%20of%20Complex%20Systems%202016.pdf) [@Decomp_2016]. At its core, the method can be thought of as an ideal combination of spatial dimensionality-reduction techniques, such as the proper orthogonal decomposition (POD) with Fourier transforms in time. Thus, correlated spatial modes (eigen vectors) are also now associated with a given temporal frequency, possibly with a growth or decay rate. DMD can be applied in a variety of discipline-specific settings and can be used successfully for prediction, state estimation, and control of complex systems. 
+Dynamic Mode Decomposition (DMD) is a matrix decomposition technique that is highly versatile and builds upon the power of singular value decomposition (SVD) stemming from the seminal work of Bernard Koopman in 1931 on nonlinear dynamical systems. The most comprehensive explanation (implementation and algorithm development) can be found in [Dynamic Mode Decomposition Data-Driven Modeling of Complex Systems](http://orlandi.ing.univaq.it/pub/Kutz%20J.%20Dynamic%20Mode%20Decomposition.%20Data-Driven%20Modeling%20of%20Complex%20Systems%202016.pdf) [@Decomp_2016]. At its core, the method can be thought of as an ideal combination of spatial dimensionality-reduction techniques, such as the proper orthogonal decomposition (like, PCA) with Fourier transformation in time. Thus, correlated spatial modes (eigen vectors) are also now associated with a given temporal frequency, possibly with a growth or decay rate. DMD can be applied in a variety of discipline-specific settings and can be used successfully for prediction, state estimation, and control of complex systems. 
 
 Here are the some basics (for more, please see the book!):
 
@@ -9711,16 +9713,15 @@ $$
 \|\mathbf{X}\|_{F}=\sqrt{\sum_{j=1}^{n} \sum_{k=1}^{m} X_{j k}{ }^{2} .}
 $$
   
-It is important to note that the solution may be thought of as a linear regression of data onto the dynamics given by $\mathbf{A}$. However, there is a key difference between DMD and alternative regression-based system identification and model reduction techniques. Importantly, we are assuming that the snapshots $\mathbf{x}_{k}$ in our data matrix $\mathbf{X}$ are high dimensional so that the matrix is tall and skinny, meaning that the size $n$ of a snapshot is larger than the number $m-1$ of snapshots. The matrix $\mathbf{A}$ may be high dimensional; if $n=10^{6}$, then A has $10^{12}$ elements, so that it may be difficult to represent or decompose. However, the rank of $\mathbf{A}$ is at most $m-1$, since it is constructed as a linear combination of the $m-1$ columns of $\mathbf{X}^{\prime}$. Instead of solving for $\mathbf{A}$ directly, we first project our data onto a low-rank subspace defined by at most $m-1$ POD modes and then solve for a low-dimensional evolution $\mathbf{\tilde{A}}$ that evolves on these POD mode coefficients. The DMD algorithm then uses this low-dimensional operator $\mathbf{\tilde{A}}$ to reconstruct the leading nonzero eigenvalues and eigenvectors of the fulldimensional operator $\mathbf{A}$ without ever explicitly computing $\mathbf{A}$. (See Page 5)
+It is important to note that the solution may be thought of as a linear regression of data onto the dynamics given by $\mathbf{A}$. However, there is a key difference between DMD and alternative regression-based system identification and model reduction techniques. Importantly, we are assuming that the snapshots $\mathbf{x}_{k}$ in our data matrix $\mathbf{X}$ are high dimensional so that the matrix is tall and skinny, meaning that the size $n$ of a snapshot is larger than the number $m-1$ of snapshots. The matrix $\mathbf{A}$ may be high dimensional; if $n=10^{6}$, then A has $10^{12}$ elements, so that it may be difficult to represent or decompose. However, the rank of $\mathbf{A}$ is at most $m-1$, since it is constructed as a linear combination of the $m-1$ columns of $\mathbf{X}^{\prime}$. Instead of solving for $\mathbf{A}$ directly, we first project our data onto a low-rank subspace defined by at most $m-1$ principle component (PC) modes and then solve for a low-dimensional evolution $\mathbf{\tilde{A}}$ that evolves on these PC mode coefficients. The DMD algorithm then uses this low-dimensional operator $\mathbf{\tilde{A}}$ to reconstruct the leading nonzero eigenvalues and eigenvectors of the fulldimensional operator $\mathbf{A}$ without ever explicitly computing $\mathbf{A}$. (See Page 5)
 
-The DMD modes, also called dynamic modes, are the eigenvectors of $\mathbf{A}$, and each DMD mode corresponds to a particular eigen value of $\mathbf{A}$.
-The DMD method can be viewed as the decomposition that gives the growth rates and frequencies associated with each mode. 
-
+The DMD modes, also called dynamic modes, are the eigenvectors of $\mathbf{A}$, and each DMD mode corresponds to a particular eigen value of $\mathbf{A}$.  The DMD method can be viewed as the decomposition that gives the growth rates and frequencies associated with each mode. 
+  
 In practice, when the state dimension $n$ is large, the matrix $\mathbf{A}$ may be intractable to analyze directly. Instead, DMD circumvents the eigendecomposition of $\mathbf{A}$ by considering a rank-reduced representation in terms of a POD-projected matrix $\mathbf{\tilde{A}}$. 
 
 **Algorithm**
   
-There is no R package for DMD as of now.  
+There is a recent R package for DMD [dymo](https://rpubs.com/giancarlo_vercellino/dymo).  Here are the main steps for the generic algorithm:     
 
 1. First, take the singular value decomposition (SVD) of $\mathbf{X}$: $\mathbf{X} \approx \mathbf{U \Sigma V}^{*}$
 
