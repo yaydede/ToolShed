@@ -117,6 +117,7 @@ h1:parametric-models-in-prediction Parametric models in prediction
 h1:ridge Ridge
 h1:lasso Lasso
 h1:adaptive-lasso Adaptive Lasso
+h1:oracle-efficency Oracle efficency
 h1:part-causality-and-machine-learning (PART) Causality and Machine Learning
 h1:model-selection Model Selection
 h1:sparsity Sparsity
@@ -131,11 +132,17 @@ h1:principle-component-analysis Principle Component Analysis
 h1:factor-analysis Factor Analysis
 h1:dynamic-mode-decomposition Dynamic Mode Decomposition
 h1:part-time-series (PART) Time Series
+h1:forecasting Forecasting
 h1:arima-models ARIMA models
+h2:hyndman-khandakar-algorithm Hyndman-Khandakar algorithm
+h2:ts-plots TS Plots
+h2:box-cox-transformation Box-Cox transformation
+h2:stationarity Stationarity
+h2:modeling-arima Modeling ARIMA
 h1:grid-search-for-arima Grid search for ARIMA
 h1:embedding Embedding
 h1:ts-with-random-forest TS with Random Forest
-h1:neural-networks-ts Neural Networks & TS
+h1:recurrent-neural-networks Recurrent Neural Networks
 h1:part-network-analysis (PART) Network Analysis
 h1:graphical-network-analysis Graphical Network Analysis
 h1:fundementals Fundementals

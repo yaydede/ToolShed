@@ -84,11 +84,11 @@ mtext("Fixed Components",
       outer=TRUE, cex = 1.5, col="olivedrab")
 ```
 
-The polynomial regression is based on fixed components, or bases: $x, x^2, x^3, \ldots, x^M$.  ANN replaces these fixed components with adjustable ones or bases: $f\left(\alpha_1+\delta_1 x\right)$, $f\left(\alpha_2+\delta_2 x\right)$, $\ldots, f\left(\alpha_M+\delta_M x\right)$.  
+The polynomial regression is based on fixed components, or bases: $x, x^2, x^3, \ldots, x^M.$  ANN replaces these fixed components with adjustable ones or bases: $f\left(\alpha_1+\delta_1 x\right)$, $f\left(\alpha_2+\delta_2 x\right)$, $\ldots, f\left(\alpha_M+\delta_M x\right).$  
   
 Each component is more flexible than a fixed component.  They are adjustable with tunable internal parameters. They can express several shapes, not just one (fixed) shape. Hence, adjustable components enable to capture complex models with fewer components (smaller M).  
 
-Let's replace those fixed components $x, x^2, x^3$ in our polynomial regression with $f\left(\alpha_1+\delta_1 x\right)$, $f\left(\alpha_2+\delta_2 x\right)$, $f\left(\alpha_3+\delta_3 x\right)$.  
+Let's replace those fixed components $x, x^2, x^3$ in our polynomial regression with $f\left(\alpha_1+\delta_1 x\right)$, $f\left(\alpha_2+\delta_2 x\right)$, $f\left(\alpha_3+\delta_3 x\right).$  
 
 ```{r, warning=FALSE, message=FALSE, cache=TRUE}
 library(neuralnet)

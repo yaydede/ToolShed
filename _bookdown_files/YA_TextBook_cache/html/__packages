@@ -74,3 +74,10 @@ NeuralNetTools
 mldr
 utiml
 timechange
+tsibble
+fpp3
+tsibbledata
+fabletools
+feasts
+fable
+gridExtra

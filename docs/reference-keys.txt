@@ -164,6 +164,7 @@ deep-learning
 ridge
 lasso
 adaptive-lasso
+oracle-efficency
 model-selection
 sparsity
 use-of-machine-learning-in-causality
@@ -175,10 +176,15 @@ principle-component-analysis
 factor-analysis
 dynamic-mode-decomposition
 arima-models
+hyndman-khandakar-algorithm
+ts-plots
+box-cox-transformation
+stationarity
+modeling-arima
 grid-search-for-arima
 embedding
 ts-with-random-forest
-neural-networks-ts
+recurrent-neural-networks
 fundementals
 covariance
 correlation
