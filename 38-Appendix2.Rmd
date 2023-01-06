@@ -109,56 +109,55 @@ Here is what we will do with the fraud data in the following script:
 
 In addition, we will compare with and without balancing.
 
-```{r, echo=FALSE, include=FALSE, warning=FALSE, message=FALSE}
-rm(list = ls())
-load("~/Dropbox/TheBOOK/Kyle/Kyle Edits (v2)/Pre-Review Edited Version(V2)/Pre-Review Edited Version/creditcard10.RData")
-creditcard10 <- df
-```
-
 ```{r, message=FALSE, warning=FALSE, cache=TRUE}
-df <- creditcard10
-df$Class <- as.factor(df$Class)
-
-AUCb <- c()
-AUCimb <- c()
-n = 10 # Could be 50, since the data is large for RF
-B = 100
-
-for (i in 1:n) {
-  set.seed(i+i*100)
-  ind <- sample(nrow(df), nrow(df), replace = TRUE)
-  ind <- unique(ind) # Otherwise it oversamples 0's
-  train <- df[ind, ]
-  test <- df[-ind, ]
-  
-  # Balancing
-  outdf <- SMOTE(X = train[, -31], target = train$Class, K = 10, dup_size = 50)
-  trainn <- outdf$data
-  trainn$class <- as.factor(trainn$class) #SMOTE makes factor to "chr"!
-  colnames(trainn)[31] <- "Class" #SMOTE made it lower case!
-  
-  modelb <- randomForest(Class~., ntree = B, data = trainn)    
-  phatb <- predict(modelb, test, type = "prob")
-  
-  # Without Balancing
-  modelimb <- randomForest(Class~., ntree = B, data = train)    
-  phatimb <- predict(modelimb, test, type = "prob")
- 
-  #AUCb
-  pred_rocr1 <- prediction(phatb[,2], test$Class)
-  auc_ROCR1 <- performance(pred_rocr1, measure = "auc")
-  AUCb[i] <- auc_ROCR1@y.values[[1]]
-  
-  #AUCimb
-  pred_rocr1 <- prediction(phatimb[,2], test$Class)
-  auc_ROCR1 <- performance(pred_rocr1, measure = "auc")
-  AUCimb[i] <- auc_ROCR1@y.values[[1]]
-}
-
-model <- c("Balanced", "Imbalanced")
-AUCs <- c(mean(AUCb), mean(AUCimb))
-sd <- c(sqrt(var(AUCb)), sqrt(var(AUCimb)))
-data.frame(model, AUCs, sd) 
+# library(ROCR)
+# library(smotefamily)
+# library(randomForest)
+# 
+# rm(list = ls())
+# load("creditcard10.RData")
+# df$Class <- as.factor(df$Class)
+# 
+# AUCb <- c()
+# AUCimb <- c()
+# n = 10 # Could be 50, since the data is large for RF
+# B = 100
+# 
+# for (i in 1:n) {
+#   set.seed(i)
+#   ind <- sample(nrow(df), nrow(df), replace = TRUE)
+#   ind <- unique(ind) # Otherwise it oversamples 0's
+#   train <- df[ind, ]
+#   test <- df[-ind, ]
+#   
+#   # Balancing
+#   outdf <- SMOTE(X = train[, -31], target = train$Class, K = 10, dup_size = 50)
+#   trainn <- outdf$data
+#   trainn$class <- as.factor(trainn$class) #SMOTE makes factor to "chr"!
+#   colnames(trainn)[31] <- "Class" #SMOTE made it lower case!
+#   
+#   modelb <- randomForest(Class~., ntree = B, data = trainn)    
+#   phatb <- predict(modelb, test, type = "prob")
+#   
+#   # Without Balancing
+#   modelimb <- randomForest(Class~., ntree = B, data = train)    
+#   phatimb <- predict(modelimb, test, type = "prob")
+#  
+#   #AUCb
+#   pred_rocr1 <- prediction(phatb[,2], test$Class)
+#   auc_ROCR1 <- performance(pred_rocr1, measure = "auc")
+#   AUCb[i] <- auc_ROCR1@y.values[[1]]
+#   
+#   #AUCimb
+#   pred_rocr1 <- prediction(phatimb[,2], test$Class)
+#   auc_ROCR1 <- performance(pred_rocr1, measure = "auc")
+#   AUCimb[i] <- auc_ROCR1@y.values[[1]]
+# }
+# 
+# model <- c("Balanced", "Imbalanced")
+# AUCs <- c(mean(AUCb), mean(AUCimb))
+# sd <- c(sqrt(var(AUCb)), sqrt(var(AUCimb)))
+# data.frame(model, AUCs, sd) 
 ```
 
 

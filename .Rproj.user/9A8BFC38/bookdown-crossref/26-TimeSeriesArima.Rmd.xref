@@ -1,3 +1,9 @@
 h1:part-time-series (PART) Time Series
+h1:forecasting Forecasting
 h1:arima-models ARIMA models
+h2:hyndman-khandakar-algorithm Hyndman-Khandakar algorithm
+h2:ts-plots TS Plots
+h2:box-cox-transformation Box-Cox transformation
+h2:stationarity Stationarity
+h2:modeling-arima Modeling ARIMA
 

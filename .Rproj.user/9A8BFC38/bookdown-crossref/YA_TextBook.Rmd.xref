@@ -107,15 +107,16 @@ h3:the-margin The Margin
 h3:the-non-separable-case The Non-Separable Case
 h2:nonlinear-boundary-with-kernels Nonlinear Boundary with Kernels
 h2:application-with-svm Application with SVM
-h1:neural-networks Neural Networks
+h1:artificial-neural-networks Artificial Neural Networks
+h2:neural-network---the-idea Neural Network - The idea
+h2:backpropagation Backpropagation
+h2:neural-network---more-inputs Neural Network - More inputs
+h2:deep-learning Deep Learning
 h1:part-penalized-regressions (PART) Penalized Regressions
 h1:parametric-models-in-prediction Parametric models in prediction
 h1:ridge Ridge
 h1:lasso Lasso
-h2:regression-2 Regression
-h2:lpmlogistic LPM/Logistic
-h2:adaptive-lasso Adaptive Lasso
-h2:elasticnet ElasticNet
+h1:adaptive-lasso Adaptive Lasso
 h1:part-causality-and-machine-learning (PART) Causality and Machine Learning
 h1:model-selection Model Selection
 h1:sparsity Sparsity
@@ -211,7 +212,7 @@ h1:algorithmic-optimization Algorithmic Optimization
 h2:brute-force-optimization Brute-force optimization
 h2:derivative-based-methods Derivative-based methods
 h2:ml-estimation-with-logistic-regression ML Estimation with logistic regression
-h2:gradient-descent Gradient Descent
+h2:gradient-descent-algorithm Gradient Descent Algorithm
 h3:one-variable One-variable
 h3:multivariable Multivariable
 h2:optimization-with-r Optimization with R

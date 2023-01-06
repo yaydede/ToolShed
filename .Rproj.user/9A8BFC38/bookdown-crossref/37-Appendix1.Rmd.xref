@@ -3,7 +3,7 @@ h1:algorithmic-optimization Algorithmic Optimization
 h2:brute-force-optimization Brute-force optimization
 h2:derivative-based-methods Derivative-based methods
 h2:ml-estimation-with-logistic-regression ML Estimation with logistic regression
-h2:gradient-descent Gradient Descent
+h2:gradient-descent-algorithm Gradient Descent Algorithm
 h3:one-variable One-variable
 h3:multivariable Multivariable
 h2:optimization-with-r Optimization with R

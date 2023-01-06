@@ -1,6 +1,6 @@
 # Lasso
 
-Ridge regression does have one obvious disadvantage.  The penalty, $\lambda \sum_{j} \beta_{j}^{2}$, will shrink all of the coefficients towards zero, but it will not set any of them exactly to zero.  This may not be a problem for prediction accuracy, but it can create a challenge in model interpretation in settings in which the number of variables is quite large.  Increasing the value of $\lambda$ will tend to reduce the magnitudes of the coefficients, but will not result in exclusion of any of the variables.  
+The penalty in ridge regression, $\lambda \sum_{j} \beta_{j}^{2}$, will shrink all of the coefficients towards zero, but it will not set any of them exactly to zero.  This may present a problem in model interpretation when the number of variables is quite large.  One of the key advantages of Lasso is that it can set the coefficients of some features to exactly zero, effectively eliminating those features from the model. By eliminating unnecessary or redundant features from the model, Lasso can help to improve the interpretability and simplicity of the model. This can be particularly useful when you have a large number of features and you want to identify the most important ones for predicting the target variable.
 
 The lasso (least absolute shrinkage and selection operator) is a relatively recent alternative to ridge regression that overcomes this disadvantage. The lasso coefficients minimize the following quantity:
 
@@ -9,30 +9,35 @@ The lasso (least absolute shrinkage and selection operator) is a relatively rece
   (\#eq:16-1)
 \end{equation} 
 
-As with ridge regression, the lasso shrinks the coefficient estimates towards zero. However, in the case of the lasso, the $\ell_{1}$ penalty, which is represented by the second term of equation 16.1, has the effect
-of forcing some of the coefficient estimates to be exactly equal to zero when the tuning parameter $\lambda$ is sufficiently large.  Hence, the lasso performs variable selection. As a result, models generated from the lasso are generally much easier to interpret than those produced by ridge regression.  
+The lasso also shrinks the coefficient estimates towards zero. However, the $\ell_{1}$ penalty, the second term of equation 18.1, has the effect of forcing some of the coefficient estimates to be exactly equal to zero when the tuning parameter $\lambda$ is sufficiently large.  Hence, the lasso performs variable selection. As a result, models generated from the lasso are generally much easier to interpret than those produced by ridge regression.  
 
-In general, one might expect lasso to perform better in a setting where a relatively small number of predictors have substantial coefficients, and the remaining predictors have coefficients that are very small or that equal zero. Ridge regression will perform better when the response is a function of many predictors, all with coefficients of roughly equal size. However, the number of predictors that is related to the response is never known a priori for real data sets.
+In general, one might expect lasso to perform better in a setting where a relatively small number of predictors have substantial coefficients and the remaining predictors have no significant effect on the outcome. This property is known as "sparsity", because it results in a model with a relatively small number of non-zero coefficients.  In some cases, Lasso can find a true sparsity pattern in the data, which means that it can identify a small subset of the most important features that are sufficient to accurately predict the target variable. This can be particularly useful when you have a large number of features, and you want to identify the most important ones for predicting the target variable.
 
-## Regression
-  
-Now, we will apply lasso to the same data in the last chapter, `Hitters`.  Again, we will follow the similar way to compare ridge and lasso as in ISLR :  
+Now, we will apply lasso to the same data in the last chapter, `Hitters`.  Again, we will follow a similar way to compare ridge and lasso as in ISLR :  
 
 ```{r, warning=FALSE, message=FALSE, cache=TRUE}
+library(glmnet)
+library(ISLR)
+remove(list = ls())
+
+data(Hitters)
+df <- Hitters[complete.cases(Hitters$Salary), ]
 X  <- model.matrix(Salary~., df)[,-1]
 y <- df$Salary
 
 # Without a specific grid on lambda
 set.seed(1)
-train <- sample(1:nrow(X), nrow(X)/2)
+train <- sample(1:nrow(X), nrow(X)*0.5)
 test <- c(-train)
 ytest <- y[test]
 
+# Ridge
 set.seed(1)
 ridge.out <- cv.glmnet(X[train,], y[train], alpha = 0)
 yhatR <- predict(ridge.out, s = "lambda.min", newx = X[test,])
 mse_r <- mean((yhatR - ytest)^2)
 
+# Lasso
 set.seed(1)
 lasso.out <- cv.glmnet(X[train,], y[train], alpha = 1)
 yhatL <- predict(lasso.out, s = "lambda.min", newx = X[test,])
@@ -40,21 +45,31 @@ mse_l <- mean((yhatL - ytest)^2)
 
 mse_r
 mse_l
+```
 
+Now, we will define our own grid search:  
+
+```{r, warning=FALSE, message=FALSE, cache=TRUE}
 # With a specific grid on lambda + lm()
+grid = 10^seq(10, -2, length = 100)
+
 set.seed(1)
-train <- sample(1:nrow(X), nrow(X)/2)
+train <- sample(1:nrow(X), nrow(X)*0.5)
 test <- c(-train)
 ytest <- y[test]
 
-ridge.mod <- glmnet(X[train,], y[train], alpha = 0, lambda = grid, thresh = 1e-12)
+#Ridge
+ridge.mod <- glmnet(X[train,], y[train], alpha = 0,
+                    lambda = grid, thresh = 1e-12)
 set.seed(1)
 cv.outR <- cv.glmnet(X[train,], y[train], alpha = 0)
 bestlamR <- cv.outR$lambda.min
 yhatR <- predict(ridge.mod, s = bestlamR, newx = X[test,])
 mse_R <- mean((yhatR - ytest)^2)
 
-lasso.mod <- glmnet(X[train,], y[train], alpha = 1, lambda = grid, thresh = 1e-12)
+# Lasso
+lasso.mod <- glmnet(X[train,], y[train], alpha = 1,
+                    lambda = grid, thresh = 1e-12)
 set.seed(1)
 cv.outL <- cv.glmnet(X[train,], y[train], alpha = 1)
 bestlamL <- cv.outL$lambda.min
@@ -68,22 +83,25 @@ mse_L
 Now we will apply our own algorithm
 
 ```{r, warning=FALSE, message=FALSE, cache=TRUE}
+grid = 10^seq(10, -2, length = 100)
 MSPE <- c()
 MMSPE <- c()
 
 for(i in 1:length(grid)){
   for(j in 1:100){
     set.seed(j)
-    ind <- sample(nrow(df), nrow(df), replace = TRUE)
-    ind <- unique(ind)
+    ind <- unique(sample(nrow(df), nrow(df), replace = TRUE))
+    
     train <- df[ind, ]
     xtrain <- model.matrix(Salary~., train)[,-1]
     ytrain <- df[ind, 19]
+    
     test <- df[-ind, ]
     xtest <- model.matrix(Salary~., test)[,-1]
     ytest <- df[-ind, 19]
   
-    model <- glmnet(xtrain, ytrain, alpha = 1, lambda = grid[i], thresh = 1e-12)
+    model <- glmnet(xtrain, ytrain, alpha = 1,
+                    lambda = grid[i], thresh = 1e-12)
     yhat <- predict(model, s = grid[i], newx = xtest)
     MSPE[j] <- mean((yhat - ytest)^2)
     }
@@ -102,234 +120,61 @@ coef_lasso <- coef(model, s=grid[which.min(MMSPE)], nonzero = T)
 coef_lasso
 ```
 
-## LPM/Logistic
+We can also try a classification problem with LPM or Logistic regression when the response is categorical. If there are two possible outcomes, we use the binomial distribution, else we use the multinomial.
 
-Instead of numerical outcome variable, when we have a binary variable the regression becomes a classification problem. As we have seen before, we can use LPM or Logistic regression when the response is categorical. If there are two possible outcomes, we use the binomial distribution, else we use the multinomial.
+# Adaptive Lasso
 
-We will start with `Titanic` dataset:
+Unlike lasso, which uses a simple $\ell_{1}$ penalty, adaptive lasso uses a weighted $\ell_{1}$ penalty. The weights are chosen to adapt to the correlation structure of the data, which can result in a more stable model with fewer coefficients being exactly zero. Adaptive lasso is a method for regularization and variable selection in regression analysis that was introduced by Zou (2006) in [The Adaptive Lasso and Its Oracle Properties](http://users.stat.umn.edu/~zouxx019/Papers/adalasso.pdf) by Zou (2006). In this paper, the author proposed the use of a weighted $\ell_{1}$ penalty in the objective function, with the weights chosen to adapt to the correlation structure of the data. He showed that this method can result in a more stable model with fewer coefficients being exactly zero, compared to the standard lasso method which uses a simple $\ell_{1}$ penalty. The adaptive lasso enjoys the oracle properties; namely, it performs as well as if the true underlying model were given in advance. 
 
-```{r, warning=FALSE, message=FALSE}
-library(PASWR)
+Since its introduction, adaptive lasso has been widely used in a variety of applications in statistical modeling and machine learning. It has been applied to problems such as feature selection in genomic data, high-dimensional regression, and model selection in generalized linear models.  Adaptive lasso is useful in situations where the predictors are correlated and there is a need to select a small subset of important variables to include in the model. It is also useful in situations where the goal is to identify a representative model from the set of all possible models, rather than just selecting a single model. 
+
+Consider the linear regression model:
+
+$$
+y_i=x_i^{\prime} \beta^0+\epsilon_i, ~~~~i=1, \ldots, n ~~~~\text{and} ~~~~\beta^0 \text { is } (p \times 1)
+$$
+The adaptive Lasso estimates $\beta^0$ by minimizing
+  
+$$
+L(\beta)=\sum_{i=1}^n\left(y_i-x_i^{\prime} \beta\right)^2+\lambda_n \sum_{j=1}^p \frac{1}{w_j}\left|\beta_j\right|
+$$
+  
+where, typically $w_j=(\left|\hat{\beta}_{O L S_j}\right|)^{\gamma}$ or $w_j=(\left|\hat{\beta}_{Ridge_j}\right|)^{\gamma}$, where $\gamma$ is a positive constant for adjustment of the Adaptive Weights vector, and suggested to be the possible values of 0.5, 1, and 2.
+
+The weights in Adaptive lasso (AL) are more "intelligent" than those for the plain Lasso. The plain Lasso penalizes all parameters equally, while the adaptive Lasso is likely to penalize non-zero coefficients less than the zero ones. This is due to the fact, that the weights are based on the consistent least squares estimator. If $\beta_{AL, j}=0$, then $\hat{\beta}_{O L S, j}$ is likely to be close to zero and so $w_j$ is small. Hence, truly zero coefficients are penalized a lot.  However, it might require a two-step procedure as opposed to the one-step plain Lasso. Some studies (Zou, 2006) state that the plain lasso is not oracle efficient (consistency in variable selection and asymptotic normality in coefficient estimation) while adaptive lasso is.
+
+Here is an example:  
+
+```{r}
+library(ISLR)
+library(glmnet)
+
 remove(list = ls())
 
-data(titanic3)
-str(titanic3)
+data(Hitters)
+df <- Hitters[complete.cases(Hitters$Salary), ]
+X  <- model.matrix(Salary~., df)[,-1]
+y <- df$Salary
 
-# Data
-a <- c("survived","sex","age","pclass","sibsp","parch")
-df <- titanic3[, a]
-df <- df[complete.cases(df), ]
-df$survived <- as.factor(df$survived)
-
-# model.matrix
-X  <- model.matrix(survived~., df)[,-1]
-y <- df$survived
-
-# look at the difference b/w X and df
-head(X)
-```
-
-The input matrix `x` is the same as other families. For binomial logistic regression, the response variable `y` should be either a factor with two levels, or a two-column matrix of counts or proportions.  Other optional arguments of `glmnet` for binomial regression are almost same as those for Gaussian family. Don’t forget to set family option to “binomial”.  
-
-```{r, warning=FALSE, message=FALSE, cache=TRUE}
-library(ROCR)
-
+# Ridge weights with gamma = 1
+g = 1
 set.seed(1)
-train <- sample(1:nrow(X), nrow(X)/2)
-test <- c(-train)
-ytest <- y[test]
-
-# Ridge
-set.seed(1)
-cv.outR <- cv.glmnet(X[train,], y[train], alpha = 0, family = "binomial")
-phatR <- predict(cv.outR, s = "lambda.min", newx = X[test,], type = "response")
-
-predR <- prediction(phatR, ytest)
-aucR <- performance(predR, measure = "auc")
-AUCR <- aucR@y.values[[1]]
-
-# Lasso
-set.seed(1)
-cv.outL <- cv.glmnet(X[train,], y[train], alpha = 1, family = "binomial")
-phatL <- predict(cv.outL, s = "lambda.min", newx = X[test,], type = "response")
-
-predL <- prediction(phatL, ytest)
-aucL <- performance(predL, measure = "auc")
-AUCL <- aucL@y.values[[1]]
-
-AUCR
-AUCL
-
-# Logistic
-tr <- df[train,]
-tt <- df[test, ]
-
-logi <- glm(survived~., data = tr, family = "binomial")
-phat <- predict(logi, newdata = tt, type = "response")
-
-pred <- prediction(phat, tt$survived)
-auc <- performance(pred, measure = "auc")
-auc@y.values[[1]]
-```
-
-Now our own algorithm:
-
-```{r, warning=FALSE, message=FALSE, cache=TRUE}
-library(PASWR)
-remove(list = ls())
-
-data(titanic3)
-
-# Data
-a <- c("survived","sex","age","pclass","sibsp","parch")
-df <- titanic3[, a]
-df <- df[complete.cases(df), ]
-df$survived <- as.factor(df$survived)
-
-grid = 10^seq(10, -2, length = 100)
-AUC <- c()
-MAUC <- c()
-
-for(i in 1:length(grid)){
-  for(j in 1:100){
-    set.seed(j)
-    ind <- sample(nrow(df), nrow(df), replace = TRUE)
-    ind <- unique(ind)
-    train <- df[ind, ]
-    xtrain <- model.matrix(survived~., train)[,-1]
-    ytrain <- df[ind, 1]
-    test <- df[-ind, ]
-    xtest <- model.matrix(survived~., test)[,-1]
-    ytest <- df[-ind, 1]
-  
-    model <- glmnet(xtrain, ytrain, alpha = 1, lambda = grid[i],
-                    thresh = 1e-12, family = "binomial")
-    phat <- predict(model, s = grid[i], newx = xtest, type = "response")
-    
-    pred <- prediction(phat, ytest)
-    auc <- performance(pred, measure = "auc")
-    AUC[j] <- auc@y.values[[1]]
-  }
-MAUC[i] <- mean(AUC)
-}
-max(MAUC)
-grid[which.max(MAUC)]
-plot(log(grid), MAUC, type="o", col = "red", lwd = 3)
-```
-
-And Ridge:  
-
-```{r, warning=FALSE, message=FALSE, cache=TRUE}
-library(PASWR)
-remove(list = ls())
-data(titanic3)
-
-# Data
-a <- c("survived","sex","age","pclass","sibsp","parch")
-df <- titanic3[, a]
-df <- df[complete.cases(df), ]
-df$survived <- as.factor(df$survived)
-
-grid = 10^seq(10, -2, length = 100)
-AUC <- c()
-MAUC <- c()
-
-for(i in 1:length(grid)){
-  for(j in 1:100){
-    set.seed(j)
-    ind <- sample(nrow(df), nrow(df), replace = TRUE)
-    ind <- unique(ind)
-    train <- df[ind, ]
-    xtrain <- model.matrix(survived~., train)[,-1]
-    ytrain <- df[ind, 1]
-    test <- df[-ind, ]
-    xtest <- model.matrix(survived~., test)[,-1]
-    ytest <- df[-ind, 1]
-  
-    model <- glmnet(xtrain, ytrain, alpha = 0, lambda = grid[i],
-                    thresh = 1e-12, family = "binomial")
-    phat <- predict(model, s = grid[i], newx = xtest, type = "response")
-    
-    pred <- prediction(phat, ytest)
-    auc <- performance(pred, measure = "auc")
-    AUC[j] <- auc@y.values[[1]]
-    }
-  MAUC[i] <- mean(AUC)
-}
-
-max(MAUC)
-grid[which.max(MAUC)]
-plot(log(grid), MAUC, type="o", col = "red", lwd = 3)
-```
-
-What's the level of uncertainty?
-
-```{r, warning=FALSE, message=FALSE, cache=TRUE}
-library(PASWR)
-remove(list = ls())
-data(titanic3)
-
-# Data
-a <- c("survived","sex","age","pclass","sibsp","parch")
-df <- titanic3[, a]
-df <- df[complete.cases(df), ]
-df$survived <- as.factor(df$survived)
-
-AUC <- c()
-
-for(i in 1:500){
-  set.seed(i)
-  ind <- sample(nrow(df), nrow(df), replace = TRUE)
-  ind <- unique(ind)
-  train <- df[ind, ]
-  xtrain <- model.matrix(survived~., train)[,-1]
-  ytrain <- df[ind, 1]
-  test <- df[-ind, ]
-  xtest <- model.matrix(survived~., test)[,-1]
-  ytest <- df[-ind, 1]
-  
-  model <- glmnet(xtrain, ytrain, alpha = 0, lambda = 0.01, family = "binomial")
-  phat <- predict(model, s = 0.01, newx = xtest, type = "response")
-    
-  pred <- prediction(phat, ytest)
-  auc <- performance(pred, measure = "auc")
-  AUC[i] <- auc@y.values[[1]]
-}
-
-sqrt(var(AUC))
-mean(AUC)
-plot(AUC, col = "red", lwd = 2)
-```
-
-And the uncertainty with logistic:
-
-```{r, warning=FALSE, message=FALSE, cache=TRUE}
-AUC1 <- c()
-
-for (i in 1:500) {
-  set.seed(i)
-  ind <- sample(nrow(df), nrow(df), replace = TRUE)
-  tr <- df[ind, ]
-  tt <- df[-ind, ]
-  
-  logi <- glm(survived~., data = tr, family = "binomial")
-  phat <- predict(logi, newdata = tt, type = "response")
-
-  pred <- prediction(phat, tt$survived)
-  auc <- performance(pred, measure = "auc")
-  AUC1[i] <- auc@y.values[[1]]
-}
-
-sqrt(var(AUC1))
-mean(AUC1)
-plot(AUC1, col = "blue", lwd = 2)
-```
+modelr <- cv.glmnet(X, y, alpha = 0)
+coefr <- as.matrix(coef(modelr, s = modelr$lambda.min))
+w.r <- 1/(abs(coefr[-1,]))^g
 
 ## Adaptive Lasso
+set.seed(1)
+alasso <- cv.glmnet(X, y, alpha=1, penalty.factor = w.r)
 
-TBC
+## Lasso
+set.seed(1)
+lasso <- cv.glmnet(X, y, alpha=1)
 
-## ElasticNet
+# Sparsity
+cbind(LASSO = coef(lasso, s="lambda.1se"),
+           ALASSO = coef(alasso, s="lambda.1se"))
+```
 
-TBC
+
 

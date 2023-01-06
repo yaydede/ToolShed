@@ -156,13 +156,14 @@ the-margin
 the-non-separable-case
 nonlinear-boundary-with-kernels
 application-with-svm
-neural-networks
+artificial-neural-networks
+neural-network---the-idea
+backpropagation
+neural-network---more-inputs
+deep-learning
 ridge
 lasso
-regression-2
-lpmlogistic
 adaptive-lasso
-elasticnet
 model-selection
 sparsity
 use-of-machine-learning-in-causality
@@ -243,7 +244,7 @@ algorithmic-optimization
 brute-force-optimization
 derivative-based-methods
 ml-estimation-with-logistic-regression
-gradient-descent
+gradient-descent-algorithm
 one-variable
 multivariable
 optimization-with-r

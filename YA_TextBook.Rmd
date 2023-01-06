@@ -8372,15 +8372,477 @@ Unfortunately, there is no direct way to get information on predictors with SVM,
 
 <!--chapter:end:13.1-SVM.Rmd-->
 
-# Neural Networks
+# Artificial Neural Networks
 
-TBC ...
+Artificial neural networks (ANNs) are a type of machine learning model that are inspired by the structure and function of the human brain. They consist of interconnected units called artificial neurons or nodes, which are organized into layers. The concept of artificial neural networks dates back to the 1940s, when Warren McCulloch and Walter Pitts ([1944](https://link.springer.com/article/10.1007/BF02478259)) proposed a model of the neuron as a simple threshold logic unit. In the 1950s and 1960s, researchers began developing more complex models of the neuron and exploring the use of neural networks for tasks such as pattern recognition and machine translation. However, these early efforts were largely unsuccessful due to the limited computational power of the time.
 
-Both Support Vector Machines and Neural Networks employ some kind of data transformation that moves them into a higher dimensional space. What the kernel function does for the SVM, the hidden layers do for neural networks. For example, the output layer in the network performs a linear separation of the transformed data.
+It wasn't until the 1980s and 1990s that significant progress was made in the development of artificial neural networks, thanks to advances in computer technology and the availability of larger and more diverse datasets. In [1986](https://www.iro.umontreal.ca/~vincentp/ift3395/lectures/backprop_old.pdf), Geoffrey Hinton and his team developed the backpropagation algorithm, which revolutionized the field by allowing neural networks to be trained more efficiently and accurately.  Since then, artificial neural networks have been applied to a wide range of tasks, including image and speech recognition, natural language processing, and even playing games like chess and Go. They have also been used in a variety of fields, including finance, healthcare, and transportation.  Today, artificial neural networks are an important tool in the field of machine learning, and continue to be an active area of research and development.
 
-Are Neural Networks is better than Support Vector Machines?  The following post by [Igor F.](https://stats.stackexchange.com/questions/510052/are-neural-networks-better-than-svms) gives a nice starting example.  Let's start with this simple example:
+There have been many influential works published in the field of artificial neural networks (ANNs) over the years. Here are a few examples of some of the most important and influential papers in the history of ANNs:
+  
+- [Perceptrons](https://psycnet.apa.org/record/1959-09865-001) by Frank Rosenblatt (1957): This paper introduced the concept of the perceptron, which is a type of ANN that can be trained to recognize patterns in data. The perceptron became a foundational concept in the field of machine learning and was a key catalyst for the development of more advanced ANNs. 
+- [Backpropagation](https://www.iro.umontreal.ca/~vincentp/ift3395/lectures/backprop_old.pdf) by Rumelhart, Hinton, and Williams (1986): This paper introduced the backpropagation algorithm, which is a method for training ANNs that allows them to learn and adapt over time. The backpropagation algorithm is still widely used today and has been a key factor in the success of ANNs in many applications. 
+- [LeNet-5](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf) by Yann LeCun et al. (1998): This paper described the development of LeNet-5, an ANN designed for recognizing handwritten digits. LeNet-5 was one of the first successful applications of ANNs in the field of image recognition and set the stage for many subsequent advances in this area. 
+- [Deep Learning](https://pubmed.ncbi.nlm.nih.gov/26017442/) by Yann LeCun, Yoshua Bengio, and Geoffrey Hinton (2015): This paper provided a comprehensive review of the field of deep learning, which is a type of ANN that uses many layers of interconnected neurons to process data. It has had a major impact on the development of deep learning and has helped to drive many of the recent advances in the field. 
+- [Deep Learning](https://www.deeplearningbook.org) by Ian Goodfellow et al. (2016): This book provided a comprehensive overview of the state of the art in deep learning, which is a type of ANN with multiple layers of interconnected nodes. The book helped to popularize deep learning and contributed to its widespread adoption in a variety of fields.  
+  
+These are just a few examples of the many influential papers that have been published in the field of ANNs. There have been many other important contributions to the field as well, and the field continues to evolve and grow as new technologies and techniques are developed.
+  
+Both Support Vector Machines and Neural Networks employ some kind of data transformation that moves them into a higher dimensional space. What the kernel function does for the SVM, the hidden layers do for neural networks. Are Neural Networks is better than Support Vector Machines?  The post by [Igor F.](https://stats.stackexchange.com/questions/510052/are-neural-networks-better-than-svms) gives a nice starting example.
+  
+## Neural Network - The idea
+Let's start with a predictive model with a single input (covariate).  The simplest model could be a linear model: 
 
-TBC ...
+$$
+y \approx \alpha+\beta x
+$$
+
+Since this model could be a quite restrictive, we can have a more flexible one by a polynomial regression:
+
+$$
+y \approx \alpha+\beta_1 x+\beta_2 x^2+\beta_3 x^3+\ldots = \alpha+\sum_{m=1}^M \beta_m x^m
+$$
+
+We can see the first simple ANN as nonlinear functions of linear combinations:
+
+$$
+y \approx \alpha+\beta_1 f\left(\alpha_1+\delta_1 x\right)+\beta_2 f\left(\alpha_2+\delta_2 x\right)+\beta_3 f\left(\alpha_3+\delta_3 x\right)+\ldots\\
+= \alpha+\sum_{m=1}^M \beta_m f\left(\alpha_m+\delta_m x\right)
+$$
+
+where $f(.)$ is an **activation** function – a fixed nonlinear function. Common examples of activation functions are
+
+- The **logistic** (or sigmoid) function: $f(x)=\frac{1}{1+e^{-x}}$; 
+- The **hyperbolic tangent** function: $f(x)=\tanh (x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$; 
+- The Rectified Linear Unit (**ReLU**): $f(x)=\max (0, x)$;  
+
+The full list of activation functions can be found at [Wikipedia](https://en.wikipedia.org/wiki/Activation_function).
+
+Let us consider a realistic (simulated) sample:
+
+```{r, warning=FALSE, message=FALSE}
+n <- 200
+set.seed(1)
+x <- sort(runif(n))
+y <- sin(12*(x + 0.2))/(x + 0.2) + rnorm(n)/2
+df <- data.frame(y, x)
+plot(x, y, main="Simulated data",  col= "grey")
+```
+
+We can fit a polynomial regression with $M = 3$:  
+
+```{r, warning=FALSE, message=FALSE}
+ols <- lm(y ~ x + I(x^2) + I(x^3))
+plot(x, y, main="Polynomial: M = 3",  col= "grey")
+lines(x, predict(ols), col="blue", lwd = 3)
+```
+  
+Now, we can think of the line as weighted sum of fixed components: $\alpha_1+\beta_1 x+\beta_2 x^2+\beta_3 x^3$.  
+
+```{r}
+# Parts
+first <- ols$coefficients[2]*x
+second <- ols$coefficients[3]*x^2
+third <- ols$coefficients[4]*x^3
+yhat <- ols$coefficients[1] + first + second + third 
+
+# Plots
+par(mfrow=c(1,4), oma = c(0,0,2,0))
+plot(x, first, ylab = "y", col = "pink", main = "x")
+plot(x, second, ylab = "y", col = "orange", main = expression(x^2))
+plot(x, third, ylab = "y", col = "green", main = expression(x^3))
+plot(x, y, ylab="y", col = "grey", 
+     main = expression(alpha + bx + bx^2 + bx^3))
+lines(x, yhat, col = "red", lwd = 3)
+mtext("Fixed Components",
+      outer=TRUE, cex = 1.5, col="olivedrab")
+```
+
+The polynomial regression is based on fixed components, or bases: $x, x^2, x^3, \ldots, x^M$.  ANN replaces these fixed components with adjustable ones or bases: $f\left(\alpha_1+\delta_1 x\right)$, $f\left(\alpha_2+\delta_2 x\right)$, $\ldots, f\left(\alpha_M+\delta_M x\right)$.  
+  
+Each component is more flexible than a fixed component.  They are adjustable with tunable internal parameters. They can express several shapes, not just one (fixed) shape. Hence, adjustable components enable to capture complex models with fewer components (smaller M).  
+
+Let's replace those fixed components $x, x^2, x^3$ in our polynomial regression with $f\left(\alpha_1+\delta_1 x\right)$, $f\left(\alpha_2+\delta_2 x\right)$, $f\left(\alpha_3+\delta_3 x\right)$.  
+
+```{r, warning=FALSE, message=FALSE, cache=TRUE}
+library(neuralnet)
+set.seed(2)
+nn <- neuralnet(y ~ x, data = df, hidden = 3, threshold = 0.05) 
+yhat <- compute(nn, data.frame(x))$net.result
+plot(x, y, main="Neural Networks: M=3")
+lines(x, yhat, col="red", lwd = 3)
+```
+
+Why did neural networks perform better than polynomial regression in the previous example? Again, adjustable components enable to capture complex models. Let's delve little deeper.  Here is the weight structure of 
+
+$$
+y \approx \alpha+\sum_{m=1}^3 \beta_m f\left(\alpha_m+\delta_m x\right)\\
+= \alpha+\beta_1 f\left(\alpha_1+\delta_1 x\right)+\beta_2 f\left(\alpha_2+\delta_2 x\right)+\beta_3 f\left(\alpha_3+\delta_3 x\right)
+$$
+
+```{r}
+nn$weights
+plot(nn, rep = "best")
+```
+  
+We used sigmoid (logistic) activation functions
+
+$$
+\text{Node 1:} ~~~f(x)=\frac{1}{1+e^{-x}}=\frac{1}{1+e^{-(1.26253-18.95937x)}}\\
+\text{Node 2:} ~~~f(x)=\frac{1}{1+e^{-x}}=\frac{1}{1+e^{-(6.599773-12.24665x)}}\\
+\text{Node 3:} ~~~f(x)=\frac{1}{1+e^{-x}}=\frac{1}{1+e^{-(2.504890-5.700564x)}}
+$$
+
+We can calculate the value of each activation function by using our data, $x$:
+  
+```{r, warning=FALSE, message=FALSE}
+X <- cbind(1, x)
+
+# to 1st Node
+n1 <- nn$weights[[1]][[1]][,1]
+f1 <- nn$act.fct(X%*%n1)
+
+# to 2nd Node
+n2 <- nn$weights[[1]][[1]][,2]
+f2 <- nn$act.fct(X%*%n2)
+
+# to 3rd Node
+n3 <- nn$weights[[1]][[1]][,3]
+f3 <- nn$act.fct(X%*%n3)
+
+par(mfrow=c(1,3), oma = c(0,0,2,0))
+plot(x, f1, col = "pink", main = expression(f(a1 + b1x)))
+plot(x, f2, col = "orange", main = expression(f(a2 + b2x)))
+plot(x, f3, col = "green", main = expression(f(a3 + b3x)))
+mtext("Flexible Components",
+      outer=TRUE, cex = 1.5, col="olivedrab")
+```
+
+Now we will go from these nodes to the "sink":
+
+$$
+\frac{1}{1+e^{-(1.26253-18.95937x)}} \times 13.032092\\
+\frac{1}{1+e^{-(6.599773-12.24665x)}}\times 19.923742\\
+\frac{1}{1+e^{-(2.504890-5.700564x)}}\times -32.173264
+$$
+
+Fianlly we will add these with a "bias", the intercept:
+
+$$
+2.407654 + \\
+\frac{1}{1+e^{-(1.26253-18.95937x)}} \times 13.032092+\\
+\frac{1}{1+e^{-(6.599773-12.24665x)}}\times 19.923742+\\
+\frac{1}{1+e^{-(2.504890-5.700564x)}}\times -32.173264 
+$$
+
+Here are the results:  
+
+```{r, warning=FALSE, message=FALSE}
+# From Nodes to sink (Y) ##
+f12 <- f1*nn$weights[[1]][[2]][2]
+f22 <- f2*nn$weights[[1]][[2]][3]
+f23 <- f3*nn$weights[[1]][[2]][4]
+
+## Results
+yhat <- nn$weights[[1]][[2]][1] + f12 + f22 + f23
+plot(x, y, main="ANN: M = 3")
+lines(x, yhat, col="red", lwd = 3)
+```
+
+## Backpropagation
+
+In 1986, [Rumelhart et al.](https://www.iro.umontreal.ca/~vincentp/ift3395/lectures/backprop_old.pdf) found a way to train neural networks, with the backpropagation algorithm. Today, we would call it a Gradient Descent using reverse-mode autodiff.  Backpropagation is an algorithm used to train neural networks by adjusting the weights and biases of the network to minimize the cost function.  Suppose we have a simple neural network as follows:
+
+```{r, echo=FALSE, out.width = '65%', out.height='60%'}
+knitr::include_graphics("png/ANN1.png")
+```  
+
+First, let's define a loss function, MSPE:  
+
+$$
+\text{MSPE}=\frac{1}{n} \sum_{i=1}^n\left(y_i-p\left(\mathbf{x}_i\right)\right)^2
+$$
+  
+And we want to solve:  
+  
+$$
+\omega^{\star}=\operatorname{argmin}\left\{\frac{1}{n} \sum_{i=1}^n\left(y_i-p\left(\mathbf{x}_i\right)\right)^2\right\}
+$$
+  
+To compute the gradient of the error with respect to a weight $w$ or a bias $b$, we use the chain rule:  
+
+$$
+\frac{\partial \text{MSPE}}{\partial w} =\frac{\partial \text{MSPE}}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial z}\frac{\partial z}{\partial w}
+$$
+Remember, $\hat{y} = f(x)=\frac{1}{1+e^{-z}}=\frac{1}{1+e^{-(\alpha+wx)}}$, where $w$ is the weight or bias in the network. By repeating this process for each weight and bias in the network, we can calculate the error gradient and use it to adjust the weights and biases in order to minimize the error of the neural network.  This can be done by using gradient descent (See Appendix 1), which is an iterative method for optimizing a differentiable objective function, typically by minimizing it.  However, with a multilayer ANN, we use stochastic gradient descent (SGD), which is a faster method iteratively minimizing the loss function by taking small steps in the opposite direction of the gradient of the function at the current position. The gradient is calculated using a randomly selected subset of the data, rather than the entire dataset, which is why it is called "stochastic."  One of the main advantages of SGD is that it can be implemented very efficiently and can handle large datasets very well.  
+
+## Neural Network - More inputs
+
+With a set of covariates $X=\left(1, x_1, x_2, \ldots, x_k\right)$, we have  
+
+$$
+y \approx \alpha+\sum_{m=1}^M \beta_m f\left(\alpha_m+\textbf{X} \delta_m\right)=\\
+= \alpha+\beta_1 f\left(\alpha_1+\delta_{11} x_{1i}+\delta_{12} x_{2i} \dots +\delta_{1k} x_{ki}\right)+\dots\\
++\beta_M f\left(\alpha_{M1}+\delta_{M1} x_{1i}+\delta_{M2} x_{2i} \dots +\delta_{Mk} x_{ki}\right)
+$$
+
+By adding nonlinear functions of linear combinations with $M>1$, we have seen that we can capture nonlinearity.  With multiple features, we can now capture interaction effects and, hence, obtain a more flexible model.  This can be seen in red and green arrows in the follwing picture:  
+
+```{r, echo=FALSE, out.width = '65%', out.height='60%'}
+knitr::include_graphics("png/ANN2.png")
+```  
+
+Let's have an application using a Mincer equation and the data (SPS 1985 - cross-section data originating from the May 1985 Current Population Survey by the US Census Bureau) from `AER` package.  
+
+Before we start, there are few important pre-processing steps to complete.  First, ANN are inefficient when the data are not scaled.  The reason is backpropagation.  Since ANN use gradient descent, the different scales in features will cause different step sizes. Scaling the data before feeding it to the model enables the steps in gradient descent updated at the same rate for all the features. Second, indicator predictors should be included in the input matrix by dummy-coding. Note that, the standardization should avoid those indicator variables.  Finally, the formula for the model needs to be constructed to initialize the algorithm.  Let's see all of these pre-processing steps below:  
+
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+library(AER)
+data("CPS1985")
+
+df <- CPS1985
+
+# Scaling and Dummy coding
+df[,sapply(df, is.numeric)] <- scale((df[, sapply(df, is.numeric)]))
+ddf <- model.matrix(~.-1, data= df, contrasts.arg =
+                       lapply(df[,sapply(df, is.factor)],
+                              contrasts, contrasts = FALSE))
+
+ddf <- as.data.frame(ddf)
+
+# formula to pass on ANN and lm()  
+w.ind <- which(colnames(ddf)=="wage")
+frmnn <- as.formula(paste("wage~", paste(colnames(ddf[-w.ind]), collapse='+')))
+frmln <- as.formula(paste("wage~", "I(experience^2)", "+",
+                          paste(colnames(ddf[-w.ind]), collapse = "+")))
+
+# Bootstrapping loops instead of CV
+mse.test <- matrix(0, 10, 5)
+for(i in 1:10){ 
+  
+  set.seed(i+1)
+  trainid <- unique(sample(nrow(ddf), nrow(ddf), replace = TRUE))
+  train <- ddf[trainid,]
+  test <- ddf[-trainid,]
+  
+  # Models 
+  fit.lm <- lm(frmln, data = train)
+  fit.nn <- neuralnet(frmnn, data = train, hidden = 1, threshold = 0.05,
+                      linear.output = FALSE)
+  fit.nn2 <- neuralnet(frmnn, data = train, hidden = 2, threshold = 0.05)
+  fit.nn3 <- neuralnet(frmnn, data = train, hidden = 3, threshold = 0.05)
+  fit.nn4 <- neuralnet(frmnn, data = train, hidden = 3, threshold = 0.05,
+                       act.fct = "tanh", linear.output = FALSE)
+ 
+  # Prediction errors
+  mse.test[i,1] <- mean((test$wage - predict(fit.lm, test))^2)
+  mse.test[i,2] <- mean((test$wage - predict(fit.nn, test))^2)
+  mse.test[i,3] <- mean((test$wage - predict(fit.nn2, test))^2)
+  mse.test[i,4] <- mean((test$wage - predict(fit.nn3, test))^2)
+  mse.test[i,5] <- mean((test$wage - predict(fit.nn4, test))^2)
+  
+}
+
+colMeans(mse.test)
+```
+
+This experiment alone shows that a **linear** Mincer equation (with `I(expreince^2)`) is a much better predictor than ANN.  As the complexity of ANN rises with more neurons, the likelihood that ANN overfits goes up, which is the case in our experiment.  In general, linear regression may be a good choice for simple, low-dimensional datasets with a strong linear relationship between the variables, while ANNs may be better suited for more complex, high-dimensional datasets with nonlinear relationships between variables.  
+
+Overfitting can be a concern when using ANNs for prediction tasks. Overfitting occurs when a model is overly complex and has too many parameters relative to the size of the training data, leading it to fit the noise in the training data rather than the underlying pattern. As a result, the model may perform well on the training data but poorly on new, unseen data.  One way to mitigate overfitting in ANNs is to use techniques such as regularization, which imposes constraints on the model to prevent it from becoming too complex. Another approach is to use techniques such as early stopping, which involves interrupting the training process when the model starts to overfit the training data.  
+
+## Deep Learning
+
+Simply, a Deep Neural Network (DNN), or Deep Learning, is an artificial neural network that has two or more hidden layers. Even greater flexibility is achieved via composition of activation functions:  
+
+$$
+y \approx \alpha+\sum_{m=1}^M \beta_m f\left(\alpha_m^{(1)}+\underbrace{\sum_{p=1}^P f\left(\alpha_p^{(2)}+\textbf{X} \delta_p^{(2)}\right)}_{\text {it replaces } \textbf{X}} \delta_m^{(1)}\right)
+$$
+   
+Before having an application, note that there are many packages that offer ANN implementations in R and even more with Python. For example, CRAN hosts more than 80 packages related to neural network modeling. Above, we just saw one example with `neuralnet`.  The work by [Mahdi et al, 2021](https://www.inmodelia.com/exemples/2021-0103-RJournal-SM-AV-CD-PK-JN.pdf) surveys and ranks these packages for their accuracy, reliability, and ease-of-use.  
+  
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+mse.test <- c()
+for(i in 1:10){ 
+  
+  set.seed(i+1)
+  trainid <- unique(sample(nrow(ddf), nrow(ddf), replace = TRUE))
+  train <- ddf[trainid,]
+  test <- ddf[-trainid,]
+  
+  # Models
+  fit.nn22 <- neuralnet(frmnn, data = train, hidden = c(3,3), threshold = 0.05)
+ 
+  mse.test[i] <- mean((test$wage - predict(fit.nn22, test))^2)
+ }
+
+mean(mse.test)
+```
+
+Increasing overfitting!  Here is the plot for our DNN:  
+
+```{r}
+plot(fit.nn22, rep = "best")
+```
+
+A better plot could be obtained by using the `NeuralNetTools` package:  
+
+```{r}
+library(NeuralNetTools)
+plotnet(fit.nn22)
+```
+  
+Training DNN is an important concept and we leave it to the end. As we see, deep neural networks can model complex non-linear relationships.
+With very complex problems, such as detecting hundreds of types of objects in high-resolution images, we need to train deeper NN, perhaps with 10 layers or more each with hundreds of neurons.  Therefore, training a fully-connected DNN is a very slow process facing a severe risk of overfitting with millions of parameters.  Moreover, gradients problems make lower layers very hard to train.  Solutions: Convolutional Neural Networks (CNN or ConvNets) and Recurrent Neural Networks (RNN).  
+
+Before moving on with these new DNN solutions, we should ask if we can obtain any information about the relationship between the prediction and predictors.   The interpretability of an artificial neural network (ANN), which is known to be a "blackbox" method, can be an issue regardless of the complexity of the network. However, it is generally easier to understand the decisions made by a simple ANN than by a more complex one.  
+
+A simple ANN might have only a few layers and a relatively small number of neurons, making it easier to understand how the input data is processed and how the final output is produced. However, even a simple ANN can still be a black box in the sense that the specific calculations and decisions made by the individual neurons within the network are not fully visible or understood.  On the other hand, a more complex ANN with many layers and a large number of neurons can be more difficult to interpret, as the internal workings of the network are more complex and harder to understand. In these cases, it can be more challenging to understand how the ANN is making its decisions or to identify any biases or errors in its output. Overall, the interpretability of an ANN depends on the complexity of the network and the specific task it is being used for. Simple ANNs may be more interpretable, but even they can be considered black boxes to some extent.  
+
+Here are a few resources that provide information about the interpretability of artificial neural networks (ANNs):  
+  
+- [Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book/) by Christoph Molnar is a online book that provides an overview of interpretability in machine learning, including techniques for interpreting ANNs. 
+- [Interpretability of Deep Neural Networks](https://ieeexplore.ieee.org/document/8397411) by Chakraborty is a survey paper that discusses the interpretability of deep neural networks and presents an overview of the various techniques and approaches that have been developed to improve their interpretability.  
+
+Before concluding this section we apply DNN to a classification problem using the same data that we have in Section 14.4.4:  
+
+```{r, message=FALSE, warning=FALSE}
+library(ISLR)
+df <- Carseats
+str(df)
+
+#Change SALES to a factor variable
+df$Sales <- as.factor(ifelse(Carseats$Sales <= 8, 0, 1))
+dff <- df[, -1]
+
+# Scaling and Dummy coding
+dff[,sapply(dff, is.numeric)] <- scale((dff[, sapply(dff, is.numeric)]))
+ddf <- model.matrix(~.-1, data= dff, contrasts.arg =
+                       lapply(dff[, sapply(dff, is.factor)],
+                              contrasts, contrasts = FALSE))
+
+ddf <- data.frame(Sales = df$Sales, ddf)
+
+# Formula
+w.ind <- which(colnames(ddf)=="Sales")
+frm <- as.formula(paste("Sales~", paste(colnames(ddf[-w.ind]), collapse='+')))
+```
+
+```{r, warning=FALSE, message=FALSE, cache=TRUE}
+library(ROCR)
+
+n <- 10
+AUC1 <- c()
+AUC2 <- c()
+
+for (i in 1:n) {
+  set.seed(i)
+  ind <- unique(sample(nrow(ddf), nrow(ddf), replace = TRUE))
+  train <- ddf[ind, ]
+  test <- ddf[-ind, ]
+  
+  # Models
+  fit.ln <- glm(frm, data = train, family = binomial(link = "logit"))
+  fit.dnn <- neuralnet(frm, data = train, hidden = 2, threshold = 0.05,
+                       linear.output = FALSE, err.fct = "ce")
+  
+  #Predictions
+  phat.ln <- predict(fit.ln, test, type = "response")
+  phat.dnn <- predict(fit.dnn, test, type = "repsonse")[,2]
+
+  #AUC for predicting Y = 1
+  pred_rocr1 <- ROCR::prediction(phat.ln, test$Sales)
+  auc_ROCR1 <- ROCR::performance(pred_rocr1, measure = "auc")
+  AUC1[i] <- auc_ROCR1@y.values[[1]]
+
+  pred_rocr2 <- ROCR::prediction(phat.dnn, test$Sales)
+  auc_ROCR2 <- ROCR::performance(pred_rocr2, measure = "auc")
+  AUC2[i] <- auc_ROCR2@y.values[[1]]
+  
+}
+
+(c(mean(AUC1), mean(AUC2)))
+
+```
+
+Again the results are not very convincing to use DNN in this example.  Let's have a more complex task with [Red Wine](https://www.kaggle.com/datasets/piyushgoyal443/red-wine-dataset?resource=download) dataset from Kaggle ([Cortez et.al, 2009](https://www.sciencedirect.com/science/article/abs/pii/S0167923609001377)).  Our job us to use 11 attributes to classify each wine 
+  
+```{r}
+dfr <- read.csv("wineQualityReds.csv", header = TRUE)
+dfr <- dfr[,-1] # removing the index
+table(dfr$quality)
+
+# Let's remove the outlier qualities:
+indo <- which(dfr$quality=="3"|dfr$quality=="8")
+dfr <- dfr[-indo, ]
+dfr$quality <- as.factor(dfr$quality)
+table(dfr$quality)
+```
+
+Let's scale it and get the formula
+
+```{r}
+# Scaling and Dummy coding
+dfr[,sapply(dfr, is.numeric)] <- scale((dfr[, sapply(dfr, is.numeric)]))
+ddf <- model.matrix(~quality -1, data = dfr)
+w.ind <- which(colnames(dfr)=="quality")
+dfr <- dfr[,-w.ind] # removing 'quality`
+df <- cbind(ddf, dfr)
+frm <- as.formula(paste(paste(colnames(ddf), collapse='+'), "~", 
+                        paste(colnames(dfr), collapse='+')))
+frm
+```
+
+And, our simple DNN application
+
+```{r, message=FALSE, warning=FALSE, cache=TRUE}
+ind <- sample(nrow(df), nrow(df)*.7)
+train <- df[ind,]
+test <- df[-ind,]
+
+fit.nn <- neuralnet(frm, data = train, hidden = c(3,2), threshold = 0.05,
+                       linear.output = FALSE, err.fct = "ce")
+
+plot(fit.nn, rep = "best")
+```
+
+And our prediction:
+
+```{r, warning=FALSE, message=FALSE}
+library(utiml)
+
+phat <- predict(fit.nn, test)
+head(phat)
+
+label.hat <- t(apply(phat, 1, function(x) as.numeric(x == max(x))))
+head(label.hat)
+
+# Confusion Table
+pred <- apply(phat, 1, which.max)
+fck <- colnames(test)[1:4]
+predicted <- fck[pred]
+
+act<- apply(test[,1:4], 1, which.max)
+actual <- fck[act]
+
+table(predicted, actual)
+```
+
+This is just an example and the results are not reflecting a trained model.  Advance DNN applications with a proper training requires a longer time and more capable machines.  We can do a grid search on different number of hidden layers and neurons.  However, a large datasets and more complex DNNs need better applications, like, `Keras` that uses GPU on Linux systems allowing a much better efficiency in training. So far, we have used the `neuralnet` package.  There are several packages in R that are capable of implementing and training artificial neural networks (ANNs), and the most suitable one for your needs will depend on your specific requirements and preferences. Some popular packages for implementing ANNs in R include:
+  
+- `nnet`: This package is specifically designed for training and using feedforward neural networks, which are a type of ANN that consists of layers of interconnected "neurons" that process and transmit information. It provides functions for building and training feedforward networks, and for making predictions with them. 
+- `caret`: As we've seen before, this is a general-purpose package for building and evaluating machine learning models, including ANNs. It provides functions for building and training ANNs, and for tuning their hyperparameters using techniques like cross-validation. It also offers a wide range of functions for preprocessing and analyzing data, and for evaluating the performance of trained models. 
+- `deepnet`: This package is designed for building and training deep learning models, which are a type of ANN with many layers that are capable of learning complex patterns in data. It provides functions for building and training deep learning models using a variety of techniques, including backpropagation, autoencoders, and convolutional neural networks (CNNs). 
+
+Ultimately, the best package for ANNs in R will depend on your specific needs and requirements. If you are looking for a powerful and flexible package for building and training ANNs, `neuralnet` or `deepnet` may be good options. If you just need a simple and easy-to-use package for training feedforward networks and making predictions, `nnet` may be a good choice. If you want a general-purpose package that can handle a wide range of machine learning tasks, including ANNs, `caret` may be a good option.
+
+Deep neural networks (DNNs) are neural networks with many layers, which can be difficult to train because of the large number of parameters that need to be optimized. This can make the training process computationally intensive and prone to overfitting.  Convolutional neural networks (CNNs), on the other hand, are specifically designed to process data that has a grid-like structure, such as an image. One key aspect of CNNs is that they use convolutional layers, which apply a set of filters to the input data and produce a set of transformed feature maps. These filters are able to detect specific features in the input data, such as edges, corners, or textures, and are able to share these features across the input data. This means that the number of parameters in a CNN is typically much smaller than in a DNN, which makes the model easier to train and less prone to overfitting.
+
+Overall, CNNs are well-suited for tasks such as image classification, object detection and, speech recognition. We will not cover the details of CNN here.  There are several packages available in R for working with CNNs but `Keras` with the `TensowFlow` back-end is the most effective one.
+
+Finally, in a deep neural network, "dropout" and "regularization" are techniques used to prevent overfitting.  Dropout is a regularization technique that randomly drops out, or removes, a certain percentage of neurons from the network during training. This has the effect of reducing the complexity of the model, as it can't rely on any one neuron or group of neurons to make predictions. Regularization is a general term that refers to any method used to prevent overfitting in a machine learning model. There are many types of regularization techniques, which add a penalty term to the parameters of the the activation functions.
+
+We will be back to ANN later in Section IX - Time Series.  
+
 
 <!--chapter:end:13.2-NN.Rmd-->
 
@@ -8388,22 +8850,26 @@ TBC ...
 
 # Parametric models in prediction {-}
 
-*Note that this section is work in progress without a proper copyediting* ...
+In simple regression or classification problems, we cannot train a parametric model in a way that the fitted model minimizes the out-of-sample prediction error.  We could (and did) fit the parametric models **manually** by adding or removing predictors and their interactions and polynomials.  As we have seen in earlier chapters, by dropping a variable in a regression, for example, it is possible to reduce the variance at the cost of a negligible increase in bias.  
+  
+In fitting the predictive model, some of the variables used in a multiple regression model may not be well associated with the response. Keeping those "irrelevant" variables often leads to unnecessary complexity in the resulting model. Regularization or penalization is an alternative and automated fitting procedure that refers to a process that removes irrelevant variables or shrinks the magnitude of their parameters, which can yield better prediction accuracy and model interpretability by preventing overfitting.
 
-Remember, in simple regression or classification problems, we cannot train a parametric model in a way that the fitted model minimizes out-of-sample prediction error.  We could and did the fit the models **manually** by adding or removing predictors and their interactions and polynomials.    Penalization in regressions (also called as regularization or shrinkage) is an alternative and automated fitting procedure, which can yield better prediction accuracy and model interpretability by preventing overfitting.
+There are several types of regularization techniques that can be used in parametric models.  Each of these techniques adds a different type of penalty term to the objective function and can be used in different situations depending on the characteristics of the data and the desired properties of the model.  Two methods, Ridge and Lasso, are two of well-known benchmark techniques that reduce the model complexity and prevent overfitting resulting from simple linear regression. 
 
-Two methods, Ridge and Lasso, are two of well-known benchmark techniques that reduce the model complexity and prevent overfitting resulting from simple linear regression. 
-
-As we have seen in earlier chapters, by dropping a variable in a regression it is possible to reduce the variance at the cost of a negligible increase in bias. In fitting the predictive model, some of the variables used in a multiple regression model may not be well associated with the response. Keeping those "irrelevant" variables often leads to unnecessary complexity in the resulting model. Sometimes this process, - removing irrelevant variables - is called as "feature selection", which sets the corresponding coefficients to zero.
-
-In addition to variable selection, we can also constrain or shrink the estimated coefficients. If the number of observations is not much larger than the number of variables, this regularization can lead to substantial improvements in the out-of-sample prediction accuracy.  
-As we have seen before, one can fit the following standard linear model, which describes the relationship between $Y$ and a set of $X$ variables, by using least squares.  
+The general principle in penalization can be shown as 
 
 $$
-Y=\beta_{0}+\beta_{1} X_{1}+\cdots+\beta_{p} X_{p}+\epsilon
+\widehat{m}_\lambda(\boldsymbol{x})=\operatorname{argmin}\left\{\sum_{i=1}^n \underbrace{\mathcal{L}\left(y_i, m(\boldsymbol{x})\right)}_{\text {loss function }}+\underbrace{\lambda\|m\|_{\ell_q}}_{\text {penalization }}\right\}
 $$
 
-Although this model is linear, one can obtain a non-linear nature of the relationship between $Y$ and $X$'s by adding polynomials and interaction that increases the the dimension of the model beyond what the dataset provides.  There are several approaches involving fitting a model that incorporates features selection.  Here, we will see only the "shrinkage" method that shrinks the estimated coefficients towards zero.  The two best-known techniques for shrinking the regression coefficients towards zero are ridge regression and the lasso.  
+where $\mathcal{L}$ could be conditional mean, quantiles, expectiles, $m$ could be linear, logit, splines, tree-based models, neural networks.  The penalization,  $\ell_q$, could be lasso ($\ell_1$) or ridge ($\ell_2$).  And, $\lambda$ regulates overfitting that can be determined by cross-validation or other methods.  It puts a price to pay for a having more flexible model:
+  
+- $\lambda\rightarrow0$: it interpolates data, low bias, high variance
+- $\lambda\rightarrow\infty$: linear model high bias, low variance
+
+There are two fundamental goals in statistical learning: achieving a high prediction accuracy and identifying relevant predictors. The second objective, variable selection, is particularly important when there is a true sparsity in the underlying model. By their nature, penalized parametric models are not well-performing tools for prediction.  But, they provide important tools for model selection specially when $p>N$ and the true model is sparse.  This section starts with two major models in regularized regressions, Ridge and Lasso, and develops an idea on sparse statistical modelling with Adaptive Lasso.
+
+Although there are many sources on the subject, perhaps the most fundamental one is [Statistical Learning with Sparsity](https://hastie.su.domains/StatLearnSparsity/) by Hastie et al. (2015).
 
 # Ridge
 
@@ -8415,12 +8881,29 @@ $$
 Ridge regression is very similar to least squares, except that the coefficients are estimated by minimizing a slightly different quantity.
 
 $$
-\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} x_{i j}\right)^{2}+\lambda \sum_{j=1}^{p} \beta_{j}^{2} =\mathrm{RSS}+\lambda \sum_{j=1}^{p} \beta_{j}^{2}
+\sum_{i=1}^{n}\left(y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} x_{i j}\right)^{2}+\lambda \sum_{j=1}^{p} \beta_{j}^{2} =\mathrm{RSS}+\lambda \sum_{j=1}^{p} \beta_{j}^{2},
 $$
 
-Where $\lambda$ is the hyperparameter that can be tuned by cross-validation and grid search.  The additional terms is a constraint, $\lambda \sum_{j} \beta_{j}^{2}$, which is also called shrinkage penalty (hence, the title of the lecture: `Penalized Regressions`).  This type of penalty is called as $\ell_{2}$.  As with OLS, this cost function tries to minimize RSS but also penalizes the size of the coefficients.
+where $\lambda$ is the hyperparameter that can be tuned by cross-validation and grid search.  The last term, $\lambda \sum_{j} \beta_{j}^{2}$, is a constraint, which is also called shrinkage penalty.  This type of penalty is called as $\ell_{2}$.  As with Ordinary Least Squares (OLS), this cost function tries to minimize RSS but also penalizes the size of the coefficients.
 
-The hyperparameter parameter $\lambda$ controls the relative impact of the penalization on the regression coefficient estimates. When $\lambda = 0$, the cost function becomes RSS, that is the cost function of OLS and the estimations produce the least squares estimates. However, as $\lambda$ gets higher, the impact of the shrinkage penalty grows, and the ridge regression coefficient estimates will approach zero. Note that, the shrinkage penalty is applied to slope coefficients not to the intercept, which is simply a measure of the mean value of the response, when all features are zero.
+More specifically,
+  
+$$
+\hat{\beta}_\lambda^{\text {ridge }}=\operatorname{argmin}\left\{\left\|\mathbf{y}-\left(\beta_0+\mathbf{X} \beta\right)\right\|_{\ell_2}^2+\lambda\|\beta\|_{\ell_2}^2\right\}
+$$
+  
+Explicit solution:
+  
+$$
+\hat{\beta}_\lambda=\left(\mathbf{X}^{\top} \mathbf{X}+\lambda \mathbf{I}\right)^{-1} \mathbf{X}^{\top} \mathbf{y}
+$$
+  
+where
+If $\lambda \rightarrow 0, \quad \hat{\beta}_0^{\text {ridge }}=\hat{\beta}^{\text {ols }}$
+If $\lambda \rightarrow \infty, \quad \hat{\beta}_{\infty}^{\text {ridge }}=\mathbf{0}$
+
+
+The hyperparameter $\lambda$ controls the relative impact of the penalization on the regression coefficient estimates. When $\lambda = 0$, the cost function becomes RSS, that is the cost function of OLS and the estimations produce the least squares estimates. However, as $\lambda$ gets higher, the impact of the shrinkage penalty grows, and the coefficients of the ridge regression will approach zero. Note that, the shrinkage penalty is applied to slope coefficients not to the intercept, which is simply a measure of the mean value of the response, when all features are zero.
 
 Lets apply this to the same data we used earlier, `Hitters` from the [ISLR](http://faculty.marshall.usc.edu/gareth-james/ISL/) [@ISLR_2021] package:
 
@@ -8433,23 +8916,26 @@ data(Hitters)
 df <- Hitters[complete.cases(Hitters$Salary), ]
 ```
 
-We will use `glmnet` to fit a ridge regression.  This function has slightly different syntax from other model-fitting functions that we have used so far in this book, such as the `y ~ x` syntax.  Therefore before we execute the syntax, we have the prepare the model so that `x` will be a matrix and `y` will be vector.  Hence `X` matrix has to be prepared before we proceed.  The other important point is that `NA` are not allowed in `glmnet`.
+We will use `glmnet` to fit a ridge regression. The generic function in `glmnet` is defined by 
+
+$$
+\min _{\beta_0, \beta} \frac{1}{N} \sum_{i=1}^N w_i l\left(y_i, \beta_0+\beta^T x_i\right)+\lambda\left[(1-\alpha)\|\beta\|_2^2 / 2+\alpha\|\beta\|_1\right] \text {, }
+$$
+where $l\left(y_i, \eta_i\right)$ is the negative log-likelihood contribution for observation $i$ and $\alpha$ is the elastic net penalty: lasso regression ( $\alpha=1$, the default) and ridge regression $(\alpha=0)$. As before, the tuning parameter $\lambda$ controls the overall strength of the penalty.  Since the penalty shrinks (ridge) the coefficients of correlated variables or pick one of them and discard the others (lasso), the variables are supposed to be standardized, which is done by `glmnet`.
+
+This function has slightly different syntax from other model-fitting functions that we have used so far in this book, such as the `y ~ X` syntax. Therefore, before we execute the syntax, we have the prepare the model so that `X` will be a matrix and `y` will be vector.  The matrix `X` has to be prepared before we proceed, which must be free of `NA`s.
 
 ```{r, warning=FALSE, message=FALSE}
 X  <- model.matrix(Salary~., df)[,-1]
 y <- df$Salary
-
-# look at the difference b/w X and df
-head(X)
-str(df)
 ```
 
-The `glmnet` package is maintained by Trevor Hastie who provides a friendly [vignette](https://web.stanford.edu/~hastie/glmnet/glmnet_alpha.html) [@Hastie_glmnet].  They describe the importance of `model.matrix()` in `glmnet` as follows:
+The `glmnet` package is maintained by Trevor Hastie who provides a friendly [vignette](https://glmnet.stanford.edu/articles/glmnet.html) [@Hastie_glmnet].  They describe the importance of `model.matrix()` in `glmnet` as follows:
 
 > (...)particularly useful for creating $x$; not only does it produce a matrix corresponding to the 19 predictors but it also automatically transforms any qualitative variables into dummy variables. The latter property is important because `glmnet()` can only take numerical, quantitative inputs.
 >
 
-The `glmnet()` function has an `alpha` argument that determines what type of model is fit. If `alpha = 0` then a ridge regression model is fit, and if `alpha = 1` then a lasso model is fit.  Here is the example for a ridge regression:
+Here is the example for a ridge regression:
 
 ```{r, warning=FALSE, message=FALSE}
 library(glmnet)
@@ -8457,38 +8943,32 @@ grid = 10^seq(10, -2, length = 100)
 model <- glmnet(X, y, alpha = 0, lambda = grid)
 ```
 
-As you can see, we didn't do an explicit grid search by cross validation.  By default, the `glmnet()` function performs ridge regression for an automatically selected range of $\lambda$ values.  It ranges from the null model - only intercept when $\lambda$ is at the upper bound and the least squares fit when the $\lambda$ is at lower bound.  The application above is to show that we can also choose to implement the function over a grid of values.  Moreover, the `glmnet()` function standardizes the variables so that they are on the same scale. To turn off this default setting, use the argument `standardize=FALSE`.  
+Although we defined the grid, we did not do a grid search explicitly by cross validation.  By default, the `glmnet()` function performs ridge regression for an automatically selected range of $\lambda$ values.  It ranges from the null model - only intercept when $\lambda$ is at the upper bound and the least squares fit when the $\lambda$ is at lower bound.  The application above is to show that we can also choose to implement the function over a grid of values.  Moreover, the `glmnet()` function standardizes the variables so that they are on the same scale. To turn off this default setting, use the argument `standardize=FALSE`.  
 
-The methods here, ridge and lasso, are parametric models.  Unlike non-parametric methods, each model is defined by a set of parameters or, as in our case, coefficients.  Therefore, when we do a grid search, each value of the hyperparameter is associated with one model defined by a set of coefficients.  In order to see the coefficients we need to apply another function, `coef()`.  Remember, we have 100 hyperparameters.  Hence, `coef()` produces a 20 x 100 matrix, with 20 rows (one for each predictor, plus an intercept) and 100 columns (one for each value of $\lambda$).  
+The methods here, ridge and lasso, are parametric models.  Unlike non-parametric methods, each model is defined by a set of parameters or, as in our case, coefficients.  Therefore, when we do a grid search, each value of the hyperparameter ($\lambda$) is associated with one model defined by a set of coefficients.  In order to see the coefficients we need to apply another function, `coef()`.  Remember, we have 100 $\lambda's$.  Hence, `coef()` produces a 20 x 100 matrix, with 20 rows (one for each predictor, plus an intercept) and 100 columns (one for each value of $\lambda$).  
 
 ```{r, warning=FALSE, message=FALSE}
 dim(coef(model))
-coef(model)[1:10, 1:10]
+model$lambda[c(20,80)]
+coef(model)[, c(20,80)]
 ```
 
-Due to the penalty, we expect the coefficient estimates to be much smaller, when a large value of $\lambda$ is used.  For example:
-
-```{r, warning=FALSE, message=FALSE}
-model$lambda[50]
-coef(model)[, 50]
-```
-
-And,  
-
-```{r, warning=FALSE, message=FALSE}
-model$lambda[60]
-coef(model)[, 60]
-```
-
-We will generally use the `predict()` function as before.  But, here we can also use it to estimate the ridge regression coefficients for a new value of $\lambda$.  Hence, if we don't want to rely on the internal grid search provided by `glmnet()`, we can do our own grid search by `predict()`.  This is an example when $\lambda = 50$, which wasn't in the grid.    
+Due to the penalty, we see that the coefficient estimates are much smaller, when a large value of $\lambda$ is used.
+  
+We generally use the `predict()` function as before.  But, here we can also use it to estimate the ridge regression coefficients for a new value of $\lambda$.  Hence, if we don't want to rely on the internal grid search provided by `glmnet()`, we can do our own grid search by `predict()`.  This is an example when $\lambda = 50$, which wasn't in the grid.    
 
 ```{r, warning=FALSE, message=FALSE}
 predict(model, s = 50, type = "coefficients")
 ```
+  
+There are two ways that we can train ridge (and Lasso):
+  
+- Use our own training algorithm; 
+- Rely on `'glmnet` internal cross-validation process. 
 
-There are two ways that we can train ridge (and Lasso): (1) to use our own training algorithm; (2) rely on `'glmnet` internal cross-validation process. Here is an example for our own training algorithm for training ridge regression:   
-
-```{r, warning=FALSE, message=FALSE, cache=TRUE}
+Here is an example for our own training algorithm for training ridge regression:   
+  
+```{r R1, warning=FALSE, message=FALSE, cache=TRUE}
 grid = 10^seq(10, -2, length = 100)
 
 MSPE <- c()
@@ -8497,14 +8977,15 @@ MMSPE <- c()
 for(i in 1:length(grid)){
   for(j in 1:100){
     set.seed(j)
-    ind <- sample(nrow(df), nrow(df), replace = TRUE)
-    ind <- unique(ind)
+    ind <- unique(sample(nrow(df), nrow(df), replace = TRUE))
+    
     train <- df[ind, ]
     xtrain <- model.matrix(Salary~., train)[,-1]
-    ytrain <- df[ind, 19]
+    ytrain <- df[ind, "Salary"]
+    
     test <- df[-ind, ]
     xtest <- model.matrix(Salary~., test)[,-1]
-    ytest <- df[-ind, 19]
+    ytest <- df[-ind, "Salary"]
   
     model <- glmnet(xtrain, ytrain, alpha = 0, lambda = grid[i], thresh = 1e-12)
     yhat <- predict(model, s = grid[i], newx = xtest)
@@ -8521,8 +9002,8 @@ plot(log(grid), MMSPE, type="o", col = "red", lwd = 3)
 What is the tuned model using the last training test with this $\lambda$?  
 
 ```{r, warning=FALSE, message=FALSE}
-lam <- grid[which.min(MMSPE)]
-coeff <- predict(model, s = lam , type = "coefficients", newx = xtrain)
+lambda <- grid[which.min(MMSPE)]
+coeff <- predict(model, s = lambda , type = "coefficients", newx = xtrain)
 coeff
 ```
 
@@ -8533,8 +9014,7 @@ MSPE <- c()
 
 for(j in 1:100){
   set.seed(j)
-  ind <- sample(nrow(df), nrow(df), replace = TRUE)
-  ind <- unique(ind)
+  ind <- unique(sample(nrow(df), nrow(df), replace = TRUE))
   train <- df[ind, ]
   test <- df[-ind,]
   
@@ -8543,16 +9023,12 @@ for(j in 1:100){
   MSPE[j] <- mean((yhat - test$Salary)^2)
 }
 mean(MSPE)
-plot(MSPE, col = "blue", lwd = 2)
 summary(model)
 ```
   
-The second way is the `glmnet` internal training process, `cv.glmnet`, which is the main function to do cross-validation along with various supporting methods such as plotting and prediction.  A part of the following scripts follows the same algorithm as the one in the book (ISLR p.254).  This approach uses a specific grid on $\lambda$.    
+The second way is to rely on the `glmnet` internal training process, `cv.glmnet`, which is the main function to do cross-validation along with various supporting methods such as plotting and prediction.  A part of the following scripts follows the same algorithm as the one in the book ([Introduction to Statistical Learning](https://www.statlearning.com) - ISLR p.254).  This approach uses a specific grid on $\lambda$.    
 
 ```{r, warning=FALSE, message=FALSE, cache=TRUE}
-X  <- model.matrix(Salary~., df)[,-1]
-y <- df$Salary
-
 # With a defined grid on lambda
 bestlam <- c()
 mse <- c()
@@ -8560,7 +9036,7 @@ grid = 10^seq(10, -2, length = 100)
 
 for(i in 1:100){
   set.seed(i)
-  train <- sample(1:nrow(X), nrow(X)/2) # arbitrary split
+  train <- sample(1:nrow(X), nrow(X)*0.5) # 50% split
   test <- c(-train)
   ytest <- y[test]
 
@@ -8569,10 +9045,12 @@ for(i in 1:100){
   bestlam[i] <- cv.out$lambda.min
 
   #Predicting with that lambda
-  ridge.mod <- glmnet(X[train,], y[train], alpha = 0, lambda = grid, thresh = 1e-12)
-  yhat <- predict(ridge.mod, s = bestlam, newx = X[test,])
+  ridge.mod <- glmnet(X[train,], y[train], alpha = 0,
+                      lambda = grid, thresh = 1e-12)
+  yhat <- predict(ridge.mod, s = bestlam[i], newx = X[test,])
   mse[i] <- mean((yhat - ytest)^2)
 }
+
 mean(bestlam)
 mean(mse)
 plot(bestlam, col = "blue")
@@ -8582,16 +9060,13 @@ plot(mse, col = "pink")
 Now the same application without a specific grid:  
 
 ```{r, warning=FALSE, message=FALSE, cache=TRUE}
-X  <- model.matrix(Salary~., df)[,-1]
-y <- df$Salary
-
 bestlam <- c()
 mse <- c()
 
-# Without a defined grid on lambda
+# Without a pre-defined grid on lambda
 for(i in 1:100){
   set.seed(i)
-  train <- sample(1:nrow(X), nrow(X)/2) # arbitrary split
+  train <- sample(1:nrow(X), nrow(X)*0.5) # arbitrary split
   test <- c(-train)
   ytest <- y[test]
   
@@ -8604,13 +9079,15 @@ mean(mse)
 plot(mse, col = "pink")
 ```
 
-Ridge regression’s advantage over least squares is rooted in the bias-variance trade-off. As $\lambda$ increases, the flexibility of the ridge regression fit decreases, leading to decreased variance but increased bias. Ridge regression works best in situations where the least squares estimates have high variance.
+Ridge regression adds a penalty term that is the sum of the squares of the coefficients of the features in the model. This results in a penalty that is continuous and differentiable, which makes Ridge regression easy to optimize using gradient descent. Ridge regression can be useful when you have a large number of features, and you want to shrink the coefficients of all of the features towards zero, but you still want to keep all of the features in the model. Ridge regression works best in situations where the least squares estimates have high variance.
+
+On the other hand, Lasso (Least Absolute Shrinkage and Selection Operator) adds a penalty term that is the sum of the absolute values of the coefficients of the features in the model. This results in a penalty that is non-differentiable, which makes it more difficult to optimize using gradient descent. However, Lasso has the advantage of being able to set the coefficients of some features to exactly zero, effectively eliminating those features from the model. This can be useful when you have a large number of features, and you want to select a subset of the most important features to include in the model.
 
 <!--chapter:end:14-Ridge.Rmd-->
 
 # Lasso
 
-Ridge regression does have one obvious disadvantage.  The penalty, $\lambda \sum_{j} \beta_{j}^{2}$, will shrink all of the coefficients towards zero, but it will not set any of them exactly to zero.  This may not be a problem for prediction accuracy, but it can create a challenge in model interpretation in settings in which the number of variables is quite large.  Increasing the value of $\lambda$ will tend to reduce the magnitudes of the coefficients, but will not result in exclusion of any of the variables.  
+The penalty in ridge regression, $\lambda \sum_{j} \beta_{j}^{2}$, will shrink all of the coefficients towards zero, but it will not set any of them exactly to zero.  This may present a problem in model interpretation when the number of variables is quite large.  One of the key advantages of Lasso is that it can set the coefficients of some features to exactly zero, effectively eliminating those features from the model. By eliminating unnecessary or redundant features from the model, Lasso can help to improve the interpretability and simplicity of the model. This can be particularly useful when you have a large number of features and you want to identify the most important ones for predicting the target variable.
 
 The lasso (least absolute shrinkage and selection operator) is a relatively recent alternative to ridge regression that overcomes this disadvantage. The lasso coefficients minimize the following quantity:
 
@@ -8619,30 +9096,35 @@ The lasso (least absolute shrinkage and selection operator) is a relatively rece
   (\#eq:16-1)
 \end{equation} 
 
-As with ridge regression, the lasso shrinks the coefficient estimates towards zero. However, in the case of the lasso, the $\ell_{1}$ penalty, which is represented by the second term of equation 16.1, has the effect
-of forcing some of the coefficient estimates to be exactly equal to zero when the tuning parameter $\lambda$ is sufficiently large.  Hence, the lasso performs variable selection. As a result, models generated from the lasso are generally much easier to interpret than those produced by ridge regression.  
+The lasso also shrinks the coefficient estimates towards zero. However, the $\ell_{1}$ penalty, the second term of equation 18.1, has the effect of forcing some of the coefficient estimates to be exactly equal to zero when the tuning parameter $\lambda$ is sufficiently large.  Hence, the lasso performs variable selection. As a result, models generated from the lasso are generally much easier to interpret than those produced by ridge regression.  
 
-In general, one might expect lasso to perform better in a setting where a relatively small number of predictors have substantial coefficients, and the remaining predictors have coefficients that are very small or that equal zero. Ridge regression will perform better when the response is a function of many predictors, all with coefficients of roughly equal size. However, the number of predictors that is related to the response is never known a priori for real data sets.
+In general, one might expect lasso to perform better in a setting where a relatively small number of predictors have substantial coefficients and the remaining predictors have no significant effect on the outcome. This property is known as "sparsity", because it results in a model with a relatively small number of non-zero coefficients.  In some cases, Lasso can find a true sparsity pattern in the data, which means that it can identify a small subset of the most important features that are sufficient to accurately predict the target variable. This can be particularly useful when you have a large number of features, and you want to identify the most important ones for predicting the target variable.
 
-## Regression
-  
-Now, we will apply lasso to the same data in the last chapter, `Hitters`.  Again, we will follow the similar way to compare ridge and lasso as in ISLR :  
+Now, we will apply lasso to the same data in the last chapter, `Hitters`.  Again, we will follow a similar way to compare ridge and lasso as in ISLR :  
 
 ```{r, warning=FALSE, message=FALSE, cache=TRUE}
+library(glmnet)
+library(ISLR)
+remove(list = ls())
+
+data(Hitters)
+df <- Hitters[complete.cases(Hitters$Salary), ]
 X  <- model.matrix(Salary~., df)[,-1]
 y <- df$Salary
 
 # Without a specific grid on lambda
 set.seed(1)
-train <- sample(1:nrow(X), nrow(X)/2)
+train <- sample(1:nrow(X), nrow(X)*0.5)
 test <- c(-train)
 ytest <- y[test]
 
+# Ridge
 set.seed(1)
 ridge.out <- cv.glmnet(X[train,], y[train], alpha = 0)
 yhatR <- predict(ridge.out, s = "lambda.min", newx = X[test,])
 mse_r <- mean((yhatR - ytest)^2)
 
+# Lasso
 set.seed(1)
 lasso.out <- cv.glmnet(X[train,], y[train], alpha = 1)
 yhatL <- predict(lasso.out, s = "lambda.min", newx = X[test,])
@@ -8650,21 +9132,31 @@ mse_l <- mean((yhatL - ytest)^2)
 
 mse_r
 mse_l
+```
 
+Now, we will define our own grid search:  
+
+```{r, warning=FALSE, message=FALSE, cache=TRUE}
 # With a specific grid on lambda + lm()
+grid = 10^seq(10, -2, length = 100)
+
 set.seed(1)
-train <- sample(1:nrow(X), nrow(X)/2)
+train <- sample(1:nrow(X), nrow(X)*0.5)
 test <- c(-train)
 ytest <- y[test]
 
-ridge.mod <- glmnet(X[train,], y[train], alpha = 0, lambda = grid, thresh = 1e-12)
+#Ridge
+ridge.mod <- glmnet(X[train,], y[train], alpha = 0,
+                    lambda = grid, thresh = 1e-12)
 set.seed(1)
 cv.outR <- cv.glmnet(X[train,], y[train], alpha = 0)
 bestlamR <- cv.outR$lambda.min
 yhatR <- predict(ridge.mod, s = bestlamR, newx = X[test,])
 mse_R <- mean((yhatR - ytest)^2)
 
-lasso.mod <- glmnet(X[train,], y[train], alpha = 1, lambda = grid, thresh = 1e-12)
+# Lasso
+lasso.mod <- glmnet(X[train,], y[train], alpha = 1,
+                    lambda = grid, thresh = 1e-12)
 set.seed(1)
 cv.outL <- cv.glmnet(X[train,], y[train], alpha = 1)
 bestlamL <- cv.outL$lambda.min
@@ -8678,22 +9170,25 @@ mse_L
 Now we will apply our own algorithm
 
 ```{r, warning=FALSE, message=FALSE, cache=TRUE}
+grid = 10^seq(10, -2, length = 100)
 MSPE <- c()
 MMSPE <- c()
 
 for(i in 1:length(grid)){
   for(j in 1:100){
     set.seed(j)
-    ind <- sample(nrow(df), nrow(df), replace = TRUE)
-    ind <- unique(ind)
+    ind <- unique(sample(nrow(df), nrow(df), replace = TRUE))
+    
     train <- df[ind, ]
     xtrain <- model.matrix(Salary~., train)[,-1]
     ytrain <- df[ind, 19]
+    
     test <- df[-ind, ]
     xtest <- model.matrix(Salary~., test)[,-1]
     ytest <- df[-ind, 19]
   
-    model <- glmnet(xtrain, ytrain, alpha = 1, lambda = grid[i], thresh = 1e-12)
+    model <- glmnet(xtrain, ytrain, alpha = 1,
+                    lambda = grid[i], thresh = 1e-12)
     yhat <- predict(model, s = grid[i], newx = xtest)
     MSPE[j] <- mean((yhat - ytest)^2)
     }
@@ -8712,236 +9207,63 @@ coef_lasso <- coef(model, s=grid[which.min(MMSPE)], nonzero = T)
 coef_lasso
 ```
 
-## LPM/Logistic
+We can also try a classification problem with LPM or Logistic regression when the response is categorical. If there are two possible outcomes, we use the binomial distribution, else we use the multinomial.
 
-Instead of numerical outcome variable, when we have a binary variable the regression becomes a classification problem. As we have seen before, we can use LPM or Logistic regression when the response is categorical. If there are two possible outcomes, we use the binomial distribution, else we use the multinomial.
+# Adaptive Lasso
 
-We will start with `Titanic` dataset:
+Unlike lasso, which uses a simple $\ell_{1}$ penalty, adaptive lasso uses a weighted $\ell_{1}$ penalty. The weights are chosen to adapt to the correlation structure of the data, which can result in a more stable model with fewer coefficients being exactly zero. Adaptive lasso is a method for regularization and variable selection in regression analysis that was introduced by Zou (2006) in [The Adaptive Lasso and Its Oracle Properties](http://users.stat.umn.edu/~zouxx019/Papers/adalasso.pdf) by Zou (2006). In this paper, the author proposed the use of a weighted $\ell_{1}$ penalty in the objective function, with the weights chosen to adapt to the correlation structure of the data. He showed that this method can result in a more stable model with fewer coefficients being exactly zero, compared to the standard lasso method which uses a simple $\ell_{1}$ penalty. The adaptive lasso enjoys the oracle properties; namely, it performs as well as if the true underlying model were given in advance. 
 
-```{r, warning=FALSE, message=FALSE}
-library(PASWR)
+Since its introduction, adaptive lasso has been widely used in a variety of applications in statistical modeling and machine learning. It has been applied to problems such as feature selection in genomic data, high-dimensional regression, and model selection in generalized linear models.  Adaptive lasso is useful in situations where the predictors are correlated and there is a need to select a small subset of important variables to include in the model. It is also useful in situations where the goal is to identify a representative model from the set of all possible models, rather than just selecting a single model. 
+
+Consider the linear regression model:
+
+$$
+y_i=x_i^{\prime} \beta^0+\epsilon_i, ~~~~i=1, \ldots, n ~~~~\text{and} ~~~~\beta^0 \text { is } (p \times 1)
+$$
+The adaptive Lasso estimates $\beta^0$ by minimizing
+  
+$$
+L(\beta)=\sum_{i=1}^n\left(y_i-x_i^{\prime} \beta\right)^2+\lambda_n \sum_{j=1}^p \frac{1}{w_j}\left|\beta_j\right|
+$$
+  
+where, typically $w_j=(\left|\hat{\beta}_{O L S_j}\right|)^{\gamma}$ or $w_j=(\left|\hat{\beta}_{Ridge_j}\right|)^{\gamma}$, where $\gamma$ is a positive constant for adjustment of the Adaptive Weights vector, and suggested to be the possible values of 0.5, 1, and 2.
+
+The weights in Adaptive lasso (AL) are more "intelligent" than those for the plain Lasso. The plain Lasso penalizes all parameters equally, while the adaptive Lasso is likely to penalize non-zero coefficients less than the zero ones. This is due to the fact, that the weights are based on the consistent least squares estimator. If $\beta_{AL, j}=0$, then $\hat{\beta}_{O L S, j}$ is likely to be close to zero and so $w_j$ is small. Hence, truly zero coefficients are penalized a lot.  However, it might require a two-step procedure as opposed to the one-step plain Lasso. Some studies (Zou, 2006) state that the plain lasso is not oracle efficient (consistency in variable selection and asymptotic normality in coefficient estimation) while adaptive lasso is.
+
+Here is an example:  
+
+```{r}
+library(ISLR)
+library(glmnet)
+
 remove(list = ls())
 
-data(titanic3)
-str(titanic3)
+data(Hitters)
+df <- Hitters[complete.cases(Hitters$Salary), ]
+X  <- model.matrix(Salary~., df)[,-1]
+y <- df$Salary
 
-# Data
-a <- c("survived","sex","age","pclass","sibsp","parch")
-df <- titanic3[, a]
-df <- df[complete.cases(df), ]
-df$survived <- as.factor(df$survived)
-
-# model.matrix
-X  <- model.matrix(survived~., df)[,-1]
-y <- df$survived
-
-# look at the difference b/w X and df
-head(X)
-```
-
-The input matrix `x` is the same as other families. For binomial logistic regression, the response variable `y` should be either a factor with two levels, or a two-column matrix of counts or proportions.  Other optional arguments of `glmnet` for binomial regression are almost same as those for Gaussian family. Don’t forget to set family option to “binomial”.  
-
-```{r, warning=FALSE, message=FALSE, cache=TRUE}
-library(ROCR)
-
+# Ridge weights with gamma = 1
+g = 1
 set.seed(1)
-train <- sample(1:nrow(X), nrow(X)/2)
-test <- c(-train)
-ytest <- y[test]
-
-# Ridge
-set.seed(1)
-cv.outR <- cv.glmnet(X[train,], y[train], alpha = 0, family = "binomial")
-phatR <- predict(cv.outR, s = "lambda.min", newx = X[test,], type = "response")
-
-predR <- prediction(phatR, ytest)
-aucR <- performance(predR, measure = "auc")
-AUCR <- aucR@y.values[[1]]
-
-# Lasso
-set.seed(1)
-cv.outL <- cv.glmnet(X[train,], y[train], alpha = 1, family = "binomial")
-phatL <- predict(cv.outL, s = "lambda.min", newx = X[test,], type = "response")
-
-predL <- prediction(phatL, ytest)
-aucL <- performance(predL, measure = "auc")
-AUCL <- aucL@y.values[[1]]
-
-AUCR
-AUCL
-
-# Logistic
-tr <- df[train,]
-tt <- df[test, ]
-
-logi <- glm(survived~., data = tr, family = "binomial")
-phat <- predict(logi, newdata = tt, type = "response")
-
-pred <- prediction(phat, tt$survived)
-auc <- performance(pred, measure = "auc")
-auc@y.values[[1]]
-```
-
-Now our own algorithm:
-
-```{r, warning=FALSE, message=FALSE, cache=TRUE}
-library(PASWR)
-remove(list = ls())
-
-data(titanic3)
-
-# Data
-a <- c("survived","sex","age","pclass","sibsp","parch")
-df <- titanic3[, a]
-df <- df[complete.cases(df), ]
-df$survived <- as.factor(df$survived)
-
-grid = 10^seq(10, -2, length = 100)
-AUC <- c()
-MAUC <- c()
-
-for(i in 1:length(grid)){
-  for(j in 1:100){
-    set.seed(j)
-    ind <- sample(nrow(df), nrow(df), replace = TRUE)
-    ind <- unique(ind)
-    train <- df[ind, ]
-    xtrain <- model.matrix(survived~., train)[,-1]
-    ytrain <- df[ind, 1]
-    test <- df[-ind, ]
-    xtest <- model.matrix(survived~., test)[,-1]
-    ytest <- df[-ind, 1]
-  
-    model <- glmnet(xtrain, ytrain, alpha = 1, lambda = grid[i],
-                    thresh = 1e-12, family = "binomial")
-    phat <- predict(model, s = grid[i], newx = xtest, type = "response")
-    
-    pred <- prediction(phat, ytest)
-    auc <- performance(pred, measure = "auc")
-    AUC[j] <- auc@y.values[[1]]
-  }
-MAUC[i] <- mean(AUC)
-}
-max(MAUC)
-grid[which.max(MAUC)]
-plot(log(grid), MAUC, type="o", col = "red", lwd = 3)
-```
-
-And Ridge:  
-
-```{r, warning=FALSE, message=FALSE, cache=TRUE}
-library(PASWR)
-remove(list = ls())
-data(titanic3)
-
-# Data
-a <- c("survived","sex","age","pclass","sibsp","parch")
-df <- titanic3[, a]
-df <- df[complete.cases(df), ]
-df$survived <- as.factor(df$survived)
-
-grid = 10^seq(10, -2, length = 100)
-AUC <- c()
-MAUC <- c()
-
-for(i in 1:length(grid)){
-  for(j in 1:100){
-    set.seed(j)
-    ind <- sample(nrow(df), nrow(df), replace = TRUE)
-    ind <- unique(ind)
-    train <- df[ind, ]
-    xtrain <- model.matrix(survived~., train)[,-1]
-    ytrain <- df[ind, 1]
-    test <- df[-ind, ]
-    xtest <- model.matrix(survived~., test)[,-1]
-    ytest <- df[-ind, 1]
-  
-    model <- glmnet(xtrain, ytrain, alpha = 0, lambda = grid[i],
-                    thresh = 1e-12, family = "binomial")
-    phat <- predict(model, s = grid[i], newx = xtest, type = "response")
-    
-    pred <- prediction(phat, ytest)
-    auc <- performance(pred, measure = "auc")
-    AUC[j] <- auc@y.values[[1]]
-    }
-  MAUC[i] <- mean(AUC)
-}
-
-max(MAUC)
-grid[which.max(MAUC)]
-plot(log(grid), MAUC, type="o", col = "red", lwd = 3)
-```
-
-What's the level of uncertainty?
-
-```{r, warning=FALSE, message=FALSE, cache=TRUE}
-library(PASWR)
-remove(list = ls())
-data(titanic3)
-
-# Data
-a <- c("survived","sex","age","pclass","sibsp","parch")
-df <- titanic3[, a]
-df <- df[complete.cases(df), ]
-df$survived <- as.factor(df$survived)
-
-AUC <- c()
-
-for(i in 1:500){
-  set.seed(i)
-  ind <- sample(nrow(df), nrow(df), replace = TRUE)
-  ind <- unique(ind)
-  train <- df[ind, ]
-  xtrain <- model.matrix(survived~., train)[,-1]
-  ytrain <- df[ind, 1]
-  test <- df[-ind, ]
-  xtest <- model.matrix(survived~., test)[,-1]
-  ytest <- df[-ind, 1]
-  
-  model <- glmnet(xtrain, ytrain, alpha = 0, lambda = 0.01, family = "binomial")
-  phat <- predict(model, s = 0.01, newx = xtest, type = "response")
-    
-  pred <- prediction(phat, ytest)
-  auc <- performance(pred, measure = "auc")
-  AUC[i] <- auc@y.values[[1]]
-}
-
-sqrt(var(AUC))
-mean(AUC)
-plot(AUC, col = "red", lwd = 2)
-```
-
-And the uncertainty with logistic:
-
-```{r, warning=FALSE, message=FALSE, cache=TRUE}
-AUC1 <- c()
-
-for (i in 1:500) {
-  set.seed(i)
-  ind <- sample(nrow(df), nrow(df), replace = TRUE)
-  tr <- df[ind, ]
-  tt <- df[-ind, ]
-  
-  logi <- glm(survived~., data = tr, family = "binomial")
-  phat <- predict(logi, newdata = tt, type = "response")
-
-  pred <- prediction(phat, tt$survived)
-  auc <- performance(pred, measure = "auc")
-  AUC1[i] <- auc@y.values[[1]]
-}
-
-sqrt(var(AUC1))
-mean(AUC1)
-plot(AUC1, col = "blue", lwd = 2)
-```
+modelr <- cv.glmnet(X, y, alpha = 0)
+coefr <- as.matrix(coef(modelr, s = modelr$lambda.min))
+w.r <- 1/(abs(coefr[-1,]))^g
 
 ## Adaptive Lasso
+set.seed(1)
+alasso <- cv.glmnet(X, y, alpha=1, penalty.factor = w.r)
 
-TBC
+## Lasso
+set.seed(1)
+lasso <- cv.glmnet(X, y, alpha=1)
 
-## ElasticNet
+# Sparsity
+cbind(LASSO = coef(lasso, s="lambda.1se"),
+           ALASSO = coef(alasso, s="lambda.1se"))
+```
 
-TBC
+
 
 
 <!--chapter:end:15-Lasso.Rmd-->
@@ -10586,7 +10908,7 @@ The following notes will serve as an introduction to the R basics that we will n
 
 R is used both for software development and data analysis. We will not use it for software development but apply some concepts in that area.  Our main goal will be to analyze data, but we will also perform programming exercises that help illustrate certain algorithmic concepts.  
 
-Here is a very good article about R and Programming that every body should read: [7 Reasons for policy professionals to get into R programming in 2019](http://gilesd-j.com/2019/01/07/7-reasons-for-policy-professionals-to-get-pumped-about-r-programming-in-2019/) [@Jones_2019].
+Here is a very good article about R and Programming that everybody should read: [7 Reasons for policy professionals to get into R programming in 2019](http://gilesd-j.com/2019/01/07/7-reasons-for-policy-professionals-to-get-pumped-about-r-programming-in-2019/) [@Jones_2019].
 
 ## RStudio
   
@@ -11027,7 +11349,7 @@ We will see later how these conditional subsetting can be done much smoother wit
 
 ## R-Style Guide
 
-The idea is simple: your R code, or any other code in different languages, should be written in a readable and maintainable style.  Here is a [blog](https://rpahl.github.io/r-some-blog/my-r-style-guide/) by Roman Pahl that may help you develop a better styling in your codes. (You may find in some chapters and labs that my codes are not following the "good" styling practices.  I am trying to improve!)  
+The idea is simple: your R code, or any other code in different languages, should be written in a readable and maintainable style.  Here is a [blog](https://rpahl.github.io/r-some-blog/r-style-guide/) by Roman Pahl that may help you develop a better styling in your codes. (You may find in some chapters and labs that my codes are not following the "good" styling practices.  I am trying to improve!)  
 
 **Next: Lists and data frames**  
 
@@ -11834,7 +12156,7 @@ OK, they are fine now. Let's see if they have any missing value. Missing values 
 
 ```{r, warning=FALSE, message=FALSE}
 any(is.na(autompg))
-#But we have to be caefull.  HP is a character vector.  Why?  Perhaps it contains a character?
+#But we have to be careful.  HP is a character vector.  Why?  Perhaps it contains a character?
 which(autompg$hp == "?")
 
 #Pay attention to subset().  This will be a time-saver
@@ -13121,11 +13443,22 @@ while(abs(sum(delta)) > 0.0001){
 x
 ```
   
-## Gradient Descent
+## Gradient Descent Algorithm
 
-Now we will find the parameters of a regression function and verify it with `lm()`.  Below, we first use a simple linear regression function on simulated data and estimate its parameters with `lm()`.  
+Let's start with a regression problem. The cost function in OLS is the residual sum of squares, $\mathrm{RSS}=\sum_{i=1}^n\left(\widehat{e}_i\right)^2=\sum_{i=1}^n\left(y_i-\hat{y}\right)^2=\sum_{i=1}^n\left(y_i-\left(b_1+b_2 x_i\right)\right)^2$, which is a convex function.  Our objective to find $b_1$ and $b_2$ that minimize RSS. How can we find those parameters to minimize a cost function if we don't know much about it? The trick is to start with some point and move a bit (locally) in the direction that reduces the value of the cost function.  In general, this search process for finding the minimizing point has two components: the direction and the step size. The direction tells us which direction we move next, and the step size determines how far we move in that direction. For example, the iterative search for $b_2$ of gradient descent can be described by the following recursive rule:
 
-Let's simulate a sample with our DGM.  
+$$
+b_2^{(k+1)}=b_2^{(k)}-lr \nabla RSS^{k}
+$$
+Here, $lr$ is *learning rate* and $\nabla RSS^{k}$ is the slope of RSS at step $k$.  Hence, $lr \nabla RSS^{k}$ is the total step size at step $k$.  Note that, as we move from either directions towards $b^*_2$, $\nabla RSS^{k}$ gets smaller. In fact, it becomes zero at $b^*_2$. Therefore, $\nabla RSS^{k}$ helps iterations find the proper adjustment in each step in terms of direction and magnitude. Since RSS is a convex function, it's easy to see how sign of $\nabla RSS^{k}$ will direct the arbitrary $b_2^{''}$ towards the optimal $b_2$.
+
+```{r, echo=FALSE, out.width = '65%', out.height='60%'}
+knitr::include_graphics("png/gradient.png")
+```  
+
+Since first-order approximation at $b_2^{''}$ is good only for small $\Delta b_2$, a small $lr>0$ is needed to o make $\Delta b_2$ small in magnitude. Moreover, when a high learning rate used it leads to "overshooting" past the local minima and may result in diverging algorithm.
+
+Below, we first use a simple linear regression function on simulated data and estimate its parameters with `lm()`.  Let's simulate a sample with our DGM.  
 
 ```{r, message=FALSE, warning=FALSE}
 set.seed(1001)
@@ -13158,19 +13491,19 @@ gradientDesc <- function(x, y, learnrate, conthresh, maxiter) {
   converged = F
   iterations = 0
   #while loop
-   while(converged == F) {
+  while (converged == F) {
     b_new <- b + learnrate * (1 / n) * (sum((y - yhat) * x))
     c_new <- c + learnrate * (1 / n) * (sum(y - yhat))
     b <- b_new
     c <- c_new
     yhat <- b * x + c
     MSE_new <- sum((y - yhat) ^ 2) / n
-    if(abs(MSE - MSE_new) <= conthresh) {
+    if (abs(MSE - MSE_new) <= conthresh) {
       converged = T
       return(paste("Intercept:", c, "Slope:", b))
     }
     iterations = iterations + 1
-    if(iterations > maxiter) { 
+    if (iterations > maxiter) {
       converged = T
       return(paste("Max. iter. reached, ", "Intercept:",
                    c, "Slope:", b))
@@ -13179,10 +13512,10 @@ gradientDesc <- function(x, y, learnrate, conthresh, maxiter) {
 }
 ```
 
-Note that the key part in this algorithm is $b_new <- b + learnrate * (1 / n) * (sum((y - yhat) * x))$.
-The first $b$ that is picked randomly by  $b <- runif(1, 0, 1)$ is adjusted by $learnrate * (1 / n) * (sum((y - yhat) * x))$.  
+Note that the key part in this algorithm is `b_new <- b + learnrate * (1 / n) * (sum((y - yhat) * x))`.
+The first $b$ that is picked randomly by  `b <- runif(1, 0, 1)` is adjusted by `learnrate * (1 / n) * (sum((y - yhat) * x))`.  
 
-Note that $sum((y - yhat) * x)$ is one of the f.o.c of the cost function (RSS - Residual Sum of Squares) or the "normal" equation for the slope coefficient. The cost function (RSS) is a convex function where the minimum can be achieved by the optimal $b$.  It a linear Taylor approximation of RSS at $b$ that provides the **steepest** descent, that is just a simple adjustment for identifying the direction of the adjustment of $b$ until the minimum RSS is reached.  
+Note that `sum((y - yhat) * x)` is one of the f.o.c of the cost function (RSS - Residual Sum of Squares) or the "normal" equation for the slope coefficient. The cost function (RSS) is a convex function where the minimum can be achieved by the optimal $b$.  It is a linear Taylor approximation of RSS at $b$ that provides the **steepest** descent, that is just a simple adjustment for identifying the direction of the adjustment of $b$ until the minimum RSS is reached.  
 
 Now we will see if this function will give us the same intercept and slope coefficients already calculated with `lm()` above.
 
@@ -13194,7 +13527,7 @@ gradientDesc(x1, Y, 0.000293, 0.001, 2500000) # Perfect
 gradientDesc(x1, Y, 0.00293, 0.001, 2500000) # perfect
 ```
 
-Yes, the main question is how do we find out what the learning rate should be?  We'll see later some better methods to initiate it.
+Yes, the main question is how do we find out what the learning rate should be?  It is an active research question and to answer it is beyond this chapter. A general suggestion, however, is to keep it small and tune it within the training process.
   
 ### Multivariable
 
@@ -13402,56 +13735,55 @@ Here is what we will do with the fraud data in the following script:
 
 In addition, we will compare with and without balancing.
 
-```{r, echo=FALSE, include=FALSE, warning=FALSE, message=FALSE}
-rm(list = ls())
-load("~/Dropbox/TheBOOK/Kyle/Kyle Edits (v2)/Pre-Review Edited Version(V2)/Pre-Review Edited Version/creditcard10.RData")
-creditcard10 <- df
-```
-
 ```{r, message=FALSE, warning=FALSE, cache=TRUE}
-df <- creditcard10
-df$Class <- as.factor(df$Class)
-
-AUCb <- c()
-AUCimb <- c()
-n = 10 # Could be 50, since the data is large for RF
-B = 100
-
-for (i in 1:n) {
-  set.seed(i+i*100)
-  ind <- sample(nrow(df), nrow(df), replace = TRUE)
-  ind <- unique(ind) # Otherwise it oversamples 0's
-  train <- df[ind, ]
-  test <- df[-ind, ]
-  
-  # Balancing
-  outdf <- SMOTE(X = train[, -31], target = train$Class, K = 10, dup_size = 50)
-  trainn <- outdf$data
-  trainn$class <- as.factor(trainn$class) #SMOTE makes factor to "chr"!
-  colnames(trainn)[31] <- "Class" #SMOTE made it lower case!
-  
-  modelb <- randomForest(Class~., ntree = B, data = trainn)    
-  phatb <- predict(modelb, test, type = "prob")
-  
-  # Without Balancing
-  modelimb <- randomForest(Class~., ntree = B, data = train)    
-  phatimb <- predict(modelimb, test, type = "prob")
- 
-  #AUCb
-  pred_rocr1 <- prediction(phatb[,2], test$Class)
-  auc_ROCR1 <- performance(pred_rocr1, measure = "auc")
-  AUCb[i] <- auc_ROCR1@y.values[[1]]
-  
-  #AUCimb
-  pred_rocr1 <- prediction(phatimb[,2], test$Class)
-  auc_ROCR1 <- performance(pred_rocr1, measure = "auc")
-  AUCimb[i] <- auc_ROCR1@y.values[[1]]
-}
-
-model <- c("Balanced", "Imbalanced")
-AUCs <- c(mean(AUCb), mean(AUCimb))
-sd <- c(sqrt(var(AUCb)), sqrt(var(AUCimb)))
-data.frame(model, AUCs, sd) 
+# library(ROCR)
+# library(smotefamily)
+# library(randomForest)
+# 
+# rm(list = ls())
+# load("creditcard10.RData")
+# df$Class <- as.factor(df$Class)
+# 
+# AUCb <- c()
+# AUCimb <- c()
+# n = 10 # Could be 50, since the data is large for RF
+# B = 100
+# 
+# for (i in 1:n) {
+#   set.seed(i)
+#   ind <- sample(nrow(df), nrow(df), replace = TRUE)
+#   ind <- unique(ind) # Otherwise it oversamples 0's
+#   train <- df[ind, ]
+#   test <- df[-ind, ]
+#   
+#   # Balancing
+#   outdf <- SMOTE(X = train[, -31], target = train$Class, K = 10, dup_size = 50)
+#   trainn <- outdf$data
+#   trainn$class <- as.factor(trainn$class) #SMOTE makes factor to "chr"!
+#   colnames(trainn)[31] <- "Class" #SMOTE made it lower case!
+#   
+#   modelb <- randomForest(Class~., ntree = B, data = trainn)    
+#   phatb <- predict(modelb, test, type = "prob")
+#   
+#   # Without Balancing
+#   modelimb <- randomForest(Class~., ntree = B, data = train)    
+#   phatimb <- predict(modelimb, test, type = "prob")
+#  
+#   #AUCb
+#   pred_rocr1 <- prediction(phatb[,2], test$Class)
+#   auc_ROCR1 <- performance(pred_rocr1, measure = "auc")
+#   AUCb[i] <- auc_ROCR1@y.values[[1]]
+#   
+#   #AUCimb
+#   pred_rocr1 <- prediction(phatimb[,2], test$Class)
+#   auc_ROCR1 <- performance(pred_rocr1, measure = "auc")
+#   AUCimb[i] <- auc_ROCR1@y.values[[1]]
+# }
+# 
+# model <- c("Balanced", "Imbalanced")
+# AUCs <- c(mean(AUCb), mean(AUCimb))
+# sd <- c(sqrt(var(AUCb)), sqrt(var(AUCimb)))
+# data.frame(model, AUCs, sd) 
 ```
 
 

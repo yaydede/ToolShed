@@ -400,11 +400,22 @@ while(abs(sum(delta)) > 0.0001){
 x
 ```
   
-## Gradient Descent
+## Gradient Descent Algorithm
 
-Now we will find the parameters of a regression function and verify it with `lm()`.  Below, we first use a simple linear regression function on simulated data and estimate its parameters with `lm()`.  
+Let's start with a regression problem. The cost function in OLS is the residual sum of squares, $\mathrm{RSS}=\sum_{i=1}^n\left(\widehat{e}_i\right)^2=\sum_{i=1}^n\left(y_i-\hat{y}\right)^2=\sum_{i=1}^n\left(y_i-\left(b_1+b_2 x_i\right)\right)^2$, which is a convex function.  Our objective to find $b_1$ and $b_2$ that minimize RSS. How can we find those parameters to minimize a cost function if we don't know much about it? The trick is to start with some point and move a bit (locally) in the direction that reduces the value of the cost function.  In general, this search process for finding the minimizing point has two components: the direction and the step size. The direction tells us which direction we move next, and the step size determines how far we move in that direction. For example, the iterative search for $b_2$ of gradient descent can be described by the following recursive rule:
 
-Let's simulate a sample with our DGM.  
+$$
+b_2^{(k+1)}=b_2^{(k)}-lr \nabla RSS^{k}
+$$
+Here, $lr$ is *learning rate* and $\nabla RSS^{k}$ is the slope of RSS at step $k$.  Hence, $lr \nabla RSS^{k}$ is the total step size at step $k$.  Note that, as we move from either directions towards $b^*_2$, $\nabla RSS^{k}$ gets smaller. In fact, it becomes zero at $b^*_2$. Therefore, $\nabla RSS^{k}$ helps iterations find the proper adjustment in each step in terms of direction and magnitude. Since RSS is a convex function, it's easy to see how sign of $\nabla RSS^{k}$ will direct the arbitrary $b_2^{''}$ towards the optimal $b_2$.
+
+```{r, echo=FALSE, out.width = '65%', out.height='60%'}
+knitr::include_graphics("png/gradient.png")
+```  
+
+Since first-order approximation at $b_2^{''}$ is good only for small $\Delta b_2$, a small $lr>0$ is needed to o make $\Delta b_2$ small in magnitude. Moreover, when a high learning rate used it leads to "overshooting" past the local minima and may result in diverging algorithm.
+
+Below, we first use a simple linear regression function on simulated data and estimate its parameters with `lm()`.  Let's simulate a sample with our DGM.  
 
 ```{r, message=FALSE, warning=FALSE}
 set.seed(1001)
@@ -437,19 +448,19 @@ gradientDesc <- function(x, y, learnrate, conthresh, maxiter) {
   converged = F
   iterations = 0
   #while loop
-   while(converged == F) {
+  while (converged == F) {
     b_new <- b + learnrate * (1 / n) * (sum((y - yhat) * x))
     c_new <- c + learnrate * (1 / n) * (sum(y - yhat))
     b <- b_new
     c <- c_new
     yhat <- b * x + c
     MSE_new <- sum((y - yhat) ^ 2) / n
-    if(abs(MSE - MSE_new) <= conthresh) {
+    if (abs(MSE - MSE_new) <= conthresh) {
       converged = T
       return(paste("Intercept:", c, "Slope:", b))
     }
     iterations = iterations + 1
-    if(iterations > maxiter) { 
+    if (iterations > maxiter) {
       converged = T
       return(paste("Max. iter. reached, ", "Intercept:",
                    c, "Slope:", b))
@@ -458,10 +469,10 @@ gradientDesc <- function(x, y, learnrate, conthresh, maxiter) {
 }
 ```
 
-Note that the key part in this algorithm is $b_new <- b + learnrate * (1 / n) * (sum((y - yhat) * x))$.
-The first $b$ that is picked randomly by  $b <- runif(1, 0, 1)$ is adjusted by $learnrate * (1 / n) * (sum((y - yhat) * x))$.  
+Note that the key part in this algorithm is `b_new <- b + learnrate * (1 / n) * (sum((y - yhat) * x))`.
+The first $b$ that is picked randomly by  `b <- runif(1, 0, 1)` is adjusted by `learnrate * (1 / n) * (sum((y - yhat) * x))`.  
 
-Note that $sum((y - yhat) * x)$ is one of the f.o.c of the cost function (RSS - Residual Sum of Squares) or the "normal" equation for the slope coefficient. The cost function (RSS) is a convex function where the minimum can be achieved by the optimal $b$.  It a linear Taylor approximation of RSS at $b$ that provides the **steepest** descent, that is just a simple adjustment for identifying the direction of the adjustment of $b$ until the minimum RSS is reached.  
+Note that `sum((y - yhat) * x)` is one of the f.o.c of the cost function (RSS - Residual Sum of Squares) or the "normal" equation for the slope coefficient. The cost function (RSS) is a convex function where the minimum can be achieved by the optimal $b$.  It is a linear Taylor approximation of RSS at $b$ that provides the **steepest** descent, that is just a simple adjustment for identifying the direction of the adjustment of $b$ until the minimum RSS is reached.  
 
 Now we will see if this function will give us the same intercept and slope coefficients already calculated with `lm()` above.
 
@@ -473,7 +484,7 @@ gradientDesc(x1, Y, 0.000293, 0.001, 2500000) # Perfect
 gradientDesc(x1, Y, 0.00293, 0.001, 2500000) # perfect
 ```
 
-Yes, the main question is how do we find out what the learning rate should be?  We'll see later some better methods to initiate it.
+Yes, the main question is how do we find out what the learning rate should be?  It is an active research question and to answer it is beyond this chapter. A general suggestion, however, is to keep it small and tune it within the training process.
   
 ### Multivariable
 

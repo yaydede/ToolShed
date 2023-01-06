@@ -1,3 +1,8 @@
-# Neural Networks & TS
+# Recurrent Neural Networks
 
-TBC ...
+Recurrent neural networks (RNNs) are a type of artificial neural network that are particularly well-suited for processing sequential data, such as time series, natural language, and speech. They are called "recurrent" because they perform the same task for every element in a sequence, with the output being dependent on the previous computations.
+
+The idea of using neural networks to process sequential data dates back to the 1980s, but it wasn't until the late 1990s that RNNs began to see widespread use. One of the key developments in this period was the use of long short-term memory (LSTM) units, which are a type of "memory" cell that can store information for long periods of time and help prevent the vanishing gradients problem that can occur when training RNNs.  
+
+The RNN processes the input data using a series of "neurons". Each neuron receives input from other neurons and from the input data, processes them using an activation function, and sends the output to other neurons as an input or to the final output of the network.  Hence, the output of a neuron at a given time step is used as the input to the same neuron at the next time step, allowing the network to incorporate information from previous time steps into its current computation. 
+

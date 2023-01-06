@@ -100,7 +100,7 @@ OK, they are fine now. Let's see if they have any missing value. Missing values 
 
 ```{r, warning=FALSE, message=FALSE}
 any(is.na(autompg))
-#But we have to be caefull.  HP is a character vector.  Why?  Perhaps it contains a character?
+#But we have to be careful.  HP is a character vector.  Why?  Perhaps it contains a character?
 which(autompg$hp == "?")
 
 #Pay attention to subset().  This will be a time-saver
