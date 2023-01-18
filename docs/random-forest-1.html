@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 32 Random Forest | Tool Shed for Applied Data Analytics with R</title>
-  <meta name="description" content="Chapter 32 Random Forest | Tool Shed for Applied Data Analytics with R" />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <title>Chapter 34 Random Forest | Toolbox for Social Scientists and Policy Analysts</title>
+  <meta name="description" content="Chapter 34 Random Forest | Toolbox for Social Scientists and Policy Analysts" />
+  <meta name="generator" content="bookdown 0.31.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 32 Random Forest | Tool Shed for Applied Data Analytics with R" />
+  <meta property="og:title" content="Chapter 34 Random Forest | Toolbox for Social Scientists and Policy Analysts" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
   
   <meta name="github-repo" content="yaydede/ToolShed_draft" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 32 Random Forest | Tool Shed for Applied Data Analytics with R" />
+  <meta name="twitter:title" content="Chapter 34 Random Forest | Toolbox for Social Scientists and Policy Analysts" />
   
   
   <meta name="twitter:image" content="https://yaydede.github.io/ToolShed//png/cover2.png" />
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="embedding.html"/>
-<link rel="next" href="neural-networks-1.html"/>
+<link rel="prev" href="time-series-embedding.html"/>
+<link rel="next" href="recurrent-neural-networks.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,12 +51,12 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-1.6.0/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.24/datatables.js"></script>
-<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="libs/datatables-binding-0.26/datatables.js"></script>
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
 <link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
 <script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
 <link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
@@ -166,7 +166,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Tool Shed</a></li>
+<li><a href="./">Toolbox</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
@@ -209,7 +209,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="4" data-path="overfitting.html"><a href="overfitting.html"><i class="fa fa-check"></i><b>4</b> Overfitting</a></li>
 <li class="part"><span><b>II Nonparametric Estimations</b></span></li>
-<li class="chapter" data-level="" data-path="parametric-vs.html"><a href="parametric-vs.html"><i class="fa fa-check"></i>Parametric vs. Nonparametric methods</a></li>
+<li class="chapter" data-level="" data-path="parametric-vs.-nonparametric-methods.html"><a href="parametric-vs.-nonparametric-methods.html"><i class="fa fa-check"></i>Parametric vs. Nonparametric methods</a></li>
 <li class="chapter" data-level="5" data-path="parametric-estimations.html"><a href="parametric-estimations.html"><i class="fa fa-check"></i><b>5</b> Parametric Estimations</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="parametric-estimations.html"><a href="parametric-estimations.html#linear-probability-models-lpm"><i class="fa fa-check"></i><b>5.1</b> Linear Probability Models (LPM)</a></li>
@@ -321,130 +321,150 @@ div.csl-indent {
 <li class="chapter" data-level="15.2" data-path="support-vector-machines.html"><a href="support-vector-machines.html#nonlinear-boundary-with-kernels"><i class="fa fa-check"></i><b>15.2</b> Nonlinear Boundary with Kernels</a></li>
 <li class="chapter" data-level="15.3" data-path="support-vector-machines.html"><a href="support-vector-machines.html#application-with-svm"><i class="fa fa-check"></i><b>15.3</b> Application with SVM</a></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>16</b> Neural Networks</a></li>
+<li class="chapter" data-level="16" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html"><i class="fa fa-check"></i><b>16</b> Artificial Neural Networks</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---the-idea"><i class="fa fa-check"></i><b>16.1</b> Neural Network - The idea</a></li>
+<li class="chapter" data-level="16.2" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#backpropagation"><i class="fa fa-check"></i><b>16.2</b> Backpropagation</a></li>
+<li class="chapter" data-level="16.3" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---more-inputs"><i class="fa fa-check"></i><b>16.3</b> Neural Network - More inputs</a></li>
+<li class="chapter" data-level="16.4" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#deep-learning"><i class="fa fa-check"></i><b>16.4</b> Deep Learning</a></li>
+</ul></li>
 <li class="part"><span><b>VI Penalized Regressions</b></span></li>
 <li class="chapter" data-level="" data-path="parametric-models-in-prediction.html"><a href="parametric-models-in-prediction.html"><i class="fa fa-check"></i>Parametric models in prediction</a></li>
 <li class="chapter" data-level="17" data-path="ridge.html"><a href="ridge.html"><i class="fa fa-check"></i><b>17</b> Ridge</a></li>
-<li class="chapter" data-level="18" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>18</b> Lasso</a>
-<ul>
-<li class="chapter" data-level="18.1" data-path="lasso.html"><a href="lasso.html#regression-2"><i class="fa fa-check"></i><b>18.1</b> Regression</a></li>
-<li class="chapter" data-level="18.2" data-path="lasso.html"><a href="lasso.html#lpmlogistic"><i class="fa fa-check"></i><b>18.2</b> LPM/Logistic</a></li>
-<li class="chapter" data-level="18.3" data-path="lasso.html"><a href="lasso.html#adaptive-lasso"><i class="fa fa-check"></i><b>18.3</b> Adaptive Lasso</a></li>
-<li class="chapter" data-level="18.4" data-path="lasso.html"><a href="lasso.html#elasticnet"><i class="fa fa-check"></i><b>18.4</b> ElasticNet</a></li>
-</ul></li>
+<li class="chapter" data-level="18" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>18</b> Lasso</a></li>
+<li class="chapter" data-level="19" data-path="adaptive-lasso.html"><a href="adaptive-lasso.html"><i class="fa fa-check"></i><b>19</b> Adaptive Lasso</a></li>
+<li class="chapter" data-level="20" data-path="oracle-efficency.html"><a href="oracle-efficency.html"><i class="fa fa-check"></i><b>20</b> Oracle efficency</a></li>
 <li class="part"><span><b>VII Causality and Machine Learning</b></span></li>
-<li class="chapter" data-level="19" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>19</b> Model Selection</a></li>
-<li class="chapter" data-level="20" data-path="sparsity.html"><a href="sparsity.html"><i class="fa fa-check"></i><b>20</b> Sparsity</a></li>
-<li class="chapter" data-level="21" data-path="use-of-machine-learning-in-causality.html"><a href="use-of-machine-learning-in-causality.html"><i class="fa fa-check"></i><b>21</b> Use of Machine Learning in Causality</a></li>
+<li class="chapter" data-level="21" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>21</b> Model Selection</a></li>
+<li class="chapter" data-level="22" data-path="sparsity.html"><a href="sparsity.html"><i class="fa fa-check"></i><b>22</b> Sparsity</a></li>
+<li class="chapter" data-level="23" data-path="use-of-machine-learning-in-causality.html"><a href="use-of-machine-learning-in-causality.html"><i class="fa fa-check"></i><b>23</b> Use of Machine Learning in Causality</a></li>
 <li class="part"><span><b>VIII Dimension Reduction Methods</b></span></li>
 <li class="chapter" data-level="" data-path="matrix-decompositions.html"><a href="matrix-decompositions.html"><i class="fa fa-check"></i>Matrix Decompositions</a></li>
-<li class="chapter" data-level="22" data-path="eigenvectors-and-eigenvalues.html"><a href="eigenvectors-and-eigenvalues.html"><i class="fa fa-check"></i><b>22</b> Eigenvectors and eigenvalues</a></li>
-<li class="chapter" data-level="23" data-path="singular-value-decomposition.html"><a href="singular-value-decomposition.html"><i class="fa fa-check"></i><b>23</b> Singular Value Decomposition</a></li>
-<li class="chapter" data-level="24" data-path="rankr-approximations.html"><a href="rankr-approximations.html"><i class="fa fa-check"></i><b>24</b> Rank(r) Approximations</a></li>
-<li class="chapter" data-level="25" data-path="moore-penrose-inverse.html"><a href="moore-penrose-inverse.html"><i class="fa fa-check"></i><b>25</b> Moore-Penrose inverse</a></li>
-<li class="chapter" data-level="26" data-path="principle-component-analysis.html"><a href="principle-component-analysis.html"><i class="fa fa-check"></i><b>26</b> Principle Component Analysis</a></li>
-<li class="chapter" data-level="27" data-path="factor-analysis.html"><a href="factor-analysis.html"><i class="fa fa-check"></i><b>27</b> Factor Analysis</a></li>
-<li class="chapter" data-level="28" data-path="dynamic-mode-decomposition.html"><a href="dynamic-mode-decomposition.html"><i class="fa fa-check"></i><b>28</b> Dynamic Mode Decomposition</a></li>
+<li class="chapter" data-level="24" data-path="eigenvectors-and-eigenvalues.html"><a href="eigenvectors-and-eigenvalues.html"><i class="fa fa-check"></i><b>24</b> Eigenvectors and eigenvalues</a></li>
+<li class="chapter" data-level="25" data-path="singular-value-decomposition.html"><a href="singular-value-decomposition.html"><i class="fa fa-check"></i><b>25</b> Singular Value Decomposition</a></li>
+<li class="chapter" data-level="26" data-path="rankr-approximations.html"><a href="rankr-approximations.html"><i class="fa fa-check"></i><b>26</b> Rank(r) Approximations</a></li>
+<li class="chapter" data-level="27" data-path="moore-penrose-inverse.html"><a href="moore-penrose-inverse.html"><i class="fa fa-check"></i><b>27</b> Moore-Penrose inverse</a></li>
+<li class="chapter" data-level="28" data-path="principle-component-analysis.html"><a href="principle-component-analysis.html"><i class="fa fa-check"></i><b>28</b> Principle Component Analysis</a></li>
+<li class="chapter" data-level="29" data-path="factor-analysis.html"><a href="factor-analysis.html"><i class="fa fa-check"></i><b>29</b> Factor Analysis</a></li>
+<li class="chapter" data-level="30" data-path="dynamic-mode-decomposition.html"><a href="dynamic-mode-decomposition.html"><i class="fa fa-check"></i><b>30</b> Dynamic Mode Decomposition</a></li>
 <li class="part"><span><b>IX Time Series</b></span></li>
-<li class="chapter" data-level="29" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>29</b> ARIMA models</a></li>
-<li class="chapter" data-level="30" data-path="grid-search-for-arima.html"><a href="grid-search-for-arima.html"><i class="fa fa-check"></i><b>30</b> Grid search for ARIMA</a></li>
-<li class="chapter" data-level="31" data-path="embedding.html"><a href="embedding.html"><i class="fa fa-check"></i><b>31</b> Embedding</a></li>
-<li class="chapter" data-level="32" data-path="random-forest-1.html"><a href="random-forest-1.html"><i class="fa fa-check"></i><b>32</b> Random Forest</a></li>
-<li class="chapter" data-level="33" data-path="neural-networks-1.html"><a href="neural-networks-1.html"><i class="fa fa-check"></i><b>33</b> Neural Networks</a></li>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html"><i class="fa fa-check"></i>Forecasting</a></li>
+<li class="chapter" data-level="31" data-path="arima-models.html"><a href="arima-models.html"><i class="fa fa-check"></i><b>31</b> ARIMA models</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="arima-models.html"><a href="arima-models.html#hyndman-khandakar-algorithm"><i class="fa fa-check"></i><b>31.1</b> Hyndman-Khandakar algorithm</a></li>
+<li class="chapter" data-level="31.2" data-path="arima-models.html"><a href="arima-models.html#ts-plots"><i class="fa fa-check"></i><b>31.2</b> TS Plots</a></li>
+<li class="chapter" data-level="31.3" data-path="arima-models.html"><a href="arima-models.html#box-cox-transformation"><i class="fa fa-check"></i><b>31.3</b> Box-Cox transformation</a></li>
+<li class="chapter" data-level="31.4" data-path="arima-models.html"><a href="arima-models.html#stationarity"><i class="fa fa-check"></i><b>31.4</b> Stationarity</a></li>
+<li class="chapter" data-level="31.5" data-path="arima-models.html"><a href="arima-models.html#modeling-arima"><i class="fa fa-check"></i><b>31.5</b> Modeling ARIMA</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="grid-search-for-arima.html"><a href="grid-search-for-arima.html"><i class="fa fa-check"></i><b>32</b> Grid search for ARIMA</a></li>
+<li class="chapter" data-level="33" data-path="time-series-embedding.html"><a href="time-series-embedding.html"><i class="fa fa-check"></i><b>33</b> Time Series Embedding</a>
+<ul>
+<li class="chapter" data-level="33.1" data-path="time-series-embedding.html"><a href="time-series-embedding.html#var"><i class="fa fa-check"></i><b>33.1</b> VAR</a></li>
+<li class="chapter" data-level="33.2" data-path="time-series-embedding.html"><a href="time-series-embedding.html#embedding-for-direct-forecast"><i class="fa fa-check"></i><b>33.2</b> Embedding for Direct Forecast</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="random-forest-1.html"><a href="random-forest-1.html"><i class="fa fa-check"></i><b>34</b> Random Forest</a>
+<ul>
+<li class="chapter" data-level="34.1" data-path="random-forest-1.html"><a href="random-forest-1.html#univariate"><i class="fa fa-check"></i><b>34.1</b> Univariate</a></li>
+<li class="chapter" data-level="34.2" data-path="random-forest-1.html"><a href="random-forest-1.html#multivariate"><i class="fa fa-check"></i><b>34.2</b> Multivariate</a></li>
+<li class="chapter" data-level="34.3" data-path="random-forest-1.html"><a href="random-forest-1.html#rolling-and-expanding-windows"><i class="fa fa-check"></i><b>34.3</b> Rolling and expanding windows</a></li>
+</ul></li>
+<li class="chapter" data-level="35" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html"><i class="fa fa-check"></i><b>35</b> Recurrent Neural Networks</a></li>
 <li class="part"><span><b>X Network Analysis</b></span></li>
 <li class="chapter" data-level="" data-path="graphical-network-analysis.html"><a href="graphical-network-analysis.html"><i class="fa fa-check"></i>Graphical Network Analysis</a></li>
-<li class="chapter" data-level="34" data-path="fundementals.html"><a href="fundementals.html"><i class="fa fa-check"></i><b>34</b> Fundementals</a>
+<li class="chapter" data-level="36" data-path="fundementals.html"><a href="fundementals.html"><i class="fa fa-check"></i><b>36</b> Fundementals</a>
 <ul>
-<li class="chapter" data-level="34.1" data-path="fundementals.html"><a href="fundementals.html#covariance"><i class="fa fa-check"></i><b>34.1</b> Covariance</a></li>
-<li class="chapter" data-level="34.2" data-path="fundementals.html"><a href="fundementals.html#correlation"><i class="fa fa-check"></i><b>34.2</b> Correlation</a></li>
-<li class="chapter" data-level="34.3" data-path="fundementals.html"><a href="fundementals.html#precision-matrix"><i class="fa fa-check"></i><b>34.3</b> Precision matrix</a></li>
-<li class="chapter" data-level="34.4" data-path="fundementals.html"><a href="fundementals.html#semi-partial-correlation"><i class="fa fa-check"></i><b>34.4</b> Semi-partial correlation</a></li>
+<li class="chapter" data-level="36.1" data-path="fundementals.html"><a href="fundementals.html#covariance"><i class="fa fa-check"></i><b>36.1</b> Covariance</a></li>
+<li class="chapter" data-level="36.2" data-path="fundementals.html"><a href="fundementals.html#correlation"><i class="fa fa-check"></i><b>36.2</b> Correlation</a></li>
+<li class="chapter" data-level="36.3" data-path="fundementals.html"><a href="fundementals.html#precision-matrix"><i class="fa fa-check"></i><b>36.3</b> Precision matrix</a></li>
+<li class="chapter" data-level="36.4" data-path="fundementals.html"><a href="fundementals.html#semi-partial-correlation"><i class="fa fa-check"></i><b>36.4</b> Semi-partial correlation</a></li>
 </ul></li>
-<li class="chapter" data-level="35" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html"><i class="fa fa-check"></i><b>35</b> Regularized covariance matrix</a>
+<li class="chapter" data-level="37" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html"><i class="fa fa-check"></i><b>37</b> Regularized covariance matrix</a>
 <ul>
-<li class="chapter" data-level="35.1" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#mle"><i class="fa fa-check"></i><b>35.1</b> MLE</a></li>
-<li class="chapter" data-level="35.2" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#high-dimensional-data"><i class="fa fa-check"></i><b>35.2</b> High-dimensional data</a></li>
-<li class="chapter" data-level="35.3" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#ridge-ell_2-and-glasso-ell_1"><i class="fa fa-check"></i><b>35.3</b> Ridge (<span class="math inline">\(\ell_{2}\)</span>) and glasso (<span class="math inline">\(\ell_{1}\)</span>)</a></li>
-<li class="chapter" data-level="35.4" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#whats-graphical---graphical-ridge-or-glasso"><i class="fa fa-check"></i><b>35.4</b> What’s graphical - graphical ridge or glasso?</a></li>
+<li class="chapter" data-level="37.1" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#mle"><i class="fa fa-check"></i><b>37.1</b> MLE</a></li>
+<li class="chapter" data-level="37.2" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#high-dimensional-data"><i class="fa fa-check"></i><b>37.2</b> High-dimensional data</a></li>
+<li class="chapter" data-level="37.3" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#ridge-ell_2-and-glasso-ell_1"><i class="fa fa-check"></i><b>37.3</b> Ridge (<span class="math inline">\(\ell_{2}\)</span>) and glasso (<span class="math inline">\(\ell_{1}\)</span>)</a></li>
+<li class="chapter" data-level="37.4" data-path="regularized-covariance-matrix.html"><a href="regularized-covariance-matrix.html#whats-graphical---graphical-ridge-or-glasso"><i class="fa fa-check"></i><b>37.4</b> What’s graphical - graphical ridge or glasso?</a></li>
 </ul></li>
 <li class="part"><span><b>XI Labs</b></span></li>
-<li class="chapter" data-level="36" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html"><i class="fa fa-check"></i><b>36</b> R Lab 1 - Basics I</a>
+<li class="chapter" data-level="38" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html"><i class="fa fa-check"></i><b>38</b> R Lab 1 - Basics I</a>
 <ul>
-<li class="chapter" data-level="36.1" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#r-rstudio-and-r-packages"><i class="fa fa-check"></i><b>36.1</b> R, RStudio, and R Packages</a></li>
-<li class="chapter" data-level="36.2" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#rstudio"><i class="fa fa-check"></i><b>36.2</b> RStudio</a></li>
-<li class="chapter" data-level="36.3" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#working-directory"><i class="fa fa-check"></i><b>36.3</b> Working directory</a></li>
-<li class="chapter" data-level="36.4" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#data-types-and-stuctures"><i class="fa fa-check"></i><b>36.4</b> Data Types and Stuctures</a></li>
-<li class="chapter" data-level="36.5" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#vectors"><i class="fa fa-check"></i><b>36.5</b> Vectors</a></li>
-<li class="chapter" data-level="36.6" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#subsetting-vectors"><i class="fa fa-check"></i><b>36.6</b> Subsetting Vectors</a></li>
-<li class="chapter" data-level="36.7" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#vectorization-or-vector-operations"><i class="fa fa-check"></i><b>36.7</b> Vectorization or vector operations</a></li>
-<li class="chapter" data-level="36.8" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#matrices"><i class="fa fa-check"></i><b>36.8</b> Matrices</a></li>
-<li class="chapter" data-level="36.9" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#matrix-operations"><i class="fa fa-check"></i><b>36.9</b> Matrix Operations</a></li>
-<li class="chapter" data-level="36.10" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#subsetting-matrix"><i class="fa fa-check"></i><b>36.10</b> Subsetting Matrix</a></li>
-<li class="chapter" data-level="36.11" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#r-style-guide"><i class="fa fa-check"></i><b>36.11</b> R-Style Guide</a></li>
+<li class="chapter" data-level="38.1" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#r-rstudio-and-r-packages"><i class="fa fa-check"></i><b>38.1</b> R, RStudio, and R Packages</a></li>
+<li class="chapter" data-level="38.2" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#rstudio"><i class="fa fa-check"></i><b>38.2</b> RStudio</a></li>
+<li class="chapter" data-level="38.3" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#working-directory"><i class="fa fa-check"></i><b>38.3</b> Working directory</a></li>
+<li class="chapter" data-level="38.4" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#data-types-and-stuctures"><i class="fa fa-check"></i><b>38.4</b> Data Types and Stuctures</a></li>
+<li class="chapter" data-level="38.5" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#vectors"><i class="fa fa-check"></i><b>38.5</b> Vectors</a></li>
+<li class="chapter" data-level="38.6" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#subsetting-vectors"><i class="fa fa-check"></i><b>38.6</b> Subsetting Vectors</a></li>
+<li class="chapter" data-level="38.7" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#vectorization-or-vector-operations"><i class="fa fa-check"></i><b>38.7</b> Vectorization or vector operations</a></li>
+<li class="chapter" data-level="38.8" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#matrices"><i class="fa fa-check"></i><b>38.8</b> Matrices</a></li>
+<li class="chapter" data-level="38.9" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#matrix-operations"><i class="fa fa-check"></i><b>38.9</b> Matrix Operations</a></li>
+<li class="chapter" data-level="38.10" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#subsetting-matrix"><i class="fa fa-check"></i><b>38.10</b> Subsetting Matrix</a></li>
+<li class="chapter" data-level="38.11" data-path="r-lab-1---basics-i.html"><a href="r-lab-1---basics-i.html#r-style-guide"><i class="fa fa-check"></i><b>38.11</b> R-Style Guide</a></li>
 </ul></li>
-<li class="chapter" data-level="37" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html"><i class="fa fa-check"></i><b>37</b> R Lab 2 - Basics II</a>
+<li class="chapter" data-level="39" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html"><i class="fa fa-check"></i><b>39</b> R Lab 2 - Basics II</a>
 <ul>
-<li class="chapter" data-level="37.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#data-frames-and-lists"><i class="fa fa-check"></i><b>37.1</b> Data frames and lists</a>
+<li class="chapter" data-level="39.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#data-frames-and-lists"><i class="fa fa-check"></i><b>39.1</b> Data frames and lists</a>
 <ul>
-<li class="chapter" data-level="37.1.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#lists"><i class="fa fa-check"></i><b>37.1.1</b> Lists</a></li>
-<li class="chapter" data-level="37.1.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#data-frames"><i class="fa fa-check"></i><b>37.1.2</b> Data Frames</a></li>
-<li class="chapter" data-level="37.1.3" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#reading-importing-and-writting-exporting-data-files"><i class="fa fa-check"></i><b>37.1.3</b> Reading (importing) and writting (exporting) data files</a></li>
-<li class="chapter" data-level="37.1.4" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#subsetting-data-frames"><i class="fa fa-check"></i><b>37.1.4</b> Subsetting Data Frames</a></li>
-<li class="chapter" data-level="37.1.5" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#plotting-from-data-frame"><i class="fa fa-check"></i><b>37.1.5</b> Plotting from data frame</a></li>
-<li class="chapter" data-level="37.1.6" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#some-useful-functions"><i class="fa fa-check"></i><b>37.1.6</b> Some useful functions</a></li>
-<li class="chapter" data-level="37.1.7" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#categorical-variables-in-data-frames"><i class="fa fa-check"></i><b>37.1.7</b> Categorical Variables in Data Frames</a></li>
+<li class="chapter" data-level="39.1.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#lists"><i class="fa fa-check"></i><b>39.1.1</b> Lists</a></li>
+<li class="chapter" data-level="39.1.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#data-frames"><i class="fa fa-check"></i><b>39.1.2</b> Data Frames</a></li>
+<li class="chapter" data-level="39.1.3" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#reading-importing-and-writting-exporting-data-files"><i class="fa fa-check"></i><b>39.1.3</b> Reading (importing) and writting (exporting) data files</a></li>
+<li class="chapter" data-level="39.1.4" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#subsetting-data-frames"><i class="fa fa-check"></i><b>39.1.4</b> Subsetting Data Frames</a></li>
+<li class="chapter" data-level="39.1.5" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#plotting-from-data-frame"><i class="fa fa-check"></i><b>39.1.5</b> Plotting from data frame</a></li>
+<li class="chapter" data-level="39.1.6" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#some-useful-functions"><i class="fa fa-check"></i><b>39.1.6</b> Some useful functions</a></li>
+<li class="chapter" data-level="39.1.7" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#categorical-variables-in-data-frames"><i class="fa fa-check"></i><b>39.1.7</b> Categorical Variables in Data Frames</a></li>
 </ul></li>
-<li class="chapter" data-level="37.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#programming-basics"><i class="fa fa-check"></i><b>37.2</b> Programming Basics</a>
+<li class="chapter" data-level="39.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#programming-basics"><i class="fa fa-check"></i><b>39.2</b> Programming Basics</a>
 <ul>
-<li class="chapter" data-level="37.2.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#ifelse"><i class="fa fa-check"></i><b>37.2.1</b> if/Else</a></li>
-<li class="chapter" data-level="37.2.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#loops"><i class="fa fa-check"></i><b>37.2.2</b> Loops</a></li>
-<li class="chapter" data-level="37.2.3" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#the-apply-family"><i class="fa fa-check"></i><b>37.2.3</b> The <code>apply()</code> family</a></li>
-<li class="chapter" data-level="37.2.4" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#functions"><i class="fa fa-check"></i><b>37.2.4</b> Functions</a></li>
-<li class="chapter" data-level="37.2.5" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#dplyr"><i class="fa fa-check"></i><b>37.2.5</b> <code>dplyr()</code></a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="38" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html"><i class="fa fa-check"></i><b>38</b> R Lab 3 - Preparing the data</a>
-<ul>
-<li class="chapter" data-level="38.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#preparing-the-data-for-a-regression-analysis-with-lm"><i class="fa fa-check"></i><b>38.1</b> Preparing the data for a regression analysis with <code>lm()</code></a>
-<ul>
-<li class="chapter" data-level="38.1.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#factor-variables"><i class="fa fa-check"></i><b>38.1.1</b> Factor variables</a></li>
-<li class="chapter" data-level="38.1.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#dummy-coding"><i class="fa fa-check"></i><b>38.1.2</b> Dummy Coding</a></li>
-<li class="chapter" data-level="38.1.3" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#column-variable-names"><i class="fa fa-check"></i><b>38.1.3</b> Column (Variable) names</a></li>
-<li class="chapter" data-level="38.1.4" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#data-subsetting-and-missing-values"><i class="fa fa-check"></i><b>38.1.4</b> Data subsetting and missing values</a></li>
-</ul></li>
-<li class="chapter" data-level="38.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#dummy-variable-models"><i class="fa fa-check"></i><b>38.2</b> “DUMMY” variable models</a>
-<ul>
-<li class="chapter" data-level="38.2.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#mtcars-example"><i class="fa fa-check"></i><b>38.2.1</b> <code>mtcars</code> example</a></li>
-<li class="chapter" data-level="38.2.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#model.matrix"><i class="fa fa-check"></i><b>38.2.2</b> <code>model.matrix()</code></a></li>
-<li class="chapter" data-level="38.2.3" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#example-with-a-bigger-data-set-autompg"><i class="fa fa-check"></i><b>38.2.3</b> Example with a bigger data set: <code>Autompg</code></a></li>
-<li class="chapter" data-level="38.2.4" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#some-more-data-management-tools-for-subsetting-complete.cases-is.na-and-within"><i class="fa fa-check"></i><b>38.2.4</b> Some more data management tools for subsetting: <code>complete.cases()</code>, <code>is.na()</code>, and <code>within()</code></a></li>
+<li class="chapter" data-level="39.2.1" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#ifelse"><i class="fa fa-check"></i><b>39.2.1</b> if/Else</a></li>
+<li class="chapter" data-level="39.2.2" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#loops"><i class="fa fa-check"></i><b>39.2.2</b> Loops</a></li>
+<li class="chapter" data-level="39.2.3" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#the-apply-family"><i class="fa fa-check"></i><b>39.2.3</b> The <code>apply()</code> family</a></li>
+<li class="chapter" data-level="39.2.4" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#functions"><i class="fa fa-check"></i><b>39.2.4</b> Functions</a></li>
+<li class="chapter" data-level="39.2.5" data-path="r-lab-2---basics-ii.html"><a href="r-lab-2---basics-ii.html#dplyr"><i class="fa fa-check"></i><b>39.2.5</b> <code>dplyr()</code></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="39" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html"><i class="fa fa-check"></i><b>39</b> R Lab 4 - Simulation in R</a>
+<li class="chapter" data-level="40" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html"><i class="fa fa-check"></i><b>40</b> R Lab 3 - Preparing the data</a>
 <ul>
-<li class="chapter" data-level="39.1" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#sampling-in-r-sample"><i class="fa fa-check"></i><b>39.1</b> Sampling in R: <code>sample()</code></a></li>
-<li class="chapter" data-level="39.2" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#random-number-generating-with-probablity-distributions"><i class="fa fa-check"></i><b>39.2</b> Random number generating with probablity distributions</a></li>
-<li class="chapter" data-level="39.3" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#simulation-for-statistical-inference"><i class="fa fa-check"></i><b>39.3</b> Simulation for statistical inference</a></li>
-<li class="chapter" data-level="39.4" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#creataing-data-with-a-data-generating-model-dgm"><i class="fa fa-check"></i><b>39.4</b> Creataing data with a Data Generating Model (DGM)</a></li>
-<li class="chapter" data-level="39.5" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#bootstrapping"><i class="fa fa-check"></i><b>39.5</b> Bootstrapping</a></li>
-<li class="chapter" data-level="39.6" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#monty-hall---fun-example"><i class="fa fa-check"></i><b>39.6</b> Monty Hall - Fun example</a></li>
+<li class="chapter" data-level="40.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#preparing-the-data-for-a-regression-analysis-with-lm"><i class="fa fa-check"></i><b>40.1</b> Preparing the data for a regression analysis with <code>lm()</code></a>
+<ul>
+<li class="chapter" data-level="40.1.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#factor-variables"><i class="fa fa-check"></i><b>40.1.1</b> Factor variables</a></li>
+<li class="chapter" data-level="40.1.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#dummy-coding"><i class="fa fa-check"></i><b>40.1.2</b> Dummy Coding</a></li>
+<li class="chapter" data-level="40.1.3" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#column-variable-names"><i class="fa fa-check"></i><b>40.1.3</b> Column (Variable) names</a></li>
+<li class="chapter" data-level="40.1.4" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#data-subsetting-and-missing-values"><i class="fa fa-check"></i><b>40.1.4</b> Data subsetting and missing values</a></li>
+</ul></li>
+<li class="chapter" data-level="40.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#dummy-variable-models"><i class="fa fa-check"></i><b>40.2</b> “DUMMY” variable models</a>
+<ul>
+<li class="chapter" data-level="40.2.1" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#mtcars-example"><i class="fa fa-check"></i><b>40.2.1</b> <code>mtcars</code> example</a></li>
+<li class="chapter" data-level="40.2.2" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#model.matrix"><i class="fa fa-check"></i><b>40.2.2</b> <code>model.matrix()</code></a></li>
+<li class="chapter" data-level="40.2.3" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#example-with-a-bigger-data-set-autompg"><i class="fa fa-check"></i><b>40.2.3</b> Example with a bigger data set: <code>Autompg</code></a></li>
+<li class="chapter" data-level="40.2.4" data-path="r-lab-3---preparing-the-data.html"><a href="r-lab-3---preparing-the-data.html#some-more-data-management-tools-for-subsetting-complete.cases-is.na-and-within"><i class="fa fa-check"></i><b>40.2.4</b> Some more data management tools for subsetting: <code>complete.cases()</code>, <code>is.na()</code>, and <code>within()</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="41" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html"><i class="fa fa-check"></i><b>41</b> R Lab 4 - Simulation in R</a>
+<ul>
+<li class="chapter" data-level="41.1" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#sampling-in-r-sample"><i class="fa fa-check"></i><b>41.1</b> Sampling in R: <code>sample()</code></a></li>
+<li class="chapter" data-level="41.2" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#random-number-generating-with-probablity-distributions"><i class="fa fa-check"></i><b>41.2</b> Random number generating with probablity distributions</a></li>
+<li class="chapter" data-level="41.3" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#simulation-for-statistical-inference"><i class="fa fa-check"></i><b>41.3</b> Simulation for statistical inference</a></li>
+<li class="chapter" data-level="41.4" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#creataing-data-with-a-data-generating-model-dgm"><i class="fa fa-check"></i><b>41.4</b> Creataing data with a Data Generating Model (DGM)</a></li>
+<li class="chapter" data-level="41.5" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#bootstrapping"><i class="fa fa-check"></i><b>41.5</b> Bootstrapping</a></li>
+<li class="chapter" data-level="41.6" data-path="r-lab-4---simulation-in-r.html"><a href="r-lab-4---simulation-in-r.html#monty-hall---fun-example"><i class="fa fa-check"></i><b>41.6</b> Monty Hall - Fun example</a></li>
 </ul></li>
 <li class="part"><span><b>XII Appendix</b></span></li>
-<li class="chapter" data-level="40" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html"><i class="fa fa-check"></i><b>40</b> Algorithmic Optimization</a>
+<li class="chapter" data-level="42" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html"><i class="fa fa-check"></i><b>42</b> Algorithmic Optimization</a>
 <ul>
-<li class="chapter" data-level="40.1" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#brute-force-optimization"><i class="fa fa-check"></i><b>40.1</b> Brute-force optimization</a></li>
-<li class="chapter" data-level="40.2" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#derivative-based-methods"><i class="fa fa-check"></i><b>40.2</b> Derivative-based methods</a></li>
-<li class="chapter" data-level="40.3" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#gradient-descent"><i class="fa fa-check"></i><b>40.3</b> Gradient Descent</a>
+<li class="chapter" data-level="42.1" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#brute-force-optimization"><i class="fa fa-check"></i><b>42.1</b> Brute-force optimization</a></li>
+<li class="chapter" data-level="42.2" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#derivative-based-methods"><i class="fa fa-check"></i><b>42.2</b> Derivative-based methods</a></li>
+<li class="chapter" data-level="42.3" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#ml-estimation-with-logistic-regression"><i class="fa fa-check"></i><b>42.3</b> ML Estimation with logistic regression</a></li>
+<li class="chapter" data-level="42.4" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#gradient-descent-algorithm"><i class="fa fa-check"></i><b>42.4</b> Gradient Descent Algorithm</a>
 <ul>
-<li class="chapter" data-level="40.3.1" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#one-variable"><i class="fa fa-check"></i><b>40.3.1</b> One-variable</a></li>
-<li class="chapter" data-level="40.3.2" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#multivariable"><i class="fa fa-check"></i><b>40.3.2</b> Multivariable</a></li>
+<li class="chapter" data-level="42.4.1" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#one-variable"><i class="fa fa-check"></i><b>42.4.1</b> One-variable</a></li>
+<li class="chapter" data-level="42.4.2" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#multivariable"><i class="fa fa-check"></i><b>42.4.2</b> Multivariable</a></li>
 </ul></li>
-<li class="chapter" data-level="40.4" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#optimization-with-r"><i class="fa fa-check"></i><b>40.4</b> Optimization with R</a></li>
+<li class="chapter" data-level="42.5" data-path="algorithmic-optimization.html"><a href="algorithmic-optimization.html#optimization-with-r"><i class="fa fa-check"></i><b>42.5</b> Optimization with R</a></li>
 </ul></li>
-<li class="chapter" data-level="41" data-path="imbalanced-data.html"><a href="imbalanced-data.html"><i class="fa fa-check"></i><b>41</b> Imbalanced Data</a>
+<li class="chapter" data-level="43" data-path="imbalanced-data.html"><a href="imbalanced-data.html"><i class="fa fa-check"></i><b>43</b> Imbalanced Data</a>
 <ul>
-<li class="chapter" data-level="41.1" data-path="imbalanced-data.html"><a href="imbalanced-data.html#smote"><i class="fa fa-check"></i><b>41.1</b> <code>SMOTE</code></a></li>
-<li class="chapter" data-level="41.2" data-path="imbalanced-data.html"><a href="imbalanced-data.html#fraud-detection"><i class="fa fa-check"></i><b>41.2</b> Fraud detection</a></li>
+<li class="chapter" data-level="43.1" data-path="imbalanced-data.html"><a href="imbalanced-data.html#smote"><i class="fa fa-check"></i><b>43.1</b> <code>SMOTE</code></a></li>
+<li class="chapter" data-level="43.2" data-path="imbalanced-data.html"><a href="imbalanced-data.html#fraud-detection"><i class="fa fa-check"></i><b>43.2</b> Fraud detection</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -459,7 +479,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tool Shed for Applied Data Analytics with R</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Toolbox for Social Scientists and Policy Analysts</a>
           </h1>
         </div>
 
@@ -467,18 +487,310 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="random-forest-1" class="section level1 hasAnchor" number="32">
-<h1><span class="header-section-number">Chapter 32</span> Random Forest<a href="random-forest-1.html#random-forest-1" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>TBC …</p>
+<div id="random-forest-1" class="section level1 hasAnchor" number="34">
+<h1><span class="header-section-number">Chapter 34</span> Random Forest<a href="random-forest-1.html#random-forest-1" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We will utilize embedding for direct forecasting with Random Forests. We choose the random forests algorithm because it does not need an explicit tuning by a grid search. In the practice, however, we can still search for the number of trees and the number of variables randomly sampled as candidates at each split.</p>
+<p>Let’s get our COVID-19 data:</p>
+<div class="sourceCode" id="cb1058"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1058-1"><a href="random-forest-1.html#cb1058-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
+<span id="cb1058-2"><a href="random-forest-1.html#cb1058-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
+<span id="cb1058-3"><a href="random-forest-1.html#cb1058-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1058-4"><a href="random-forest-1.html#cb1058-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;~/Dropbox/ToolShed_draft/toronto2.rds&quot;</span>)</span>
+<span id="cb1058-5"><a href="random-forest-1.html#cb1058-5" aria-hidden="true" tabindex="-1"></a>day <span class="ot">&lt;-</span> <span class="fu">seq.Date</span>(<span class="at">from =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020/03/01&quot;</span>),</span>
+<span id="cb1058-6"><a href="random-forest-1.html#cb1058-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">to =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020/11/21&quot;</span>), <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb1058-7"><a href="random-forest-1.html#cb1058-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1058-8"><a href="random-forest-1.html#cb1058-8" aria-hidden="true" tabindex="-1"></a>tdata <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Day =</span> day, data[,<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb1058-9"><a href="random-forest-1.html#cb1058-9" aria-hidden="true" tabindex="-1"></a>toronto2 <span class="ot">&lt;-</span> tdata <span class="sc">%&gt;%</span></span>
+<span id="cb1058-10"><a href="random-forest-1.html#cb1058-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Day)</span>
+<span id="cb1058-11"><a href="random-forest-1.html#cb1058-11" aria-hidden="true" tabindex="-1"></a>toronto2</span></code></pre></div>
+<pre><code>## # A tsibble: 266 x 8 [1D]
+##    Day        cases      mob delay  male   age  temp   hum
+##    &lt;date&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 2020-03-01     4 -0.0172  36.8  0.75   55   -4.2   65.5
+##  2 2020-03-02     6 -0.0320   8.5  1      45    3.8   84  
+##  3 2020-03-03    10 -0.0119  15    0.7    54    2.3   90  
+##  4 2020-03-04     7  0.0186  25.7  0.286  50    3.35  71  
+##  5 2020-03-05     7  0.0223  21    0.429  48.6  1.2   63.5
+##  6 2020-03-06    10 -0.00626 13.1  0.5    36    0.04  75  
+##  7 2020-03-07     8  0.0261  10.4  0.5    46.2 -1.65  54  
+##  8 2020-03-08    10  0.0273  11.6  0.9    50    6.3   56  
+##  9 2020-03-09    18 -0.0158   8.89 0.611  35.6 12.5   55  
+## 10 2020-03-10    29 -0.0521   9.69 0.448  41.7  5.15  79  
+## # … with 256 more rows</code></pre>
+<p>As before, the data contain the first wave and the initial part of the second wave in Toronto for 2020. It is from <a href="https://data.ontario.ca/en/dataset?groups=2019-novel-coronavirus#byPHU">Ontario Data Catalogue</a> sorted by episode dates (<code>Day</code>), which is the date when the first symptoms were started. The mobility data is from Facebook, <code>all_day_bing_tiles_visited_relative_change</code>, which is reflects positive or negative change in movement relative to baseline. The other variables related to tests are <code>delay</code>, which is the time between test results and the episode date, the gender distribution of people is given by <code>male</code>, <code>age</code> shows the average age among tested people any given day. The last two variables, <code>temp</code> and <code>hum</code>, show the daily maximum day temperature and the average outdoor humidity during the day, respectively.</p>
+<p>Except for <code>age</code> all other variables are non-stationary. We will take their first difference and make the series stationary before we proceed.</p>
+<div class="sourceCode" id="cb1060"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1060-1"><a href="random-forest-1.html#cb1060-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> toronto2 <span class="sc">%&gt;%</span></span>
+<span id="cb1060-2"><a href="random-forest-1.html#cb1060-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dcases =</span> <span class="fu">difference</span>(cases),</span>
+<span id="cb1060-3"><a href="random-forest-1.html#cb1060-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">dmob =</span> <span class="fu">difference</span>(mob),</span>
+<span id="cb1060-4"><a href="random-forest-1.html#cb1060-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">ddelay =</span> <span class="fu">difference</span>(delay),</span>
+<span id="cb1060-5"><a href="random-forest-1.html#cb1060-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">dmale =</span> <span class="fu">difference</span>(male),</span>
+<span id="cb1060-6"><a href="random-forest-1.html#cb1060-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">dtemp =</span> <span class="fu">difference</span>(temp),</span>
+<span id="cb1060-7"><a href="random-forest-1.html#cb1060-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">dhum =</span> <span class="fu">difference</span>(hum))</span>
+<span id="cb1060-8"><a href="random-forest-1.html#cb1060-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1060-9"><a href="random-forest-1.html#cb1060-9" aria-hidden="true" tabindex="-1"></a>dft <span class="ot">&lt;-</span> df[ ,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">8</span>)] <span class="co">#removing levels</span></span>
+<span id="cb1060-10"><a href="random-forest-1.html#cb1060-10" aria-hidden="true" tabindex="-1"></a>dft <span class="ot">&lt;-</span> dft[<span class="sc">-</span><span class="dv">1</span>, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span>)] <span class="co"># reordering the columns</span></span></code></pre></div>
+<p>Let’s first use a univariate setting for a single-window forecasting, which is the last 7 days.</p>
+<div id="univariate" class="section level2 hasAnchor" number="34.1">
+<h2><span class="header-section-number">34.1</span> Univariate<a href="random-forest-1.html#univariate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will not have a grid search on the random forest algorithm, which could be added to the following script:</p>
+<div class="sourceCode" id="cb1061"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1061-1"><a href="random-forest-1.html#cb1061-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb1061-2"><a href="random-forest-1.html#cb1061-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1061-3"><a href="random-forest-1.html#cb1061-3" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> <span class="dv">7</span></span>
+<span id="cb1061-4"><a href="random-forest-1.html#cb1061-4" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">21</span> <span class="co"># a grid for window size</span></span>
+<span id="cb1061-5"><a href="random-forest-1.html#cb1061-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1061-6"><a href="random-forest-1.html#cb1061-6" aria-hidden="true" tabindex="-1"></a>fh <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="fu">length</span>(w), h)</span>
+<span id="cb1061-7"><a href="random-forest-1.html#cb1061-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(fh) <span class="ot">&lt;-</span> w</span>
+<span id="cb1061-8"><a href="random-forest-1.html#cb1061-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(fh) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>h</span>
+<span id="cb1061-9"><a href="random-forest-1.html#cb1061-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1061-10"><a href="random-forest-1.html#cb1061-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(w)){</span>
+<span id="cb1061-11"><a href="random-forest-1.html#cb1061-11" aria-hidden="true" tabindex="-1"></a>  dt <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">embed</span>(<span class="fu">as.matrix</span>(dft[ ,<span class="dv">2</span>]), w[s]))</span>
+<span id="cb1061-12"><a href="random-forest-1.html#cb1061-12" aria-hidden="true" tabindex="-1"></a>  test_ind <span class="ot">=</span> <span class="fu">nrow</span>(dt) <span class="sc">-</span> (h)</span>
+<span id="cb1061-13"><a href="random-forest-1.html#cb1061-13" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> dt[<span class="dv">1</span><span class="sc">:</span>test_ind, ]</span>
+<span id="cb1061-14"><a href="random-forest-1.html#cb1061-14" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> dt[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>test_ind), ]</span>
+<span id="cb1061-15"><a href="random-forest-1.html#cb1061-15" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> train[ ,<span class="dv">1</span>]</span>
+<span id="cb1061-16"><a href="random-forest-1.html#cb1061-16" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> train[ ,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1061-17"><a href="random-forest-1.html#cb1061-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1061-18"><a href="random-forest-1.html#cb1061-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>h) {</span>
+<span id="cb1061-19"><a href="random-forest-1.html#cb1061-19" aria-hidden="true" tabindex="-1"></a>      fit <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(X, y)</span>
+<span id="cb1061-20"><a href="random-forest-1.html#cb1061-20" aria-hidden="true" tabindex="-1"></a>      fh[s, ] <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, test[ ,<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb1061-21"><a href="random-forest-1.html#cb1061-21" aria-hidden="true" tabindex="-1"></a>      y <span class="ot">&lt;-</span> y[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1061-22"><a href="random-forest-1.html#cb1061-22" aria-hidden="true" tabindex="-1"></a>      X <span class="ot">&lt;-</span> X[<span class="sc">-</span><span class="fu">nrow</span>(X), ]</span>
+<span id="cb1061-23"><a href="random-forest-1.html#cb1061-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1061-24"><a href="random-forest-1.html#cb1061-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1061-25"><a href="random-forest-1.html#cb1061-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1061-26"><a href="random-forest-1.html#cb1061-26" aria-hidden="true" tabindex="-1"></a>fh</span></code></pre></div>
+<pre><code>##              1          2        3         4          5           6          7
+## 3  -15.6018667   9.310533 18.92736  -5.61587 -2.6795667  15.9516667  0.2260143
+## 4  -12.3719667  -4.529133 23.81357  -3.81461 -2.9320000  -0.2525905  1.8392667
+## 5   -1.4742333  -6.483667 31.81397  -9.31990 -0.6973667  -8.5956000 13.7102333
+## 6    3.8286000  -8.144833 26.24103 -14.16233 16.6709762 -14.3093333 14.8530667
+## 7   -3.0172667 -15.031933 30.65857 -16.22097 15.5310000 -20.2173000 16.6649333
+## 8    5.2647667 -22.161567 48.84670  -9.24960 18.5284667 -13.7705667 31.1602333
+## 9   -2.5698667 -33.595100 64.06383 -20.11073 12.9286667 -24.3064333 19.4022667
+## 10  -0.7961333 -34.066567 66.01647 -25.87520 12.4119667 -22.4946000 15.1037667
+## 11  -0.3373000 -30.130567 63.44670 -24.55370 19.5859000 -18.5808000 14.5011000
+## 12   1.4619667 -27.653533 58.79900 -24.95300 16.7328667 -18.0486000 15.0114000
+## 13  -2.9238000 -33.887733 51.65223 -25.82973 12.8003333 -15.4098000 14.5947333
+## 14  -6.8802333 -27.548500 50.84693 -24.94523 19.0224333 -10.8544000 11.1885667
+## 15  -6.5682667 -34.851000 53.98443 -21.68400 17.7346000  -8.3577667 12.5701333
+## 16 -10.4813667 -34.439533 62.83657 -25.25887 12.1292667 -13.6516333 12.4343000
+## 17  -8.9321667 -33.134067 56.80640 -24.92087 12.5466667 -14.9191000 12.4445667
+## 18  -8.2691667 -34.987133 59.46013 -24.90433 16.3243333 -12.7073333 13.6343667
+## 19  -6.7537000 -33.219967 60.23873 -25.06637 14.8604000 -11.8669333  8.5879333
+## 20  -9.2979333 -30.226100 56.98660 -27.19037 12.8234333 -13.0873000 13.6051000
+## 21 -14.7773333 -30.927133 53.32693 -21.27113  8.1717333 -13.3213667 12.8889333</code></pre>
+<p>We can now see RMSPE for each row (window size):</p>
+<div class="sourceCode" id="cb1063"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1063-1"><a href="random-forest-1.html#cb1063-1" aria-hidden="true" tabindex="-1"></a>actual <span class="ot">&lt;-</span> test[, <span class="dv">1</span>]</span>
+<span id="cb1063-2"><a href="random-forest-1.html#cb1063-2" aria-hidden="true" tabindex="-1"></a>rmspe <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1063-3"><a href="random-forest-1.html#cb1063-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1063-4"><a href="random-forest-1.html#cb1063-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(fh)) {</span>
+<span id="cb1063-5"><a href="random-forest-1.html#cb1063-5" aria-hidden="true" tabindex="-1"></a>  rmspe[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((fh[i, ] <span class="sc">-</span> actual)<span class="sc">^</span><span class="dv">2</span>))  </span>
+<span id="cb1063-6"><a href="random-forest-1.html#cb1063-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1063-7"><a href="random-forest-1.html#cb1063-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1063-8"><a href="random-forest-1.html#cb1063-8" aria-hidden="true" tabindex="-1"></a>rmspe</span></code></pre></div>
+<pre><code>##  [1] 42.85926 43.50368 44.60629 43.76183 44.48864 53.33789 52.58021 51.50009
+##  [9] 50.84351 49.47312 49.26641 47.78848 50.87072 50.85334 49.53083 50.93861
+## [17] 49.90584 48.83803 49.04289</code></pre>
+<div class="sourceCode" id="cb1065"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1065-1"><a href="random-forest-1.html#cb1065-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(rmspe)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p>And, if we plot several series of our forecast with different window sizes:</p>
+<div class="sourceCode" id="cb1067"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1067-1"><a href="random-forest-1.html#cb1067-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(actual, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb1067-2"><a href="random-forest-1.html#cb1067-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">80</span>, <span class="dv">50</span>),</span>
+<span id="cb1067-3"><a href="random-forest-1.html#cb1067-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Actual (red) vs. Forecasts&quot;</span>,</span>
+<span id="cb1067-4"><a href="random-forest-1.html#cb1067-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Last 7 days&quot;</span>,</span>
+<span id="cb1067-5"><a href="random-forest-1.html#cb1067-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;7-Day Foerecasts&quot;</span>,</span>
+<span id="cb1067-6"><a href="random-forest-1.html#cb1067-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb1067-7"><a href="random-forest-1.html#cb1067-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(fh[<span class="dv">1</span>, ], <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb1067-8"><a href="random-forest-1.html#cb1067-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(fh[<span class="dv">2</span>, ], <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span>
+<span id="cb1067-9"><a href="random-forest-1.html#cb1067-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(fh[<span class="dv">5</span>, ], <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;orange&quot;</span>)</span>
+<span id="cb1067-10"><a href="random-forest-1.html#cb1067-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(fh[<span class="dv">12</span>, ], <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb1067-11"><a href="random-forest-1.html#cb1067-11" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>,  </span>
+<span id="cb1067-12"><a href="random-forest-1.html#cb1067-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Lags&quot;</span>,</span>
+<span id="cb1067-13"><a href="random-forest-1.html#cb1067-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;3-day&quot;</span>, <span class="st">&quot;4-day&quot;</span>, <span class="st">&quot;7-day&quot;</span>, <span class="st">&quot;14-day&quot;</span>), </span>
+<span id="cb1067-14"><a href="random-forest-1.html#cb1067-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;orange&quot;</span>), </span>
+<span id="cb1067-15"><a href="random-forest-1.html#cb1067-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">bty =</span> <span class="st">&quot;o&quot;</span>, <span class="at">cex =</span> <span class="fl">0.75</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-379-1.png" width="672" /></p>
+<p>It seems that, as the window size gets larger, the forecast becomes increasingly smooth, perhaps missing the short term dynamics. Another observation is that, although “blue” (3-day window) has the minimum RMSPE, it is not able to capture ups and downs relative to 7-day or 14-day windows.</p>
+</div>
+<div id="multivariate" class="section level2 hasAnchor" number="34.2">
+<h2><span class="header-section-number">34.2</span> Multivariate<a href="random-forest-1.html#multivariate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Can we increase the prediction accuracy with additional predictors?</p>
+<div class="sourceCode" id="cb1068"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1068-1"><a href="random-forest-1.html#cb1068-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb1068-2"><a href="random-forest-1.html#cb1068-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1068-3"><a href="random-forest-1.html#cb1068-3" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> <span class="dv">7</span></span>
+<span id="cb1068-4"><a href="random-forest-1.html#cb1068-4" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">14</span> <span class="co"># a grid for window size</span></span>
+<span id="cb1068-5"><a href="random-forest-1.html#cb1068-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1068-6"><a href="random-forest-1.html#cb1068-6" aria-hidden="true" tabindex="-1"></a>fh <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="fu">length</span>(w), h)</span>
+<span id="cb1068-7"><a href="random-forest-1.html#cb1068-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(fh) <span class="ot">&lt;-</span> w</span>
+<span id="cb1068-8"><a href="random-forest-1.html#cb1068-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(fh) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>h</span>
+<span id="cb1068-9"><a href="random-forest-1.html#cb1068-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1068-10"><a href="random-forest-1.html#cb1068-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(w)){</span>
+<span id="cb1068-11"><a href="random-forest-1.html#cb1068-11" aria-hidden="true" tabindex="-1"></a>  dt <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">embed</span>(<span class="fu">as.matrix</span>(dft[ ,<span class="sc">-</span><span class="dv">1</span>]), w[s]))</span>
+<span id="cb1068-12"><a href="random-forest-1.html#cb1068-12" aria-hidden="true" tabindex="-1"></a>  test_ind <span class="ot">=</span> <span class="fu">nrow</span>(dt) <span class="sc">-</span> (h)</span>
+<span id="cb1068-13"><a href="random-forest-1.html#cb1068-13" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> dt[<span class="dv">1</span><span class="sc">:</span>test_ind, ]</span>
+<span id="cb1068-14"><a href="random-forest-1.html#cb1068-14" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> dt[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>test_ind), ]</span>
+<span id="cb1068-15"><a href="random-forest-1.html#cb1068-15" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> train[ ,<span class="dv">1</span>]</span>
+<span id="cb1068-16"><a href="random-forest-1.html#cb1068-16" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> train[ ,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1068-17"><a href="random-forest-1.html#cb1068-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1068-18"><a href="random-forest-1.html#cb1068-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>h) {</span>
+<span id="cb1068-19"><a href="random-forest-1.html#cb1068-19" aria-hidden="true" tabindex="-1"></a>      fit <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(X, y)</span>
+<span id="cb1068-20"><a href="random-forest-1.html#cb1068-20" aria-hidden="true" tabindex="-1"></a>      fh[s, ] <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, test[ ,<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb1068-21"><a href="random-forest-1.html#cb1068-21" aria-hidden="true" tabindex="-1"></a>      y <span class="ot">&lt;-</span> y[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1068-22"><a href="random-forest-1.html#cb1068-22" aria-hidden="true" tabindex="-1"></a>      X <span class="ot">&lt;-</span> X[<span class="sc">-</span><span class="fu">nrow</span>(X), ]</span>
+<span id="cb1068-23"><a href="random-forest-1.html#cb1068-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1068-24"><a href="random-forest-1.html#cb1068-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1068-25"><a href="random-forest-1.html#cb1068-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1068-26"><a href="random-forest-1.html#cb1068-26" aria-hidden="true" tabindex="-1"></a>fh</span></code></pre></div>
+<pre><code>##             1           2        3         4           5          6          7
+## 3  -19.212967  -0.5505667 13.49437  -9.00870 -17.5430667   6.925400 -4.2557000
+## 4  -22.851400  -0.7982000 11.42873  -8.38390 -16.2173333   3.426533 -3.5931000
+## 5  -14.228267   2.0529667 14.70600 -14.20783 -10.5935667  -5.964533 -0.8730333
+## 6  -10.960800   2.8480000 22.65230 -13.27867   0.3809333  -9.108467  3.3669667
+## 7  -10.663867  -4.8168000 18.97303 -20.47287   5.5657333 -16.195233  9.3020000
+## 8   -8.278100 -12.4320000 25.17917 -14.01913   5.2211667 -13.180233 14.9986667
+## 9  -13.780500 -22.2859333 51.56193 -24.58650   8.3307000 -20.668067 11.3830000
+## 10  -9.698233 -20.9478333 49.88590 -25.36183   6.6301667 -23.558800 12.9146000
+## 11 -10.099367 -18.3942667 45.29037 -25.49347  13.1071667 -20.088600 11.6200333
+## 12  -9.935000 -18.5712000 49.58857 -25.05527  11.3463667 -22.090933  8.5771000
+## 13  -5.606400 -18.5219000 42.03743 -23.81273  10.8609333 -18.827400  8.2242667
+## 14 -12.606200 -19.3608333 41.46637 -22.73203  12.2638667 -17.815367  4.9454000</code></pre>
+<div class="sourceCode" id="cb1070"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1070-1"><a href="random-forest-1.html#cb1070-1" aria-hidden="true" tabindex="-1"></a>actual <span class="ot">&lt;-</span> test[,<span class="dv">1</span>]</span>
+<span id="cb1070-2"><a href="random-forest-1.html#cb1070-2" aria-hidden="true" tabindex="-1"></a>rmspe <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1070-3"><a href="random-forest-1.html#cb1070-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1070-4"><a href="random-forest-1.html#cb1070-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(fh)) {</span>
+<span id="cb1070-5"><a href="random-forest-1.html#cb1070-5" aria-hidden="true" tabindex="-1"></a>  rmspe[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((fh[i,]<span class="sc">-</span>actual)<span class="sc">^</span><span class="dv">2</span>))  </span>
+<span id="cb1070-6"><a href="random-forest-1.html#cb1070-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1070-7"><a href="random-forest-1.html#cb1070-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1070-8"><a href="random-forest-1.html#cb1070-8" aria-hidden="true" tabindex="-1"></a>rmspe</span></code></pre></div>
+<pre><code>##  [1] 41.36984 40.99643 38.00403 38.92336 38.67831 43.55384 45.49992 44.93921
+##  [9] 43.82537 43.91039 43.24843 42.95095</code></pre>
+<div class="sourceCode" id="cb1072"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1072-1"><a href="random-forest-1.html#cb1072-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(rmspe)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb1074"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1074-1"><a href="random-forest-1.html#cb1074-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(actual, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb1074-2"><a href="random-forest-1.html#cb1074-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">80</span>, <span class="sc">+</span><span class="dv">50</span>),</span>
+<span id="cb1074-3"><a href="random-forest-1.html#cb1074-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Actual (red) vs. Forecasts&quot;</span>,</span>
+<span id="cb1074-4"><a href="random-forest-1.html#cb1074-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Last 7 days&quot;</span>,</span>
+<span id="cb1074-5"><a href="random-forest-1.html#cb1074-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;7-Day Foerecasts&quot;</span>,</span>
+<span id="cb1074-6"><a href="random-forest-1.html#cb1074-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb1074-7"><a href="random-forest-1.html#cb1074-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(fh[<span class="dv">1</span>, ], <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb1074-8"><a href="random-forest-1.html#cb1074-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(fh[<span class="dv">3</span>, ], <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span>
+<span id="cb1074-9"><a href="random-forest-1.html#cb1074-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(fh[<span class="dv">5</span>, ], <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;orange&quot;</span>)</span>
+<span id="cb1074-10"><a href="random-forest-1.html#cb1074-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(fh[<span class="dv">12</span>, ], <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb1074-11"><a href="random-forest-1.html#cb1074-11" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, </span>
+<span id="cb1074-12"><a href="random-forest-1.html#cb1074-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Lags&quot;</span>,</span>
+<span id="cb1074-13"><a href="random-forest-1.html#cb1074-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;3-day&quot;</span>, <span class="st">&quot;5-day&quot;</span>, <span class="st">&quot;7-day&quot;</span>, <span class="st">&quot;14-day&quot;</span>), </span>
+<span id="cb1074-14"><a href="random-forest-1.html#cb1074-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;orange&quot;</span>, <span class="st">&quot;black&quot;</span>), </span>
+<span id="cb1074-15"><a href="random-forest-1.html#cb1074-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">bty =</span> <span class="st">&quot;o&quot;</span>, <span class="at">cex =</span> <span class="fl">0.75</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-382-1.png" width="672" /></p>
+<p>It seems that additional predictors do increase the accuracy. Again, relative to the best model (5-day window) our 7-day window correctly captures most ups and downs in the forecast. Now, a visual inspection shows that all RMSPE’s are lower than the univariate forecasts. We would tend to conclude that this is because of the new predictors, specially mobility, temperature, and humidity. But, the COVID-19 data have many well-known issues related to measurement inaccuracies. As a side note, we need to test if those differences are statistical significant or not (i.e. Diebold-Mariano Test).</p>
+</div>
+<div id="rolling-and-expanding-windows" class="section level2 hasAnchor" number="34.3">
+<h2><span class="header-section-number">34.3</span> Rolling and expanding windows<a href="random-forest-1.html#rolling-and-expanding-windows" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A seven-day window is not enough for a reliable judgment on the forecast accuracy. One way to deal with this issue is to use rolling or expanding windows to predict the next h days. The following example shows a 1-day-ahead forecast with varying lags for embedding.</p>
+<div class="sourceCode" id="cb1075"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1075-1"><a href="random-forest-1.html#cb1075-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb1075-2"><a href="random-forest-1.html#cb1075-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1075-3"><a href="random-forest-1.html#cb1075-3" aria-hidden="true" tabindex="-1"></a>l <span class="ot">=</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span> <span class="co"># lags for embedding </span></span>
+<span id="cb1075-4"><a href="random-forest-1.html#cb1075-4" aria-hidden="true" tabindex="-1"></a>ws <span class="ot">=</span> <span class="dv">150</span> <span class="co"># size of each rolling window</span></span>
+<span id="cb1075-5"><a href="random-forest-1.html#cb1075-5" aria-hidden="true" tabindex="-1"></a>rmspe <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1075-6"><a href="random-forest-1.html#cb1075-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1075-7"><a href="random-forest-1.html#cb1075-7" aria-hidden="true" tabindex="-1"></a>all_fh <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;list&quot;</span>, <span class="at">length =</span> <span class="fu">length</span>(l))  </span>
+<span id="cb1075-8"><a href="random-forest-1.html#cb1075-8" aria-hidden="true" tabindex="-1"></a>all_y <span class="ot">&lt;-</span>  <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;list&quot;</span>, <span class="at">length =</span> <span class="fu">length</span>(l))  </span>
+<span id="cb1075-9"><a href="random-forest-1.html#cb1075-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1075-10"><a href="random-forest-1.html#cb1075-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(l)) {</span>
+<span id="cb1075-11"><a href="random-forest-1.html#cb1075-11" aria-hidden="true" tabindex="-1"></a>  dt <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">embed</span>(<span class="fu">as.matrix</span>(dft[, <span class="sc">-</span><span class="dv">1</span>]), l[s]))</span>
+<span id="cb1075-12"><a href="random-forest-1.html#cb1075-12" aria-hidden="true" tabindex="-1"></a>  nwin <span class="ot">&lt;-</span> <span class="fu">nrow</span>(dt) <span class="sc">-</span> ws <span class="co">#number of windows</span></span>
+<span id="cb1075-13"><a href="random-forest-1.html#cb1075-13" aria-hidden="true" tabindex="-1"></a>  fh <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1075-14"><a href="random-forest-1.html#cb1075-14" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1075-15"><a href="random-forest-1.html#cb1075-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1075-16"><a href="random-forest-1.html#cb1075-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nwin){</span>
+<span id="cb1075-17"><a href="random-forest-1.html#cb1075-17" aria-hidden="true" tabindex="-1"></a>    train <span class="ot">&lt;-</span> dt[i<span class="sc">:</span>(ws <span class="sc">+</span> i <span class="sc">-</span> <span class="dv">1</span>), ] <span class="co"># each loop, window moves one day forward</span></span>
+<span id="cb1075-18"><a href="random-forest-1.html#cb1075-18" aria-hidden="true" tabindex="-1"></a>    test <span class="ot">&lt;-</span> dt[(ws <span class="sc">+</span> i), ]</span>
+<span id="cb1075-19"><a href="random-forest-1.html#cb1075-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1075-20"><a href="random-forest-1.html#cb1075-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(i<span class="sc">+</span>s)</span>
+<span id="cb1075-21"><a href="random-forest-1.html#cb1075-21" aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(train[, <span class="sc">-</span><span class="dv">1</span>], train[, <span class="dv">1</span>])</span>
+<span id="cb1075-22"><a href="random-forest-1.html#cb1075-22" aria-hidden="true" tabindex="-1"></a>    fh[i] <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, test[, <span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb1075-23"><a href="random-forest-1.html#cb1075-23" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="ot">&lt;-</span> test[, <span class="dv">1</span>] <span class="co"># to use later for plotting </span></span>
+<span id="cb1075-24"><a href="random-forest-1.html#cb1075-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1075-25"><a href="random-forest-1.html#cb1075-25" aria-hidden="true" tabindex="-1"></a>  all_y[[s]] <span class="ot">&lt;-</span> y</span>
+<span id="cb1075-26"><a href="random-forest-1.html#cb1075-26" aria-hidden="true" tabindex="-1"></a>  all_fh[[s]] <span class="ot">&lt;-</span> fh  </span>
+<span id="cb1075-27"><a href="random-forest-1.html#cb1075-27" aria-hidden="true" tabindex="-1"></a>  err <span class="ot">&lt;-</span> test[, <span class="dv">1</span>] <span class="sc">-</span> fh</span>
+<span id="cb1075-28"><a href="random-forest-1.html#cb1075-28" aria-hidden="true" tabindex="-1"></a>  rmspe[s] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(err<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb1075-29"><a href="random-forest-1.html#cb1075-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1075-30"><a href="random-forest-1.html#cb1075-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1075-31"><a href="random-forest-1.html#cb1075-31" aria-hidden="true" tabindex="-1"></a>rmspe</span></code></pre></div>
+<pre><code>## [1] 45.17990 44.74564 45.36820 45.07520 45.89481 46.96887 46.98404 46.80637</code></pre>
+<div class="sourceCode" id="cb1077"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1077-1"><a href="random-forest-1.html#cb1077-1" aria-hidden="true" tabindex="-1"></a>bst <span class="ot">&lt;-</span> <span class="fu">which.min</span>(rmspe)</span>
+<span id="cb1077-2"><a href="random-forest-1.html#cb1077-2" aria-hidden="true" tabindex="-1"></a>l[bst] <span class="co"># Winning lag in embedding</span></span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<p>To change the application above to an expanding-window forecast, we just need to change <code>dt[i:(ws + i - 1), ]</code> to <code>dt[1:(ws + i - 1), ]</code> in the script. Now, we can plot the results:</p>
+<div class="sourceCode" id="cb1079"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1079-1"><a href="random-forest-1.html#cb1079-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb1079-2"><a href="random-forest-1.html#cb1079-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all_y[[bst]], <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb1079-3"><a href="random-forest-1.html#cb1079-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Actual (red) vs Predicted (Blue)&quot;</span>,</span>
+<span id="cb1079-4"><a href="random-forest-1.html#cb1079-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>,</span>
+<span id="cb1079-5"><a href="random-forest-1.html#cb1079-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;1-Day-Ahead&quot;</span>)</span>
+<span id="cb1079-6"><a href="random-forest-1.html#cb1079-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(all_fh[[bst]], <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb1079-7"><a href="random-forest-1.html#cb1079-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all_y[[bst]][<span class="dv">60</span><span class="sc">:</span><span class="dv">110</span>], <span class="at">type =</span> <span class="st">&quot;o&quot;</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb1079-8"><a href="random-forest-1.html#cb1079-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Actual (red) vs Predicted (Blue)&quot;</span>,</span>
+<span id="cb1079-9"><a href="random-forest-1.html#cb1079-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>,</span>
+<span id="cb1079-10"><a href="random-forest-1.html#cb1079-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Last 50 Days&quot;</span>)</span>
+<span id="cb1079-11"><a href="random-forest-1.html#cb1079-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(all_fh[[bst]][<span class="dv">60</span><span class="sc">:</span><span class="dv">110</span>], <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-384-1.png" width="672" /></p>
+<p>Getting the predicted values back to originals can be achieved by:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; y_{t+1}=y_t+z_{t+1} \\
+&amp; y_{t+2}=y_{t+1}+z_{t+2}=y_t+z_{t+1}+z_{t+2}
+\end{aligned}
+\]</span></p>
+<div class="sourceCode" id="cb1080"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1080-1"><a href="random-forest-1.html#cb1080-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">321</span>)</span>
+<span id="cb1080-2"><a href="random-forest-1.html#cb1080-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)   </span>
+<span id="cb1080-3"><a href="random-forest-1.html#cb1080-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">diff</span>(y)     <span class="co"># first differences</span></span>
+<span id="cb1080-4"><a href="random-forest-1.html#cb1080-4" aria-hidden="true" tabindex="-1"></a>back <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(<span class="fu">c</span>(y[<span class="dv">1</span>], z)) </span>
+<span id="cb1080-5"><a href="random-forest-1.html#cb1080-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(y, back)</span></code></pre></div>
+<pre><code>##                y       back
+##  [1,]  1.7049032  1.7049032
+##  [2,] -0.7120386 -0.7120386
+##  [3,] -0.2779849 -0.2779849
+##  [4,] -0.1196490 -0.1196490
+##  [5,] -0.1239606 -0.1239606
+##  [6,]  0.2681838  0.2681838
+##  [7,]  0.7268415  0.7268415
+##  [8,]  0.2331354  0.2331354
+##  [9,]  0.3391139  0.3391139
+## [10,] -0.5519147 -0.5519147</code></pre>
+<p>Since our algorithm predict the changes in observations, a simple sum would do the job for back transformation. For example, as a starting point, our algorithm predicts the change in <span class="math inline">\(Y\)</span> from day 156 to 157 (window size 150 plus the best lag window, 6). When we add this predicted change to the actual <span class="math inline">\(Y\)</span> at 156, it will give us the back-transformed forecast at day 157.</p>
+<div class="sourceCode" id="cb1082"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1082-1"><a href="random-forest-1.html#cb1082-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> df<span class="sc">$</span>cases</span>
+<span id="cb1082-2"><a href="random-forest-1.html#cb1082-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1082-3"><a href="random-forest-1.html#cb1082-3" aria-hidden="true" tabindex="-1"></a><span class="co"># The first forecast is at ws (150) + l[best] (6) + 1, which is 157</span></span>
+<span id="cb1082-4"><a href="random-forest-1.html#cb1082-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The first actual Y should start a day earlier</span></span>
+<span id="cb1082-5"><a href="random-forest-1.html#cb1082-5" aria-hidden="true" tabindex="-1"></a><span class="co"># removing all Y&#39;s until ws+l[bst]</span></span>
+<span id="cb1082-6"><a href="random-forest-1.html#cb1082-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1082-7"><a href="random-forest-1.html#cb1082-7" aria-hidden="true" tabindex="-1"></a>y_a_day_before <span class="ot">&lt;-</span> y[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>(ws<span class="sc">+</span>l[bst]<span class="sc">-</span><span class="dv">1</span>))] </span>
+<span id="cb1082-8"><a href="random-forest-1.html#cb1082-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1082-9"><a href="random-forest-1.html#cb1082-9" aria-hidden="true" tabindex="-1"></a><span class="co"># This adds predicted changes to observed values a day earlier </span></span>
+<span id="cb1082-10"><a href="random-forest-1.html#cb1082-10" aria-hidden="true" tabindex="-1"></a>back_forecast <span class="ot">&lt;-</span> <span class="fu">head</span>(y_a_day_before, <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span> all_fh[[bst]] </span>
+<span id="cb1082-11"><a href="random-forest-1.html#cb1082-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1082-12"><a href="random-forest-1.html#cb1082-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Actual Y&#39;s in the test set starting at ws (150) + l[best] (6) + 1, which is 157</span></span>
+<span id="cb1082-13"><a href="random-forest-1.html#cb1082-13" aria-hidden="true" tabindex="-1"></a>ytest <span class="ot">&lt;-</span> y[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>(ws<span class="sc">+</span>l[bst]))] </span>
+<span id="cb1082-14"><a href="random-forest-1.html#cb1082-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1082-15"><a href="random-forest-1.html#cb1082-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ytest, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb1082-16"><a href="random-forest-1.html#cb1082-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Actual Y (Blue) vs Forecast (Red)&quot;</span>,</span>
+<span id="cb1082-17"><a href="random-forest-1.html#cb1082-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>,</span>
+<span id="cb1082-18"><a href="random-forest-1.html#cb1082-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Back-transformed Forecast&quot;</span></span>
+<span id="cb1082-19"><a href="random-forest-1.html#cb1082-19" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb1082-20"><a href="random-forest-1.html#cb1082-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(back_forecast, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="YA_TextBook_files/figure-html/unnamed-chunk-386-1.png" width="672" /></p>
+<p>It seems that, for most days, our algorithm simply forecasts the day by using the value from a day before. This is a common problem when the predictive model has a poor forecasting power. Again, this is not due to our algorithm, but forecasting an epi curve with imperfect test data is almost impossible job, as we highlighted earlier.</p>
+<p>In practice, however, there are several ways that we can improve the scripts above. For example, we can consider the (rolling or expanding) window size as a hyperparameter. We can also have an explicit training for the Random Forest algorithm. We can have an ensemble forecasting by adding other predictive algorithms to the script, like boosting. Further, we can develop a base forecast that would give us a benchmark to see how much our algorithm improves against that base. Moreover, we could apply a transformation to the data in order to stabilize the variance in all variables.</p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="embedding.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="neural-networks-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="time-series-embedding.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="recurrent-neural-networks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

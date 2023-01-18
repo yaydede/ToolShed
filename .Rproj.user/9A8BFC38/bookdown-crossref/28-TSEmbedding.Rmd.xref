@@ -1,2 +1,4 @@
-h1:embedding Embedding
+h1:time-series-embedding Time Series Embedding
+h2:var VAR
+h2:embedding-for-direct-forecast Embedding for Direct Forecast
 

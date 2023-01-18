@@ -470,7 +470,7 @@ pdfs3 <- dnorm(x, mean = 2, sd=7)
 par(mfrow=c(1,3))
 plot(x,pdfs1)
 plot(x,pdfs2)
-plot(x,pdfs2)
+plot(x,pdfs3)
 ```
 
 Which one is the best distribution, representing the true distribution of the data?  This is the idea behind Maximum likelihood method.  Let's define the likelihood function for $x$:
@@ -478,7 +478,9 @@ Which one is the best distribution, representing the true distribution of the da
 It seems reasonable that a good estimate of the unknown parameter $\mu$ would be the value of $\mu$ that maximizes the the likelihood (not the probability!) of getting the data we observed. The probability density (or mass) function of each $x_{i}$ is $f\left(x_{i} ; \mu, \sigma^2\right)$. Then, the joint probability density function of $x_{1}, x_{2}, \cdots, x_{n}$, which we'll call $L(\mu, \sigma^2)$ is:
 
 $$
-L(\mu, \sigma^2)=P\left(X_{1}=x_{1}, X_{2}=x_{2}, \ldots, X_{n}=x_{n}\right)=f\left(x_{1} ; \mu,\sigma^2\right) \cdot f\left(x_{2} ; \mu,\sigma^2\right) \cdots f\left(x_{n} ; \mu, \sigma^2\right)=\prod_{i=1}^{n} f\left(x_{i} ; \mu, \sigma^2\right)
+L(\mu, \sigma^2)=P\left(X_{1}=x_{1}, X_{2}=x_{2}, \ldots, X_{n}=x_{n}\right)=\\
+f\left(x_{1} ; \mu,\sigma^2\right) \cdot f\left(x_{2} ; \mu,\sigma^2\right) \cdots f\left(x_{n} ; \mu, \sigma^2\right)=\\
+\prod_{i=1}^{n} f\left(x_{i} ; \mu, \sigma^2\right)
 $$
 The first equality is just the definition of the joint probability density function.  The second equality comes from that fact that we have a random sample, $x_i$, that are independent
 are independent.  Hence, the likelihood function is:

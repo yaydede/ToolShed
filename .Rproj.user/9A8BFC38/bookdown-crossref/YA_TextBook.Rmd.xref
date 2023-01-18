@@ -140,8 +140,13 @@ h2:box-cox-transformation Box-Cox transformation
 h2:stationarity Stationarity
 h2:modeling-arima Modeling ARIMA
 h1:grid-search-for-arima Grid search for ARIMA
-h1:embedding Embedding
-h1:ts-with-random-forest TS with Random Forest
+h1:time-series-embedding Time Series Embedding
+h2:var VAR
+h2:embedding-for-direct-forecast Embedding for Direct Forecast
+h1:random-forest-1 Random Forest
+h2:univariate Univariate
+h2:multivariate Multivariate
+h2:rolling-and-expanding-windows Rolling and expanding windows
 h1:recurrent-neural-networks Recurrent Neural Networks
 h1:part-network-analysis (PART) Network Analysis
 h1:graphical-network-analysis Graphical Network Analysis

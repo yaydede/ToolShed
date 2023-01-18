@@ -13,8 +13,8 @@ comb <- as.matrix(expand.grid(p,q,P,Q))
 
 # We remove the unstable grids
 comb <- as.data.frame(comb[-1, ])
-ind <- which(comb$Var1==0&comb$Var2==0, arr.ind = TRUE)
-comb <- comb[-ind,]
+ind <- which(comb$Var1==0 & comb$Var2==0, arr.ind = TRUE)
+comb <- comb[-ind, ]
 row.names(comb) <- NULL
 colnames(comb) <- c("p", "q", "P", "Q")
 
@@ -84,6 +84,6 @@ toronto %>%
   autoplot(toronto, level = NULL)
 ```
   
-We will not apply h-step-ahead rolling-window cross-validations, which can be found in the post, [Time series cross-validation using fable](https://robjhyndman.com/hyndsight/tscv-fable/), by Hyndman (2021).
+We will not apply h-step-ahead rolling-window cross-validations, which can be found in the post, [Time series cross-validation using fable](https://robjhyndman.com/hyndsight/tscv-fable/), by Hyndman (2021).  However, when we have multiple competing models, we may not want to compare their predictive accuracy by looking at their error rates using only few out-of-sample observations.  If we use, however, rolling windows or continuously expanding windows, we can effectively create a large number of days tested within the data.       
 
 

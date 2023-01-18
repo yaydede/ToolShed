@@ -358,8 +358,17 @@ div.csl-indent {
 <li class="chapter" data-level="31.5" data-path="arima-models.html"><a href="arima-models.html#modeling-arima"><i class="fa fa-check"></i><b>31.5</b> Modeling ARIMA</a></li>
 </ul></li>
 <li class="chapter" data-level="32" data-path="grid-search-for-arima.html"><a href="grid-search-for-arima.html"><i class="fa fa-check"></i><b>32</b> Grid search for ARIMA</a></li>
-<li class="chapter" data-level="33" data-path="embedding.html"><a href="embedding.html"><i class="fa fa-check"></i><b>33</b> Embedding</a></li>
-<li class="chapter" data-level="34" data-path="ts-with-random-forest.html"><a href="ts-with-random-forest.html"><i class="fa fa-check"></i><b>34</b> TS with Random Forest</a></li>
+<li class="chapter" data-level="33" data-path="time-series-embedding.html"><a href="time-series-embedding.html"><i class="fa fa-check"></i><b>33</b> Time Series Embedding</a>
+<ul>
+<li class="chapter" data-level="33.1" data-path="time-series-embedding.html"><a href="time-series-embedding.html#var"><i class="fa fa-check"></i><b>33.1</b> VAR</a></li>
+<li class="chapter" data-level="33.2" data-path="time-series-embedding.html"><a href="time-series-embedding.html#embedding-for-direct-forecast"><i class="fa fa-check"></i><b>33.2</b> Embedding for Direct Forecast</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="random-forest-1.html"><a href="random-forest-1.html"><i class="fa fa-check"></i><b>34</b> Random Forest</a>
+<ul>
+<li class="chapter" data-level="34.1" data-path="random-forest-1.html"><a href="random-forest-1.html#univariate"><i class="fa fa-check"></i><b>34.1</b> Univariate</a></li>
+<li class="chapter" data-level="34.2" data-path="random-forest-1.html"><a href="random-forest-1.html#multivariate"><i class="fa fa-check"></i><b>34.2</b> Multivariate</a></li>
+<li class="chapter" data-level="34.3" data-path="random-forest-1.html"><a href="random-forest-1.html#rolling-and-expanding-windows"><i class="fa fa-check"></i><b>34.3</b> Rolling and expanding windows</a></li>
+</ul></li>
 <li class="chapter" data-level="35" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html"><i class="fa fa-check"></i><b>35</b> Recurrent Neural Networks</a></li>
 <li class="part"><span><b>X Network Analysis</b></span></li>
 <li class="chapter" data-level="" data-path="graphical-network-analysis.html"><a href="graphical-network-analysis.html"><i class="fa fa-check"></i>Graphical Network Analysis</a></li>
@@ -604,13 +613,13 @@ div.csl-indent {
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="preliminaries.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb15-2"><a href="preliminaries.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># get current system date</span></span>
 <span id="cb15-3"><a href="preliminaries.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.Date</span>() </span></code></pre></div>
-<pre><code>## [1] &quot;2023-01-06&quot;</code></pre>
+<pre><code>## [1] &quot;2023-01-18&quot;</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="preliminaries.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get current system time</span></span>
 <span id="cb17-2"><a href="preliminaries.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;2023-01-06 08:07:02 AST&quot;</code></pre>
+<pre><code>## [1] &quot;2023-01-18 11:16:59 AST&quot;</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="preliminaries.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#lubridate</span></span>
 <span id="cb19-2"><a href="preliminaries.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;2023-01-06 08:07:02 AST&quot;</code></pre>
+<pre><code>## [1] &quot;2023-01-18 11:16:59 AST&quot;</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="preliminaries.html#cb21-1" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2022-07-11&quot;</span>, <span class="st">&quot;2012-04-19&quot;</span>, <span class="st">&quot;2017-03-08&quot;</span>)</span>
 <span id="cb21-2"><a href="preliminaries.html#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="preliminaries.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># extract years from dates</span></span>
@@ -781,8 +790,8 @@ X \sim N\left(\mu=2, \sigma^{2}=25\right)
 <pre><code>## [1] 11.79982</code></pre>
 <p>Lastly, to generate a random sample of size n = 10, use <code>rnorm()</code></p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="preliminaries.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>##  [1]   4.4862268   3.7567669 -12.8331668  -0.2370911  12.1467635   6.7613949
-##  [7]  -3.8765374   3.1783570   6.1298122   6.7565477</code></pre>
+<pre><code>##  [1]  6.22334264  1.87588298 -0.02092444 10.77696147 -7.16156335 -0.06378625
+##  [7]  5.15036471  0.56858223  9.40184202  0.81255764</code></pre>
 <p>These functions exist for many other distributions such as: <code>binom</code> (Binomial), <code>t</code> (Student’s t), <code>pois</code> (Poisson), <code>f</code> (F), <code>chisq</code> (Chi-Squared).</p>
 </div>
 <div id="regressions" class="section level2 hasAnchor" number="2.4">
@@ -1001,12 +1010,14 @@ In R, you can use <code>dnorm(x, mean, sd)</code> to calculate the pdf of normal
 <span id="cb76-4"><a href="preliminaries.html#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
 <span id="cb76-5"><a href="preliminaries.html#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,pdfs1)</span>
 <span id="cb76-6"><a href="preliminaries.html#cb76-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,pdfs2)</span>
-<span id="cb76-7"><a href="preliminaries.html#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,pdfs2)</span></code></pre></div>
+<span id="cb76-7"><a href="preliminaries.html#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,pdfs3)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>Which one is the best distribution, representing the true distribution of the data? This is the idea behind Maximum likelihood method. Let’s define the likelihood function for <span class="math inline">\(x\)</span>:</p>
 <p>It seems reasonable that a good estimate of the unknown parameter <span class="math inline">\(\mu\)</span> would be the value of <span class="math inline">\(\mu\)</span> that maximizes the the likelihood (not the probability!) of getting the data we observed. The probability density (or mass) function of each <span class="math inline">\(x_{i}\)</span> is <span class="math inline">\(f\left(x_{i} ; \mu, \sigma^2\right)\)</span>. Then, the joint probability density function of <span class="math inline">\(x_{1}, x_{2}, \cdots, x_{n}\)</span>, which we’ll call <span class="math inline">\(L(\mu, \sigma^2)\)</span> is:</p>
 <p><span class="math display">\[
-L(\mu, \sigma^2)=P\left(X_{1}=x_{1}, X_{2}=x_{2}, \ldots, X_{n}=x_{n}\right)=f\left(x_{1} ; \mu,\sigma^2\right) \cdot f\left(x_{2} ; \mu,\sigma^2\right) \cdots f\left(x_{n} ; \mu, \sigma^2\right)=\prod_{i=1}^{n} f\left(x_{i} ; \mu, \sigma^2\right)
+L(\mu, \sigma^2)=P\left(X_{1}=x_{1}, X_{2}=x_{2}, \ldots, X_{n}=x_{n}\right)=\\
+f\left(x_{1} ; \mu,\sigma^2\right) \cdot f\left(x_{2} ; \mu,\sigma^2\right) \cdots f\left(x_{n} ; \mu, \sigma^2\right)=\\
+\prod_{i=1}^{n} f\left(x_{i} ; \mu, \sigma^2\right)
 \]</span>
 The first equality is just the definition of the joint probability density function. The second equality comes from that fact that we have a random sample, <span class="math inline">\(x_i\)</span>, that are independent
 are independent. Hence, the likelihood function is:</p>

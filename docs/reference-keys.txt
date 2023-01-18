@@ -182,8 +182,13 @@ box-cox-transformation
 stationarity
 modeling-arima
 grid-search-for-arima
-embedding
-ts-with-random-forest
+time-series-embedding
+var
+embedding-for-direct-forecast
+random-forest-1
+univariate
+multivariate
+rolling-and-expanding-windows
 recurrent-neural-networks
 fundementals
 covariance
