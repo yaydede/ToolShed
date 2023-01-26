@@ -492,12 +492,12 @@ $$
 and therefore the log of the likelihood function:
 
 $$
-\log L\left(\mu, \theta_{2}\right)=-\frac{n}{2} \log \sigma^{2}-\frac{n}{2} \log (2 \pi)-\frac{\sum\left(x_{i}-\mu\right)^{2}}{2 \sigma^{2}}
+\log L\left(\mu, \sigma\right)=-n \log \sigma^{2}-\frac{n}{2} \log (2 \pi)-\frac{\sum\left(x_{i}-\mu\right)^{2}}{2 \sigma^{2}}
 $$
 Now, upon taking the partial derivative of the log likelihood with respect to $\mu$ and setting to 0, we see that:
 
 $$
-\frac{\partial \log L\left(\theta_{1}, \theta_{2}\right)}{\partial \theta_{1}}=\frac{-\not 2 \sum\left(x_{i}-\mu\right)(-\not1)}{\not2 \sigma^{2}} \stackrel{\mathrm{SET}}{=} 0
+\frac{\partial \log L\left(\mu, \sigma\right)}{\partial \mu}=\frac{-\not 2 \sum\left(x_{i}-\mu\right)(-\not1)}{\not2 \sigma^{2}} \stackrel{\mathrm{SET}}{=} 0
 $$
 and we get
 
@@ -508,7 +508,7 @@ $$
 \hat{\mu}=\frac{\sum x_{i}}{n}=\bar{x}
 $$
 
-We can solve for $sigma^2$ by the same way.
+We can solve for $\sigma^2$ by the same way.
 
 Now the regression. Since,  
 
@@ -867,15 +867,15 @@ We will answer it in coming chapters in details but, for now, let use our first 
 
 ## Simulation
 
-Simulations are tools to see whether statistical arguments are true or not.  In simulations, the data generating process (DGP) is known. We will know the form of the model as well as the value of each of the parameters. In particular, we will often control the distribution and parameters which define the randomness, or noise, in the data. One of the biggest strengths of R is its ability to carry out simulations using built-in functions for generating random samples from certain distributions.  We'll see many examples in the R labs (see Appendix).  
+Simulations are tools to see whether statistical arguments are true or not.  In simulations, the data generating process (DGP) is known. We will know the form of the model as well as the value of each of the parameters. In particular, we will often control the distribution and parameters which define the randomness, or noise, in the data. One of the biggest strengths of R is its ability to carry out simulations using built-in functions for generating random samples from certain distributions.  We'll see more examples in Appendix.  
 
-Lets begin with an example.  We are going to generate a sample of observations on $Y$ from a model (a.k.a. DGM):
+Let's begin with an example.  We are going to generate a sample of observations on $Y$ from a model (a.k.a. DGM):
 
 ```{r, warning=FALSE, message=FALSE}
-# Let create data
 set.seed(1)
 X <- seq(from = 0, to = 20, by = 0.1)
 dgm <- 500 + 20*X - 90*sin(X) #This is our DGM
+
 y = dgm + rnorm(length(X), mean = 10, sd = 100) #This is our DGP
 data = data.frame(y,X)
 
@@ -890,7 +890,7 @@ This is the plot of our simulated data. The simulated data points are the blue d
 # linear model
 model1 <- lm(y ~ X)
 plot(X, y, col='deepskyblue4', xlab='X', main='Linear')
-abline(lm(y ~ X, col = "blue"))
+lines(X, model1$fitted.values, col = "blue")
 
 # Polynomial model (there is an easier way!)
 model2 <- lm(y ~ X + I(X^2) + I(X^3) + I(X^4) +  I(X^5) + I(X^6) + I(X^7) + I(X^8)
@@ -899,10 +899,10 @@ model2 <- lm(y ~ X + I(X^2) + I(X^3) + I(X^4) +  I(X^5) + I(X^6) + I(X^7) + I(X^
 plot(X, y, col= 'deepskyblue4', xlab='X', main='Polynomial')
 lines(X, fitted(model2), col='firebrick1', lwd=2)
 
-#Nonparametric Model
-model3 <- smooth.spline(X,y,df=200)
-plot(X,y,col='deepskyblue4',xlab='X',main='Spline')
-lines(model3,col='firebrick1', lwd=2)
+#Nonparametric
+model3 <- smooth.spline(X, y, df=200)
+plot(X, y, col='deepskyblue4', xlab='X', main='Spline')
+lines(model3, col='firebrick1', lwd=2)
 ```
   
 Which one do you think gives a better fit (the one with the smallest RMSPE)?  I would pick the last one, the nonparametric spline model (we'll see later what it is).  Let's calculate RMSPE for each.  
@@ -918,15 +918,14 @@ Now we have to keep **predicted** $Y$'s in separate vectors for those 3 models:
 
 ```{r, warning=FALSE, message=FALSE}
 # Predicted values by the 3 models using the "seen" data
-predicted1<- fitted(model1)
-predicted2<- fitted(model2)
-predicted3<- predict(model3, X)
+predicted1 <- fitted(model1)
+predicted2 <- fitted(model2)
+predicted3 <- predict(model3, X)
 ```
   
 Now lets use our RMSPE function:    
 
 ```{r, warning=FALSE, message=FALSE}
-# RMSPE's calculated using the "seen" data
 # Note that the actual y is the same for all models
 rmse1_s <- rmse(predicted1, y)
 rmse2_s <- rmse(predicted2, y)
@@ -944,7 +943,9 @@ As expected, the the $3^{rd}$ model has the minimum RMSPE.  Now we have another 
 set.seed(2)
 # So the only difference is the random error
 y2 = dgm + rnorm(length(X), mean = 10, sd = 100) 
-plot(X, y2,col='deepskyblue4',xlab='X',main='The "Unseen" 2nd Sample')
+plot(X, y2, col='deepskyblue4',
+     xlab='X',
+     main = 'The "Unseen" 2nd Sample')
 ```
   
 ```{r, warning=FALSE, message=FALSE}

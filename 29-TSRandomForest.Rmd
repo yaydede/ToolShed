@@ -265,7 +265,7 @@ plot(ytest, type = "l", col = "blue",
 lines(back_forecast, type = "l", col = "red")
 ```
 
-It seems that, for most days, our algorithm simply forecasts the day by using the value from a day before.  This is a common problem when the predictive model has a poor forecasting power.  Again, this is not due to our algorithm, but forecasting an epi curve with imperfect test data is almost impossible job, as we highlighted earlier. 
+It seems that, for most days, our algorithm simply forecasts the next day by using the value from a day before.  If we change our algorithm to a 7-day-ahead forecast, this would be  different.   This is also a common problem when the predictive model has a poor forecasting power.  Again, this is not due to our algorithm, but forecasting an epi curve with imperfect test data is almost impossible job, as we highlighted earlier. 
 
 In practice, however, there are several ways that we can improve the scripts above.  For example, we can consider the (rolling or expanding) window size as a hyperparameter.  We can also have an explicit training for the Random Forest algorithm.  We can have an ensemble forecasting by adding other predictive algorithms to the script, like boosting.  Further, we can develop a base forecast that would give us a benchmark to see how much our algorithm improves against that base. Moreover, we could apply a transformation to the data in order to stabilize the variance in all variables. 
 

@@ -323,7 +323,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="16" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html"><i class="fa fa-check"></i><b>16</b> Artificial Neural Networks</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---the-idea"><i class="fa fa-check"></i><b>16.1</b> Neural Network - The idea</a></li>
+<li class="chapter" data-level="16.1" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---the-idea"><i class="fa fa-check"></i><b>16.1</b> Neural Network - the idea</a></li>
 <li class="chapter" data-level="16.2" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#backpropagation"><i class="fa fa-check"></i><b>16.2</b> Backpropagation</a></li>
 <li class="chapter" data-level="16.3" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---more-inputs"><i class="fa fa-check"></i><b>16.3</b> Neural Network - More inputs</a></li>
 <li class="chapter" data-level="16.4" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#deep-learning"><i class="fa fa-check"></i><b>16.4</b> Deep Learning</a></li>
@@ -369,7 +369,13 @@ div.csl-indent {
 <li class="chapter" data-level="34.2" data-path="random-forest-1.html"><a href="random-forest-1.html#multivariate"><i class="fa fa-check"></i><b>34.2</b> Multivariate</a></li>
 <li class="chapter" data-level="34.3" data-path="random-forest-1.html"><a href="random-forest-1.html#rolling-and-expanding-windows"><i class="fa fa-check"></i><b>34.3</b> Rolling and expanding windows</a></li>
 </ul></li>
-<li class="chapter" data-level="35" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html"><i class="fa fa-check"></i><b>35</b> Recurrent Neural Networks</a></li>
+<li class="chapter" data-level="35" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html"><i class="fa fa-check"></i><b>35</b> Recurrent Neural Networks</a>
+<ul>
+<li class="chapter" data-level="35.1" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#keras"><i class="fa fa-check"></i><b>35.1</b> Keras</a></li>
+<li class="chapter" data-level="35.2" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#input-tensors"><i class="fa fa-check"></i><b>35.2</b> Input Tensors</a></li>
+<li class="chapter" data-level="35.3" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#rnn"><i class="fa fa-check"></i><b>35.3</b> RNN</a></li>
+<li class="chapter" data-level="35.4" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#lstm"><i class="fa fa-check"></i><b>35.4</b> LSTM</a></li>
+</ul></li>
 <li class="part"><span><b>X Network Analysis</b></span></li>
 <li class="chapter" data-level="" data-path="graphical-network-analysis.html"><a href="graphical-network-analysis.html"><i class="fa fa-check"></i>Graphical Network Analysis</a></li>
 <li class="chapter" data-level="36" data-path="fundementals.html"><a href="fundementals.html"><i class="fa fa-check"></i><b>36</b> Fundementals</a>
@@ -613,13 +619,13 @@ div.csl-indent {
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="preliminaries.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb15-2"><a href="preliminaries.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># get current system date</span></span>
 <span id="cb15-3"><a href="preliminaries.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.Date</span>() </span></code></pre></div>
-<pre><code>## [1] &quot;2023-01-18&quot;</code></pre>
+<pre><code>## [1] &quot;2023-01-26&quot;</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="preliminaries.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get current system time</span></span>
 <span id="cb17-2"><a href="preliminaries.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;2023-01-18 11:16:59 AST&quot;</code></pre>
+<pre><code>## [1] &quot;2023-01-26 14:14:46 AST&quot;</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="preliminaries.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#lubridate</span></span>
 <span id="cb19-2"><a href="preliminaries.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;2023-01-18 11:16:59 AST&quot;</code></pre>
+<pre><code>## [1] &quot;2023-01-26 14:14:46 AST&quot;</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="preliminaries.html#cb21-1" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2022-07-11&quot;</span>, <span class="st">&quot;2012-04-19&quot;</span>, <span class="st">&quot;2017-03-08&quot;</span>)</span>
 <span id="cb21-2"><a href="preliminaries.html#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="preliminaries.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># extract years from dates</span></span>
@@ -790,8 +796,8 @@ X \sim N\left(\mu=2, \sigma^{2}=25\right)
 <pre><code>## [1] 11.79982</code></pre>
 <p>Lastly, to generate a random sample of size n = 10, use <code>rnorm()</code></p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="preliminaries.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>##  [1]  6.22334264  1.87588298 -0.02092444 10.77696147 -7.16156335 -0.06378625
-##  [7]  5.15036471  0.56858223  9.40184202  0.81255764</code></pre>
+<pre><code>##  [1] -0.641198  7.576442 -8.328193 -2.515567 10.860855  4.214817 -5.669115
+##  [8]  4.396548  1.455996  7.503261</code></pre>
 <p>These functions exist for many other distributions such as: <code>binom</code> (Binomial), <code>t</code> (Student’s t), <code>pois</code> (Poisson), <code>f</code> (F), <code>chisq</code> (Chi-Squared).</p>
 </div>
 <div id="regressions" class="section level2 hasAnchor" number="2.4">
@@ -1026,11 +1032,11 @@ L(\mu, \sigma)=\sigma^{-n}(2 \pi)^{-n / 2} \exp \left[-\frac{1}{2 \sigma^{2}} \s
 \]</span></p>
 <p>and therefore the log of the likelihood function:</p>
 <p><span class="math display">\[
-\log L\left(\mu, \theta_{2}\right)=-\frac{n}{2} \log \sigma^{2}-\frac{n}{2} \log (2 \pi)-\frac{\sum\left(x_{i}-\mu\right)^{2}}{2 \sigma^{2}}
+\log L\left(\mu, \sigma\right)=-n \log \sigma^{2}-\frac{n}{2} \log (2 \pi)-\frac{\sum\left(x_{i}-\mu\right)^{2}}{2 \sigma^{2}}
 \]</span>
 Now, upon taking the partial derivative of the log likelihood with respect to <span class="math inline">\(\mu\)</span> and setting to 0, we see that:</p>
 <p><span class="math display">\[
-\frac{\partial \log L\left(\theta_{1}, \theta_{2}\right)}{\partial \theta_{1}}=\frac{-\not 2 \sum\left(x_{i}-\mu\right)(-\not1)}{\not2 \sigma^{2}} \stackrel{\mathrm{SET}}{=} 0
+\frac{\partial \log L\left(\mu, \sigma\right)}{\partial \mu}=\frac{-\not 2 \sum\left(x_{i}-\mu\right)(-\not1)}{\not2 \sigma^{2}} \stackrel{\mathrm{SET}}{=} 0
 \]</span>
 and we get</p>
 <p><span class="math display">\[
@@ -1039,7 +1045,7 @@ and we get</p>
 <span class="math display">\[
 \hat{\mu}=\frac{\sum x_{i}}{n}=\bar{x}
 \]</span></p>
-<p>We can solve for <span class="math inline">\(sigma^2\)</span> by the same way.</p>
+<p>We can solve for <span class="math inline">\(\sigma^2\)</span> by the same way.</p>
 <p>Now the regression. Since,</p>
 <p><span class="math display">\[
 Y_{i} | X_{i} \sim N\left(\beta_{0}+\beta_{1} x_{i}, \sigma^{2}\right)
@@ -1372,12 +1378,12 @@ Would it be linear or polynomial? If we are going to add non-linear terms, which
 </div>
 <div id="simulation" class="section level2 hasAnchor" number="2.8">
 <h2><span class="header-section-number">2.8</span> Simulation<a href="preliminaries.html#simulation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Simulations are tools to see whether statistical arguments are true or not. In simulations, the data generating process (DGP) is known. We will know the form of the model as well as the value of each of the parameters. In particular, we will often control the distribution and parameters which define the randomness, or noise, in the data. One of the biggest strengths of R is its ability to carry out simulations using built-in functions for generating random samples from certain distributions. We’ll see many examples in the R labs (see Appendix).</p>
-<p>Lets begin with an example. We are going to generate a sample of observations on <span class="math inline">\(Y\)</span> from a model (a.k.a. DGM):</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="preliminaries.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let create data</span></span>
-<span id="cb100-2"><a href="preliminaries.html#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb100-3"><a href="preliminaries.html#cb100-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">20</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
-<span id="cb100-4"><a href="preliminaries.html#cb100-4" aria-hidden="true" tabindex="-1"></a>dgm <span class="ot">&lt;-</span> <span class="dv">500</span> <span class="sc">+</span> <span class="dv">20</span><span class="sc">*</span>X <span class="sc">-</span> <span class="dv">90</span><span class="sc">*</span><span class="fu">sin</span>(X) <span class="co">#This is our DGM</span></span>
+<p>Simulations are tools to see whether statistical arguments are true or not. In simulations, the data generating process (DGP) is known. We will know the form of the model as well as the value of each of the parameters. In particular, we will often control the distribution and parameters which define the randomness, or noise, in the data. One of the biggest strengths of R is its ability to carry out simulations using built-in functions for generating random samples from certain distributions. We’ll see more examples in Appendix.</p>
+<p>Let’s begin with an example. We are going to generate a sample of observations on <span class="math inline">\(Y\)</span> from a model (a.k.a. DGM):</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="preliminaries.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb100-2"><a href="preliminaries.html#cb100-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">20</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb100-3"><a href="preliminaries.html#cb100-3" aria-hidden="true" tabindex="-1"></a>dgm <span class="ot">&lt;-</span> <span class="dv">500</span> <span class="sc">+</span> <span class="dv">20</span><span class="sc">*</span>X <span class="sc">-</span> <span class="dv">90</span><span class="sc">*</span><span class="fu">sin</span>(X) <span class="co">#This is our DGM</span></span>
+<span id="cb100-4"><a href="preliminaries.html#cb100-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb100-5"><a href="preliminaries.html#cb100-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> dgm <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(X), <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">100</span>) <span class="co">#This is our DGP</span></span>
 <span id="cb100-6"><a href="preliminaries.html#cb100-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(y,X)</span>
 <span id="cb100-7"><a href="preliminaries.html#cb100-7" aria-hidden="true" tabindex="-1"></a></span>
@@ -1389,7 +1395,7 @@ Would it be linear or polynomial? If we are going to add non-linear terms, which
 <div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="preliminaries.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># linear model</span></span>
 <span id="cb101-2"><a href="preliminaries.html#cb101-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> X)</span>
 <span id="cb101-3"><a href="preliminaries.html#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X, y, <span class="at">col=</span><span class="st">&#39;deepskyblue4&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;X&#39;</span>, <span class="at">main=</span><span class="st">&#39;Linear&#39;</span>)</span>
-<span id="cb101-4"><a href="preliminaries.html#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(y <span class="sc">~</span> X, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
+<span id="cb101-4"><a href="preliminaries.html#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(X, model1<span class="sc">$</span>fitted.values, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="preliminaries.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Polynomial model (there is an easier way!)</span></span>
 <span id="cb102-2"><a href="preliminaries.html#cb102-2" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> X <span class="sc">+</span> <span class="fu">I</span>(X<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(X<span class="sc">^</span><span class="dv">3</span>) <span class="sc">+</span> <span class="fu">I</span>(X<span class="sc">^</span><span class="dv">4</span>) <span class="sc">+</span>  <span class="fu">I</span>(X<span class="sc">^</span><span class="dv">5</span>) <span class="sc">+</span> <span class="fu">I</span>(X<span class="sc">^</span><span class="dv">6</span>) <span class="sc">+</span> <span class="fu">I</span>(X<span class="sc">^</span><span class="dv">7</span>) <span class="sc">+</span> <span class="fu">I</span>(X<span class="sc">^</span><span class="dv">8</span>)</span>
@@ -1398,10 +1404,10 @@ Would it be linear or polynomial? If we are going to add non-linear terms, which
 <span id="cb102-5"><a href="preliminaries.html#cb102-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X, y, <span class="at">col=</span> <span class="st">&#39;deepskyblue4&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;X&#39;</span>, <span class="at">main=</span><span class="st">&#39;Polynomial&#39;</span>)</span>
 <span id="cb102-6"><a href="preliminaries.html#cb102-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(X, <span class="fu">fitted</span>(model2), <span class="at">col=</span><span class="st">&#39;firebrick1&#39;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="preliminaries.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Nonparametric Model</span></span>
-<span id="cb103-2"><a href="preliminaries.html#cb103-2" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">smooth.spline</span>(X,y,<span class="at">df=</span><span class="dv">200</span>)</span>
-<span id="cb103-3"><a href="preliminaries.html#cb103-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X,y,<span class="at">col=</span><span class="st">&#39;deepskyblue4&#39;</span>,<span class="at">xlab=</span><span class="st">&#39;X&#39;</span>,<span class="at">main=</span><span class="st">&#39;Spline&#39;</span>)</span>
-<span id="cb103-4"><a href="preliminaries.html#cb103-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(model3,<span class="at">col=</span><span class="st">&#39;firebrick1&#39;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="preliminaries.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Nonparametric</span></span>
+<span id="cb103-2"><a href="preliminaries.html#cb103-2" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">smooth.spline</span>(X, y, <span class="at">df=</span><span class="dv">200</span>)</span>
+<span id="cb103-3"><a href="preliminaries.html#cb103-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X, y, <span class="at">col=</span><span class="st">&#39;deepskyblue4&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;X&#39;</span>, <span class="at">main=</span><span class="st">&#39;Spline&#39;</span>)</span>
+<span id="cb103-4"><a href="preliminaries.html#cb103-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(model3, <span class="at">col=</span><span class="st">&#39;firebrick1&#39;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-12-3.png" width="672" /></p>
 <p>Which one do you think gives a better fit (the one with the smallest RMSPE)? I would pick the last one, the nonparametric spline model (we’ll see later what it is). Let’s calculate RMSPE for each.</p>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="preliminaries.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let create a function for RMSPE</span></span>
@@ -1410,18 +1416,17 @@ Would it be linear or polynomial? If we are going to add non-linear terms, which
 <span id="cb104-4"><a href="preliminaries.html#cb104-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Now we have to keep <strong>predicted</strong> <span class="math inline">\(Y\)</span>’s in separate vectors for those 3 models:</p>
 <div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="preliminaries.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted values by the 3 models using the &quot;seen&quot; data</span></span>
-<span id="cb105-2"><a href="preliminaries.html#cb105-2" aria-hidden="true" tabindex="-1"></a>predicted1<span class="ot">&lt;-</span> <span class="fu">fitted</span>(model1)</span>
-<span id="cb105-3"><a href="preliminaries.html#cb105-3" aria-hidden="true" tabindex="-1"></a>predicted2<span class="ot">&lt;-</span> <span class="fu">fitted</span>(model2)</span>
-<span id="cb105-4"><a href="preliminaries.html#cb105-4" aria-hidden="true" tabindex="-1"></a>predicted3<span class="ot">&lt;-</span> <span class="fu">predict</span>(model3, X)</span></code></pre></div>
+<span id="cb105-2"><a href="preliminaries.html#cb105-2" aria-hidden="true" tabindex="-1"></a>predicted1 <span class="ot">&lt;-</span> <span class="fu">fitted</span>(model1)</span>
+<span id="cb105-3"><a href="preliminaries.html#cb105-3" aria-hidden="true" tabindex="-1"></a>predicted2 <span class="ot">&lt;-</span> <span class="fu">fitted</span>(model2)</span>
+<span id="cb105-4"><a href="preliminaries.html#cb105-4" aria-hidden="true" tabindex="-1"></a>predicted3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model3, X)</span></code></pre></div>
 <p>Now lets use our RMSPE function:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="preliminaries.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RMSPE&#39;s calculated using the &quot;seen&quot; data</span></span>
-<span id="cb106-2"><a href="preliminaries.html#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that the actual y is the same for all models</span></span>
-<span id="cb106-3"><a href="preliminaries.html#cb106-3" aria-hidden="true" tabindex="-1"></a>rmse1_s <span class="ot">&lt;-</span> <span class="fu">rmse</span>(predicted1, y)</span>
-<span id="cb106-4"><a href="preliminaries.html#cb106-4" aria-hidden="true" tabindex="-1"></a>rmse2_s <span class="ot">&lt;-</span> <span class="fu">rmse</span>(predicted2, y)</span>
-<span id="cb106-5"><a href="preliminaries.html#cb106-5" aria-hidden="true" tabindex="-1"></a>rmse3_s <span class="ot">&lt;-</span> <span class="fu">rmse</span>(predicted3<span class="sc">$</span>y, y)</span>
-<span id="cb106-6"><a href="preliminaries.html#cb106-6" aria-hidden="true" tabindex="-1"></a>seen <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;RMSPE for model1 (linear)&quot;</span> <span class="ot">=</span> rmse1_s, <span class="st">&quot;RMSPE for model2 (polynomial)&quot;</span> <span class="ot">=</span> rmse2_s,</span>
-<span id="cb106-7"><a href="preliminaries.html#cb106-7" aria-hidden="true" tabindex="-1"></a>          <span class="st">&quot;RMSPE for model3 (nonparametric)&quot;</span> <span class="ot">=</span> rmse3_s )</span>
-<span id="cb106-8"><a href="preliminaries.html#cb106-8" aria-hidden="true" tabindex="-1"></a>seen</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="preliminaries.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that the actual y is the same for all models</span></span>
+<span id="cb106-2"><a href="preliminaries.html#cb106-2" aria-hidden="true" tabindex="-1"></a>rmse1_s <span class="ot">&lt;-</span> <span class="fu">rmse</span>(predicted1, y)</span>
+<span id="cb106-3"><a href="preliminaries.html#cb106-3" aria-hidden="true" tabindex="-1"></a>rmse2_s <span class="ot">&lt;-</span> <span class="fu">rmse</span>(predicted2, y)</span>
+<span id="cb106-4"><a href="preliminaries.html#cb106-4" aria-hidden="true" tabindex="-1"></a>rmse3_s <span class="ot">&lt;-</span> <span class="fu">rmse</span>(predicted3<span class="sc">$</span>y, y)</span>
+<span id="cb106-5"><a href="preliminaries.html#cb106-5" aria-hidden="true" tabindex="-1"></a>seen <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;RMSPE for model1 (linear)&quot;</span> <span class="ot">=</span> rmse1_s, <span class="st">&quot;RMSPE for model2 (polynomial)&quot;</span> <span class="ot">=</span> rmse2_s,</span>
+<span id="cb106-6"><a href="preliminaries.html#cb106-6" aria-hidden="true" tabindex="-1"></a>          <span class="st">&quot;RMSPE for model3 (nonparametric)&quot;</span> <span class="ot">=</span> rmse3_s )</span>
+<span id="cb106-7"><a href="preliminaries.html#cb106-7" aria-hidden="true" tabindex="-1"></a>seen</span></code></pre></div>
 <pre><code>##        RMSPE for model1 (linear)    RMSPE for model2 (polynomial) 
 ##                        119.46405                         88.87396 
 ## RMSPE for model3 (nonparametric) 
@@ -1432,7 +1437,9 @@ Would it be linear or polynomial? If we are going to add non-linear terms, which
 <span id="cb108-3"><a href="preliminaries.html#cb108-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
 <span id="cb108-4"><a href="preliminaries.html#cb108-4" aria-hidden="true" tabindex="-1"></a><span class="co"># So the only difference is the random error</span></span>
 <span id="cb108-5"><a href="preliminaries.html#cb108-5" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">=</span> dgm <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(X), <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">100</span>) </span>
-<span id="cb108-6"><a href="preliminaries.html#cb108-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X, y2,<span class="at">col=</span><span class="st">&#39;deepskyblue4&#39;</span>,<span class="at">xlab=</span><span class="st">&#39;X&#39;</span>,<span class="at">main=</span><span class="st">&#39;The &quot;Unseen&quot; 2nd Sample&#39;</span>)</span></code></pre></div>
+<span id="cb108-6"><a href="preliminaries.html#cb108-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X, y2, <span class="at">col=</span><span class="st">&#39;deepskyblue4&#39;</span>,</span>
+<span id="cb108-7"><a href="preliminaries.html#cb108-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&#39;X&#39;</span>,</span>
+<span id="cb108-8"><a href="preliminaries.html#cb108-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&#39;The &quot;Unseen&quot; 2nd Sample&#39;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="preliminaries.html#cb109-1" aria-hidden="true" tabindex="-1"></a>rmse1_us <span class="ot">&lt;-</span> <span class="fu">rmse</span>(predicted1, y2)</span>
 <span id="cb109-2"><a href="preliminaries.html#cb109-2" aria-hidden="true" tabindex="-1"></a>rmse2_us<span class="ot">&lt;-</span> <span class="fu">rmse</span>(predicted2, y2)</span>

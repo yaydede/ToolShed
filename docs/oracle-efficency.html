@@ -323,7 +323,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="16" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html"><i class="fa fa-check"></i><b>16</b> Artificial Neural Networks</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---the-idea"><i class="fa fa-check"></i><b>16.1</b> Neural Network - The idea</a></li>
+<li class="chapter" data-level="16.1" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---the-idea"><i class="fa fa-check"></i><b>16.1</b> Neural Network - the idea</a></li>
 <li class="chapter" data-level="16.2" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#backpropagation"><i class="fa fa-check"></i><b>16.2</b> Backpropagation</a></li>
 <li class="chapter" data-level="16.3" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---more-inputs"><i class="fa fa-check"></i><b>16.3</b> Neural Network - More inputs</a></li>
 <li class="chapter" data-level="16.4" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#deep-learning"><i class="fa fa-check"></i><b>16.4</b> Deep Learning</a></li>
@@ -369,7 +369,13 @@ div.csl-indent {
 <li class="chapter" data-level="34.2" data-path="random-forest-1.html"><a href="random-forest-1.html#multivariate"><i class="fa fa-check"></i><b>34.2</b> Multivariate</a></li>
 <li class="chapter" data-level="34.3" data-path="random-forest-1.html"><a href="random-forest-1.html#rolling-and-expanding-windows"><i class="fa fa-check"></i><b>34.3</b> Rolling and expanding windows</a></li>
 </ul></li>
-<li class="chapter" data-level="35" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html"><i class="fa fa-check"></i><b>35</b> Recurrent Neural Networks</a></li>
+<li class="chapter" data-level="35" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html"><i class="fa fa-check"></i><b>35</b> Recurrent Neural Networks</a>
+<ul>
+<li class="chapter" data-level="35.1" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#keras"><i class="fa fa-check"></i><b>35.1</b> Keras</a></li>
+<li class="chapter" data-level="35.2" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#input-tensors"><i class="fa fa-check"></i><b>35.2</b> Input Tensors</a></li>
+<li class="chapter" data-level="35.3" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#rnn"><i class="fa fa-check"></i><b>35.3</b> RNN</a></li>
+<li class="chapter" data-level="35.4" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#lstm"><i class="fa fa-check"></i><b>35.4</b> LSTM</a></li>
+</ul></li>
 <li class="part"><span><b>X Network Analysis</b></span></li>
 <li class="chapter" data-level="" data-path="graphical-network-analysis.html"><a href="graphical-network-analysis.html"><i class="fa fa-check"></i>Graphical Network Analysis</a></li>
 <li class="chapter" data-level="36" data-path="fundementals.html"><a href="fundementals.html"><i class="fa fa-check"></i><b>36</b> Fundementals</a>
@@ -496,33 +502,33 @@ div.csl-indent {
 y_i=x_i^{\prime} \beta_0+u_i, ~~~~~i=1, \ldots, n
 \]</span></p>
 <p>where <span class="math inline">\(\beta_0\)</span> is <span class="math inline">\(p \times 1\)</span>. First, we consider the case where <span class="math inline">\(p&lt;n\)</span> then move to the case where <span class="math inline">\(p \geq n\)</span>. We define <span class="math inline">\(\beta_0=(1,1,0,0)^{\prime}\)</span> and <span class="math inline">\(n=100\)</span>.</p>
-<div class="sourceCode" id="cb859"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb859-1"><a href="oracle-efficency.html#cb859-1" aria-hidden="true" tabindex="-1"></a><span class="co">#This function generates the data</span></span>
-<span id="cb859-2"><a href="oracle-efficency.html#cb859-2" aria-hidden="true" tabindex="-1"></a>dgp <span class="ot">&lt;-</span> <span class="cf">function</span>(N, Beta){</span>
-<span id="cb859-3"><a href="oracle-efficency.html#cb859-3" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">=</span> <span class="fu">length</span>(Beta)</span>
-<span id="cb859-4"><a href="oracle-efficency.html#cb859-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb859-5"><a href="oracle-efficency.html#cb859-5" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(N<span class="sc">*</span>p), <span class="at">ncol =</span> p)</span>
-<span id="cb859-6"><a href="oracle-efficency.html#cb859-6" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(N), <span class="at">ncol =</span> <span class="dv">1</span>)</span>
-<span id="cb859-7"><a href="oracle-efficency.html#cb859-7" aria-hidden="true" tabindex="-1"></a>  dgm <span class="ot">&lt;-</span> X<span class="sc">%*%</span>Beta</span>
-<span id="cb859-8"><a href="oracle-efficency.html#cb859-8" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> X<span class="sc">%*%</span>Beta <span class="sc">+</span> u</span>
-<span id="cb859-9"><a href="oracle-efficency.html#cb859-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb859-10"><a href="oracle-efficency.html#cb859-10" aria-hidden="true" tabindex="-1"></a>  return <span class="ot">&lt;-</span> <span class="fu">list</span>(y, X)</span>
-<span id="cb859-11"><a href="oracle-efficency.html#cb859-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb859-12"><a href="oracle-efficency.html#cb859-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb859-13"><a href="oracle-efficency.html#cb859-13" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">100</span></span>
-<span id="cb859-14"><a href="oracle-efficency.html#cb859-14" aria-hidden="true" tabindex="-1"></a>Beta <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
-<span id="cb859-15"><a href="oracle-efficency.html#cb859-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb859-16"><a href="oracle-efficency.html#cb859-16" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">148</span>)</span>
-<span id="cb859-17"><a href="oracle-efficency.html#cb859-17" aria-hidden="true" tabindex="-1"></a>Output <span class="ot">&lt;-</span> <span class="fu">dgp</span>(N, Beta)</span>
-<span id="cb859-18"><a href="oracle-efficency.html#cb859-18" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span>Output[[<span class="dv">1</span>]]</span>
-<span id="cb859-19"><a href="oracle-efficency.html#cb859-19" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span>Output[[<span class="dv">2</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb860"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb860-1"><a href="oracle-efficency.html#cb860-1" aria-hidden="true" tabindex="-1"></a><span class="co">#This function generates the data</span></span>
+<span id="cb860-2"><a href="oracle-efficency.html#cb860-2" aria-hidden="true" tabindex="-1"></a>dgp <span class="ot">&lt;-</span> <span class="cf">function</span>(N, Beta){</span>
+<span id="cb860-3"><a href="oracle-efficency.html#cb860-3" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">=</span> <span class="fu">length</span>(Beta)</span>
+<span id="cb860-4"><a href="oracle-efficency.html#cb860-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb860-5"><a href="oracle-efficency.html#cb860-5" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(N<span class="sc">*</span>p), <span class="at">ncol =</span> p)</span>
+<span id="cb860-6"><a href="oracle-efficency.html#cb860-6" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(N), <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb860-7"><a href="oracle-efficency.html#cb860-7" aria-hidden="true" tabindex="-1"></a>  dgm <span class="ot">&lt;-</span> X<span class="sc">%*%</span>Beta</span>
+<span id="cb860-8"><a href="oracle-efficency.html#cb860-8" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> X<span class="sc">%*%</span>Beta <span class="sc">+</span> u</span>
+<span id="cb860-9"><a href="oracle-efficency.html#cb860-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb860-10"><a href="oracle-efficency.html#cb860-10" aria-hidden="true" tabindex="-1"></a>  return <span class="ot">&lt;-</span> <span class="fu">list</span>(y, X)</span>
+<span id="cb860-11"><a href="oracle-efficency.html#cb860-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb860-12"><a href="oracle-efficency.html#cb860-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb860-13"><a href="oracle-efficency.html#cb860-13" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb860-14"><a href="oracle-efficency.html#cb860-14" aria-hidden="true" tabindex="-1"></a>Beta <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb860-15"><a href="oracle-efficency.html#cb860-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb860-16"><a href="oracle-efficency.html#cb860-16" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">148</span>)</span>
+<span id="cb860-17"><a href="oracle-efficency.html#cb860-17" aria-hidden="true" tabindex="-1"></a>Output <span class="ot">&lt;-</span> <span class="fu">dgp</span>(N, Beta)</span>
+<span id="cb860-18"><a href="oracle-efficency.html#cb860-18" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span>Output[[<span class="dv">1</span>]]</span>
+<span id="cb860-19"><a href="oracle-efficency.html#cb860-19" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span>Output[[<span class="dv">2</span>]]</span></code></pre></div>
 <p>First, we apply lasso</p>
-<div class="sourceCode" id="cb860"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb860-1"><a href="oracle-efficency.html#cb860-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
-<span id="cb860-2"><a href="oracle-efficency.html#cb860-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb860-3"><a href="oracle-efficency.html#cb860-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">432</span>)</span>
-<span id="cb860-4"><a href="oracle-efficency.html#cb860-4" aria-hidden="true" tabindex="-1"></a>lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X, <span class="at">y =</span> y, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>)</span>
-<span id="cb860-5"><a href="oracle-efficency.html#cb860-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb860-6"><a href="oracle-efficency.html#cb860-6" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="ot">&lt;-</span> lasso<span class="sc">$</span>beta</span>
-<span id="cb860-7"><a href="oracle-efficency.html#cb860-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="fu">t</span>(beta_hat), <span class="st">&quot;lambda&quot;</span> <span class="ot">=</span> lasso<span class="sc">$</span>lambda)</span></code></pre></div>
+<div class="sourceCode" id="cb861"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb861-1"><a href="oracle-efficency.html#cb861-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb861-2"><a href="oracle-efficency.html#cb861-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb861-3"><a href="oracle-efficency.html#cb861-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">432</span>)</span>
+<span id="cb861-4"><a href="oracle-efficency.html#cb861-4" aria-hidden="true" tabindex="-1"></a>lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X, <span class="at">y =</span> y, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>)</span>
+<span id="cb861-5"><a href="oracle-efficency.html#cb861-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb861-6"><a href="oracle-efficency.html#cb861-6" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="ot">&lt;-</span> lasso<span class="sc">$</span>beta</span>
+<span id="cb861-7"><a href="oracle-efficency.html#cb861-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="fu">t</span>(beta_hat), <span class="st">&quot;lambda&quot;</span> <span class="ot">=</span> lasso<span class="sc">$</span>lambda)</span></code></pre></div>
 <pre><code>## 60 x 5 sparse Matrix of class &quot;dgCMatrix&quot;
 ##             V1        V2          V3          V4      lambda
 ## s0  .          .          .          .           1.083220708
@@ -593,21 +599,21 @@ P\left(\hat{\mathcal{A}}_{\lambda_{BIC}}=\mathcal{A}\right) \rightarrow 1
 <p><span class="math display">\[
 B I C_\lambda=\log \left(S S E_\lambda\right)+\frac{\log (n)}{n} n z_\lambda
 \]</span></p>
-<div class="sourceCode" id="cb862"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb862-1"><a href="oracle-efficency.html#cb862-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict yhat for each of 61 lambda (s)</span></span>
-<span id="cb862-2"><a href="oracle-efficency.html#cb862-2" aria-hidden="true" tabindex="-1"></a>y_hat <span class="ot">=</span> <span class="fu">predict</span>(lasso, <span class="at">newx =</span> X)</span>
-<span id="cb862-3"><a href="oracle-efficency.html#cb862-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(y_hat)</span></code></pre></div>
+<div class="sourceCode" id="cb863"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb863-1"><a href="oracle-efficency.html#cb863-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict yhat for each of 61 lambda (s)</span></span>
+<span id="cb863-2"><a href="oracle-efficency.html#cb863-2" aria-hidden="true" tabindex="-1"></a>y_hat <span class="ot">=</span> <span class="fu">predict</span>(lasso, <span class="at">newx =</span> X)</span>
+<span id="cb863-3"><a href="oracle-efficency.html#cb863-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(y_hat)</span></code></pre></div>
 <pre><code>## [1] 100  60</code></pre>
-<div class="sourceCode" id="cb864"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb864-1"><a href="oracle-efficency.html#cb864-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SSE for each lambda (s)</span></span>
-<span id="cb864-2"><a href="oracle-efficency.html#cb864-2" aria-hidden="true" tabindex="-1"></a>SSE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb864-3"><a href="oracle-efficency.html#cb864-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y_hat)) {</span>
-<span id="cb864-4"><a href="oracle-efficency.html#cb864-4" aria-hidden="true" tabindex="-1"></a>  SSE_each <span class="ot">&lt;-</span> <span class="fu">sum</span>((y_hat[,i]<span class="sc">-</span>y[,<span class="dv">1</span>])<span class="sc">^</span>(<span class="dv">2</span>))</span>
-<span id="cb864-5"><a href="oracle-efficency.html#cb864-5" aria-hidden="true" tabindex="-1"></a>  SSE <span class="ot">&lt;-</span> <span class="fu">c</span>(SSE, SSE_each)</span>
-<span id="cb864-6"><a href="oracle-efficency.html#cb864-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb864-7"><a href="oracle-efficency.html#cb864-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb864-8"><a href="oracle-efficency.html#cb864-8" aria-hidden="true" tabindex="-1"></a><span class="co"># BIC</span></span>
-<span id="cb864-9"><a href="oracle-efficency.html#cb864-9" aria-hidden="true" tabindex="-1"></a>nz <span class="ot">&lt;-</span> <span class="fu">colSums</span>(beta_hat<span class="sc">!=</span><span class="dv">0</span>) <span class="co"># Number of non-zero coefficients for each lambda</span></span>
-<span id="cb864-10"><a href="oracle-efficency.html#cb864-10" aria-hidden="true" tabindex="-1"></a>BIC <span class="ot">&lt;-</span> <span class="fu">log</span>(SSE) <span class="sc">+</span> (<span class="fu">log</span>(N)<span class="sc">/</span>N)<span class="sc">*</span>nz <span class="co">#Now BIC</span></span>
-<span id="cb864-11"><a href="oracle-efficency.html#cb864-11" aria-hidden="true" tabindex="-1"></a>BIC</span></code></pre></div>
+<div class="sourceCode" id="cb865"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb865-1"><a href="oracle-efficency.html#cb865-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SSE for each lambda (s)</span></span>
+<span id="cb865-2"><a href="oracle-efficency.html#cb865-2" aria-hidden="true" tabindex="-1"></a>SSE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb865-3"><a href="oracle-efficency.html#cb865-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y_hat)) {</span>
+<span id="cb865-4"><a href="oracle-efficency.html#cb865-4" aria-hidden="true" tabindex="-1"></a>  SSE_each <span class="ot">&lt;-</span> <span class="fu">sum</span>((y_hat[,i]<span class="sc">-</span>y[,<span class="dv">1</span>])<span class="sc">^</span>(<span class="dv">2</span>))</span>
+<span id="cb865-5"><a href="oracle-efficency.html#cb865-5" aria-hidden="true" tabindex="-1"></a>  SSE <span class="ot">&lt;-</span> <span class="fu">c</span>(SSE, SSE_each)</span>
+<span id="cb865-6"><a href="oracle-efficency.html#cb865-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb865-7"><a href="oracle-efficency.html#cb865-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb865-8"><a href="oracle-efficency.html#cb865-8" aria-hidden="true" tabindex="-1"></a><span class="co"># BIC</span></span>
+<span id="cb865-9"><a href="oracle-efficency.html#cb865-9" aria-hidden="true" tabindex="-1"></a>nz <span class="ot">&lt;-</span> <span class="fu">colSums</span>(beta_hat<span class="sc">!=</span><span class="dv">0</span>) <span class="co"># Number of non-zero coefficients for each lambda</span></span>
+<span id="cb865-10"><a href="oracle-efficency.html#cb865-10" aria-hidden="true" tabindex="-1"></a>BIC <span class="ot">&lt;-</span> <span class="fu">log</span>(SSE) <span class="sc">+</span> (<span class="fu">log</span>(N)<span class="sc">/</span>N)<span class="sc">*</span>nz <span class="co">#Now BIC</span></span>
+<span id="cb865-11"><a href="oracle-efficency.html#cb865-11" aria-hidden="true" tabindex="-1"></a>BIC</span></code></pre></div>
 <pre><code>##       s0       s1       s2       s3       s4       s5       s6       s7 
 ## 5.598919 5.595359 5.468287 5.348947 5.237755 5.135013 5.040883 4.955387 
 ##       s8       s9      s10      s11      s12      s13      s14      s15 
@@ -625,13 +631,13 @@ B I C_\lambda=\log \left(S S E_\lambda\right)+\frac{\log (n)}{n} n z_\lambda
 ##      s56      s57      s58      s59 
 ## 4.457650 4.457614 4.457584 4.457559</code></pre>
 <p>Let’s select <span class="math inline">\(\lambda\)</span> that has the minimum BIC</p>
-<div class="sourceCode" id="cb866"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb866-1"><a href="oracle-efficency.html#cb866-1" aria-hidden="true" tabindex="-1"></a>beta_lasso <span class="ot">&lt;-</span> beta_hat[ ,<span class="fu">which</span>(BIC<span class="sc">==</span><span class="fu">min</span>(BIC))]</span>
-<span id="cb866-2"><a href="oracle-efficency.html#cb866-2" aria-hidden="true" tabindex="-1"></a>beta_lasso</span></code></pre></div>
+<div class="sourceCode" id="cb867"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb867-1"><a href="oracle-efficency.html#cb867-1" aria-hidden="true" tabindex="-1"></a>beta_lasso <span class="ot">&lt;-</span> beta_hat[ ,<span class="fu">which</span>(BIC<span class="sc">==</span><span class="fu">min</span>(BIC))]</span>
+<span id="cb867-2"><a href="oracle-efficency.html#cb867-2" aria-hidden="true" tabindex="-1"></a>beta_lasso</span></code></pre></div>
 <pre><code>##        V1        V2        V3        V4 
 ## 0.8887426 0.8461243 0.0000000 0.0000000</code></pre>
 <p>This is the <code>beta_hat</code> that identifies the true sparsity. And, the second Oracle property, the <span class="math inline">\(\ell_2\)</span> error:</p>
-<div class="sourceCode" id="cb868"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb868-1"><a href="oracle-efficency.html#cb868-1" aria-hidden="true" tabindex="-1"></a>l_2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((beta_lasso <span class="sc">-</span> Beta)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb868-2"><a href="oracle-efficency.html#cb868-2" aria-hidden="true" tabindex="-1"></a>l_2</span></code></pre></div>
+<div class="sourceCode" id="cb869"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb869-1"><a href="oracle-efficency.html#cb869-1" aria-hidden="true" tabindex="-1"></a>l_2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((beta_lasso <span class="sc">-</span> Beta)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb869-2"><a href="oracle-efficency.html#cb869-2" aria-hidden="true" tabindex="-1"></a>l_2</span></code></pre></div>
 <pre><code>## [1] 0.189884</code></pre>
 <p>Here we will create a simulation that will report two Oracle Properties Lasso and Adaptive Lasso:</p>
 <ul>
@@ -641,119 +647,119 @@ B I C_\lambda=\log \left(S S E_\lambda\right)+\frac{\log (n)}{n} n z_\lambda
 </ul>
 <p><strong>Lasso:</strong><br />
 We first have a function, <code>msc()</code>, that executes a simulation with all the steps shown before:</p>
-<div class="sourceCode" id="cb870"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb870-1"><a href="oracle-efficency.html#cb870-1" aria-hidden="true" tabindex="-1"></a>mcs <span class="ot">&lt;-</span> <span class="cf">function</span>(mc, N, Beta){</span>
-<span id="cb870-2"><a href="oracle-efficency.html#cb870-2" aria-hidden="true" tabindex="-1"></a>  mcmat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> mc, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb870-3"><a href="oracle-efficency.html#cb870-3" aria-hidden="true" tabindex="-1"></a>  beta_lasso_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nr =</span> mc, <span class="at">nc =</span> <span class="fu">length</span>(Beta))</span>
-<span id="cb870-4"><a href="oracle-efficency.html#cb870-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb870-5"><a href="oracle-efficency.html#cb870-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>mc) {</span>
-<span id="cb870-6"><a href="oracle-efficency.html#cb870-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(i)</span>
-<span id="cb870-7"><a href="oracle-efficency.html#cb870-7" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">dgp</span>(N, Beta)</span>
-<span id="cb870-8"><a href="oracle-efficency.html#cb870-8" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> data[[<span class="dv">1</span>]]</span>
-<span id="cb870-9"><a href="oracle-efficency.html#cb870-9" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> data[[<span class="dv">2</span>]]</span>
-<span id="cb870-10"><a href="oracle-efficency.html#cb870-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb870-11"><a href="oracle-efficency.html#cb870-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(i)</span>
-<span id="cb870-12"><a href="oracle-efficency.html#cb870-12" aria-hidden="true" tabindex="-1"></a>    lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X, <span class="at">y =</span> y, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>)</span>
-<span id="cb870-13"><a href="oracle-efficency.html#cb870-13" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="ot">&lt;-</span> lasso<span class="sc">$</span>beta; <span class="co"># beta_hat is a matrix</span></span>
-<span id="cb870-14"><a href="oracle-efficency.html#cb870-14" aria-hidden="true" tabindex="-1"></a>    y_hat <span class="ot">=</span> <span class="fu">predict</span>(lasso, <span class="at">newx =</span> X)</span>
-<span id="cb870-15"><a href="oracle-efficency.html#cb870-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb870-16"><a href="oracle-efficency.html#cb870-16" aria-hidden="true" tabindex="-1"></a>    SSE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb870-17"><a href="oracle-efficency.html#cb870-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y_hat)) {</span>
-<span id="cb870-18"><a href="oracle-efficency.html#cb870-18" aria-hidden="true" tabindex="-1"></a>      SSE_each <span class="ot">&lt;-</span> <span class="fu">sum</span>((y_hat[,j]<span class="sc">-</span>y[,<span class="dv">1</span>])<span class="sc">^</span>(<span class="dv">2</span>))</span>
-<span id="cb870-19"><a href="oracle-efficency.html#cb870-19" aria-hidden="true" tabindex="-1"></a>      SSE <span class="ot">&lt;-</span> <span class="fu">c</span>(SSE, SSE_each)</span>
-<span id="cb870-20"><a href="oracle-efficency.html#cb870-20" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb870-21"><a href="oracle-efficency.html#cb870-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb870-22"><a href="oracle-efficency.html#cb870-22" aria-hidden="true" tabindex="-1"></a>    nz <span class="ot">&lt;-</span> <span class="fu">colSums</span>(beta_hat<span class="sc">!=</span><span class="dv">0</span>) </span>
-<span id="cb870-23"><a href="oracle-efficency.html#cb870-23" aria-hidden="true" tabindex="-1"></a>    BIC <span class="ot">&lt;-</span> <span class="fu">log</span>(SSE) <span class="sc">+</span> (<span class="fu">log</span>(N)<span class="sc">/</span>N)<span class="sc">*</span>nz</span>
-<span id="cb870-24"><a href="oracle-efficency.html#cb870-24" aria-hidden="true" tabindex="-1"></a>    beta_lasso <span class="ot">&lt;-</span> beta_hat[ ,<span class="fu">which</span>(BIC<span class="sc">==</span><span class="fu">min</span>(BIC))]</span>
-<span id="cb870-25"><a href="oracle-efficency.html#cb870-25" aria-hidden="true" tabindex="-1"></a>    nonz_beta <span class="ot">=</span> <span class="fu">length</span>(Beta[Beta<span class="sc">==</span><span class="dv">0</span>])</span>
-<span id="cb870-26"><a href="oracle-efficency.html#cb870-26" aria-hidden="true" tabindex="-1"></a>    nonz_beta_hat <span class="ot">=</span> <span class="fu">length</span>(beta_lasso[beta_lasso<span class="sc">==</span><span class="dv">0</span>])</span>
-<span id="cb870-27"><a href="oracle-efficency.html#cb870-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb870-28"><a href="oracle-efficency.html#cb870-28" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((beta_lasso <span class="sc">-</span> Beta)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb870-29"><a href="oracle-efficency.html#cb870-29" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(nonz_beta<span class="sc">!=</span> nonz_beta_hat, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb870-30"><a href="oracle-efficency.html#cb870-30" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">sum</span>(beta_lasso<span class="sc">!=</span><span class="dv">0</span>)</span>
-<span id="cb870-31"><a href="oracle-efficency.html#cb870-31" aria-hidden="true" tabindex="-1"></a>    beta_lasso_mat[i,] <span class="ot">&lt;-</span> beta_lasso</span>
-<span id="cb870-32"><a href="oracle-efficency.html#cb870-32" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb870-33"><a href="oracle-efficency.html#cb870-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(mcmat,beta_lasso_mat))</span>
-<span id="cb870-34"><a href="oracle-efficency.html#cb870-34" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb871"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb871-1"><a href="oracle-efficency.html#cb871-1" aria-hidden="true" tabindex="-1"></a>mcs <span class="ot">&lt;-</span> <span class="cf">function</span>(mc, N, Beta){</span>
+<span id="cb871-2"><a href="oracle-efficency.html#cb871-2" aria-hidden="true" tabindex="-1"></a>  mcmat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> mc, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb871-3"><a href="oracle-efficency.html#cb871-3" aria-hidden="true" tabindex="-1"></a>  beta_lasso_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nr =</span> mc, <span class="at">nc =</span> <span class="fu">length</span>(Beta))</span>
+<span id="cb871-4"><a href="oracle-efficency.html#cb871-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb871-5"><a href="oracle-efficency.html#cb871-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>mc) {</span>
+<span id="cb871-6"><a href="oracle-efficency.html#cb871-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(i)</span>
+<span id="cb871-7"><a href="oracle-efficency.html#cb871-7" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">dgp</span>(N, Beta)</span>
+<span id="cb871-8"><a href="oracle-efficency.html#cb871-8" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> data[[<span class="dv">1</span>]]</span>
+<span id="cb871-9"><a href="oracle-efficency.html#cb871-9" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> data[[<span class="dv">2</span>]]</span>
+<span id="cb871-10"><a href="oracle-efficency.html#cb871-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb871-11"><a href="oracle-efficency.html#cb871-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(i)</span>
+<span id="cb871-12"><a href="oracle-efficency.html#cb871-12" aria-hidden="true" tabindex="-1"></a>    lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X, <span class="at">y =</span> y, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>)</span>
+<span id="cb871-13"><a href="oracle-efficency.html#cb871-13" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="ot">&lt;-</span> lasso<span class="sc">$</span>beta; <span class="co"># beta_hat is a matrix</span></span>
+<span id="cb871-14"><a href="oracle-efficency.html#cb871-14" aria-hidden="true" tabindex="-1"></a>    y_hat <span class="ot">=</span> <span class="fu">predict</span>(lasso, <span class="at">newx =</span> X)</span>
+<span id="cb871-15"><a href="oracle-efficency.html#cb871-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb871-16"><a href="oracle-efficency.html#cb871-16" aria-hidden="true" tabindex="-1"></a>    SSE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb871-17"><a href="oracle-efficency.html#cb871-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y_hat)) {</span>
+<span id="cb871-18"><a href="oracle-efficency.html#cb871-18" aria-hidden="true" tabindex="-1"></a>      SSE_each <span class="ot">&lt;-</span> <span class="fu">sum</span>((y_hat[,j]<span class="sc">-</span>y[,<span class="dv">1</span>])<span class="sc">^</span>(<span class="dv">2</span>))</span>
+<span id="cb871-19"><a href="oracle-efficency.html#cb871-19" aria-hidden="true" tabindex="-1"></a>      SSE <span class="ot">&lt;-</span> <span class="fu">c</span>(SSE, SSE_each)</span>
+<span id="cb871-20"><a href="oracle-efficency.html#cb871-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb871-21"><a href="oracle-efficency.html#cb871-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb871-22"><a href="oracle-efficency.html#cb871-22" aria-hidden="true" tabindex="-1"></a>    nz <span class="ot">&lt;-</span> <span class="fu">colSums</span>(beta_hat<span class="sc">!=</span><span class="dv">0</span>) </span>
+<span id="cb871-23"><a href="oracle-efficency.html#cb871-23" aria-hidden="true" tabindex="-1"></a>    BIC <span class="ot">&lt;-</span> <span class="fu">log</span>(SSE) <span class="sc">+</span> (<span class="fu">log</span>(N)<span class="sc">/</span>N)<span class="sc">*</span>nz</span>
+<span id="cb871-24"><a href="oracle-efficency.html#cb871-24" aria-hidden="true" tabindex="-1"></a>    beta_lasso <span class="ot">&lt;-</span> beta_hat[ ,<span class="fu">which</span>(BIC<span class="sc">==</span><span class="fu">min</span>(BIC))]</span>
+<span id="cb871-25"><a href="oracle-efficency.html#cb871-25" aria-hidden="true" tabindex="-1"></a>    nonz_beta <span class="ot">=</span> <span class="fu">length</span>(Beta[Beta<span class="sc">==</span><span class="dv">0</span>])</span>
+<span id="cb871-26"><a href="oracle-efficency.html#cb871-26" aria-hidden="true" tabindex="-1"></a>    nonz_beta_hat <span class="ot">=</span> <span class="fu">length</span>(beta_lasso[beta_lasso<span class="sc">==</span><span class="dv">0</span>])</span>
+<span id="cb871-27"><a href="oracle-efficency.html#cb871-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb871-28"><a href="oracle-efficency.html#cb871-28" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((beta_lasso <span class="sc">-</span> Beta)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb871-29"><a href="oracle-efficency.html#cb871-29" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(nonz_beta<span class="sc">!=</span> nonz_beta_hat, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb871-30"><a href="oracle-efficency.html#cb871-30" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">sum</span>(beta_lasso<span class="sc">!=</span><span class="dv">0</span>)</span>
+<span id="cb871-31"><a href="oracle-efficency.html#cb871-31" aria-hidden="true" tabindex="-1"></a>    beta_lasso_mat[i,] <span class="ot">&lt;-</span> beta_lasso</span>
+<span id="cb871-32"><a href="oracle-efficency.html#cb871-32" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb871-33"><a href="oracle-efficency.html#cb871-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(mcmat,beta_lasso_mat))</span>
+<span id="cb871-34"><a href="oracle-efficency.html#cb871-34" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>We are ready for simulation:</p>
-<div class="sourceCode" id="cb871"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb871-1"><a href="oracle-efficency.html#cb871-1" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb871-2"><a href="oracle-efficency.html#cb871-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb871-3"><a href="oracle-efficency.html#cb871-3" aria-hidden="true" tabindex="-1"></a>Beta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">nc =</span> <span class="dv">1</span>)</span>
-<span id="cb871-4"><a href="oracle-efficency.html#cb871-4" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">mcs</span>(mc, N, Beta) <span class="co">#see the function</span></span>
-<span id="cb871-5"><a href="oracle-efficency.html#cb871-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb871-6"><a href="oracle-efficency.html#cb871-6" aria-hidden="true" tabindex="-1"></a>MC_betas <span class="ot">=</span> output[[<span class="dv">2</span>]]</span>
-<span id="cb871-7"><a href="oracle-efficency.html#cb871-7" aria-hidden="true" tabindex="-1"></a>MC_performance <span class="ot">=</span> output[[<span class="dv">1</span>]];</span>
-<span id="cb871-8"><a href="oracle-efficency.html#cb871-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(MC_performance[,<span class="dv">2</span>]) <span class="co">#how many times lasso finds true sparsity</span></span></code></pre></div>
+<div class="sourceCode" id="cb872"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb872-1"><a href="oracle-efficency.html#cb872-1" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb872-2"><a href="oracle-efficency.html#cb872-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb872-3"><a href="oracle-efficency.html#cb872-3" aria-hidden="true" tabindex="-1"></a>Beta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">nc =</span> <span class="dv">1</span>)</span>
+<span id="cb872-4"><a href="oracle-efficency.html#cb872-4" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">mcs</span>(mc, N, Beta) <span class="co">#see the function</span></span>
+<span id="cb872-5"><a href="oracle-efficency.html#cb872-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb872-6"><a href="oracle-efficency.html#cb872-6" aria-hidden="true" tabindex="-1"></a>MC_betas <span class="ot">=</span> output[[<span class="dv">2</span>]]</span>
+<span id="cb872-7"><a href="oracle-efficency.html#cb872-7" aria-hidden="true" tabindex="-1"></a>MC_performance <span class="ot">=</span> output[[<span class="dv">1</span>]];</span>
+<span id="cb872-8"><a href="oracle-efficency.html#cb872-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(MC_performance[,<span class="dv">2</span>]) <span class="co">#how many times lasso finds true sparsity</span></span></code></pre></div>
 <pre><code>## [1] 400</code></pre>
 <p>This is the first property: lasso identifies the true sparsity <span class="math inline">\(400/500 = 80\%\)</span> of cases. And the second property, <span class="math inline">\(\ell_2\)</span> error, in the simulation is (in total):</p>
-<div class="sourceCode" id="cb873"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb873-1"><a href="oracle-efficency.html#cb873-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(MC_performance[,<span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb874"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb874-1"><a href="oracle-efficency.html#cb874-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(MC_performance[,<span class="dv">1</span>])</span></code></pre></div>
 <pre><code>## [1] 29.41841</code></pre>
 <p><strong>Adaptive Lasso</strong>
 This time we let our adaptive lasso use lasso coefficients as penalty weights in <code>glmnet()</code>. Let’s have the same function with Adaptive Lasso for the simulation:</p>
-<div class="sourceCode" id="cb875"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb875-1"><a href="oracle-efficency.html#cb875-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adaptive LASSO</span></span>
-<span id="cb875-2"><a href="oracle-efficency.html#cb875-2" aria-hidden="true" tabindex="-1"></a>mcsA <span class="ot">&lt;-</span> <span class="cf">function</span>(mc, N, Beta){</span>
-<span id="cb875-3"><a href="oracle-efficency.html#cb875-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb875-4"><a href="oracle-efficency.html#cb875-4" aria-hidden="true" tabindex="-1"></a>  mcmat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nr =</span> mc, <span class="at">nc =</span> <span class="dv">3</span>)</span>
-<span id="cb875-5"><a href="oracle-efficency.html#cb875-5" aria-hidden="true" tabindex="-1"></a>  beta_lasso_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nr =</span> mc, <span class="at">nc =</span> <span class="fu">length</span>(Beta))</span>
-<span id="cb875-6"><a href="oracle-efficency.html#cb875-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb875-7"><a href="oracle-efficency.html#cb875-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>mc) {</span>
-<span id="cb875-8"><a href="oracle-efficency.html#cb875-8" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">dgp</span>(N, Beta)</span>
-<span id="cb875-9"><a href="oracle-efficency.html#cb875-9" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> data[[<span class="dv">1</span>]]</span>
-<span id="cb875-10"><a href="oracle-efficency.html#cb875-10" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> data[[<span class="dv">2</span>]]</span>
-<span id="cb875-11"><a href="oracle-efficency.html#cb875-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb875-12"><a href="oracle-efficency.html#cb875-12" aria-hidden="true" tabindex="-1"></a>    lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X, <span class="at">y =</span> y, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>)</span>
-<span id="cb875-13"><a href="oracle-efficency.html#cb875-13" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="ot">&lt;-</span> lasso<span class="sc">$</span>beta;</span>
-<span id="cb875-14"><a href="oracle-efficency.html#cb875-14" aria-hidden="true" tabindex="-1"></a>    y_hat <span class="ot">=</span> <span class="fu">predict</span>(lasso, <span class="at">newx =</span> X)</span>
-<span id="cb875-15"><a href="oracle-efficency.html#cb875-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb875-16"><a href="oracle-efficency.html#cb875-16" aria-hidden="true" tabindex="-1"></a>    SSE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb875-17"><a href="oracle-efficency.html#cb875-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y_hat)) {</span>
-<span id="cb875-18"><a href="oracle-efficency.html#cb875-18" aria-hidden="true" tabindex="-1"></a>      SSE_each <span class="ot">&lt;-</span> <span class="fu">sum</span>((y_hat[,j]<span class="sc">-</span>y[,<span class="dv">1</span>])<span class="sc">^</span>(<span class="dv">2</span>))</span>
-<span id="cb875-19"><a href="oracle-efficency.html#cb875-19" aria-hidden="true" tabindex="-1"></a>      SSE <span class="ot">&lt;-</span> <span class="fu">c</span>(SSE, SSE_each)</span>
-<span id="cb875-20"><a href="oracle-efficency.html#cb875-20" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb875-21"><a href="oracle-efficency.html#cb875-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb875-22"><a href="oracle-efficency.html#cb875-22" aria-hidden="true" tabindex="-1"></a>    nz <span class="ot">&lt;-</span> <span class="fu">colSums</span>(beta_hat<span class="sc">!=</span><span class="dv">0</span>)</span>
-<span id="cb875-23"><a href="oracle-efficency.html#cb875-23" aria-hidden="true" tabindex="-1"></a>    BIC <span class="ot">&lt;-</span> <span class="fu">log</span>(SSE) <span class="sc">+</span> (<span class="fu">log</span>(N)<span class="sc">/</span>N)<span class="sc">*</span>nz</span>
-<span id="cb875-24"><a href="oracle-efficency.html#cb875-24" aria-hidden="true" tabindex="-1"></a>    beta_lasso <span class="ot">&lt;-</span> beta_hat[ ,<span class="fu">which</span>(BIC<span class="sc">==</span><span class="fu">min</span>(BIC))]</span>
-<span id="cb875-25"><a href="oracle-efficency.html#cb875-25" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb875-26"><a href="oracle-efficency.html#cb875-26" aria-hidden="true" tabindex="-1"></a>    weights <span class="ot">=</span> <span class="fu">abs</span>(beta_lasso)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb875-27"><a href="oracle-efficency.html#cb875-27" aria-hidden="true" tabindex="-1"></a>    weights[beta_lasso<span class="sc">==</span><span class="dv">0</span>] <span class="ot">=</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">10</span> <span class="co"># to handle inf&#39;s</span></span>
-<span id="cb875-28"><a href="oracle-efficency.html#cb875-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb875-29"><a href="oracle-efficency.html#cb875-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Now Adaptive Lasso</span></span>
-<span id="cb875-30"><a href="oracle-efficency.html#cb875-30" aria-hidden="true" tabindex="-1"></a>    lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X, <span class="at">y =</span> y, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">penalty.factor =</span> weights)</span>
-<span id="cb875-31"><a href="oracle-efficency.html#cb875-31" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="ot">&lt;-</span> lasso<span class="sc">$</span>beta;</span>
-<span id="cb875-32"><a href="oracle-efficency.html#cb875-32" aria-hidden="true" tabindex="-1"></a>    y_hat <span class="ot">=</span> <span class="fu">predict</span>(lasso, <span class="at">newx =</span> X)</span>
-<span id="cb875-33"><a href="oracle-efficency.html#cb875-33" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb875-34"><a href="oracle-efficency.html#cb875-34" aria-hidden="true" tabindex="-1"></a>    SSE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb875-35"><a href="oracle-efficency.html#cb875-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y_hat)) {</span>
-<span id="cb875-36"><a href="oracle-efficency.html#cb875-36" aria-hidden="true" tabindex="-1"></a>      SSE_each <span class="ot">&lt;-</span> <span class="fu">sum</span>((y_hat[,j]<span class="sc">-</span>y[,<span class="dv">1</span>])<span class="sc">^</span>(<span class="dv">2</span>))</span>
-<span id="cb875-37"><a href="oracle-efficency.html#cb875-37" aria-hidden="true" tabindex="-1"></a>      SSE <span class="ot">&lt;-</span> <span class="fu">c</span>(SSE, SSE_each)</span>
-<span id="cb875-38"><a href="oracle-efficency.html#cb875-38" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb875-39"><a href="oracle-efficency.html#cb875-39" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb875-40"><a href="oracle-efficency.html#cb875-40" aria-hidden="true" tabindex="-1"></a>    nz <span class="ot">&lt;-</span> <span class="fu">colSums</span>(beta_hat<span class="sc">!=</span><span class="dv">0</span>)</span>
-<span id="cb875-41"><a href="oracle-efficency.html#cb875-41" aria-hidden="true" tabindex="-1"></a>    BIC <span class="ot">&lt;-</span> <span class="fu">log</span>(SSE) <span class="sc">+</span> (<span class="fu">log</span>(N)<span class="sc">/</span>N)<span class="sc">*</span>nz</span>
-<span id="cb875-42"><a href="oracle-efficency.html#cb875-42" aria-hidden="true" tabindex="-1"></a>    beta_lasso <span class="ot">&lt;-</span> beta_hat[ ,<span class="fu">which</span>(BIC<span class="sc">==</span><span class="fu">min</span>(BIC))]</span>
-<span id="cb875-43"><a href="oracle-efficency.html#cb875-43" aria-hidden="true" tabindex="-1"></a>    nonz_beta <span class="ot">=</span> <span class="fu">length</span>(Beta[Beta<span class="sc">==</span><span class="dv">0</span>])</span>
-<span id="cb875-44"><a href="oracle-efficency.html#cb875-44" aria-hidden="true" tabindex="-1"></a>    nonz_beta_hat <span class="ot">=</span> <span class="fu">length</span>(beta_lasso[beta_lasso<span class="sc">==</span><span class="dv">0</span>])</span>
-<span id="cb875-45"><a href="oracle-efficency.html#cb875-45" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb875-46"><a href="oracle-efficency.html#cb875-46" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((beta_lasso <span class="sc">-</span> Beta)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb875-47"><a href="oracle-efficency.html#cb875-47" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(nonz_beta<span class="sc">!=</span> nonz_beta_hat, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb875-48"><a href="oracle-efficency.html#cb875-48" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">sum</span>(beta_lasso<span class="sc">!=</span><span class="dv">0</span>)</span>
-<span id="cb875-49"><a href="oracle-efficency.html#cb875-49" aria-hidden="true" tabindex="-1"></a>    beta_lasso_mat[i,] <span class="ot">&lt;-</span> beta_lasso</span>
-<span id="cb875-50"><a href="oracle-efficency.html#cb875-50" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb875-51"><a href="oracle-efficency.html#cb875-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(mcmat,beta_lasso_mat))</span>
-<span id="cb875-52"><a href="oracle-efficency.html#cb875-52" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb876"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb876-1"><a href="oracle-efficency.html#cb876-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adaptive LASSO</span></span>
+<span id="cb876-2"><a href="oracle-efficency.html#cb876-2" aria-hidden="true" tabindex="-1"></a>mcsA <span class="ot">&lt;-</span> <span class="cf">function</span>(mc, N, Beta){</span>
+<span id="cb876-3"><a href="oracle-efficency.html#cb876-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb876-4"><a href="oracle-efficency.html#cb876-4" aria-hidden="true" tabindex="-1"></a>  mcmat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nr =</span> mc, <span class="at">nc =</span> <span class="dv">3</span>)</span>
+<span id="cb876-5"><a href="oracle-efficency.html#cb876-5" aria-hidden="true" tabindex="-1"></a>  beta_lasso_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nr =</span> mc, <span class="at">nc =</span> <span class="fu">length</span>(Beta))</span>
+<span id="cb876-6"><a href="oracle-efficency.html#cb876-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb876-7"><a href="oracle-efficency.html#cb876-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>mc) {</span>
+<span id="cb876-8"><a href="oracle-efficency.html#cb876-8" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">dgp</span>(N, Beta)</span>
+<span id="cb876-9"><a href="oracle-efficency.html#cb876-9" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> data[[<span class="dv">1</span>]]</span>
+<span id="cb876-10"><a href="oracle-efficency.html#cb876-10" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> data[[<span class="dv">2</span>]]</span>
+<span id="cb876-11"><a href="oracle-efficency.html#cb876-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb876-12"><a href="oracle-efficency.html#cb876-12" aria-hidden="true" tabindex="-1"></a>    lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X, <span class="at">y =</span> y, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>)</span>
+<span id="cb876-13"><a href="oracle-efficency.html#cb876-13" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="ot">&lt;-</span> lasso<span class="sc">$</span>beta;</span>
+<span id="cb876-14"><a href="oracle-efficency.html#cb876-14" aria-hidden="true" tabindex="-1"></a>    y_hat <span class="ot">=</span> <span class="fu">predict</span>(lasso, <span class="at">newx =</span> X)</span>
+<span id="cb876-15"><a href="oracle-efficency.html#cb876-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb876-16"><a href="oracle-efficency.html#cb876-16" aria-hidden="true" tabindex="-1"></a>    SSE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb876-17"><a href="oracle-efficency.html#cb876-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y_hat)) {</span>
+<span id="cb876-18"><a href="oracle-efficency.html#cb876-18" aria-hidden="true" tabindex="-1"></a>      SSE_each <span class="ot">&lt;-</span> <span class="fu">sum</span>((y_hat[,j]<span class="sc">-</span>y[,<span class="dv">1</span>])<span class="sc">^</span>(<span class="dv">2</span>))</span>
+<span id="cb876-19"><a href="oracle-efficency.html#cb876-19" aria-hidden="true" tabindex="-1"></a>      SSE <span class="ot">&lt;-</span> <span class="fu">c</span>(SSE, SSE_each)</span>
+<span id="cb876-20"><a href="oracle-efficency.html#cb876-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb876-21"><a href="oracle-efficency.html#cb876-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb876-22"><a href="oracle-efficency.html#cb876-22" aria-hidden="true" tabindex="-1"></a>    nz <span class="ot">&lt;-</span> <span class="fu">colSums</span>(beta_hat<span class="sc">!=</span><span class="dv">0</span>)</span>
+<span id="cb876-23"><a href="oracle-efficency.html#cb876-23" aria-hidden="true" tabindex="-1"></a>    BIC <span class="ot">&lt;-</span> <span class="fu">log</span>(SSE) <span class="sc">+</span> (<span class="fu">log</span>(N)<span class="sc">/</span>N)<span class="sc">*</span>nz</span>
+<span id="cb876-24"><a href="oracle-efficency.html#cb876-24" aria-hidden="true" tabindex="-1"></a>    beta_lasso <span class="ot">&lt;-</span> beta_hat[ ,<span class="fu">which</span>(BIC<span class="sc">==</span><span class="fu">min</span>(BIC))]</span>
+<span id="cb876-25"><a href="oracle-efficency.html#cb876-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb876-26"><a href="oracle-efficency.html#cb876-26" aria-hidden="true" tabindex="-1"></a>    weights <span class="ot">=</span> <span class="fu">abs</span>(beta_lasso)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb876-27"><a href="oracle-efficency.html#cb876-27" aria-hidden="true" tabindex="-1"></a>    weights[beta_lasso<span class="sc">==</span><span class="dv">0</span>] <span class="ot">=</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">10</span> <span class="co"># to handle inf&#39;s</span></span>
+<span id="cb876-28"><a href="oracle-efficency.html#cb876-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb876-29"><a href="oracle-efficency.html#cb876-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Now Adaptive Lasso</span></span>
+<span id="cb876-30"><a href="oracle-efficency.html#cb876-30" aria-hidden="true" tabindex="-1"></a>    lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(<span class="at">x =</span> X, <span class="at">y =</span> y, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">penalty.factor =</span> weights)</span>
+<span id="cb876-31"><a href="oracle-efficency.html#cb876-31" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="ot">&lt;-</span> lasso<span class="sc">$</span>beta;</span>
+<span id="cb876-32"><a href="oracle-efficency.html#cb876-32" aria-hidden="true" tabindex="-1"></a>    y_hat <span class="ot">=</span> <span class="fu">predict</span>(lasso, <span class="at">newx =</span> X)</span>
+<span id="cb876-33"><a href="oracle-efficency.html#cb876-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb876-34"><a href="oracle-efficency.html#cb876-34" aria-hidden="true" tabindex="-1"></a>    SSE <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb876-35"><a href="oracle-efficency.html#cb876-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y_hat)) {</span>
+<span id="cb876-36"><a href="oracle-efficency.html#cb876-36" aria-hidden="true" tabindex="-1"></a>      SSE_each <span class="ot">&lt;-</span> <span class="fu">sum</span>((y_hat[,j]<span class="sc">-</span>y[,<span class="dv">1</span>])<span class="sc">^</span>(<span class="dv">2</span>))</span>
+<span id="cb876-37"><a href="oracle-efficency.html#cb876-37" aria-hidden="true" tabindex="-1"></a>      SSE <span class="ot">&lt;-</span> <span class="fu">c</span>(SSE, SSE_each)</span>
+<span id="cb876-38"><a href="oracle-efficency.html#cb876-38" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb876-39"><a href="oracle-efficency.html#cb876-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb876-40"><a href="oracle-efficency.html#cb876-40" aria-hidden="true" tabindex="-1"></a>    nz <span class="ot">&lt;-</span> <span class="fu">colSums</span>(beta_hat<span class="sc">!=</span><span class="dv">0</span>)</span>
+<span id="cb876-41"><a href="oracle-efficency.html#cb876-41" aria-hidden="true" tabindex="-1"></a>    BIC <span class="ot">&lt;-</span> <span class="fu">log</span>(SSE) <span class="sc">+</span> (<span class="fu">log</span>(N)<span class="sc">/</span>N)<span class="sc">*</span>nz</span>
+<span id="cb876-42"><a href="oracle-efficency.html#cb876-42" aria-hidden="true" tabindex="-1"></a>    beta_lasso <span class="ot">&lt;-</span> beta_hat[ ,<span class="fu">which</span>(BIC<span class="sc">==</span><span class="fu">min</span>(BIC))]</span>
+<span id="cb876-43"><a href="oracle-efficency.html#cb876-43" aria-hidden="true" tabindex="-1"></a>    nonz_beta <span class="ot">=</span> <span class="fu">length</span>(Beta[Beta<span class="sc">==</span><span class="dv">0</span>])</span>
+<span id="cb876-44"><a href="oracle-efficency.html#cb876-44" aria-hidden="true" tabindex="-1"></a>    nonz_beta_hat <span class="ot">=</span> <span class="fu">length</span>(beta_lasso[beta_lasso<span class="sc">==</span><span class="dv">0</span>])</span>
+<span id="cb876-45"><a href="oracle-efficency.html#cb876-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb876-46"><a href="oracle-efficency.html#cb876-46" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((beta_lasso <span class="sc">-</span> Beta)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb876-47"><a href="oracle-efficency.html#cb876-47" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(nonz_beta<span class="sc">!=</span> nonz_beta_hat, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb876-48"><a href="oracle-efficency.html#cb876-48" aria-hidden="true" tabindex="-1"></a>    mcmat[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">sum</span>(beta_lasso<span class="sc">!=</span><span class="dv">0</span>)</span>
+<span id="cb876-49"><a href="oracle-efficency.html#cb876-49" aria-hidden="true" tabindex="-1"></a>    beta_lasso_mat[i,] <span class="ot">&lt;-</span> beta_lasso</span>
+<span id="cb876-50"><a href="oracle-efficency.html#cb876-50" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb876-51"><a href="oracle-efficency.html#cb876-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(mcmat,beta_lasso_mat))</span>
+<span id="cb876-52"><a href="oracle-efficency.html#cb876-52" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Here are the results for adaptive lasso</p>
-<div class="sourceCode" id="cb876"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb876-1"><a href="oracle-efficency.html#cb876-1" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb876-2"><a href="oracle-efficency.html#cb876-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb876-3"><a href="oracle-efficency.html#cb876-3" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">nc =</span> <span class="dv">1</span>)</span>
-<span id="cb876-4"><a href="oracle-efficency.html#cb876-4" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">mcsA</span>(mc, N, beta) <span class="co">#see the function</span></span>
-<span id="cb876-5"><a href="oracle-efficency.html#cb876-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb876-6"><a href="oracle-efficency.html#cb876-6" aria-hidden="true" tabindex="-1"></a>MC_betas <span class="ot">=</span> output[[<span class="dv">2</span>]]</span>
-<span id="cb876-7"><a href="oracle-efficency.html#cb876-7" aria-hidden="true" tabindex="-1"></a>MC_performance <span class="ot">=</span> output[[<span class="dv">1</span>]];</span>
-<span id="cb876-8"><a href="oracle-efficency.html#cb876-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(MC_performance[,<span class="dv">2</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb877"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb877-1"><a href="oracle-efficency.html#cb877-1" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb877-2"><a href="oracle-efficency.html#cb877-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb877-3"><a href="oracle-efficency.html#cb877-3" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">nc =</span> <span class="dv">1</span>)</span>
+<span id="cb877-4"><a href="oracle-efficency.html#cb877-4" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">mcsA</span>(mc, N, beta) <span class="co">#see the function</span></span>
+<span id="cb877-5"><a href="oracle-efficency.html#cb877-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb877-6"><a href="oracle-efficency.html#cb877-6" aria-hidden="true" tabindex="-1"></a>MC_betas <span class="ot">=</span> output[[<span class="dv">2</span>]]</span>
+<span id="cb877-7"><a href="oracle-efficency.html#cb877-7" aria-hidden="true" tabindex="-1"></a>MC_performance <span class="ot">=</span> output[[<span class="dv">1</span>]];</span>
+<span id="cb877-8"><a href="oracle-efficency.html#cb877-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(MC_performance[,<span class="dv">2</span>])</span></code></pre></div>
 <pre><code>## [1] 492</code></pre>
 <p>And,</p>
-<div class="sourceCode" id="cb878"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb878-1"><a href="oracle-efficency.html#cb878-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(MC_performance[,<span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb879"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb879-1"><a href="oracle-efficency.html#cb879-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(MC_performance[,<span class="dv">1</span>])</span></code></pre></div>
 <pre><code>## [1] 20.21311</code></pre>
 <p>The simulation results clearly shows that Adaptive Lasso is an Oracle estimator and the regular Lasso isn’t. In model selection Adaptive Lasso is a better estimator.</p>
 

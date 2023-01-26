@@ -163,7 +163,7 @@ ar1 <- lm(yt ~ yt_1 - 1, y_em)
 ar1
 ```
   
-Now, let;s shuffle `y_em`:
+Now, let's shuffle `y_em`:
 
 ```{r}
 # Shuffle

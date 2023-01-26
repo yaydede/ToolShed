@@ -190,6 +190,10 @@ univariate
 multivariate
 rolling-and-expanding-windows
 recurrent-neural-networks
+keras
+input-tensors
+rnn
+lstm
 fundementals
 covariance
 correlation

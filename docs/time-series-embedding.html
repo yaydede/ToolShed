@@ -323,7 +323,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="16" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html"><i class="fa fa-check"></i><b>16</b> Artificial Neural Networks</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---the-idea"><i class="fa fa-check"></i><b>16.1</b> Neural Network - The idea</a></li>
+<li class="chapter" data-level="16.1" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---the-idea"><i class="fa fa-check"></i><b>16.1</b> Neural Network - the idea</a></li>
 <li class="chapter" data-level="16.2" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#backpropagation"><i class="fa fa-check"></i><b>16.2</b> Backpropagation</a></li>
 <li class="chapter" data-level="16.3" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---more-inputs"><i class="fa fa-check"></i><b>16.3</b> Neural Network - More inputs</a></li>
 <li class="chapter" data-level="16.4" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#deep-learning"><i class="fa fa-check"></i><b>16.4</b> Deep Learning</a></li>
@@ -369,7 +369,13 @@ div.csl-indent {
 <li class="chapter" data-level="34.2" data-path="random-forest-1.html"><a href="random-forest-1.html#multivariate"><i class="fa fa-check"></i><b>34.2</b> Multivariate</a></li>
 <li class="chapter" data-level="34.3" data-path="random-forest-1.html"><a href="random-forest-1.html#rolling-and-expanding-windows"><i class="fa fa-check"></i><b>34.3</b> Rolling and expanding windows</a></li>
 </ul></li>
-<li class="chapter" data-level="35" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html"><i class="fa fa-check"></i><b>35</b> Recurrent Neural Networks</a></li>
+<li class="chapter" data-level="35" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html"><i class="fa fa-check"></i><b>35</b> Recurrent Neural Networks</a>
+<ul>
+<li class="chapter" data-level="35.1" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#keras"><i class="fa fa-check"></i><b>35.1</b> Keras</a></li>
+<li class="chapter" data-level="35.2" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#input-tensors"><i class="fa fa-check"></i><b>35.2</b> Input Tensors</a></li>
+<li class="chapter" data-level="35.3" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#rnn"><i class="fa fa-check"></i><b>35.3</b> RNN</a></li>
+<li class="chapter" data-level="35.4" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#lstm"><i class="fa fa-check"></i><b>35.4</b> LSTM</a></li>
+</ul></li>
 <li class="part"><span><b>X Network Analysis</b></span></li>
 <li class="chapter" data-level="" data-path="graphical-network-analysis.html"><a href="graphical-network-analysis.html"><i class="fa fa-check"></i>Graphical Network Analysis</a></li>
 <li class="chapter" data-level="36" data-path="fundementals.html"><a href="fundementals.html"><i class="fa fa-check"></i><b>36</b> Fundementals</a>
@@ -542,17 +548,17 @@ y_{t+1}=\beta_0+\beta_1 y_t+\beta_2x_t+\epsilon_{t}
 \]</span></p>
 <p>Each model is estimated using the principle of ordinary least squares, given that series are stationary. Forecasts in VAR are calculated with recursive iterations. Therefore, the set of equations generates forecasts for each variable. To decide the number of lags in each equation, the BIC is used</p>
 <p>Let’s have our COVID-19 data and include the mobility to forecasting</p>
-<div class="sourceCode" id="cb1022"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1022-1"><a href="time-series-embedding.html#cb1022-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
-<span id="cb1022-2"><a href="time-series-embedding.html#cb1022-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
-<span id="cb1022-3"><a href="time-series-embedding.html#cb1022-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1022-4"><a href="time-series-embedding.html#cb1022-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;~/Dropbox/ToolShed_draft/dftoronto.RData&quot;</span>)</span>
-<span id="cb1022-5"><a href="time-series-embedding.html#cb1022-5" aria-hidden="true" tabindex="-1"></a>day <span class="ot">&lt;-</span> <span class="fu">seq.Date</span>(<span class="at">from =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020/03/01&quot;</span>),</span>
-<span id="cb1022-6"><a href="time-series-embedding.html#cb1022-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">to =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020/11/21&quot;</span>), <span class="at">by =</span> <span class="dv">1</span>)</span>
-<span id="cb1022-7"><a href="time-series-embedding.html#cb1022-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1022-8"><a href="time-series-embedding.html#cb1022-8" aria-hidden="true" tabindex="-1"></a>tdata <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Day =</span> day, <span class="at">mob =</span> data<span class="sc">$</span>mob, <span class="at">cases =</span> data<span class="sc">$</span>cases)</span>
-<span id="cb1022-9"><a href="time-series-embedding.html#cb1022-9" aria-hidden="true" tabindex="-1"></a>toronto <span class="ot">&lt;-</span> tdata <span class="sc">%&gt;%</span></span>
-<span id="cb1022-10"><a href="time-series-embedding.html#cb1022-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Day)</span>
-<span id="cb1022-11"><a href="time-series-embedding.html#cb1022-11" aria-hidden="true" tabindex="-1"></a>toronto</span></code></pre></div>
+<div class="sourceCode" id="cb1023"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1023-1"><a href="time-series-embedding.html#cb1023-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
+<span id="cb1023-2"><a href="time-series-embedding.html#cb1023-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
+<span id="cb1023-3"><a href="time-series-embedding.html#cb1023-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1023-4"><a href="time-series-embedding.html#cb1023-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;~/Dropbox/ToolShed_draft/dftoronto.RData&quot;</span>)</span>
+<span id="cb1023-5"><a href="time-series-embedding.html#cb1023-5" aria-hidden="true" tabindex="-1"></a>day <span class="ot">&lt;-</span> <span class="fu">seq.Date</span>(<span class="at">from =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020/03/01&quot;</span>),</span>
+<span id="cb1023-6"><a href="time-series-embedding.html#cb1023-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">to =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020/11/21&quot;</span>), <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb1023-7"><a href="time-series-embedding.html#cb1023-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1023-8"><a href="time-series-embedding.html#cb1023-8" aria-hidden="true" tabindex="-1"></a>tdata <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Day =</span> day, <span class="at">mob =</span> data<span class="sc">$</span>mob, <span class="at">cases =</span> data<span class="sc">$</span>cases)</span>
+<span id="cb1023-9"><a href="time-series-embedding.html#cb1023-9" aria-hidden="true" tabindex="-1"></a>toronto <span class="ot">&lt;-</span> tdata <span class="sc">%&gt;%</span></span>
+<span id="cb1023-10"><a href="time-series-embedding.html#cb1023-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Day)</span>
+<span id="cb1023-11"><a href="time-series-embedding.html#cb1023-11" aria-hidden="true" tabindex="-1"></a>toronto</span></code></pre></div>
 <pre><code>## # A tsibble: 266 x 3 [1D]
 ##    Day             mob cases
 ##    &lt;date&gt;        &lt;dbl&gt; &lt;dbl&gt;
@@ -568,22 +574,22 @@ y_{t+1}=\beta_0+\beta_1 y_t+\beta_2x_t+\epsilon_{t}
 ## 10 2020-03-10 -0.0521     29
 ## # … with 256 more rows</code></pre>
 <p>We will estimate the recursive forecasts for 1 to 14 days ahead.</p>
-<div class="sourceCode" id="cb1024"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1024-1"><a href="time-series-embedding.html#cb1024-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We need make series stationary</span></span>
-<span id="cb1024-2"><a href="time-series-embedding.html#cb1024-2" aria-hidden="true" tabindex="-1"></a>trdf <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span></span>
-<span id="cb1024-3"><a href="time-series-embedding.html#cb1024-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">mutate</span>(<span class="at">diffcases =</span> <span class="fu">difference</span>(cases),</span>
-<span id="cb1024-4"><a href="time-series-embedding.html#cb1024-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">diffmob =</span> <span class="fu">difference</span>(mob))</span>
-<span id="cb1024-5"><a href="time-series-embedding.html#cb1024-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1024-6"><a href="time-series-embedding.html#cb1024-6" aria-hidden="true" tabindex="-1"></a><span class="co"># VAR with BIC</span></span>
-<span id="cb1024-7"><a href="time-series-embedding.html#cb1024-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> trdf[<span class="sc">-</span><span class="dv">1</span>,] <span class="sc">%&gt;%</span></span>
-<span id="cb1024-8"><a href="time-series-embedding.html#cb1024-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
-<span id="cb1024-9"><a href="time-series-embedding.html#cb1024-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">VAR</span>(<span class="fu">vars</span>(diffcases, diffmob), <span class="at">ic =</span> <span class="st">&quot;bic&quot;</span>)</span>
-<span id="cb1024-10"><a href="time-series-embedding.html#cb1024-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1024-11"><a href="time-series-embedding.html#cb1024-11" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb1025"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1025-1"><a href="time-series-embedding.html#cb1025-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We need make series stationary</span></span>
+<span id="cb1025-2"><a href="time-series-embedding.html#cb1025-2" aria-hidden="true" tabindex="-1"></a>trdf <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span></span>
+<span id="cb1025-3"><a href="time-series-embedding.html#cb1025-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">mutate</span>(<span class="at">diffcases =</span> <span class="fu">difference</span>(cases),</span>
+<span id="cb1025-4"><a href="time-series-embedding.html#cb1025-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">diffmob =</span> <span class="fu">difference</span>(mob))</span>
+<span id="cb1025-5"><a href="time-series-embedding.html#cb1025-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1025-6"><a href="time-series-embedding.html#cb1025-6" aria-hidden="true" tabindex="-1"></a><span class="co"># VAR with BIC</span></span>
+<span id="cb1025-7"><a href="time-series-embedding.html#cb1025-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> trdf[<span class="sc">-</span><span class="dv">1</span>,] <span class="sc">%&gt;%</span></span>
+<span id="cb1025-8"><a href="time-series-embedding.html#cb1025-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb1025-9"><a href="time-series-embedding.html#cb1025-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">VAR</span>(<span class="fu">vars</span>(diffcases, diffmob), <span class="at">ic =</span> <span class="st">&quot;bic&quot;</span>)</span>
+<span id="cb1025-10"><a href="time-series-embedding.html#cb1025-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1025-11"><a href="time-series-embedding.html#cb1025-11" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(fit)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 6
 ##   .model                                      sigma2   log_lik   AIC  AICc   BIC
 ##   &lt;chr&gt;                                       &lt;list&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1 &quot;VAR(vars(diffcases, diffmob), ic = \&quot;bic\… &lt;dbl[…]&gt;   -854. 1755. 1760. 1841.</code></pre>
-<div class="sourceCode" id="cb1026"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1026-1"><a href="time-series-embedding.html#cb1026-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">report</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1027"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1027-1"><a href="time-series-embedding.html#cb1027-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">report</span>()</span></code></pre></div>
 <pre><code>## Series: diffcases, diffmob 
 ## Model: VAR(5) 
 ## 
@@ -616,19 +622,19 @@ y_{t+1}=\beta_0+\beta_1 y_t+\beta_2x_t+\epsilon_{t}
 ## 
 ## log likelihood = -853.64
 ## AIC = 1755.28    AICc = 1760.38  BIC = 1840.73</code></pre>
-<div class="sourceCode" id="cb1028"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1028-1"><a href="time-series-embedding.html#cb1028-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span></span>
-<span id="cb1028-2"><a href="time-series-embedding.html#cb1028-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">14</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1028-3"><a href="time-series-embedding.html#cb1028-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(trdf[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>),])</span></code></pre></div>
+<div class="sourceCode" id="cb1029"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1029-1"><a href="time-series-embedding.html#cb1029-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span></span>
+<span id="cb1029-2"><a href="time-series-embedding.html#cb1029-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">14</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1029-3"><a href="time-series-embedding.html#cb1029-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(trdf[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>),])</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-360-1.png" width="672" /></p>
 <p>We should have transformed both series by the Box-Cox transformation, but we ignored it above.</p>
 </div>
 <div id="embedding-for-direct-forecast" class="section level2 hasAnchor" number="33.2">
 <h2><span class="header-section-number">33.2</span> Embedding for Direct Forecast<a href="time-series-embedding.html#embedding-for-direct-forecast" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>For direct forecasting, we need to rearrange the data in a way that we can estimate 7 models for forecasting ahead each day of 7 days. We will use <code>embed()</code> function to show what we mean with rearranging data for AR(3), for example:</p>
-<div class="sourceCode" id="cb1029"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1029-1"><a href="time-series-embedding.html#cb1029-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb1029-2"><a href="time-series-embedding.html#cb1029-2" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">embed</span>(Y, <span class="dv">3</span>)</span>
-<span id="cb1029-3"><a href="time-series-embedding.html#cb1029-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Y)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Y(t)&quot;</span>,<span class="st">&quot;Y(t-1)&quot;</span>,<span class="st">&quot;Y(t-2)&quot;</span>)</span>
-<span id="cb1029-4"><a href="time-series-embedding.html#cb1029-4" aria-hidden="true" tabindex="-1"></a>Y</span></code></pre></div>
+<div class="sourceCode" id="cb1030"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1030-1"><a href="time-series-embedding.html#cb1030-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb1030-2"><a href="time-series-embedding.html#cb1030-2" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">embed</span>(Y, <span class="dv">3</span>)</span>
+<span id="cb1030-3"><a href="time-series-embedding.html#cb1030-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Y)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Y(t)&quot;</span>,<span class="st">&quot;Y(t-1)&quot;</span>,<span class="st">&quot;Y(t-2)&quot;</span>)</span>
+<span id="cb1030-4"><a href="time-series-embedding.html#cb1030-4" aria-hidden="true" tabindex="-1"></a>Y</span></code></pre></div>
 <pre><code>##             Y(t)     Y(t-1)     Y(t-2)
 ##  [1,] -1.8447032 -2.4300534 -3.9479645
 ##  [2,] -3.2704652 -1.8447032 -2.4300534
@@ -649,32 +655,32 @@ y_{t+1}=\beta_0+\beta_1 y_t+\beta_2x_t+\epsilon_{t}
 ## [17,]  2.3265798  1.9252622 -0.1721543
 ## [18,]  0.4794473  2.3265798  1.9252622</code></pre>
 <p>Now the key point is there is no a temporal dependence between each row so that shuffling this data after re-structuring it admissible. Let’s have an AR(1) example on this simulated data</p>
-<div class="sourceCode" id="cb1031"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1031-1"><a href="time-series-embedding.html#cb1031-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stationary data rho &lt; 1 but = 0.85</span></span>
-<span id="cb1031-2"><a href="time-series-embedding.html#cb1031-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb1031-3"><a href="time-series-embedding.html#cb1031-3" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">&lt;-</span> <span class="fl">0.85</span></span>
-<span id="cb1031-4"><a href="time-series-embedding.html#cb1031-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1031-5"><a href="time-series-embedding.html#cb1031-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, n)</span>
-<span id="cb1031-6"><a href="time-series-embedding.html#cb1031-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">345</span>)</span>
-<span id="cb1031-7"><a href="time-series-embedding.html#cb1031-7" aria-hidden="true" tabindex="-1"></a>eps <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb1031-8"><a href="time-series-embedding.html#cb1031-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1031-9"><a href="time-series-embedding.html#cb1031-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>)) {</span>
-<span id="cb1031-10"><a href="time-series-embedding.html#cb1031-10" aria-hidden="true" tabindex="-1"></a>  y[j<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> y[j]<span class="sc">*</span>rho <span class="sc">+</span> eps[j]</span>
-<span id="cb1031-11"><a href="time-series-embedding.html#cb1031-11" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1031-12"><a href="time-series-embedding.html#cb1031-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1031-13"><a href="time-series-embedding.html#cb1031-13" aria-hidden="true" tabindex="-1"></a>ylagged <span class="ot">&lt;-</span> y[<span class="dv">2</span><span class="sc">:</span>n]</span>
-<span id="cb1031-14"><a href="time-series-embedding.html#cb1031-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1031-15"><a href="time-series-embedding.html#cb1031-15" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb1031-16"><a href="time-series-embedding.html#cb1031-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ylagged, y[<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>)], <span class="at">col =</span> <span class="st">&quot;lightpink&quot;</span>,</span>
-<span id="cb1031-17"><a href="time-series-embedding.html#cb1031-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;y(t-1)&quot;</span>)</span>
-<span id="cb1031-18"><a href="time-series-embedding.html#cb1031-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y[<span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>], <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>,</span>
-<span id="cb1031-19"><a href="time-series-embedding.html#cb1031-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;t&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1032"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1032-1"><a href="time-series-embedding.html#cb1032-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stationary data rho &lt; 1 but = 0.85</span></span>
+<span id="cb1032-2"><a href="time-series-embedding.html#cb1032-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb1032-3"><a href="time-series-embedding.html#cb1032-3" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">&lt;-</span> <span class="fl">0.85</span></span>
+<span id="cb1032-4"><a href="time-series-embedding.html#cb1032-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1032-5"><a href="time-series-embedding.html#cb1032-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, n)</span>
+<span id="cb1032-6"><a href="time-series-embedding.html#cb1032-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">345</span>)</span>
+<span id="cb1032-7"><a href="time-series-embedding.html#cb1032-7" aria-hidden="true" tabindex="-1"></a>eps <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb1032-8"><a href="time-series-embedding.html#cb1032-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1032-9"><a href="time-series-embedding.html#cb1032-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>)) {</span>
+<span id="cb1032-10"><a href="time-series-embedding.html#cb1032-10" aria-hidden="true" tabindex="-1"></a>  y[j<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> y[j]<span class="sc">*</span>rho <span class="sc">+</span> eps[j]</span>
+<span id="cb1032-11"><a href="time-series-embedding.html#cb1032-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1032-12"><a href="time-series-embedding.html#cb1032-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1032-13"><a href="time-series-embedding.html#cb1032-13" aria-hidden="true" tabindex="-1"></a>ylagged <span class="ot">&lt;-</span> y[<span class="dv">2</span><span class="sc">:</span>n]</span>
+<span id="cb1032-14"><a href="time-series-embedding.html#cb1032-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1032-15"><a href="time-series-embedding.html#cb1032-15" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb1032-16"><a href="time-series-embedding.html#cb1032-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ylagged, y[<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>)], <span class="at">col =</span> <span class="st">&quot;lightpink&quot;</span>,</span>
+<span id="cb1032-17"><a href="time-series-embedding.html#cb1032-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;y(t-1)&quot;</span>)</span>
+<span id="cb1032-18"><a href="time-series-embedding.html#cb1032-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y[<span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>], <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb1032-19"><a href="time-series-embedding.html#cb1032-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;t&quot;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-362-1.png" width="672" /></p>
 <p>We will use an AR(1) estimation with OLS after embedding:</p>
-<div class="sourceCode" id="cb1032"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1032-1"><a href="time-series-embedding.html#cb1032-1" aria-hidden="true" tabindex="-1"></a>y_em <span class="ot">&lt;-</span> <span class="fu">embed</span>(y, <span class="dv">2</span>)</span>
-<span id="cb1032-2"><a href="time-series-embedding.html#cb1032-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(y)</span></code></pre></div>
+<div class="sourceCode" id="cb1033"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1033-1"><a href="time-series-embedding.html#cb1033-1" aria-hidden="true" tabindex="-1"></a>y_em <span class="ot">&lt;-</span> <span class="fu">embed</span>(y, <span class="dv">2</span>)</span>
+<span id="cb1033-2"><a href="time-series-embedding.html#cb1033-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(y)</span></code></pre></div>
 <pre><code>## [1]  0.0000000 -0.7849082 -0.9466863 -0.9661413 -1.1118166 -1.0125757</code></pre>
-<div class="sourceCode" id="cb1034"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1034-1"><a href="time-series-embedding.html#cb1034-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(y_em) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;yt&quot;</span>, <span class="st">&quot;yt_1&quot;</span>)</span>
-<span id="cb1034-2"><a href="time-series-embedding.html#cb1034-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(y_em)</span></code></pre></div>
+<div class="sourceCode" id="cb1035"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1035-1"><a href="time-series-embedding.html#cb1035-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(y_em) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;yt&quot;</span>, <span class="st">&quot;yt_1&quot;</span>)</span>
+<span id="cb1035-2"><a href="time-series-embedding.html#cb1035-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(y_em)</span></code></pre></div>
 <pre><code>##              yt       yt_1
 ## [1,] -0.7849082  0.0000000
 ## [2,] -0.9466863 -0.7849082
@@ -683,9 +689,9 @@ y_{t+1}=\beta_0+\beta_1 y_t+\beta_2x_t+\epsilon_{t}
 ## [5,] -1.0125757 -1.1118166
 ## [6,] -1.4942098 -1.0125757</code></pre>
 <p>And estimation of AR(1) with OLS:</p>
-<div class="sourceCode" id="cb1036"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1036-1"><a href="time-series-embedding.html#cb1036-1" aria-hidden="true" tabindex="-1"></a>y_em <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(y_em)</span>
-<span id="cb1036-2"><a href="time-series-embedding.html#cb1036-2" aria-hidden="true" tabindex="-1"></a>ar1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(yt <span class="sc">~</span> yt_1 <span class="sc">-</span> <span class="dv">1</span>, y_em)</span>
-<span id="cb1036-3"><a href="time-series-embedding.html#cb1036-3" aria-hidden="true" tabindex="-1"></a>ar1</span></code></pre></div>
+<div class="sourceCode" id="cb1037"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1037-1"><a href="time-series-embedding.html#cb1037-1" aria-hidden="true" tabindex="-1"></a>y_em <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(y_em)</span>
+<span id="cb1037-2"><a href="time-series-embedding.html#cb1037-2" aria-hidden="true" tabindex="-1"></a>ar1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(yt <span class="sc">~</span> yt_1 <span class="sc">-</span> <span class="dv">1</span>, y_em)</span>
+<span id="cb1037-3"><a href="time-series-embedding.html#cb1037-3" aria-hidden="true" tabindex="-1"></a>ar1</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = yt ~ yt_1 - 1, data = y_em)
@@ -693,13 +699,13 @@ y_{t+1}=\beta_0+\beta_1 y_t+\beta_2x_t+\epsilon_{t}
 ## Coefficients:
 ##   yt_1  
 ## 0.8496</code></pre>
-<p>Now, let;s shuffle <code>y_em</code>:</p>
-<div class="sourceCode" id="cb1038"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1038-1"><a href="time-series-embedding.html#cb1038-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shuffle</span></span>
-<span id="cb1038-2"><a href="time-series-embedding.html#cb1038-2" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_em), <span class="fu">nrow</span>(y_em), <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1038-3"><a href="time-series-embedding.html#cb1038-3" aria-hidden="true" tabindex="-1"></a>y_em_sh <span class="ot">&lt;-</span> y_em[ind, ]</span>
-<span id="cb1038-4"><a href="time-series-embedding.html#cb1038-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1038-5"><a href="time-series-embedding.html#cb1038-5" aria-hidden="true" tabindex="-1"></a>ar1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(yt <span class="sc">~</span> yt_1 <span class="sc">-</span> <span class="dv">1</span>, y_em_sh)</span>
-<span id="cb1038-6"><a href="time-series-embedding.html#cb1038-6" aria-hidden="true" tabindex="-1"></a>ar1</span></code></pre></div>
+<p>Now, let’s shuffle <code>y_em</code>:</p>
+<div class="sourceCode" id="cb1039"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1039-1"><a href="time-series-embedding.html#cb1039-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shuffle</span></span>
+<span id="cb1039-2"><a href="time-series-embedding.html#cb1039-2" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_em), <span class="fu">nrow</span>(y_em), <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1039-3"><a href="time-series-embedding.html#cb1039-3" aria-hidden="true" tabindex="-1"></a>y_em_sh <span class="ot">&lt;-</span> y_em[ind, ]</span>
+<span id="cb1039-4"><a href="time-series-embedding.html#cb1039-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1039-5"><a href="time-series-embedding.html#cb1039-5" aria-hidden="true" tabindex="-1"></a>ar1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(yt <span class="sc">~</span> yt_1 <span class="sc">-</span> <span class="dv">1</span>, y_em_sh)</span>
+<span id="cb1039-6"><a href="time-series-embedding.html#cb1039-6" aria-hidden="true" tabindex="-1"></a>ar1</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = yt ~ yt_1 - 1, data = y_em_sh)
@@ -709,11 +715,11 @@ y_{t+1}=\beta_0+\beta_1 y_t+\beta_2x_t+\epsilon_{t}
 ## 0.8496</code></pre>
 <p>This proves the temporal independence across the observations in the rearranged data. This is important because the temporal order in the time series data would not affect the cross-validation process or bootstrapping applications in a grid search anymore. When we have this freedom, we can use all conventional machine learning applications on time series data, like random forests, which we see in the next chapter.</p>
 <p>This re-arrangement can also be applied to multivariate data sets:</p>
-<div class="sourceCode" id="cb1040"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1040-1"><a href="time-series-embedding.html#cb1040-1" aria-hidden="true" tabindex="-1"></a>tsdf <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>), <span class="at">nrow =</span> <span class="dv">10</span>)</span>
-<span id="cb1040-2"><a href="time-series-embedding.html#cb1040-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tsdf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y&quot;</span>, <span class="st">&quot;X&quot;</span>)</span>
-<span id="cb1040-3"><a href="time-series-embedding.html#cb1040-3" aria-hidden="true" tabindex="-1"></a>first <span class="ot">&lt;-</span> <span class="fu">embed</span>(tsdf, <span class="dv">3</span>)</span>
-<span id="cb1040-4"><a href="time-series-embedding.html#cb1040-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(first) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;y(t)&quot;</span>,<span class="st">&quot;x(t)&quot;</span>,<span class="st">&quot;y(t-1)&quot;</span>,<span class="st">&quot;x(t-1)&quot;</span>, <span class="st">&quot;y(t-2)&quot;</span>, <span class="st">&quot;x(t-2)&quot;</span>)</span>
-<span id="cb1040-5"><a href="time-series-embedding.html#cb1040-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(first)</span></code></pre></div>
+<div class="sourceCode" id="cb1041"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1041-1"><a href="time-series-embedding.html#cb1041-1" aria-hidden="true" tabindex="-1"></a>tsdf <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">21</span><span class="sc">:</span><span class="dv">30</span>), <span class="at">nrow =</span> <span class="dv">10</span>)</span>
+<span id="cb1041-2"><a href="time-series-embedding.html#cb1041-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tsdf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y&quot;</span>, <span class="st">&quot;X&quot;</span>)</span>
+<span id="cb1041-3"><a href="time-series-embedding.html#cb1041-3" aria-hidden="true" tabindex="-1"></a>first <span class="ot">&lt;-</span> <span class="fu">embed</span>(tsdf, <span class="dv">3</span>)</span>
+<span id="cb1041-4"><a href="time-series-embedding.html#cb1041-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(first) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;y(t)&quot;</span>,<span class="st">&quot;x(t)&quot;</span>,<span class="st">&quot;y(t-1)&quot;</span>,<span class="st">&quot;x(t-1)&quot;</span>, <span class="st">&quot;y(t-2)&quot;</span>, <span class="st">&quot;x(t-2)&quot;</span>)</span>
+<span id="cb1041-5"><a href="time-series-embedding.html#cb1041-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(first)</span></code></pre></div>
 <pre><code>##      y(t) x(t) y(t-1) x(t-1) y(t-2) x(t-2)
 ## [1,]    3   23      2     22      1     21
 ## [2,]    4   24      3     23      2     22
@@ -750,7 +756,7 @@ Each one of these models requires a different rearrangement in the data. Here ar
 ## [5,]    9     27      6     26      5     25
 ## [6,]   10     28      7     27      6     26</code></pre>
 <p>We already rearranged the data for the first model. if we remove the first row in <code>y(t)</code> and the last row in the remaining set, we can get the the data for the second model:</p>
-<div class="sourceCode" id="cb1045"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1045-1"><a href="time-series-embedding.html#cb1045-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(first[<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>], first[<span class="sc">-</span><span class="fu">nrow</span>(first),<span class="sc">-</span><span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb1046"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1046-1"><a href="time-series-embedding.html#cb1046-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(first[<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>], first[<span class="sc">-</span><span class="fu">nrow</span>(first),<span class="sc">-</span><span class="dv">1</span>])</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6]
 ## [1,]    4   23    2   22    1   21
 ## [2,]    5   24    3   23    2   22
@@ -760,12 +766,12 @@ Each one of these models requires a different rearrangement in the data. Here ar
 ## [6,]    9   28    7   27    6   26
 ## [7,]   10   29    8   28    7   27</code></pre>
 <p>We will use our COVID-19 data and a simple linear regression as an example of direct forecasting:</p>
-<div class="sourceCode" id="cb1047"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1047-1"><a href="time-series-embedding.html#cb1047-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preparing data</span></span>
-<span id="cb1047-2"><a href="time-series-embedding.html#cb1047-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dcases =</span> trdf<span class="sc">$</span>diffcases, <span class="at">dmob =</span> trdf<span class="sc">$</span>diffmob)</span>
-<span id="cb1047-3"><a href="time-series-embedding.html#cb1047-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]</span>
-<span id="cb1047-4"><a href="time-series-embedding.html#cb1047-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(df) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb1047-5"><a href="time-series-embedding.html#cb1047-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span><span class="fu">as.matrix</span>(df)</span>
-<span id="cb1047-6"><a href="time-series-embedding.html#cb1047-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb1048"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1048-1"><a href="time-series-embedding.html#cb1048-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preparing data</span></span>
+<span id="cb1048-2"><a href="time-series-embedding.html#cb1048-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dcases =</span> trdf<span class="sc">$</span>diffcases, <span class="at">dmob =</span> trdf<span class="sc">$</span>diffmob)</span>
+<span id="cb1048-3"><a href="time-series-embedding.html#cb1048-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="fu">complete.cases</span>(df), ]</span>
+<span id="cb1048-4"><a href="time-series-embedding.html#cb1048-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(df) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb1048-5"><a href="time-series-embedding.html#cb1048-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span><span class="fu">as.matrix</span>(df)</span>
+<span id="cb1048-6"><a href="time-series-embedding.html#cb1048-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
 <pre><code>##      dcases     dmob
 ## [1,]      2 -0.01480
 ## [2,]      4  0.02013
@@ -774,53 +780,53 @@ Each one of these models requires a different rearrangement in the data. Here ar
 ## [5,]      3 -0.02854
 ## [6,]     -2  0.03232</code></pre>
 <p>Now we need to decide on two parameters: the window size, that is, how many lags will be included in each row; and how many days we will forecast. The next section will use more advance functions for re-arranging the data and apply the direct forecasting with random forests. For now, let’s use a 3-day window and a 3-day forecast:</p>
-<div class="sourceCode" id="cb1049"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1049-1"><a href="time-series-embedding.html#cb1049-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> <span class="dv">3</span></span>
-<span id="cb1049-2"><a href="time-series-embedding.html#cb1049-2" aria-hidden="true" tabindex="-1"></a>w <span class="ot">=</span> <span class="dv">3</span></span>
-<span id="cb1049-3"><a href="time-series-embedding.html#cb1049-3" aria-hidden="true" tabindex="-1"></a>fh <span class="ot">&lt;-</span> <span class="fu">c</span>() <span class="co"># storage for forecast</span></span>
-<span id="cb1049-4"><a href="time-series-embedding.html#cb1049-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1049-5"><a href="time-series-embedding.html#cb1049-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Start with first</span></span>
-<span id="cb1049-6"><a href="time-series-embedding.html#cb1049-6" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">embed</span>(df, w)</span>
-<span id="cb1049-7"><a href="time-series-embedding.html#cb1049-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> dt[,<span class="dv">1</span>]</span>
-<span id="cb1049-8"><a href="time-series-embedding.html#cb1049-8" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> dt[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb1049-9"><a href="time-series-embedding.html#cb1049-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1049-10"><a href="time-series-embedding.html#cb1049-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>h) {</span>
-<span id="cb1049-11"><a href="time-series-embedding.html#cb1049-11" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> X)</span>
-<span id="cb1049-12"><a href="time-series-embedding.html#cb1049-12" aria-hidden="true" tabindex="-1"></a>  l <span class="ot">&lt;-</span> <span class="fu">length</span>(fit<span class="sc">$</span>fitted.values)</span>
-<span id="cb1049-13"><a href="time-series-embedding.html#cb1049-13" aria-hidden="true" tabindex="-1"></a>  fh[i] <span class="ot">&lt;-</span> fit<span class="sc">$</span>fitted.values[l]</span>
-<span id="cb1049-14"><a href="time-series-embedding.html#cb1049-14" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> y[<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb1049-15"><a href="time-series-embedding.html#cb1049-15" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> X[<span class="sc">-</span><span class="fu">nrow</span>(X),]</span>
-<span id="cb1049-16"><a href="time-series-embedding.html#cb1049-16" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1049-17"><a href="time-series-embedding.html#cb1049-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1049-18"><a href="time-series-embedding.html#cb1049-18" aria-hidden="true" tabindex="-1"></a>fh</span></code></pre></div>
+<div class="sourceCode" id="cb1050"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1050-1"><a href="time-series-embedding.html#cb1050-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb1050-2"><a href="time-series-embedding.html#cb1050-2" aria-hidden="true" tabindex="-1"></a>w <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb1050-3"><a href="time-series-embedding.html#cb1050-3" aria-hidden="true" tabindex="-1"></a>fh <span class="ot">&lt;-</span> <span class="fu">c</span>() <span class="co"># storage for forecast</span></span>
+<span id="cb1050-4"><a href="time-series-embedding.html#cb1050-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1050-5"><a href="time-series-embedding.html#cb1050-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Start with first</span></span>
+<span id="cb1050-6"><a href="time-series-embedding.html#cb1050-6" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">embed</span>(df, w)</span>
+<span id="cb1050-7"><a href="time-series-embedding.html#cb1050-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> dt[,<span class="dv">1</span>]</span>
+<span id="cb1050-8"><a href="time-series-embedding.html#cb1050-8" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> dt[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1050-9"><a href="time-series-embedding.html#cb1050-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1050-10"><a href="time-series-embedding.html#cb1050-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>h) {</span>
+<span id="cb1050-11"><a href="time-series-embedding.html#cb1050-11" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> X)</span>
+<span id="cb1050-12"><a href="time-series-embedding.html#cb1050-12" aria-hidden="true" tabindex="-1"></a>  l <span class="ot">&lt;-</span> <span class="fu">length</span>(fit<span class="sc">$</span>fitted.values)</span>
+<span id="cb1050-13"><a href="time-series-embedding.html#cb1050-13" aria-hidden="true" tabindex="-1"></a>  fh[i] <span class="ot">&lt;-</span> fit<span class="sc">$</span>fitted.values[l]</span>
+<span id="cb1050-14"><a href="time-series-embedding.html#cb1050-14" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> y[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1050-15"><a href="time-series-embedding.html#cb1050-15" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> X[<span class="sc">-</span><span class="fu">nrow</span>(X),]</span>
+<span id="cb1050-16"><a href="time-series-embedding.html#cb1050-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1050-17"><a href="time-series-embedding.html#cb1050-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1050-18"><a href="time-series-embedding.html#cb1050-18" aria-hidden="true" tabindex="-1"></a>fh</span></code></pre></div>
 <pre><code>## [1]  10.288416 -11.587090   0.302522</code></pre>
-<div class="sourceCode" id="cb1051"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1051-1"><a href="time-series-embedding.html#cb1051-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">266</span>, trdf<span class="sc">$</span>diffcases, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
-<span id="cb1051-2"><a href="time-series-embedding.html#cb1051-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">267</span><span class="sc">:</span><span class="dv">269</span>, fh, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1052"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1052-1"><a href="time-series-embedding.html#cb1052-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">266</span>, trdf<span class="sc">$</span>diffcases, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
+<span id="cb1052-2"><a href="time-series-embedding.html#cb1052-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">267</span><span class="sc">:</span><span class="dv">269</span>, fh, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-372-1.png" width="672" /></p>
 <p>We haven’t used training and test sets above. If we apply a proper splitting, we can even set the window size as our hyperparameter to minimize the forecast error:</p>
-<div class="sourceCode" id="cb1052"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1052-1"><a href="time-series-embedding.html#cb1052-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We set the last 7 days as our test set</span></span>
-<span id="cb1052-2"><a href="time-series-embedding.html#cb1052-2" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> df[<span class="dv">1</span><span class="sc">:</span><span class="dv">258</span>, ]</span>
-<span id="cb1052-3"><a href="time-series-embedding.html#cb1052-3" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> df[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">258</span>), ]</span>
-<span id="cb1052-4"><a href="time-series-embedding.html#cb1052-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1052-5"><a href="time-series-embedding.html#cb1052-5" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> <span class="dv">7</span></span>
-<span id="cb1052-6"><a href="time-series-embedding.html#cb1052-6" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">14</span> <span class="co"># a grid for window size</span></span>
-<span id="cb1052-7"><a href="time-series-embedding.html#cb1052-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1052-8"><a href="time-series-embedding.html#cb1052-8" aria-hidden="true" tabindex="-1"></a>fh <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="fu">length</span>(w), h)</span>
-<span id="cb1052-9"><a href="time-series-embedding.html#cb1052-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(fh) <span class="ot">&lt;-</span> w</span>
-<span id="cb1052-10"><a href="time-series-embedding.html#cb1052-10" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(fh) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span></span>
-<span id="cb1052-11"><a href="time-series-embedding.html#cb1052-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1052-12"><a href="time-series-embedding.html#cb1052-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(w)){</span>
-<span id="cb1052-13"><a href="time-series-embedding.html#cb1052-13" aria-hidden="true" tabindex="-1"></a>  dt <span class="ot">&lt;-</span> <span class="fu">embed</span>(train, w[s])</span>
-<span id="cb1052-14"><a href="time-series-embedding.html#cb1052-14" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> dt[,<span class="dv">1</span>]</span>
-<span id="cb1052-15"><a href="time-series-embedding.html#cb1052-15" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> dt[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb1052-16"><a href="time-series-embedding.html#cb1052-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>h) {</span>
-<span id="cb1052-17"><a href="time-series-embedding.html#cb1052-17" aria-hidden="true" tabindex="-1"></a>      fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> X)</span>
-<span id="cb1052-18"><a href="time-series-embedding.html#cb1052-18" aria-hidden="true" tabindex="-1"></a>      fh[s,i] <span class="ot">&lt;-</span> <span class="fu">last</span>(fit<span class="sc">$</span>fitted.values)</span>
-<span id="cb1052-19"><a href="time-series-embedding.html#cb1052-19" aria-hidden="true" tabindex="-1"></a>      y <span class="ot">&lt;-</span> y[<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb1052-20"><a href="time-series-embedding.html#cb1052-20" aria-hidden="true" tabindex="-1"></a>      X <span class="ot">&lt;-</span> X[<span class="sc">-</span><span class="fu">nrow</span>(X),]</span>
-<span id="cb1052-21"><a href="time-series-embedding.html#cb1052-21" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb1052-22"><a href="time-series-embedding.html#cb1052-22" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1052-23"><a href="time-series-embedding.html#cb1052-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1052-24"><a href="time-series-embedding.html#cb1052-24" aria-hidden="true" tabindex="-1"></a>fh</span></code></pre></div>
+<div class="sourceCode" id="cb1053"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1053-1"><a href="time-series-embedding.html#cb1053-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We set the last 7 days as our test set</span></span>
+<span id="cb1053-2"><a href="time-series-embedding.html#cb1053-2" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> df[<span class="dv">1</span><span class="sc">:</span><span class="dv">258</span>, ]</span>
+<span id="cb1053-3"><a href="time-series-embedding.html#cb1053-3" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> df[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">258</span>), ]</span>
+<span id="cb1053-4"><a href="time-series-embedding.html#cb1053-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1053-5"><a href="time-series-embedding.html#cb1053-5" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> <span class="dv">7</span></span>
+<span id="cb1053-6"><a href="time-series-embedding.html#cb1053-6" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">14</span> <span class="co"># a grid for window size</span></span>
+<span id="cb1053-7"><a href="time-series-embedding.html#cb1053-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1053-8"><a href="time-series-embedding.html#cb1053-8" aria-hidden="true" tabindex="-1"></a>fh <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="fu">length</span>(w), h)</span>
+<span id="cb1053-9"><a href="time-series-embedding.html#cb1053-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(fh) <span class="ot">&lt;-</span> w</span>
+<span id="cb1053-10"><a href="time-series-embedding.html#cb1053-10" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(fh) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span></span>
+<span id="cb1053-11"><a href="time-series-embedding.html#cb1053-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1053-12"><a href="time-series-embedding.html#cb1053-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(w)){</span>
+<span id="cb1053-13"><a href="time-series-embedding.html#cb1053-13" aria-hidden="true" tabindex="-1"></a>  dt <span class="ot">&lt;-</span> <span class="fu">embed</span>(train, w[s])</span>
+<span id="cb1053-14"><a href="time-series-embedding.html#cb1053-14" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> dt[,<span class="dv">1</span>]</span>
+<span id="cb1053-15"><a href="time-series-embedding.html#cb1053-15" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> dt[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1053-16"><a href="time-series-embedding.html#cb1053-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>h) {</span>
+<span id="cb1053-17"><a href="time-series-embedding.html#cb1053-17" aria-hidden="true" tabindex="-1"></a>      fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> X)</span>
+<span id="cb1053-18"><a href="time-series-embedding.html#cb1053-18" aria-hidden="true" tabindex="-1"></a>      fh[s,i] <span class="ot">&lt;-</span> <span class="fu">last</span>(fit<span class="sc">$</span>fitted.values)</span>
+<span id="cb1053-19"><a href="time-series-embedding.html#cb1053-19" aria-hidden="true" tabindex="-1"></a>      y <span class="ot">&lt;-</span> y[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1053-20"><a href="time-series-embedding.html#cb1053-20" aria-hidden="true" tabindex="-1"></a>      X <span class="ot">&lt;-</span> X[<span class="sc">-</span><span class="fu">nrow</span>(X),]</span>
+<span id="cb1053-21"><a href="time-series-embedding.html#cb1053-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1053-22"><a href="time-series-embedding.html#cb1053-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1053-23"><a href="time-series-embedding.html#cb1053-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1053-24"><a href="time-series-embedding.html#cb1053-24" aria-hidden="true" tabindex="-1"></a>fh</span></code></pre></div>
 <pre><code>##             1          2           3          4          5           6
 ## 3   -4.292862  -6.288479   5.2727764  10.692206  22.133103  -0.5252184
 ## 4   -5.014668  -1.626752   8.2861736  23.982849   4.611554  -0.2773355
@@ -848,16 +854,16 @@ Each one of these models requires a different rearrangement in the data. Here ar
 ## 13 -25.15019
 ## 14 -27.72488</code></pre>
 <p>Rows in <code>fh</code> show the 7-day forecast for each window size. We can see which window size is the best:</p>
-<div class="sourceCode" id="cb1054"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1054-1"><a href="time-series-embedding.html#cb1054-1" aria-hidden="true" tabindex="-1"></a>rmspe <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb1054-2"><a href="time-series-embedding.html#cb1054-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1054-3"><a href="time-series-embedding.html#cb1054-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span> <span class="fu">nrow</span>(fh)){</span>
-<span id="cb1054-4"><a href="time-series-embedding.html#cb1054-4" aria-hidden="true" tabindex="-1"></a>  rmspe[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((fh[i,]<span class="sc">-</span>test)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb1054-5"><a href="time-series-embedding.html#cb1054-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1054-6"><a href="time-series-embedding.html#cb1054-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1054-7"><a href="time-series-embedding.html#cb1054-7" aria-hidden="true" tabindex="-1"></a>rmspe</span></code></pre></div>
+<div class="sourceCode" id="cb1055"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1055-1"><a href="time-series-embedding.html#cb1055-1" aria-hidden="true" tabindex="-1"></a>rmspe <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb1055-2"><a href="time-series-embedding.html#cb1055-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1055-3"><a href="time-series-embedding.html#cb1055-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span> <span class="fu">nrow</span>(fh)){</span>
+<span id="cb1055-4"><a href="time-series-embedding.html#cb1055-4" aria-hidden="true" tabindex="-1"></a>  rmspe[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((fh[i,]<span class="sc">-</span>test)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb1055-5"><a href="time-series-embedding.html#cb1055-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1055-6"><a href="time-series-embedding.html#cb1055-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1055-7"><a href="time-series-embedding.html#cb1055-7" aria-hidden="true" tabindex="-1"></a>rmspe</span></code></pre></div>
 <pre><code>##  [1] 33.45400 35.28827 31.67333 29.69115 31.57618 28.99568 28.53882 28.70796
 ##  [9] 27.16182 28.59872 28.77714 28.99870</code></pre>
-<div class="sourceCode" id="cb1056"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1056-1"><a href="time-series-embedding.html#cb1056-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(rmspe)</span></code></pre></div>
+<div class="sourceCode" id="cb1057"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1057-1"><a href="time-series-embedding.html#cb1057-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(rmspe)</span></code></pre></div>
 <pre><code>## [1] 9</code></pre>
 <p>We used the last 7 days in our data as our test set and previous days as our training set. A natural question would be whether we could shuffle the data and use <strong>any</strong> 7 days as our test set? The answer is yes, because we do not need to follow a temporal order in the data after rearranging it with embedding. This is important because we can add a bootstrapping loop to our grid search above and get better tuning for finding the best window size.</p>
 <p>We incorporate all these ideas with our random forest application in the next chapter.</p>

@@ -92,24 +92,23 @@ data <- df[complete.cases(df), ]
 dim(data)
 
 #Let's create a binary variable, mpg = 1 if hwy > mean(hwy), 0 otherwise
-mpg <- c(rep(0, nrow(data))) #Create vector mpg
-data2 <- cbind(data, mpg) # add it to data
-data2$mpg[data2$hwy > mean(data2$hwy)] <- 1
+data$mpg <- ifelse(data$hwy > mean(data$hwy), 1, 0)
+table(data$mpg)
 ```
   
 We are going to have a model that will predict whether the vehicle is a high mpg (i.e. `mpg` = 1) or low mpg (`mpg` = 0) car. As you notice, we have lots of character variables. Our model cannot accept character variables, but we can convert them into factor variables that give each unique character variable a number. This allows our model to accept our data. Let's convert them to factor variables now:  
   
 ```{r, warning=FALSE, message=FALSE}
-for (i in 1:ncol(data2)) {
-  if(is.character(data2[,i])) data2[,i] <- as.factor(data2[,i])
+for (i in 1:ncol(data)) {
+  if(is.character(data[,i])) data[,i] <- as.factor(data[,i])
 }
-str(data2)
+str(data)
 ```
 
 Done! We are ready to have a model to predict `mpg`.  For now, we'll use only `fuel`.  
 
 ```{r, warning=FALSE, message=FALSE}
-model1 <- lm(mpg ~ fuel + 0, data = data2) #No intercept
+model1 <- lm(mpg ~ fuel + 0, data = data) #No intercept
 summary(model1)
 ```
   
@@ -122,7 +121,7 @@ $$
 In this context, the link function is called "identity" because it directly “links” the probability to the linear function of the predictor variables. Let's see if we can verify this:  
 
 ```{r, warning=FALSE, message=FALSE}
-tab <- table(data2$fuel, data2$mpg)
+tab <- table(data$fuel, data$mpg)
 ftable(addmargins(tab))
 prop.table(tab, 1)
 ```
@@ -179,14 +178,14 @@ $$
 Let's have a more complex model:  
 
 ```{r 5, echo=TRUE}
-model2 <- lm(mpg ~ fuel + drive + cyl, data = data2)
+model2 <- lm(mpg ~ fuel + drive + cyl, data = data)
 summary(model2)
 ```
   
 Since OLS is a "Gaussian" member of GLS family, we can also estimate it as GLS. We use glm() and define the family as "gaussian".  
 
 ```{r, warning=FALSE, message=FALSE}
-model3 <- glm(mpg ~ fuel + drive + cyl, family = gaussian, data = data2)
+model3 <- glm(mpg ~ fuel + drive + cyl, family = gaussian, data = data)
 #You can check it by comparing model2 above to summary(model3)
 #Let's check only the coefficients  
 identical(round(coef(model2),2), round(coef(model3),2))
@@ -196,7 +195,7 @@ With this LPM model, we can now predict the classification of future cars in ter
 
 ```{r, warning=FALSE, message=FALSE}
 #How many cars we have with mpg = 1 and mpg = 0 in our data
-table(data2$mpg) 
+table(data$mpg) 
 
 #In-sample fitted values or predicted probabilities for mpg = 1
 #Remember our E(Y|X) is Pr(Y=1|X)

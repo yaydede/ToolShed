@@ -323,7 +323,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="16" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html"><i class="fa fa-check"></i><b>16</b> Artificial Neural Networks</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---the-idea"><i class="fa fa-check"></i><b>16.1</b> Neural Network - The idea</a></li>
+<li class="chapter" data-level="16.1" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---the-idea"><i class="fa fa-check"></i><b>16.1</b> Neural Network - the idea</a></li>
 <li class="chapter" data-level="16.2" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#backpropagation"><i class="fa fa-check"></i><b>16.2</b> Backpropagation</a></li>
 <li class="chapter" data-level="16.3" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#neural-network---more-inputs"><i class="fa fa-check"></i><b>16.3</b> Neural Network - More inputs</a></li>
 <li class="chapter" data-level="16.4" data-path="artificial-neural-networks.html"><a href="artificial-neural-networks.html#deep-learning"><i class="fa fa-check"></i><b>16.4</b> Deep Learning</a></li>
@@ -369,7 +369,13 @@ div.csl-indent {
 <li class="chapter" data-level="34.2" data-path="random-forest-1.html"><a href="random-forest-1.html#multivariate"><i class="fa fa-check"></i><b>34.2</b> Multivariate</a></li>
 <li class="chapter" data-level="34.3" data-path="random-forest-1.html"><a href="random-forest-1.html#rolling-and-expanding-windows"><i class="fa fa-check"></i><b>34.3</b> Rolling and expanding windows</a></li>
 </ul></li>
-<li class="chapter" data-level="35" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html"><i class="fa fa-check"></i><b>35</b> Recurrent Neural Networks</a></li>
+<li class="chapter" data-level="35" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html"><i class="fa fa-check"></i><b>35</b> Recurrent Neural Networks</a>
+<ul>
+<li class="chapter" data-level="35.1" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#keras"><i class="fa fa-check"></i><b>35.1</b> Keras</a></li>
+<li class="chapter" data-level="35.2" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#input-tensors"><i class="fa fa-check"></i><b>35.2</b> Input Tensors</a></li>
+<li class="chapter" data-level="35.3" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#rnn"><i class="fa fa-check"></i><b>35.3</b> RNN</a></li>
+<li class="chapter" data-level="35.4" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#lstm"><i class="fa fa-check"></i><b>35.4</b> LSTM</a></li>
+</ul></li>
 <li class="part"><span><b>X Network Analysis</b></span></li>
 <li class="chapter" data-level="" data-path="graphical-network-analysis.html"><a href="graphical-network-analysis.html"><i class="fa fa-check"></i>Graphical Network Analysis</a></li>
 <li class="chapter" data-level="36" data-path="fundementals.html"><a href="fundementals.html"><i class="fa fa-check"></i><b>36</b> Fundementals</a>
@@ -547,17 +553,17 @@ The parameters of the ARIMA model (<span class="math inline">\(c\)</span>, <span
 <div id="ts-plots" class="section level2 hasAnchor" number="31.2">
 <h2><span class="header-section-number">31.2</span> TS Plots<a href="arima-models.html#ts-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Let’s first load the data and convert it to <code>tsibble</code>, which can be:</p>
-<div class="sourceCode" id="cb976"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb976-1"><a href="arima-models.html#cb976-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
-<span id="cb976-2"><a href="arima-models.html#cb976-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
-<span id="cb976-3"><a href="arima-models.html#cb976-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb976-4"><a href="arima-models.html#cb976-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;~/Dropbox/ToolShed_draft/dftoronto.RData&quot;</span>)</span>
-<span id="cb976-5"><a href="arima-models.html#cb976-5" aria-hidden="true" tabindex="-1"></a>day <span class="ot">&lt;-</span> <span class="fu">seq.Date</span>(<span class="at">from =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020/03/01&quot;</span>),</span>
-<span id="cb976-6"><a href="arima-models.html#cb976-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">to =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020/11/21&quot;</span>), <span class="at">by =</span> <span class="dv">1</span>)</span>
-<span id="cb976-7"><a href="arima-models.html#cb976-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb976-8"><a href="arima-models.html#cb976-8" aria-hidden="true" tabindex="-1"></a>tdata <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Day =</span> day, <span class="at">mob =</span> data<span class="sc">$</span>mob, <span class="at">cases =</span> data<span class="sc">$</span>cases)</span>
-<span id="cb976-9"><a href="arima-models.html#cb976-9" aria-hidden="true" tabindex="-1"></a>toronto <span class="ot">&lt;-</span> tdata <span class="sc">%&gt;%</span></span>
-<span id="cb976-10"><a href="arima-models.html#cb976-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Day)</span>
-<span id="cb976-11"><a href="arima-models.html#cb976-11" aria-hidden="true" tabindex="-1"></a>toronto</span></code></pre></div>
+<div class="sourceCode" id="cb977"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb977-1"><a href="arima-models.html#cb977-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
+<span id="cb977-2"><a href="arima-models.html#cb977-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
+<span id="cb977-3"><a href="arima-models.html#cb977-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb977-4"><a href="arima-models.html#cb977-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;~/Dropbox/ToolShed_draft/dftoronto.RData&quot;</span>)</span>
+<span id="cb977-5"><a href="arima-models.html#cb977-5" aria-hidden="true" tabindex="-1"></a>day <span class="ot">&lt;-</span> <span class="fu">seq.Date</span>(<span class="at">from =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020/03/01&quot;</span>),</span>
+<span id="cb977-6"><a href="arima-models.html#cb977-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">to =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020/11/21&quot;</span>), <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb977-7"><a href="arima-models.html#cb977-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb977-8"><a href="arima-models.html#cb977-8" aria-hidden="true" tabindex="-1"></a>tdata <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Day =</span> day, <span class="at">mob =</span> data<span class="sc">$</span>mob, <span class="at">cases =</span> data<span class="sc">$</span>cases)</span>
+<span id="cb977-9"><a href="arima-models.html#cb977-9" aria-hidden="true" tabindex="-1"></a>toronto <span class="ot">&lt;-</span> tdata <span class="sc">%&gt;%</span></span>
+<span id="cb977-10"><a href="arima-models.html#cb977-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Day)</span>
+<span id="cb977-11"><a href="arima-models.html#cb977-11" aria-hidden="true" tabindex="-1"></a>toronto</span></code></pre></div>
 <pre><code>## # A tsibble: 266 x 3 [1D]
 ##    Day             mob cases
 ##    &lt;date&gt;        &lt;dbl&gt; &lt;dbl&gt;
@@ -573,37 +579,37 @@ The parameters of the ARIMA model (<span class="math inline">\(c\)</span>, <span
 ## 10 2020-03-10 -0.0521     29
 ## # … with 256 more rows</code></pre>
 <p>Note the <code>[1D]</code> in the header indicating this is daily data. Dealing with daily and sub-daily data with <code>ts</code> class is not an easy process. The <code>tsibble</code> class handles such data with no problem. More details on <code>tsibbles</code> can be found at <a href="https://robjhyndman.com/hyndsight/tsibbles/">Tidy time series data using tsibbles</a>. Although there are better plotting option cosmetically, we will stick to applications in what <code>fpp3</code> simply offers:</p>
-<div class="sourceCode" id="cb978"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb978-1"><a href="arima-models.html#cb978-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(mob, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>) <span class="sc">+</span></span>
-<span id="cb978-2"><a href="arima-models.html#cb978-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb978-3"><a href="arima-models.html#cb978-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Mobility Index&quot;</span>,</span>
-<span id="cb978-4"><a href="arima-models.html#cb978-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Toronto 2020&quot;</span>,</span>
-<span id="cb978-5"><a href="arima-models.html#cb978-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Days&quot;</span>,</span>
-<span id="cb978-6"><a href="arima-models.html#cb978-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Index&quot;</span></span>
-<span id="cb978-7"><a href="arima-models.html#cb978-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb978-8"><a href="arima-models.html#cb978-8" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(cases, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">+</span></span>
-<span id="cb978-9"><a href="arima-models.html#cb978-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb978-10"><a href="arima-models.html#cb978-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Covid-19 Cases&quot;</span>,</span>
-<span id="cb978-11"><a href="arima-models.html#cb978-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Toronto 2020&quot;</span>,</span>
-<span id="cb978-12"><a href="arima-models.html#cb978-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Days&quot;</span>,</span>
-<span id="cb978-13"><a href="arima-models.html#cb978-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Cases&quot;</span></span>
-<span id="cb978-14"><a href="arima-models.html#cb978-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb978-15"><a href="arima-models.html#cb978-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb978-16"><a href="arima-models.html#cb978-16" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gridExtra)</span>
-<span id="cb978-17"><a href="arima-models.html#cb978-17" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(b, a, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb979"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb979-1"><a href="arima-models.html#cb979-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(mob, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>) <span class="sc">+</span></span>
+<span id="cb979-2"><a href="arima-models.html#cb979-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb979-3"><a href="arima-models.html#cb979-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Mobility Index&quot;</span>,</span>
+<span id="cb979-4"><a href="arima-models.html#cb979-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Toronto 2020&quot;</span>,</span>
+<span id="cb979-5"><a href="arima-models.html#cb979-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Days&quot;</span>,</span>
+<span id="cb979-6"><a href="arima-models.html#cb979-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Index&quot;</span></span>
+<span id="cb979-7"><a href="arima-models.html#cb979-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb979-8"><a href="arima-models.html#cb979-8" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(cases, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">+</span></span>
+<span id="cb979-9"><a href="arima-models.html#cb979-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb979-10"><a href="arima-models.html#cb979-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Covid-19 Cases&quot;</span>,</span>
+<span id="cb979-11"><a href="arima-models.html#cb979-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Toronto 2020&quot;</span>,</span>
+<span id="cb979-12"><a href="arima-models.html#cb979-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Days&quot;</span>,</span>
+<span id="cb979-13"><a href="arima-models.html#cb979-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Cases&quot;</span></span>
+<span id="cb979-14"><a href="arima-models.html#cb979-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb979-15"><a href="arima-models.html#cb979-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb979-16"><a href="arima-models.html#cb979-16" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gridExtra)</span>
+<span id="cb979-17"><a href="arima-models.html#cb979-17" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(b, a, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-340-1.png" width="672" /></p>
 </div>
 <div id="box-cox-transformation" class="section level2 hasAnchor" number="31.3">
 <h2><span class="header-section-number">31.3</span> Box-Cox transformation<a href="arima-models.html#box-cox-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>There are different ways to transform the data, which make the size of the variation about the same across the whole series. A proper variance-stabilizing transformation makes the forecasting model simpler and better. For example, Proietti and Lutkepohl (2012) find that the Box–Cox transformation produces forecasts which are significantly better than the untransformed data at the one-step-ahead horizon (See <a href="https://www.sciencedirect.com/science/article/abs/pii/S0169207012000830">Does the Box–Cox transformation help in forecasting macroeconomic time series?</a>).</p>
-<div class="sourceCode" id="cb979"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb979-1"><a href="arima-models.html#cb979-1" aria-hidden="true" tabindex="-1"></a>lmbd <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span></span>
-<span id="cb979-2"><a href="arima-models.html#cb979-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(cases, <span class="at">features =</span> guerrero) <span class="sc">%&gt;%</span></span>
-<span id="cb979-3"><a href="arima-models.html#cb979-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(lambda_guerrero)</span>
-<span id="cb979-4"><a href="arima-models.html#cb979-4" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
-<span id="cb979-5"><a href="arima-models.html#cb979-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="fu">box_cox</span>(cases, <span class="at">lambda =</span> lmbd), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb979-6"><a href="arima-models.html#cb979-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb979-7"><a href="arima-models.html#cb979-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="fu">paste0</span>(</span>
-<span id="cb979-8"><a href="arima-models.html#cb979-8" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;Cases - Transformed with $</span><span class="sc">\\</span><span class="st">lambda$ = &quot;</span>,</span>
-<span id="cb979-9"><a href="arima-models.html#cb979-9" aria-hidden="true" tabindex="-1"></a>         <span class="fu">round</span>(lmbd,<span class="dv">2</span>))))</span></code></pre></div>
+<div class="sourceCode" id="cb980"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb980-1"><a href="arima-models.html#cb980-1" aria-hidden="true" tabindex="-1"></a>lmbd <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span></span>
+<span id="cb980-2"><a href="arima-models.html#cb980-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(cases, <span class="at">features =</span> guerrero) <span class="sc">%&gt;%</span></span>
+<span id="cb980-3"><a href="arima-models.html#cb980-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(lambda_guerrero)</span>
+<span id="cb980-4"><a href="arima-models.html#cb980-4" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
+<span id="cb980-5"><a href="arima-models.html#cb980-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="fu">box_cox</span>(cases, <span class="at">lambda =</span> lmbd), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb980-6"><a href="arima-models.html#cb980-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb980-7"><a href="arima-models.html#cb980-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="fu">paste0</span>(</span>
+<span id="cb980-8"><a href="arima-models.html#cb980-8" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;Cases - Transformed with $</span><span class="sc">\\</span><span class="st">lambda$ = &quot;</span>,</span>
+<span id="cb980-9"><a href="arima-models.html#cb980-9" aria-hidden="true" tabindex="-1"></a>         <span class="fu">round</span>(lmbd,<span class="dv">2</span>))))</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-341-1.png" width="672" /></p>
 <p>The option <code>guerrero</code> computes the optimal <span class="math inline">\(\lambda\)</span> value for a Box-Cox transformation using the <a href="https://onlinelibrary.wiley.com/doi/10.1002/for.3980120104">Guerrero</a> method. We should also have a transformation that converts the case numbers to a “positivity rate”, which is the percentage of positive results in all COVID-19 tests applied on a given day. We ignore this transformation for now, but the number of tests performed in a given day changes the numbers of cases.</p>
 </div>
@@ -612,61 +618,61 @@ The parameters of the ARIMA model (<span class="math inline">\(c\)</span>, <span
 <p>A time series is stationary if a shift in time does not cause a change in the shape of the distribution, like the mean, variance, and covariance. Stationarity is an important assumption in many time series forecasting methods, because the patterns and trends in the data can be modeled effectively. If a time series is not stationary, it can lead to inaccurate or unreliable forecasts. This is because non-stationary data has statistical properties that change over time making the current patterns and trends ungeneralizable for the future.</p>
 <p>There are several tests that can be used to determine whether a time series is stationary or not, including the Dickey-Fuller test and the KPSS (<a href="https://www.sciencedirect.com/science/article/abs/pii/030440769290104Y?via%3Dihub">Kwiatkowski-Phillips-Schmidt-Shin</a>) test. If a time series is found to be non-stationary, it may be necessary to transform the data in some way before applying a forecasting method in order to obtain reliable forecasts. The main method is differencing, which involves taking the difference between consecutive values in the series.</p>
 <p>Let’s first formally test all these series and see what we get:</p>
-<div class="sourceCode" id="cb980"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb980-1"><a href="arima-models.html#cb980-1" aria-hidden="true" tabindex="-1"></a><span class="co"># number of first differences</span></span>
-<span id="cb980-2"><a href="arima-models.html#cb980-2" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
-<span id="cb980-3"><a href="arima-models.html#cb980-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(cases, unitroot_ndiffs)</span></code></pre></div>
+<div class="sourceCode" id="cb981"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb981-1"><a href="arima-models.html#cb981-1" aria-hidden="true" tabindex="-1"></a><span class="co"># number of first differences</span></span>
+<span id="cb981-2"><a href="arima-models.html#cb981-2" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
+<span id="cb981-3"><a href="arima-models.html#cb981-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(cases, unitroot_ndiffs)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 1
 ##   ndiffs
 ##    &lt;int&gt;
 ## 1      1</code></pre>
-<div class="sourceCode" id="cb982"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb982-1"><a href="arima-models.html#cb982-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Formal KPSS test on level</span></span>
-<span id="cb982-2"><a href="arima-models.html#cb982-2" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
-<span id="cb982-3"><a href="arima-models.html#cb982-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(cases, unitroot_kpss)</span></code></pre></div>
+<div class="sourceCode" id="cb983"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb983-1"><a href="arima-models.html#cb983-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Formal KPSS test on level</span></span>
+<span id="cb983-2"><a href="arima-models.html#cb983-2" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
+<span id="cb983-3"><a href="arima-models.html#cb983-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(cases, unitroot_kpss)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 2
 ##   kpss_stat kpss_pvalue
 ##       &lt;dbl&gt;       &lt;dbl&gt;
 ## 1      1.61        0.01</code></pre>
-<div class="sourceCode" id="cb984"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb984-1"><a href="arima-models.html#cb984-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Formal KPSS test on the first difference</span></span>
-<span id="cb984-2"><a href="arima-models.html#cb984-2" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
-<span id="cb984-3"><a href="arima-models.html#cb984-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diffcases =</span> <span class="fu">difference</span>(cases)) <span class="sc">%&gt;%</span></span>
-<span id="cb984-4"><a href="arima-models.html#cb984-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(diffcases, unitroot_kpss)</span></code></pre></div>
+<div class="sourceCode" id="cb985"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb985-1"><a href="arima-models.html#cb985-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Formal KPSS test on the first difference</span></span>
+<span id="cb985-2"><a href="arima-models.html#cb985-2" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
+<span id="cb985-3"><a href="arima-models.html#cb985-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diffcases =</span> <span class="fu">difference</span>(cases)) <span class="sc">%&gt;%</span></span>
+<span id="cb985-4"><a href="arima-models.html#cb985-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(diffcases, unitroot_kpss)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 2
 ##   kpss_stat kpss_pvalue
 ##       &lt;dbl&gt;       &lt;dbl&gt;
 ## 1    0.0970         0.1</code></pre>
 <p>It seems that the first difference can make the <code>cases</code> series stationary. The null in this test is taht the series are stationary. So, the p-value indicates that the null is rejected. So, it seems that the test after first differencing gives us a green light! However, ACF’s are telling us that seasonal differencing would be needed:</p>
-<div class="sourceCode" id="cb986"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb986-1"><a href="arima-models.html#cb986-1" aria-hidden="true" tabindex="-1"></a>level <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(cases) <span class="sc">%&gt;%</span></span>
-<span id="cb986-2"><a href="arima-models.html#cb986-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Covid-19 Cases&quot;</span>)</span>
-<span id="cb986-3"><a href="arima-models.html#cb986-3" aria-hidden="true" tabindex="-1"></a>fdiff <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="fu">difference</span>(cases)) <span class="sc">%&gt;%</span></span>
-<span id="cb986-4"><a href="arima-models.html#cb986-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;First-difference&quot;</span>)</span>
-<span id="cb986-5"><a href="arima-models.html#cb986-5" aria-hidden="true" tabindex="-1"></a>diffbc <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="fu">difference</span>(<span class="fu">box_cox</span>(cases, lmbd))) <span class="sc">%&gt;%</span></span>
-<span id="cb986-6"><a href="arima-models.html#cb986-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;First-difference Box-Cox&quot;</span>)</span>
-<span id="cb986-7"><a href="arima-models.html#cb986-7" aria-hidden="true" tabindex="-1"></a>ddiff <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="fu">difference</span>(<span class="fu">difference</span>(<span class="fu">box_cox</span>(cases, lmbd)))) <span class="sc">%&gt;%</span></span>
-<span id="cb986-8"><a href="arima-models.html#cb986-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Double-difference Box-Cox&quot;</span>)</span>
-<span id="cb986-9"><a href="arima-models.html#cb986-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb986-10"><a href="arima-models.html#cb986-10" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gridExtra)</span>
-<span id="cb986-11"><a href="arima-models.html#cb986-11" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(level, fdiff, diffbc, ddiff, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb987"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb987-1"><a href="arima-models.html#cb987-1" aria-hidden="true" tabindex="-1"></a>level <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(cases) <span class="sc">%&gt;%</span></span>
+<span id="cb987-2"><a href="arima-models.html#cb987-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Covid-19 Cases&quot;</span>)</span>
+<span id="cb987-3"><a href="arima-models.html#cb987-3" aria-hidden="true" tabindex="-1"></a>fdiff <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="fu">difference</span>(cases)) <span class="sc">%&gt;%</span></span>
+<span id="cb987-4"><a href="arima-models.html#cb987-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;First-difference&quot;</span>)</span>
+<span id="cb987-5"><a href="arima-models.html#cb987-5" aria-hidden="true" tabindex="-1"></a>diffbc <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="fu">difference</span>(<span class="fu">box_cox</span>(cases, lmbd))) <span class="sc">%&gt;%</span></span>
+<span id="cb987-6"><a href="arima-models.html#cb987-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;First-difference Box-Cox&quot;</span>)</span>
+<span id="cb987-7"><a href="arima-models.html#cb987-7" aria-hidden="true" tabindex="-1"></a>ddiff <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="fu">difference</span>(<span class="fu">difference</span>(<span class="fu">box_cox</span>(cases, lmbd)))) <span class="sc">%&gt;%</span></span>
+<span id="cb987-8"><a href="arima-models.html#cb987-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">&quot;Double-difference Box-Cox&quot;</span>)</span>
+<span id="cb987-9"><a href="arima-models.html#cb987-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb987-10"><a href="arima-models.html#cb987-10" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gridExtra)</span>
+<span id="cb987-11"><a href="arima-models.html#cb987-11" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(level, fdiff, diffbc, ddiff, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-343-1.png" width="672" /></p>
 <p>From ACF’s, there seems to be a weekly seasonal pattern at 7, 14, and 21, which are Sundays: reported Covid-19 cases on Sundays tend to be lower than the rest of the week at least for during the first wave.</p>
 <p>We can also test if we need seasonal differencing:</p>
-<div class="sourceCode" id="cb987"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb987-1"><a href="arima-models.html#cb987-1" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
-<span id="cb987-2"><a href="arima-models.html#cb987-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(cases, unitroot_nsdiffs)</span></code></pre></div>
+<div class="sourceCode" id="cb988"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb988-1"><a href="arima-models.html#cb988-1" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
+<span id="cb988-2"><a href="arima-models.html#cb988-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(cases, unitroot_nsdiffs)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 1
 ##   nsdiffs
 ##     &lt;int&gt;
 ## 1       0</code></pre>
-<div class="sourceCode" id="cb989"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb989-1"><a href="arima-models.html#cb989-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with Box-Cox</span></span>
-<span id="cb989-2"><a href="arima-models.html#cb989-2" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
-<span id="cb989-3"><a href="arima-models.html#cb989-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(<span class="fu">box_cox</span>(cases, lmbd), unitroot_nsdiffs)</span></code></pre></div>
+<div class="sourceCode" id="cb990"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb990-1"><a href="arima-models.html#cb990-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with Box-Cox</span></span>
+<span id="cb990-2"><a href="arima-models.html#cb990-2" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
+<span id="cb990-3"><a href="arima-models.html#cb990-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(<span class="fu">box_cox</span>(cases, lmbd), unitroot_nsdiffs)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 1
 ##   nsdiffs
 ##     &lt;int&gt;
 ## 1       0</code></pre>
 <p>The feature <code>unitroot_nsdiffs</code> returns 0 for both original and transformed series indicating no seasonal difference is required. We will stick to this “advice” because of two reasons: first, an unnecessary differencing would create more problems than a solution;, second, we can also modify ARIMA to incorporate seasonalllty in the data, which we will see shortly . However, out of curiosity, let’s remove the “seemingly” weekly seasonality and see what happens to ACF’s. Since, the order of differencing is not important, we first applied the seasonal differencing then applied the first difference:</p>
-<div class="sourceCode" id="cb991"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb991-1"><a href="arima-models.html#cb991-1" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
-<span id="cb991-2"><a href="arima-models.html#cb991-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsdisplay</span>(<span class="fu">difference</span>(<span class="fu">box_cox</span>(cases, lmbd), <span class="dv">7</span>) <span class="sc">%&gt;%</span> <span class="fu">difference</span>(),</span>
-<span id="cb991-3"><a href="arima-models.html#cb991-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">plot_type=</span><span class="st">&#39;partial&#39;</span>, <span class="at">lag=</span><span class="dv">36</span>) <span class="sc">+</span></span>
-<span id="cb991-4"><a href="arima-models.html#cb991-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Seasonal &amp; first differenced&quot;</span>, <span class="at">y=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb992"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb992-1"><a href="arima-models.html#cb992-1" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
+<span id="cb992-2"><a href="arima-models.html#cb992-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsdisplay</span>(<span class="fu">difference</span>(<span class="fu">box_cox</span>(cases, lmbd), <span class="dv">7</span>) <span class="sc">%&gt;%</span> <span class="fu">difference</span>(),</span>
+<span id="cb992-3"><a href="arima-models.html#cb992-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">plot_type=</span><span class="st">&#39;partial&#39;</span>, <span class="at">lag=</span><span class="dv">36</span>) <span class="sc">+</span></span>
+<span id="cb992-4"><a href="arima-models.html#cb992-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Seasonal &amp; first differenced&quot;</span>, <span class="at">y=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-345-1.png" width="672" /></p>
 <p>We can calculate the strength of the trend (T) and seasonality (S) in the time series, <span class="math inline">\(y_t=T_t+S_t+R_t\)</span>, by</p>
 <p><span class="math display">\[
@@ -674,8 +680,8 @@ F_{Trend}=\max \left(0,1-\frac{\operatorname{Var}\left(R_t\right)}{\operatorname
 F_{Seasonality}=\max \left(0,1-\frac{\operatorname{Var}\left(R_t\right)}{\operatorname{Var}\left(S_t+R_t\right)}\right),
 \]</span></p>
 <p>where <span class="math inline">\(R_t\)</span> is the remainder component:</p>
-<div class="sourceCode" id="cb992"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb992-1"><a href="arima-models.html#cb992-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">features</span>(cases, feat_stl)</span>
-<span id="cb992-2"><a href="arima-models.html#cb992-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(t[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb993"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb993-1"><a href="arima-models.html#cb993-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> <span class="fu">features</span>(cases, feat_stl)</span>
+<span id="cb993-2"><a href="arima-models.html#cb993-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(t[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code></pre></div>
 <pre><code>##                             [,1]
 ## trend_strength         0.9843102
 ## seasonal_strength_week 0.5142436</code></pre>
@@ -700,37 +706,37 @@ F_{Seasonality}=\max \left(0,1-\frac{\operatorname{Var}\left(R_t\right)}{\operat
 <p>The first term is the non-seasonal part of ARIMA with <span class="math inline">\(p=\)</span> AR order, <span class="math inline">\(d=\)</span> non-seasonal differencing, <span class="math inline">\(q=\)</span> MA order. The secon term is seasonal part of the model with <span class="math inline">\(P=\)</span> seasonal AR order, <span class="math inline">\(D=\)</span> seasonal differencing, <span class="math inline">\(Q\)</span> = seasonal MA order, and <span class="math inline">\(S=\)</span> seasonal pattern, which defines the number of time periods until the pattern repeats again.</p>
 <p>In our case, low values tend always to occur in some particular days, Sundays. Therefore, we may think that <span class="math inline">\(\mathrm{S}=7\)</span> is the span of the periodic seasonal behavior in our data. We can think of a seasonal first order autoregressive model, AR(1), would use <span class="math inline">\(X_{t-7}\)</span> to predict <span class="math inline">\(X_t\)</span>. Likewise, a seasonal second order autoregressive model would use <span class="math inline">\(X_{t-7}\)</span> and <span class="math inline">\(X_{t-14}\)</span> to predict <span class="math inline">\(X_t\)</span>. A seasonal first order MA(1) model would use <span class="math inline">\(\epsilon_{t-7}\)</span> as a predictor. A seasonal second order MA(2) model would use <span class="math inline">\(\epsilon_{t-7}\)</span> and <span class="math inline">\(\epsilon_{t-14}\)</span>.</p>
 <p>Let’s use our data first-differenced and transformed:</p>
-<div class="sourceCode" id="cb994"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb994-1"><a href="arima-models.html#cb994-1" aria-hidden="true" tabindex="-1"></a>toronto <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> </span>
-<span id="cb994-2"><a href="arima-models.html#cb994-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">boxcases =</span> <span class="fu">box_cox</span>(cases, <span class="at">lambda =</span> lmbd))</span>
-<span id="cb994-3"><a href="arima-models.html#cb994-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb994-4"><a href="arima-models.html#cb994-4" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
-<span id="cb994-5"><a href="arima-models.html#cb994-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsdisplay</span>(<span class="fu">difference</span>(boxcases), <span class="at">plot_type=</span><span class="st">&#39;partial&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb995"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb995-1"><a href="arima-models.html#cb995-1" aria-hidden="true" tabindex="-1"></a>toronto <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span> </span>
+<span id="cb995-2"><a href="arima-models.html#cb995-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">boxcases =</span> <span class="fu">box_cox</span>(cases, <span class="at">lambda =</span> lmbd))</span>
+<span id="cb995-3"><a href="arima-models.html#cb995-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb995-4"><a href="arima-models.html#cb995-4" aria-hidden="true" tabindex="-1"></a>toronto <span class="sc">%&gt;%</span></span>
+<span id="cb995-5"><a href="arima-models.html#cb995-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsdisplay</span>(<span class="fu">difference</span>(boxcases), <span class="at">plot_type=</span><span class="st">&#39;partial&#39;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-347-1.png" width="672" /></p>
 <p>We look at the spikes and decays in ACF and PACF: a exponential decay in ACF is observed at seasonal spikes of 7, 14, and 21 as well as two spikes at 7 and 14 in PACF indicate seasonal AR(2) We will also add non-seasonal AR(2) due to 2 spikes in PACF at days 1 and 2. Here are our initial models:</p>
 <p><span class="math display">\[
 \operatorname{ARIMA}(2,1,0)(2,1,0)_{7}\\
 \operatorname{ARIMA}(0,1,2)(0,1,3)_{7}
 \]</span></p>
-<div class="sourceCode" id="cb995"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb995-1"><a href="arima-models.html#cb995-1" aria-hidden="true" tabindex="-1"></a>covfit <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span></span>
-<span id="cb995-2"><a href="arima-models.html#cb995-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">AR2 =</span> <span class="fu">ARIMA</span>(boxcases <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">0</span>)),</span>
-<span id="cb995-3"><a href="arima-models.html#cb995-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">MA3 =</span> <span class="fu">ARIMA</span>(boxcases <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">3</span>)),</span>
-<span id="cb995-4"><a href="arima-models.html#cb995-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">auto =</span> <span class="fu">ARIMA</span>(boxcases, <span class="at">stepwise=</span><span class="cn">FALSE</span>, <span class="at">approx=</span><span class="cn">FALSE</span>))</span>
-<span id="cb995-5"><a href="arima-models.html#cb995-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb995-6"><a href="arima-models.html#cb995-6" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">cbind</span>(<span class="st">&quot;AR2&quot;</span> <span class="ot">=</span> covfit<span class="sc">$</span>AR2,</span>
-<span id="cb995-7"><a href="arima-models.html#cb995-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;MA3&quot;</span> <span class="ot">=</span> covfit<span class="sc">$</span>MA3,</span>
-<span id="cb995-8"><a href="arima-models.html#cb995-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;auto&quot;</span> <span class="ot">=</span> covfit<span class="sc">$</span>auto)) </span></code></pre></div>
+<div class="sourceCode" id="cb996"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb996-1"><a href="arima-models.html#cb996-1" aria-hidden="true" tabindex="-1"></a>covfit <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span></span>
+<span id="cb996-2"><a href="arima-models.html#cb996-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">AR2 =</span> <span class="fu">ARIMA</span>(boxcases <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">0</span>)),</span>
+<span id="cb996-3"><a href="arima-models.html#cb996-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">MA3 =</span> <span class="fu">ARIMA</span>(boxcases <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">3</span>)),</span>
+<span id="cb996-4"><a href="arima-models.html#cb996-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">auto =</span> <span class="fu">ARIMA</span>(boxcases, <span class="at">stepwise=</span><span class="cn">FALSE</span>, <span class="at">approx=</span><span class="cn">FALSE</span>))</span>
+<span id="cb996-5"><a href="arima-models.html#cb996-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb996-6"><a href="arima-models.html#cb996-6" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">cbind</span>(<span class="st">&quot;AR2&quot;</span> <span class="ot">=</span> covfit<span class="sc">$</span>AR2,</span>
+<span id="cb996-7"><a href="arima-models.html#cb996-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;MA3&quot;</span> <span class="ot">=</span> covfit<span class="sc">$</span>MA3,</span>
+<span id="cb996-8"><a href="arima-models.html#cb996-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;auto&quot;</span> <span class="ot">=</span> covfit<span class="sc">$</span>auto)) </span></code></pre></div>
 <pre><code>##      [,1]                  
 ## AR2  ARIMA(2,1,0)(3,1,0)[7]
 ## MA3  ARIMA(0,1,2)(0,1,3)[7]
 ## auto ARIMA(2,1,1)(2,0,0)[7]</code></pre>
-<div class="sourceCode" id="cb997"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb997-1"><a href="arima-models.html#cb997-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(covfit) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(AICc) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(.model<span class="sc">:</span>BIC)</span></code></pre></div>
+<div class="sourceCode" id="cb998"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb998-1"><a href="arima-models.html#cb998-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(covfit) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(AICc) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(.model<span class="sc">:</span>BIC)</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 6
 ##   .model sigma2 log_lik   AIC  AICc   BIC
 ##   &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1 MA3     0.468   -277.  567.  567.  588.
 ## 2 AR2     0.534   -285.  582.  583.  604.
 ## 3 auto    0.525   -289.  590.  591.  612.</code></pre>
-<div class="sourceCode" id="cb999"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb999-1"><a href="arima-models.html#cb999-1" aria-hidden="true" tabindex="-1"></a>covfit <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(MA3) <span class="sc">%&gt;%</span> <span class="fu">report</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1000"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1000-1"><a href="arima-models.html#cb1000-1" aria-hidden="true" tabindex="-1"></a>covfit <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(MA3) <span class="sc">%&gt;%</span> <span class="fu">report</span>()</span></code></pre></div>
 <pre><code>## Series: boxcases 
 ## Model: ARIMA(0,1,2)(0,1,3)[7] 
 ## 
@@ -745,28 +751,28 @@ F_{Seasonality}=\max \left(0,1-\frac{\operatorname{Var}\left(R_t\right)}{\operat
 <p>AICc (Akaike’s Information Criterion with a correction for finite sample sizes) is similar to Akaike’s Information Criterion (AIC), but it includes a correction factor to account for the fact that the sample size may be small relative to the number of parameters in the model. This correction helps to reduce the bias in the AIC estimate and make it more accurate for small sample sizes. When the sample size is large, AIC and AICc are nearly equivalent and either one can be used.</p>
 <p>Although AICc values across the models are not comparable (for “auto”, as it has no seasonal differencing), it seems that our manually constructed ARIMA, <span class="math inline">\(\operatorname{ARIMA}(0,1,2)(0,1,3)_{7}\)</span> could also be an option. This brings the possibility of a grid search to our attention.</p>
 <p>Let’s check their residuals:</p>
-<div class="sourceCode" id="cb1001"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1001-1"><a href="arima-models.html#cb1001-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">augment</span>(covfit) <span class="sc">%&gt;%</span></span>
-<span id="cb1001-2"><a href="arima-models.html#cb1001-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(.model <span class="sc">==</span> <span class="st">&quot;auto&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1001-3"><a href="arima-models.html#cb1001-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">features</span>(.innov, ljung_box, <span class="at">lag=</span><span class="dv">24</span>, <span class="at">dof=</span><span class="dv">5</span>),</span>
-<span id="cb1001-4"><a href="arima-models.html#cb1001-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">augment</span>(covfit) <span class="sc">%&gt;%</span></span>
-<span id="cb1001-5"><a href="arima-models.html#cb1001-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(.model <span class="sc">==</span> <span class="st">&quot;MA3&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1001-6"><a href="arima-models.html#cb1001-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">features</span>(.innov, ljung_box, <span class="at">lag=</span><span class="dv">24</span>, <span class="at">dof=</span><span class="dv">5</span>),</span>
-<span id="cb1001-7"><a href="arima-models.html#cb1001-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">augment</span>(covfit) <span class="sc">%&gt;%</span></span>
-<span id="cb1001-8"><a href="arima-models.html#cb1001-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(.model <span class="sc">==</span> <span class="st">&quot;AR2&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1001-9"><a href="arima-models.html#cb1001-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">features</span>(.innov, ljung_box, <span class="at">lag=</span><span class="dv">24</span>, <span class="at">dof=</span><span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1002"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1002-1"><a href="arima-models.html#cb1002-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">augment</span>(covfit) <span class="sc">%&gt;%</span></span>
+<span id="cb1002-2"><a href="arima-models.html#cb1002-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(.model <span class="sc">==</span> <span class="st">&quot;auto&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1002-3"><a href="arima-models.html#cb1002-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">features</span>(.innov, ljung_box, <span class="at">lag=</span><span class="dv">24</span>, <span class="at">dof=</span><span class="dv">5</span>),</span>
+<span id="cb1002-4"><a href="arima-models.html#cb1002-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">augment</span>(covfit) <span class="sc">%&gt;%</span></span>
+<span id="cb1002-5"><a href="arima-models.html#cb1002-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(.model <span class="sc">==</span> <span class="st">&quot;MA3&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1002-6"><a href="arima-models.html#cb1002-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">features</span>(.innov, ljung_box, <span class="at">lag=</span><span class="dv">24</span>, <span class="at">dof=</span><span class="dv">5</span>),</span>
+<span id="cb1002-7"><a href="arima-models.html#cb1002-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">augment</span>(covfit) <span class="sc">%&gt;%</span></span>
+<span id="cb1002-8"><a href="arima-models.html#cb1002-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(.model <span class="sc">==</span> <span class="st">&quot;AR2&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1002-9"><a href="arima-models.html#cb1002-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">features</span>(.innov, ljung_box, <span class="at">lag=</span><span class="dv">24</span>, <span class="at">dof=</span><span class="dv">5</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 3
 ##   .model lb_stat lb_pvalue
 ##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 ## 1 auto      19.0    0.459 
 ## 2 MA3       27.3    0.0971
 ## 3 AR2       21.1    0.331</code></pre>
-<div class="sourceCode" id="cb1003"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1003-1"><a href="arima-models.html#cb1003-1" aria-hidden="true" tabindex="-1"></a>covfit <span class="sc">%&gt;%</span>dplyr<span class="sc">::</span><span class="fu">select</span>(MA3) <span class="sc">%&gt;%</span> <span class="fu">gg_tsresiduals</span>(<span class="at">lag=</span><span class="dv">36</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1004"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1004-1"><a href="arima-models.html#cb1004-1" aria-hidden="true" tabindex="-1"></a>covfit <span class="sc">%&gt;%</span>dplyr<span class="sc">::</span><span class="fu">select</span>(MA3) <span class="sc">%&gt;%</span> <span class="fu">gg_tsresiduals</span>(<span class="at">lag=</span><span class="dv">36</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-350-1.png" width="672" /></p>
 <p>There are several significant spikes in the ACF. But, the model passes the Ljung-Box test at the 5 percent significance level. Meanwhile, a model can still be used for forecasting, but the prediction intervals may not be accurate due to the correlated residuals. Sometimes it is possible that we cannot find a model that passes this test. In practice, we may have to look at the tradeoff between prediction accuracy and and reliable confidence intervals. If the difference is too high, we may chose the best model with the highest prediction accuracy.</p>
 <p>Before looking at a cross-validation approach for model selection in ARIMA modeling, let use our model to predict a week ahead (2020-11-22 to 2020-11-28):</p>
-<div class="sourceCode" id="cb1004"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1004-1"><a href="arima-models.html#cb1004-1" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> covfit <span class="sc">%&gt;%</span></span>
-<span id="cb1004-2"><a href="arima-models.html#cb1004-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">7</span>)</span>
-<span id="cb1004-3"><a href="arima-models.html#cb1004-3" aria-hidden="true" tabindex="-1"></a>fc</span></code></pre></div>
+<div class="sourceCode" id="cb1005"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1005-1"><a href="arima-models.html#cb1005-1" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> covfit <span class="sc">%&gt;%</span></span>
+<span id="cb1005-2"><a href="arima-models.html#cb1005-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">7</span>)</span>
+<span id="cb1005-3"><a href="arima-models.html#cb1005-3" aria-hidden="true" tabindex="-1"></a>fc</span></code></pre></div>
 <pre><code>## # A fable: 21 x 4 [1D]
 ## # Key:     .model [3]
 ##    .model Day           boxcases .mean
@@ -782,41 +788,41 @@ F_{Seasonality}=\max \left(0,1-\frac{\operatorname{Var}\left(R_t\right)}{\operat
 ##  9 MA3    2020-11-23 N(13, 0.63)  13.2
 ## 10 MA3    2020-11-24 N(13, 0.87)  13.1
 ## # … with 11 more rows</code></pre>
-<div class="sourceCode" id="cb1006"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1006-1"><a href="arima-models.html#cb1006-1" aria-hidden="true" tabindex="-1"></a>fc <span class="sc">%&gt;%</span></span>
-<span id="cb1006-2"><a href="arima-models.html#cb1006-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">autoplot</span>(toronto, <span class="at">level =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb1006-3"><a href="arima-models.html#cb1006-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">xlab</span>(<span class="st">&quot;Days&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Transformed Cases with Box-Cox&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1007"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1007-1"><a href="arima-models.html#cb1007-1" aria-hidden="true" tabindex="-1"></a>fc <span class="sc">%&gt;%</span></span>
+<span id="cb1007-2"><a href="arima-models.html#cb1007-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">autoplot</span>(toronto, <span class="at">level =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1007-3"><a href="arima-models.html#cb1007-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">xlab</span>(<span class="st">&quot;Days&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Transformed Cases with Box-Cox&quot;</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-352-1.png" width="672" /></p>
-<div class="sourceCode" id="cb1007"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1007-1"><a href="arima-models.html#cb1007-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">forecast</span>(covfit, <span class="at">h=</span><span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1007-2"><a href="arima-models.html#cb1007-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(.model<span class="sc">==</span><span class="st">&#39;auto&#39;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1007-3"><a href="arima-models.html#cb1007-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(toronto) <span class="sc">+</span></span>
-<span id="cb1007-4"><a href="arima-models.html#cb1007-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;COVID-19 Forecasting - Auto&quot;</span>,</span>
-<span id="cb1007-5"><a href="arima-models.html#cb1007-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">&quot;Box-Cox Tranformed Cases&quot;</span>)</span>
-<span id="cb1007-6"><a href="arima-models.html#cb1007-6" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">forecast</span>(covfit, <span class="at">h=</span><span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1007-7"><a href="arima-models.html#cb1007-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(.model<span class="sc">==</span><span class="st">&#39;MA3&#39;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1007-8"><a href="arima-models.html#cb1007-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(toronto) <span class="sc">+</span></span>
-<span id="cb1007-9"><a href="arima-models.html#cb1007-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;COVID-19 Forecasting - MA3&quot;</span>,</span>
-<span id="cb1007-10"><a href="arima-models.html#cb1007-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">&quot;Box-Cox Transformed Cases&quot;</span>)</span>
-<span id="cb1007-11"><a href="arima-models.html#cb1007-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1007-12"><a href="arima-models.html#cb1007-12" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gridExtra)</span>
-<span id="cb1007-13"><a href="arima-models.html#cb1007-13" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(a, b, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1008"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1008-1"><a href="arima-models.html#cb1008-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">forecast</span>(covfit, <span class="at">h=</span><span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1008-2"><a href="arima-models.html#cb1008-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(.model<span class="sc">==</span><span class="st">&#39;auto&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1008-3"><a href="arima-models.html#cb1008-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(toronto) <span class="sc">+</span></span>
+<span id="cb1008-4"><a href="arima-models.html#cb1008-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;COVID-19 Forecasting - Auto&quot;</span>,</span>
+<span id="cb1008-5"><a href="arima-models.html#cb1008-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">&quot;Box-Cox Tranformed Cases&quot;</span>)</span>
+<span id="cb1008-6"><a href="arima-models.html#cb1008-6" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">forecast</span>(covfit, <span class="at">h=</span><span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1008-7"><a href="arima-models.html#cb1008-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(.model<span class="sc">==</span><span class="st">&#39;MA3&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1008-8"><a href="arima-models.html#cb1008-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(toronto) <span class="sc">+</span></span>
+<span id="cb1008-9"><a href="arima-models.html#cb1008-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;COVID-19 Forecasting - MA3&quot;</span>,</span>
+<span id="cb1008-10"><a href="arima-models.html#cb1008-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">&quot;Box-Cox Transformed Cases&quot;</span>)</span>
+<span id="cb1008-11"><a href="arima-models.html#cb1008-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1008-12"><a href="arima-models.html#cb1008-12" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gridExtra)</span>
+<span id="cb1008-13"><a href="arima-models.html#cb1008-13" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(a, b, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-352-2.png" width="672" /></p>
 <p>We have predicted values for coming 7 days but we do not have realized values. Hence, we cannot compare these models in terms of their accuracy. We now look at the forecast accuracy of these models by using a training set containing all data up to 2020-11-14. We then forecast the remaining seven days in the data set and compare the results with the actual values.</p>
-<div class="sourceCode" id="cb1008"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1008-1"><a href="arima-models.html#cb1008-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span></span>
-<span id="cb1008-2"><a href="arima-models.html#cb1008-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="sc">~</span> <span class="st">&quot;2020-11-14&quot;</span>)</span>
-<span id="cb1008-3"><a href="arima-models.html#cb1008-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1008-4"><a href="arima-models.html#cb1008-4" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
-<span id="cb1008-5"><a href="arima-models.html#cb1008-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
-<span id="cb1008-6"><a href="arima-models.html#cb1008-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">AR2 =</span> <span class="fu">ARIMA</span>(boxcases <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">0</span>)),</span>
-<span id="cb1008-7"><a href="arima-models.html#cb1008-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">MA3 =</span> <span class="fu">ARIMA</span>(boxcases <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">3</span>)),</span>
-<span id="cb1008-8"><a href="arima-models.html#cb1008-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">auto =</span> <span class="fu">ARIMA</span>(boxcases, <span class="at">stepwise=</span><span class="cn">FALSE</span>, <span class="at">approx=</span><span class="cn">FALSE</span>)</span>
-<span id="cb1008-9"><a href="arima-models.html#cb1008-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1008-10"><a href="arima-models.html#cb1008-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mixed =</span> (auto <span class="sc">+</span> AR2 <span class="sc">+</span> MA3) <span class="sc">/</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1009"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1009-1"><a href="arima-models.html#cb1009-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> toronto <span class="sc">%&gt;%</span></span>
+<span id="cb1009-2"><a href="arima-models.html#cb1009-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="sc">~</span> <span class="st">&quot;2020-11-14&quot;</span>)</span>
+<span id="cb1009-3"><a href="arima-models.html#cb1009-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1009-4"><a href="arima-models.html#cb1009-4" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb1009-5"><a href="arima-models.html#cb1009-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb1009-6"><a href="arima-models.html#cb1009-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">AR2 =</span> <span class="fu">ARIMA</span>(boxcases <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">0</span>)),</span>
+<span id="cb1009-7"><a href="arima-models.html#cb1009-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">MA3 =</span> <span class="fu">ARIMA</span>(boxcases <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">3</span>)),</span>
+<span id="cb1009-8"><a href="arima-models.html#cb1009-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">auto =</span> <span class="fu">ARIMA</span>(boxcases, <span class="at">stepwise=</span><span class="cn">FALSE</span>, <span class="at">approx=</span><span class="cn">FALSE</span>)</span>
+<span id="cb1009-9"><a href="arima-models.html#cb1009-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1009-10"><a href="arima-models.html#cb1009-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mixed =</span> (auto <span class="sc">+</span> AR2 <span class="sc">+</span> MA3) <span class="sc">/</span> <span class="dv">3</span>)</span></code></pre></div>
 <p>And, now the accuracy measures:</p>
-<div class="sourceCode" id="cb1009"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1009-1"><a href="arima-models.html#cb1009-1" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">7</span>)</span>
-<span id="cb1009-2"><a href="arima-models.html#cb1009-2" aria-hidden="true" tabindex="-1"></a>fc <span class="sc">%&gt;%</span></span>
-<span id="cb1009-3"><a href="arima-models.html#cb1009-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(toronto, <span class="at">level =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1010"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1010-1"><a href="arima-models.html#cb1010-1" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">7</span>)</span>
+<span id="cb1010-2"><a href="arima-models.html#cb1010-2" aria-hidden="true" tabindex="-1"></a>fc <span class="sc">%&gt;%</span></span>
+<span id="cb1010-3"><a href="arima-models.html#cb1010-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(toronto, <span class="at">level =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-354-1.png" width="672" /></p>
-<div class="sourceCode" id="cb1010"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1010-1"><a href="arima-models.html#cb1010-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc, toronto)</span></code></pre></div>
+<div class="sourceCode" id="cb1011"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1011-1"><a href="arima-models.html#cb1011-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc, toronto)</span></code></pre></div>
 <pre><code>## # A tibble: 4 × 10
 ##   .model .type    ME  RMSE   MAE   MPE  MAPE  MASE RMSSE  ACF1
 ##   &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -826,16 +832,16 @@ F_{Seasonality}=\max \left(0,1-\frac{\operatorname{Var}\left(R_t\right)}{\operat
 ## 4 mixed  Test  -1.54  1.86  1.54 -11.4  11.4  1.32  1.28 0.436</code></pre>
 <p>In all measures, the model “auto” (ARIMA with the Hyndman-Khandakar algorithm) is better than others. Although mixing several different ARIMA models does not make sense, we can have an ensemble forecast mixing several different time series models in addition ARIMA modeling. A nice discussion can be found in this <a href="https://stackoverflow.com/questions/70183054/time-series-forecasting-using-fable-in-r-determining-most-optimum-combination-o">post</a> at Stackoverflow.</p>
 <p>Finally, it is always good to check ARIMA (or any time series forecasting) against the base benchmark.</p>
-<div class="sourceCode" id="cb1012"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1012-1"><a href="arima-models.html#cb1012-1" aria-hidden="true" tabindex="-1"></a>bfit <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
-<span id="cb1012-2"><a href="arima-models.html#cb1012-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
-<span id="cb1012-3"><a href="arima-models.html#cb1012-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ave =</span> <span class="fu">MEAN</span>(boxcases),</span>
-<span id="cb1012-4"><a href="arima-models.html#cb1012-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lm =</span> <span class="fu">TSLM</span>(boxcases <span class="sc">~</span> <span class="fu">trend</span>()<span class="sc">+</span><span class="fu">season</span>())</span>
-<span id="cb1012-5"><a href="arima-models.html#cb1012-5" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb1012-6"><a href="arima-models.html#cb1012-6" aria-hidden="true" tabindex="-1"></a>bfc <span class="ot">&lt;-</span> bfit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">7</span>)</span>
-<span id="cb1012-7"><a href="arima-models.html#cb1012-7" aria-hidden="true" tabindex="-1"></a>bfc <span class="sc">%&gt;%</span></span>
-<span id="cb1012-8"><a href="arima-models.html#cb1012-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(toronto, <span class="at">level =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1013"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1013-1"><a href="arima-models.html#cb1013-1" aria-hidden="true" tabindex="-1"></a>bfit <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb1013-2"><a href="arima-models.html#cb1013-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb1013-3"><a href="arima-models.html#cb1013-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ave =</span> <span class="fu">MEAN</span>(boxcases),</span>
+<span id="cb1013-4"><a href="arima-models.html#cb1013-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lm =</span> <span class="fu">TSLM</span>(boxcases <span class="sc">~</span> <span class="fu">trend</span>()<span class="sc">+</span><span class="fu">season</span>())</span>
+<span id="cb1013-5"><a href="arima-models.html#cb1013-5" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb1013-6"><a href="arima-models.html#cb1013-6" aria-hidden="true" tabindex="-1"></a>bfc <span class="ot">&lt;-</span> bfit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">7</span>)</span>
+<span id="cb1013-7"><a href="arima-models.html#cb1013-7" aria-hidden="true" tabindex="-1"></a>bfc <span class="sc">%&gt;%</span></span>
+<span id="cb1013-8"><a href="arima-models.html#cb1013-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(toronto, <span class="at">level =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 <p><img src="YA_TextBook_files/figure-html/unnamed-chunk-355-1.png" width="672" /></p>
-<div class="sourceCode" id="cb1013"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1013-1"><a href="arima-models.html#cb1013-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(bfc, toronto)</span></code></pre></div>
+<div class="sourceCode" id="cb1014"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1014-1"><a href="arima-models.html#cb1014-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(bfc, toronto)</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 10
 ##   .model .type    ME  RMSE   MAE   MPE  MAPE  MASE RMSSE  ACF1
 ##   &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;

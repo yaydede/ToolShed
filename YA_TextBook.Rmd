@@ -602,12 +602,12 @@ $$
 and therefore the log of the likelihood function:
 
 $$
-\log L\left(\mu, \theta_{2}\right)=-\frac{n}{2} \log \sigma^{2}-\frac{n}{2} \log (2 \pi)-\frac{\sum\left(x_{i}-\mu\right)^{2}}{2 \sigma^{2}}
+\log L\left(\mu, \sigma\right)=-n \log \sigma^{2}-\frac{n}{2} \log (2 \pi)-\frac{\sum\left(x_{i}-\mu\right)^{2}}{2 \sigma^{2}}
 $$
 Now, upon taking the partial derivative of the log likelihood with respect to $\mu$ and setting to 0, we see that:
 
 $$
-\frac{\partial \log L\left(\theta_{1}, \theta_{2}\right)}{\partial \theta_{1}}=\frac{-\not 2 \sum\left(x_{i}-\mu\right)(-\not1)}{\not2 \sigma^{2}} \stackrel{\mathrm{SET}}{=} 0
+\frac{\partial \log L\left(\mu, \sigma\right)}{\partial \mu}=\frac{-\not 2 \sum\left(x_{i}-\mu\right)(-\not1)}{\not2 \sigma^{2}} \stackrel{\mathrm{SET}}{=} 0
 $$
 and we get
 
@@ -618,7 +618,7 @@ $$
 \hat{\mu}=\frac{\sum x_{i}}{n}=\bar{x}
 $$
 
-We can solve for $sigma^2$ by the same way.
+We can solve for $\sigma^2$ by the same way.
 
 Now the regression. Since,  
 
@@ -977,15 +977,15 @@ We will answer it in coming chapters in details but, for now, let use our first 
 
 ## Simulation
 
-Simulations are tools to see whether statistical arguments are true or not.  In simulations, the data generating process (DGP) is known. We will know the form of the model as well as the value of each of the parameters. In particular, we will often control the distribution and parameters which define the randomness, or noise, in the data. One of the biggest strengths of R is its ability to carry out simulations using built-in functions for generating random samples from certain distributions.  We'll see many examples in the R labs (see Appendix).  
+Simulations are tools to see whether statistical arguments are true or not.  In simulations, the data generating process (DGP) is known. We will know the form of the model as well as the value of each of the parameters. In particular, we will often control the distribution and parameters which define the randomness, or noise, in the data. One of the biggest strengths of R is its ability to carry out simulations using built-in functions for generating random samples from certain distributions.  We'll see more examples in Appendix.  
 
-Lets begin with an example.  We are going to generate a sample of observations on $Y$ from a model (a.k.a. DGM):
+Let's begin with an example.  We are going to generate a sample of observations on $Y$ from a model (a.k.a. DGM):
 
 ```{r, warning=FALSE, message=FALSE}
-# Let create data
 set.seed(1)
 X <- seq(from = 0, to = 20, by = 0.1)
 dgm <- 500 + 20*X - 90*sin(X) #This is our DGM
+
 y = dgm + rnorm(length(X), mean = 10, sd = 100) #This is our DGP
 data = data.frame(y,X)
 
@@ -1000,7 +1000,7 @@ This is the plot of our simulated data. The simulated data points are the blue d
 # linear model
 model1 <- lm(y ~ X)
 plot(X, y, col='deepskyblue4', xlab='X', main='Linear')
-abline(lm(y ~ X, col = "blue"))
+lines(X, model1$fitted.values, col = "blue")
 
 # Polynomial model (there is an easier way!)
 model2 <- lm(y ~ X + I(X^2) + I(X^3) + I(X^4) +  I(X^5) + I(X^6) + I(X^7) + I(X^8)
@@ -1009,10 +1009,10 @@ model2 <- lm(y ~ X + I(X^2) + I(X^3) + I(X^4) +  I(X^5) + I(X^6) + I(X^7) + I(X^
 plot(X, y, col= 'deepskyblue4', xlab='X', main='Polynomial')
 lines(X, fitted(model2), col='firebrick1', lwd=2)
 
-#Nonparametric Model
-model3 <- smooth.spline(X,y,df=200)
-plot(X,y,col='deepskyblue4',xlab='X',main='Spline')
-lines(model3,col='firebrick1', lwd=2)
+#Nonparametric
+model3 <- smooth.spline(X, y, df=200)
+plot(X, y, col='deepskyblue4', xlab='X', main='Spline')
+lines(model3, col='firebrick1', lwd=2)
 ```
   
 Which one do you think gives a better fit (the one with the smallest RMSPE)?  I would pick the last one, the nonparametric spline model (we'll see later what it is).  Let's calculate RMSPE for each.  
@@ -1028,15 +1028,14 @@ Now we have to keep **predicted** $Y$'s in separate vectors for those 3 models:
 
 ```{r, warning=FALSE, message=FALSE}
 # Predicted values by the 3 models using the "seen" data
-predicted1<- fitted(model1)
-predicted2<- fitted(model2)
-predicted3<- predict(model3, X)
+predicted1 <- fitted(model1)
+predicted2 <- fitted(model2)
+predicted3 <- predict(model3, X)
 ```
   
 Now lets use our RMSPE function:    
 
 ```{r, warning=FALSE, message=FALSE}
-# RMSPE's calculated using the "seen" data
 # Note that the actual y is the same for all models
 rmse1_s <- rmse(predicted1, y)
 rmse2_s <- rmse(predicted2, y)
@@ -1054,7 +1053,9 @@ As expected, the the $3^{rd}$ model has the minimum RMSPE.  Now we have another 
 set.seed(2)
 # So the only difference is the random error
 y2 = dgm + rnorm(length(X), mean = 10, sd = 100) 
-plot(X, y2,col='deepskyblue4',xlab='X',main='The "Unseen" 2nd Sample')
+plot(X, y2, col='deepskyblue4',
+     xlab='X',
+     main = 'The "Unseen" 2nd Sample')
 ```
   
 ```{r, warning=FALSE, message=FALSE}
@@ -2470,24 +2471,23 @@ data <- df[complete.cases(df), ]
 dim(data)
 
 #Let's create a binary variable, mpg = 1 if hwy > mean(hwy), 0 otherwise
-mpg <- c(rep(0, nrow(data))) #Create vector mpg
-data2 <- cbind(data, mpg) # add it to data
-data2$mpg[data2$hwy > mean(data2$hwy)] <- 1
+data$mpg <- ifelse(data$hwy > mean(data$hwy), 1, 0)
+table(data$mpg)
 ```
   
 We are going to have a model that will predict whether the vehicle is a high mpg (i.e. `mpg` = 1) or low mpg (`mpg` = 0) car. As you notice, we have lots of character variables. Our model cannot accept character variables, but we can convert them into factor variables that give each unique character variable a number. This allows our model to accept our data. Let's convert them to factor variables now:  
   
 ```{r, warning=FALSE, message=FALSE}
-for (i in 1:ncol(data2)) {
-  if(is.character(data2[,i])) data2[,i] <- as.factor(data2[,i])
+for (i in 1:ncol(data)) {
+  if(is.character(data[,i])) data[,i] <- as.factor(data[,i])
 }
-str(data2)
+str(data)
 ```
 
 Done! We are ready to have a model to predict `mpg`.  For now, we'll use only `fuel`.  
 
 ```{r, warning=FALSE, message=FALSE}
-model1 <- lm(mpg ~ fuel + 0, data = data2) #No intercept
+model1 <- lm(mpg ~ fuel + 0, data = data) #No intercept
 summary(model1)
 ```
   
@@ -2500,7 +2500,7 @@ $$
 In this context, the link function is called "identity" because it directly “links” the probability to the linear function of the predictor variables. Let's see if we can verify this:  
 
 ```{r, warning=FALSE, message=FALSE}
-tab <- table(data2$fuel, data2$mpg)
+tab <- table(data$fuel, data$mpg)
 ftable(addmargins(tab))
 prop.table(tab, 1)
 ```
@@ -2557,14 +2557,14 @@ $$
 Let's have a more complex model:  
 
 ```{r 5, echo=TRUE}
-model2 <- lm(mpg ~ fuel + drive + cyl, data = data2)
+model2 <- lm(mpg ~ fuel + drive + cyl, data = data)
 summary(model2)
 ```
   
 Since OLS is a "Gaussian" member of GLS family, we can also estimate it as GLS. We use glm() and define the family as "gaussian".  
 
 ```{r, warning=FALSE, message=FALSE}
-model3 <- glm(mpg ~ fuel + drive + cyl, family = gaussian, data = data2)
+model3 <- glm(mpg ~ fuel + drive + cyl, family = gaussian, data = data)
 #You can check it by comparing model2 above to summary(model3)
 #Let's check only the coefficients  
 identical(round(coef(model2),2), round(coef(model3),2))
@@ -2574,7 +2574,7 @@ With this LPM model, we can now predict the classification of future cars in ter
 
 ```{r, warning=FALSE, message=FALSE}
 #How many cars we have with mpg = 1 and mpg = 0 in our data
-table(data2$mpg) 
+table(data$mpg) 
 
 #In-sample fitted values or predicted probabilities for mpg = 1
 #Remember our E(Y|X) is Pr(Y=1|X)
@@ -8392,7 +8392,7 @@ These are just a few examples of the many influential papers that have been publ
   
 Both Support Vector Machines and Neural Networks employ some kind of data transformation that moves them into a higher dimensional space. What the kernel function does for the SVM, the hidden layers do for neural networks. Are Neural Networks is better than Support Vector Machines?  The post by [Igor F.](https://stats.stackexchange.com/questions/510052/are-neural-networks-better-than-svms) gives a nice starting example.
   
-## Neural Network - The idea
+## Neural Network - the idea
 Let's start with a predictive model with a single input (covariate).  The simplest model could be a linear model: 
 
 $$
@@ -8460,7 +8460,7 @@ mtext("Fixed Components",
       outer=TRUE, cex = 1.5, col="olivedrab")
 ```
 
-The polynomial regression is based on fixed components, or bases: $x, x^2, x^3, \ldots, x^M.$  ANN replaces these fixed components with adjustable ones or bases: $f\left(\alpha_1+\delta_1 x\right)$, $f\left(\alpha_2+\delta_2 x\right)$, $\ldots, f\left(\alpha_M+\delta_M x\right).$  
+The polynomial regression is based on fixed components, or bases: $x, x^2, x^3, \ldots, x^M.$  The artificial neural net replaces these fixed components with adjustable ones or bases: $f\left(\alpha_1+\delta_1 x\right)$, $f\left(\alpha_2+\delta_2 x\right)$, $\ldots, f\left(\alpha_M+\delta_M x\right).$  
   
 Each component is more flexible than a fixed component.  They are adjustable with tunable internal parameters. They can express several shapes, not just one (fixed) shape. Hence, adjustable components enable to capture complex models with fewer components (smaller M).  
 
@@ -10928,7 +10928,7 @@ ar1 <- lm(yt ~ yt_1 - 1, y_em)
 ar1
 ```
   
-Now, let;s shuffle `y_em`:
+Now, let's shuffle `y_em`:
 
 ```{r}
 # Shuffle
@@ -11332,7 +11332,7 @@ plot(ytest, type = "l", col = "blue",
 lines(back_forecast, type = "l", col = "red")
 ```
 
-It seems that, for most days, our algorithm simply forecasts the day by using the value from a day before.  This is a common problem when the predictive model has a poor forecasting power.  Again, this is not due to our algorithm, but forecasting an epi curve with imperfect test data is almost impossible job, as we highlighted earlier. 
+It seems that, for most days, our algorithm simply forecasts the next day by using the value from a day before.  If we change our algorithm to a 7-day-ahead forecast, this would be  different.   This is also a common problem when the predictive model has a poor forecasting power.  Again, this is not due to our algorithm, but forecasting an epi curve with imperfect test data is almost impossible job, as we highlighted earlier. 
 
 In practice, however, there are several ways that we can improve the scripts above.  For example, we can consider the (rolling or expanding) window size as a hyperparameter.  We can also have an explicit training for the Random Forest algorithm.  We can have an ensemble forecasting by adding other predictive algorithms to the script, like boosting.  Further, we can develop a base forecast that would give us a benchmark to see how much our algorithm improves against that base. Moreover, we could apply a transformation to the data in order to stabilize the variance in all variables. 
 
@@ -11345,7 +11345,297 @@ Recurrent neural networks (RNNs) are a type of artificial neural network that ar
 
 The idea of using neural networks to process sequential data dates back to the 1980s, but it wasn't until the late 1990s that RNNs began to see widespread use. One of the key developments in this period was the use of long short-term memory (LSTM) units, which are a type of "memory" cell that can store information for long periods of time and help prevent the vanishing gradients problem that can occur when training RNNs.  
 
-The RNN processes the input data using a series of "neurons". Each neuron receives input from other neurons and from the input data, processes them using an activation function, and sends the output to other neurons as an input or to the final output of the network.  Hence, the output of a neuron at a given time step is used as the input to the same neuron at the next time step, allowing the network to incorporate information from previous time steps into its current computation. 
+The RNN processes the input data using a series of "neurons". Each neuron receives input from other neurons and from the input data, processes them using an activation function, and sends the output to other neurons as an input or to the final output of the network.  Hence, the output of a neuron at a given time step is used as the input to the same neuron at the next time step, allowing the network to incorporate information from previous time steps into its current computation. The RNN process can be illustrated as follows:
+
+```{r, echo=FALSE, out.width = '65%', out.height='60%'}
+knitr::include_graphics("png/rnn.png")
+```  
+
+The network above is designed such that it takes input $X_t$ sequentially. Each $X_t$ feeds into a hidden layer that has a vector of activation functions, $A_t$.  Except for the first starting point, each activation function also feeds into the next activation function, $A_{t+1}$, sequentially.  The weight vectors are denoted $a$, $b$, and $c$.  As simple univariate RNN can be expressed below:
+
+$$
+\begin{aligned}
+
+& A_1=g\left(\omega_0+\omega_1 X_1\right)\\
+& A_2=g\left(\omega_0+\omega_1 X_2+\omega_2 A_1\right) \\
+& =g\left(\omega_0+\omega_1 X_2+\omega_2 g\left(\omega_0+\omega_1 X_1\right)\right) \\
+& A_3=g\left(\omega_0+\omega_1 X_3+\omega_2 A_2\right) \\
+& =g\left(\omega_0+\omega_1 X_3+\omega_2 g\left(\omega_0+\omega_1 X_2+\omega_2 g\left(\omega_0+\omega_1 X_1\right)\right)\right. \\
+& ~~~~~~~~~~~~~~~~\vdots\\
+& A_t=g\left(\omega_0+\omega_1 X_t+\omega_2 A_{t-1}\right)
+\end{aligned}
+$$
+Note that weights are the same in each sequence.  Although the output layer produces sequence of predictions, the final output is the network's prediction.  
+
+$$
+Y_{t}=\beta_0+ \beta_k A_{t}
+$$
+
+In case of multiple inputs at time $t$, $X_{t}=\left(X_{t1}, X_{t2}, \ldots, X_{tp}\right)$, and multiple units ($k$) in the hidden layer, $A_t = \left(A_{t1}, A_{t2}, \ldots, A_{tk}\right)$, the network at time $t$ becomes:
+
+$$
+A_{k, t}=g\left(\omega_{k 0}+\sum_{j=1}^p \omega_{k j} X_{t j}+\sum_{v=1}^k \theta_{k v} A_{v,t-1}\right).
+$$
+For example, for two units and two variables, $A_{k,t}$ will be
+
+$$
+A_{1,t}=g\left(\omega_{10}+ \omega_{1 1} X_{t,1}+\omega_{1 2} X_{t,2}+ 
+\theta_{1 1} A_{1,t-1}+\theta_{1 2} A_{2,t-1}\right),\\
+A_{2,t}=g\left(\omega_{20}+ \omega_{2 1} X_{t, 1}+\omega_{2 2} X_{t,2}+ 
+\theta_{2 1} A_{1,t-1}+\theta_{2 2} A_{2,t-1}\right)
+$$
+and the output $O_{\ell}$ is computed as
+$$
+Y_{t}=\beta_0+\sum_{k=1}^2 \beta_k A_{k,t}
+$$
+
+## Keras
+
+We will use the Keras deep-learning framework (<https://keras.rstudio.com>) and the package `keras`, which provides high-level building blocks for developing deep-learning models. Keras operates on several tensor libraries to tensor manipulations and differentiation, one of which is TensorFlow.  
+
+Tensors are simply multidimensional arrays, which are a generalization of vectors and matrices to an arbitrary number of dimensions. For example, vectors are 1D tensors, matrices are used for 2D tensors, and arrays (which support any number of dimensions) are used for multi-dimensional objects.  Keras works on CPUs, but the most efficient implementations of Keras use NVIDIA GPUs and properly configured CUDA and cuDNN libraries.  For CPU-based installation of Keras, which is what we use in this chapter, we suggest the following steps after installing the `keras` package.
+
+```{r}
+# Sys.unsetenv ("RETICULATE_PYTHON")
+# remotes : sinstall_github("Istudio/reticulate")
+# reticulate::install_miniconda()
+# keras::install_keras ()
+```
+
+The best source using Keras for artificial neural network projects with R is "Deep Learning with R" by Chollet and Allaire.  In this section, we will use the `keras` package (on CPU) for two main time series applications: RNN and LSTM. 
+
+Let's set up our COVID-19 data and standardize each of the variables.
+
+```{r, message=FALSE, warning=FALSE}
+library(tsibble)
+library(fpp3)
+
+load("~/Dropbox/ToolShed_draft/toronto2.rds")
+toronto2 <- data
+df <- toronto2 %>%
+  mutate(dcases = difference(cases),
+         dmob = difference(mob),
+         ddelay = difference(delay),
+         dmale = difference(male),
+         dtemp = difference(temp),
+         dhum = difference(hum))
+
+dft <- df[ ,-c(2:5,7,8)] #removing levels
+dft <- dft[-1, c(3:7,2)] # reordering the columns
+sdtf <- scale(dft) #
+head(sdtf)
+```
+  
+There are four stages in developing ANN models in Keras:
+  
+- Preparing the training set with input tensors and target tensors;
+- Defining the model, that is a network of layers;
+- Choosing the learning parameters: a loss function, an optimizer, and some metrics to monitor
+- And finally fitting this model to the training set
+
+## Input Tensors
+
+We will define a three dimensional array that contains time series data.  First, let's see an array:
+
+```{r}
+# array
+x1 = c(1, 2, 3)
+x2 = c(4, 5, 6, 7, 8, 9)
+adata <- array(c(x1, x2), dim = c(3,3,2))
+dim(adata)
+adata
+adata[1,,]
+```
+
+Now, we create our data matrix:
+
+```{r}
+# Data
+toydata <- matrix(c(1:100, 101:200, 201:300), 100)
+colnames(toydata) <- c("y", "x1", "x2")
+head(toydata)
+```
+
+Supposed that this is daily data and we try to make 1-day-ahead predictions.  In preparing the input tensor, we need to decide how many past days to predict the next day’s value.  Supposed that we decide on 5 days.  As we seen before, we transform the data by embedding to new structure:
+
+```{r}
+datam <- embed(toydata, 6)
+datam <- datam[, -c(2:3)]
+head(datam)
+```
+
+The second line in the code above removes the contemporaneous features. We should have $100 - 5 = 95$ samples, in each one we have 3 features and 5 timesteps.  The first two samples, each is a matrix of $5 \times 3$, are shown below:
+
+```{r, echo=FALSE}
+n <- nrow(datam)
+f1 <- data.matrix(datam[, -1]) 
+f2 <- array(f1, c(n, 3, 5))
+f3 <- f2[,, 5:1]
+f4 <- aperm(f3, c(1, 3, 2))
+f4[1,,]
+f4[2,,]
+```
+  
+The outcome variable $y$ is 6 and 7 in the first and second samples.  Let's see how we can manipulate our embedded data `datam` to achieve it:
+
+```{r}
+n <- nrow(datam)
+f1 <- data.matrix(datam[, -1]) # Removing Y
+f2 <- array(f1, c(n, 3, 5))
+f2[1,,]
+```
+
+We need reverse the order
+
+```{r}
+f3 <- f2[,, 5:1]
+f3[1,,]
+```
+
+And, taking the transposition, 
+
+```{r}
+t(f3[1,,])
+```
+
+For the whole array of `datam` using array transposition:
+
+```{r}
+f4 <- aperm(f3, c(1, 3, 2))
+f4[1,,]
+```
+
+Now, we are ready to apply all these steps to our toy data with a function:
+
+```{r}
+tensorin <- function(l, x){
+  maxl = l+1
+  xm <- embed(x, maxl)
+  xm <- xm[, -c(2:3)] 
+  n <- nrow(xm)
+  f1 <- data.matrix(xm[, -1]) 
+  y <- xm[, 1]
+  f2 <- array(f1, c(n, ncol(x), l))
+  f3 <- f2[,, l:1]
+  f4 <- aperm(f3, c(1, 3, 2))
+  list(f4, y)
+} 
+
+tensored <- tensorin(5, toydata)
+X <- tensored[1]
+y <- tensored[2]
+X[[1]][1,,]
+y[[1]][1]
+```
+  
+We can apply it to our COVID-19 data for 7-day windows:
+
+```{r}
+trnt <- tensorin(7, sdtf)
+X <- trnt[1]
+y <- trnt[2]
+X[[1]][1,,]
+y[[1]][1]
+```
+
+Obviously, our choice of $l = 7$ here is arbitrary and should be decided with a proper validation.
+
+## RNN
+
+As we have the input tensor stored as an array of (258, 7, 6), we are ready to design our network for an RNN with one layer with 24 hidden units (neurons):
+
+```{r, warning=FALSE, message=FALSE, cache=TRUE}
+library(keras)
+model <- keras_model_sequential() %>%
+  layer_simple_rnn(units = 24,
+                   input_shape = list(7, 6),
+                   dropout = 0.1, recurrent_dropout = 0.1) %>%
+  layer_dense(units = 1)
+
+model %>% compile(optimizer = optimizer_rmsprop(),
+loss = "mse")
+```
+
+As before, neural networks consist of layers and neurons in each layer.  Since we use sequence data stored in 3D tensors of shape (samples, timesteps, features) we will use recurrent layers for our RNN. The term `layer_dense` is the output layer. 
+
+We also (arbitrarily) specify two types of dropout for the units feeding into the hidden layer. The first one is set for the input feeding into a layer.  The second one is for the previous hidden units feeding into the same layer. 
+
+One of the tools to fight with overfitting is randomly removing inputs to a layer. Similar to Random Forest, this dropping out process has the effect of generating a large number of networks with different network structure and, in turn, breaking the possible correlation between the inputs that the layers are exposed to. These "dropped out" inputs may be variables in the data sample or activations from a previous layer.  This is a conventional regularization method to in ANN but how this can be applied to sequential data is a complex issue. Every recurrent layer in Keras has two dropout-related arguments: `dropout`, a float specifying the dropout rate for input units of the layer, and `recurrent_dropout`, specifying the dropout rate of the recurrent units. These are again additions to our hyperparameter grid.
+
+It has the effect of simulating a large number of networks with very different network structure and, in turn, making nodes in the network generally more robust to the inputs.
+
+Before fitting the model, we need to split the data.  We have 258 observations in total.  We will take the last 50 observations as our test set:
+
+```{r}
+dim(X[[1]])
+```
+
+```{r}
+train <- 1:208
+test <- 208:dim(X[[1]])[1]
+```
+
+And, finally we fit our RNN.  There are two hyperparameters that Keras use in fitting RNN: batch size and epoch.  They are both related to how and how many times the weights in the network will be updated
+
+The batch size is the  number of observations ("samples") used in its gradient descent to update its internal parameters.  For example, a conventional (batch) gradient descent uses the entire data in one batch so that the batch size would be the number of samples in the data.  The stochastic gradient descent, on the other hand, uses randomly selected each observation.  While the batch gradient descent is efficient (fast) it is not as robust as the stochastic gradient descent.  Therefore, Keras uses a mini-batch gradient descent as a  parameter that balance the between efficiency and robustness.
+
+The number of epochs is the number of times the algorithm works trough the complete training dataset. We need multiple passes through the entire data because updating the weights with gradient descent in a single pass (one epoch) is not enough.  But, when the number of epochs goes up, the algorithm updates the weights more. As a result, the  curve goes from underfitting (very few runs) to overfitting (too many runs).
+
+Hence, these two parameters, batch size and epoch, should be used as hyperparameters.  Note that we pick arbitrary numbers below.
+
+```{r, warning=FALSE, message=FALSE, cache=TRUE}
+tensorflow::set_random_seed(432)
+history <- model %>% fit(
+  X[[1]][train,, ], y[[1]][train], batch_size = 12, epochs = 75,
+  validation_data =
+    list(X[[1]][test,, ], y[[1]][test]),
+  verbose = 0
+  )
+
+plot(history)
+```
+
+
+
+
+```{r, warning=FALSE, message=FALSE}
+y_act <- y[[1]][test]
+var_y <- var(y_act)
+yhat <- predict(model, X[[1]][test,, ])
+1 - mean((yhat -y_act)^2) / var_y # R^2
+sqrt(mean((yhat -y_act)^2)) # RMSPE
+```
+
+```{r}
+plot(y[[1]][test], type ="l", col = "blue",
+     ylab = "Actual (Blue) vs. Prediction (Red)",
+     xlab = "Last 50 Days",
+     main = "RNN Forecasting for Covid-19 Cases")
+lines(yhat, col = "red", lwd = 2)
+```
+It looks like, our RNN without a proper training is capturing most ups downs correctly.  There are three groups of hyperparameters that we need to search by validation :
+
+- How many days we need in the past to predict the next day’s value? We picked 7.
+- The number of units per layer: we picked 24
+- Regularization parameters: we picked `dropout` and `recurrent_dropout` as 0.1
+- Stochastic gradient descent parameters: batch size (12) and the number of epoch (75)
+
+All these parameters that we picked arbitrarily should be selected by a proper validations.  Model tuning in ANN is highly dependent on the package and its back-end software that we use in deep learning.  Keras with TensorFlow is one the top AI engines available.  The best source for learning more on deep learning using Keras is "Deep Learning with R" by Chollet and Allaire.   
+
+## LSTM
+
+One issue with RNN is that, although it is able to retain information trough time by its recurrent network, it quickly forgets long-term dependencies. This problem is called the *vanishing gradient problem* and can be easily seen here:
+
+$$
+\begin{aligned}
+& A_3=g\left(\omega_0+\omega_1 X_3+\omega_2 A_2\right) \\
+& =g\left(\omega_0+\omega_1 X_3+\omega_2 g\left(\omega_0+\omega_1 X_2+\omega_2 g\left(\omega_0+\omega_1 X_1\right)\right)\right. \\
+\end{aligned}
+$$
+
+Although this has only two iterations, the function has $\omega_2^2$ (if $g()$ is ReLu). For example, if $\omega_2 = 0.5$, the effect of $A_5$ on $A_1$ will be regulated by $\omega_2^4 = 0.0625$.  We can argue that $\omega_2$ could be one (random walk). But, the first differencing will usually remove the unit root in the data $\omega_2$ will be bounded between 0 and 1.
+
+Hence, the LSTM (Long Short-Term Memory) layers in RNN are designed to solve this problem.
 
 
 <!--chapter:end:30-TSNeural.Rmd-->
