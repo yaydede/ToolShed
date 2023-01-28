@@ -47,7 +47,7 @@ $$
 \hat{x}_{t+3}=\hat{\omega}_0+\hat{\omega}_1x_t~~~~ 3^{rd} ~ \text{Period}
 $$
  
-## VAR
+## VAR for Recursive Forecasting
 
 The problem with a multi-period recursive forecasting becomes clear when we have multivariate model:
 

@@ -333,10 +333,10 @@ div.csl-indent {
 <li class="chapter" data-level="17" data-path="ridge.html"><a href="ridge.html"><i class="fa fa-check"></i><b>17</b> Ridge</a></li>
 <li class="chapter" data-level="18" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>18</b> Lasso</a></li>
 <li class="chapter" data-level="19" data-path="adaptive-lasso.html"><a href="adaptive-lasso.html"><i class="fa fa-check"></i><b>19</b> Adaptive Lasso</a></li>
-<li class="chapter" data-level="20" data-path="oracle-efficency.html"><a href="oracle-efficency.html"><i class="fa fa-check"></i><b>20</b> Oracle efficency</a></li>
+<li class="chapter" data-level="20" data-path="sparsity.html"><a href="sparsity.html"><i class="fa fa-check"></i><b>20</b> Sparsity</a></li>
 <li class="part"><span><b>VII Causality and Machine Learning</b></span></li>
 <li class="chapter" data-level="21" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>21</b> Model Selection</a></li>
-<li class="chapter" data-level="22" data-path="sparsity.html"><a href="sparsity.html"><i class="fa fa-check"></i><b>22</b> Sparsity</a></li>
+<li class="chapter" data-level="22" data-path="sparsity-1.html"><a href="sparsity-1.html"><i class="fa fa-check"></i><b>22</b> Sparsity</a></li>
 <li class="chapter" data-level="23" data-path="use-of-machine-learning-in-causality.html"><a href="use-of-machine-learning-in-causality.html"><i class="fa fa-check"></i><b>23</b> Use of Machine Learning in Causality</a></li>
 <li class="part"><span><b>VIII Dimension Reduction Methods</b></span></li>
 <li class="chapter" data-level="" data-path="matrix-decompositions.html"><a href="matrix-decompositions.html"><i class="fa fa-check"></i>Matrix Decompositions</a></li>
@@ -360,7 +360,7 @@ div.csl-indent {
 <li class="chapter" data-level="32" data-path="grid-search-for-arima.html"><a href="grid-search-for-arima.html"><i class="fa fa-check"></i><b>32</b> Grid search for ARIMA</a></li>
 <li class="chapter" data-level="33" data-path="time-series-embedding.html"><a href="time-series-embedding.html"><i class="fa fa-check"></i><b>33</b> Time Series Embedding</a>
 <ul>
-<li class="chapter" data-level="33.1" data-path="time-series-embedding.html"><a href="time-series-embedding.html#var"><i class="fa fa-check"></i><b>33.1</b> VAR</a></li>
+<li class="chapter" data-level="33.1" data-path="time-series-embedding.html"><a href="time-series-embedding.html#var-for-recursive-forecasting"><i class="fa fa-check"></i><b>33.1</b> VAR for Recursive Forecasting</a></li>
 <li class="chapter" data-level="33.2" data-path="time-series-embedding.html"><a href="time-series-embedding.html#embedding-for-direct-forecast"><i class="fa fa-check"></i><b>33.2</b> Embedding for Direct Forecast</a></li>
 </ul></li>
 <li class="chapter" data-level="34" data-path="random-forest-1.html"><a href="random-forest-1.html"><i class="fa fa-check"></i><b>34</b> Random Forest</a>
@@ -373,7 +373,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="35.1" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#keras"><i class="fa fa-check"></i><b>35.1</b> Keras</a></li>
 <li class="chapter" data-level="35.2" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#input-tensors"><i class="fa fa-check"></i><b>35.2</b> Input Tensors</a></li>
-<li class="chapter" data-level="35.3" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#rnn"><i class="fa fa-check"></i><b>35.3</b> RNN</a></li>
+<li class="chapter" data-level="35.3" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#plain-rnn"><i class="fa fa-check"></i><b>35.3</b> Plain RNN</a></li>
 <li class="chapter" data-level="35.4" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#lstm"><i class="fa fa-check"></i><b>35.4</b> LSTM</a></li>
 </ul></li>
 <li class="part"><span><b>X Network Analysis</b></span></li>
@@ -619,13 +619,13 @@ div.csl-indent {
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="preliminaries.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb15-2"><a href="preliminaries.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># get current system date</span></span>
 <span id="cb15-3"><a href="preliminaries.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.Date</span>() </span></code></pre></div>
-<pre><code>## [1] &quot;2023-01-26&quot;</code></pre>
+<pre><code>## [1] &quot;2023-01-28&quot;</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="preliminaries.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get current system time</span></span>
 <span id="cb17-2"><a href="preliminaries.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;2023-01-26 14:14:46 AST&quot;</code></pre>
+<pre><code>## [1] &quot;2023-01-28 17:26:00 AST&quot;</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="preliminaries.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#lubridate</span></span>
 <span id="cb19-2"><a href="preliminaries.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;2023-01-26 14:14:46 AST&quot;</code></pre>
+<pre><code>## [1] &quot;2023-01-28 17:26:00 AST&quot;</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="preliminaries.html#cb21-1" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2022-07-11&quot;</span>, <span class="st">&quot;2012-04-19&quot;</span>, <span class="st">&quot;2017-03-08&quot;</span>)</span>
 <span id="cb21-2"><a href="preliminaries.html#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="preliminaries.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># extract years from dates</span></span>
@@ -796,8 +796,8 @@ X \sim N\left(\mu=2, \sigma^{2}=25\right)
 <pre><code>## [1] 11.79982</code></pre>
 <p>Lastly, to generate a random sample of size n = 10, use <code>rnorm()</code></p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="preliminaries.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>##  [1] -0.641198  7.576442 -8.328193 -2.515567 10.860855  4.214817 -5.669115
-##  [8]  4.396548  1.455996  7.503261</code></pre>
+<pre><code>##  [1]  -5.416657   6.918005  -3.743228 -10.235444  -1.446763   3.019306
+##  [7]   2.252816  -6.520908   7.978472  -5.452714</code></pre>
 <p>These functions exist for many other distributions such as: <code>binom</code> (Binomial), <code>t</code> (Student’s t), <code>pois</code> (Poisson), <code>f</code> (F), <code>chisq</code> (Chi-Squared).</p>
 </div>
 <div id="regressions" class="section level2 hasAnchor" number="2.4">

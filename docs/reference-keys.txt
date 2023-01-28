@@ -164,9 +164,9 @@ deep-learning
 ridge
 lasso
 adaptive-lasso
-oracle-efficency
-model-selection
 sparsity
+model-selection
+sparsity-1
 use-of-machine-learning-in-causality
 eigenvectors-and-eigenvalues
 singular-value-decomposition
@@ -183,7 +183,7 @@ stationarity
 modeling-arima
 grid-search-for-arima
 time-series-embedding
-var
+var-for-recursive-forecasting
 embedding-for-direct-forecast
 random-forest-1
 univariate
@@ -192,7 +192,7 @@ rolling-and-expanding-windows
 recurrent-neural-networks
 keras
 input-tensors
-rnn
+plain-rnn
 lstm
 fundementals
 covariance

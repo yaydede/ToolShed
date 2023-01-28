@@ -240,6 +240,7 @@ z <- diff(y)     # first differences
 back <- cumsum(c(y[1], z)) 
 cbind(y, back)
 ```
+  
 Since our algorithm predict the changes in observations, a simple sum would do the job for back transformation. For example, as a starting point, our algorithm predicts the change in $Y$ from day 156 to 157 (window size 150 plus the best lag window, 6).  When we add this predicted change to the actual $Y$ at 156, it will give us the back-transformed forecast at day 157. 
 
 ```{r}

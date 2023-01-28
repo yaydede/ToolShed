@@ -178,7 +178,7 @@ cbind(LASSO = coef(lasso, s="lambda.1se"),
 
 We can see the difference between lasso and adaptive lasso in this example: `PutOuts`, `CRuns`, and `CRBI` picked by lasso are not selected by adaptive lasso. There are only three common features in both methods: `Hits`, `Walks`, and `DivisionW`. To understand which model is better in terms of catching the true sparsity, we will have a simulation to illustrate some of the properties of the Lasso and the adaptive Lasso.
 
-# Oracle efficency
+# Sparsity
 
 This is a simulation to illustrate some of the properties of Lasso-type estimations. There are two objectives in using these penalized regressions: model selection (identifying "correct" sparsity) and prediction accuracy.  These two objectives require different optimization approaches and usually are not compatible. In model selection, the objective is to shrink the dimension of the model to the “true” sparsity. This is usually evaluated by checking whether the Oracle properties are satisfied.  These asymptotic properties look at (1) if the model identified by the penalized regression converges to the “true” sparsity, (2) if the coefficients are consistent.
 

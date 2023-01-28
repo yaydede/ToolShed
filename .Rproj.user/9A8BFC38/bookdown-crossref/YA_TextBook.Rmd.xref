@@ -117,10 +117,10 @@ h1:parametric-models-in-prediction Parametric models in prediction
 h1:ridge Ridge
 h1:lasso Lasso
 h1:adaptive-lasso Adaptive Lasso
-h1:oracle-efficency Oracle efficency
+h1:sparsity Sparsity
 h1:part-causality-and-machine-learning (PART) Causality and Machine Learning
 h1:model-selection Model Selection
-h1:sparsity Sparsity
+h1:sparsity-1 Sparsity
 h1:use-of-machine-learning-in-causality Use of Machine Learning in Causality
 h1:part-dimension-reduction-methods (PART) Dimension Reduction Methods
 h1:matrix-decompositions Matrix Decompositions
@@ -141,7 +141,7 @@ h2:stationarity Stationarity
 h2:modeling-arima Modeling ARIMA
 h1:grid-search-for-arima Grid search for ARIMA
 h1:time-series-embedding Time Series Embedding
-h2:var VAR
+h2:var-for-recursive-forecasting VAR for Recursive Forecasting
 h2:embedding-for-direct-forecast Embedding for Direct Forecast
 h1:random-forest-1 Random Forest
 h2:univariate Univariate
@@ -150,7 +150,7 @@ h2:rolling-and-expanding-windows Rolling and expanding windows
 h1:recurrent-neural-networks Recurrent Neural Networks
 h2:keras Keras
 h2:input-tensors Input Tensors
-h2:rnn RNN
+h2:plain-rnn Plain RNN
 h2:lstm LSTM
 h1:part-network-analysis (PART) Network Analysis
 h1:graphical-network-analysis Graphical Network Analysis

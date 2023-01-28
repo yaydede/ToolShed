@@ -333,10 +333,10 @@ div.csl-indent {
 <li class="chapter" data-level="17" data-path="ridge.html"><a href="ridge.html"><i class="fa fa-check"></i><b>17</b> Ridge</a></li>
 <li class="chapter" data-level="18" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>18</b> Lasso</a></li>
 <li class="chapter" data-level="19" data-path="adaptive-lasso.html"><a href="adaptive-lasso.html"><i class="fa fa-check"></i><b>19</b> Adaptive Lasso</a></li>
-<li class="chapter" data-level="20" data-path="oracle-efficency.html"><a href="oracle-efficency.html"><i class="fa fa-check"></i><b>20</b> Oracle efficency</a></li>
+<li class="chapter" data-level="20" data-path="sparsity.html"><a href="sparsity.html"><i class="fa fa-check"></i><b>20</b> Sparsity</a></li>
 <li class="part"><span><b>VII Causality and Machine Learning</b></span></li>
 <li class="chapter" data-level="21" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>21</b> Model Selection</a></li>
-<li class="chapter" data-level="22" data-path="sparsity.html"><a href="sparsity.html"><i class="fa fa-check"></i><b>22</b> Sparsity</a></li>
+<li class="chapter" data-level="22" data-path="sparsity-1.html"><a href="sparsity-1.html"><i class="fa fa-check"></i><b>22</b> Sparsity</a></li>
 <li class="chapter" data-level="23" data-path="use-of-machine-learning-in-causality.html"><a href="use-of-machine-learning-in-causality.html"><i class="fa fa-check"></i><b>23</b> Use of Machine Learning in Causality</a></li>
 <li class="part"><span><b>VIII Dimension Reduction Methods</b></span></li>
 <li class="chapter" data-level="" data-path="matrix-decompositions.html"><a href="matrix-decompositions.html"><i class="fa fa-check"></i>Matrix Decompositions</a></li>
@@ -360,7 +360,7 @@ div.csl-indent {
 <li class="chapter" data-level="32" data-path="grid-search-for-arima.html"><a href="grid-search-for-arima.html"><i class="fa fa-check"></i><b>32</b> Grid search for ARIMA</a></li>
 <li class="chapter" data-level="33" data-path="time-series-embedding.html"><a href="time-series-embedding.html"><i class="fa fa-check"></i><b>33</b> Time Series Embedding</a>
 <ul>
-<li class="chapter" data-level="33.1" data-path="time-series-embedding.html"><a href="time-series-embedding.html#var"><i class="fa fa-check"></i><b>33.1</b> VAR</a></li>
+<li class="chapter" data-level="33.1" data-path="time-series-embedding.html"><a href="time-series-embedding.html#var-for-recursive-forecasting"><i class="fa fa-check"></i><b>33.1</b> VAR for Recursive Forecasting</a></li>
 <li class="chapter" data-level="33.2" data-path="time-series-embedding.html"><a href="time-series-embedding.html#embedding-for-direct-forecast"><i class="fa fa-check"></i><b>33.2</b> Embedding for Direct Forecast</a></li>
 </ul></li>
 <li class="chapter" data-level="34" data-path="random-forest-1.html"><a href="random-forest-1.html"><i class="fa fa-check"></i><b>34</b> Random Forest</a>
@@ -373,7 +373,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="35.1" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#keras"><i class="fa fa-check"></i><b>35.1</b> Keras</a></li>
 <li class="chapter" data-level="35.2" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#input-tensors"><i class="fa fa-check"></i><b>35.2</b> Input Tensors</a></li>
-<li class="chapter" data-level="35.3" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#rnn"><i class="fa fa-check"></i><b>35.3</b> RNN</a></li>
+<li class="chapter" data-level="35.3" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#plain-rnn"><i class="fa fa-check"></i><b>35.3</b> Plain RNN</a></li>
 <li class="chapter" data-level="35.4" data-path="recurrent-neural-networks.html"><a href="recurrent-neural-networks.html#lstm"><i class="fa fa-check"></i><b>35.4</b> LSTM</a></li>
 </ul></li>
 <li class="part"><span><b>X Network Analysis</b></span></li>
@@ -498,7 +498,7 @@ div.csl-indent {
 <p>ARIMA (Autoregressive Integrated Moving Average) is a statistical model for time series forecasting. It is a type of linear model that can be used to analyze and forecast data that exhibits temporal dependencies, such as seasonality and autocorrelation. The model is comprised of three components:</p>
 <ul>
 <li>Autoregressive (AR) component: This component models the dependencies between the current value of the time series and the past values.</li>
-<li>Integrated (I) component: This component component refers to the degree of differencing that is applied to the time series data. The degree of differencing (d) is the number of times that the data is differenced in order to make it stationary (meaning that the mean and variance are constant over time).</li>
+<li>Integrated (I) component: This component component refers to the degree of differencing that is applied to the time series data. The degree of differencing is the number of times that the data is differenced in order to make it stationary meaning that the mean, variance, and covariance are constant over time.</li>
 <li>Moving average (MA) component: This component models the dependencies between the current value of the time series and the past forecast errors. The moving average component of an ARIMA model is used to capture the short-term fluctuations in the time series data that are not captured by the autoregressive component. For example, if the time series data exhibits random noise or sudden spikes, the moving average component can help to smooth out these fluctuations and improve the forecast accuracy.</li>
 </ul>
 <p>The ARIMA model can be written as ARIMA(p,d,q), where p is the order of the autoregressive component, d is the degree of differencing, and q is the order of the moving average component. The values of p, d, and q are chosen based on the characteristics of the time series data and the desired level of forecasting accuracy.</p>
